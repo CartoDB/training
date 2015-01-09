@@ -1,0 +1,378 @@
+
+# CartoDB Workshop -- Alaska Press Club
+### Andy Eschbacher, Map Scientist, CartoDB
+### January 8, 2015
+
+Find this document here: http://bit.ly/alaskaCartoDB
+
+## Outline
+
+1. Introduction to CartoDB (30 minutes) -- 1:00 - 1:30 p.m.
+    + Brief history
+	+ Broad range of use cases
+	+ Intro to the interface
+2. Hands-on mapping workshop (45 minutes) -- 1:30 - 2:15 p.m.
+	+ Setting up accounts
+    + Data import
+	+ Choropleth, Category, Intensity Maps
+	+ Basic map styling
+	+ Column data types
+	+ Torque -- temporal maps
+	+ Sharing visualizations
+3. Break! (10 minutes) -- 2:15 - 2:25 p.m.
+4. Working with Data (35 minutes) -- 2:25 - 3:00 p.m.
+    + Data is messy
+	+ What is geospatial data?
+    + Data representation in CartoDB (SQL schema)
+	+ Geocoding
+	+ SQL/PostGIS
+	+ Joining tables
+5. Break! (10 minutes) -- 3:00 - 3:10 p.m.
+6. CartoDB with JavaScript briefly (15 minutes) -- 3:10 - 3:25 p.m.
+    + What it looks like (HTML/CSS/JS)
+	+ Extensibility
+	+ Epic examples
+7. Odyssey.js (30 minutes) -- 3:25 - 3:55 p.m.
+   + Brief Intro on authoring narratives with maps
+   + Hands-on
+8. Wrap Up (5 minutes) -- 3:55 - 4:00 p.m.
+   + Resources
+   + Seeking help
+
+
+## Goals for today
++ Quickly and easily make meaningful maps from data in minutes
++ Show the breadth of data analysis available to you through CartoDB
++ Prepare data for use in mapping
+
+### Later reference
+You can find this document in [my GitHub Account](https://gist.github.com/ohasselblad/b2ea61019634ee6b3fe0).
+
+## 1. Intro to CartoDB (30 mins) -- 1 pm - 1:30 pm
+### 1.1 History
+I'll show you some slides
+
+### 1.2a Use cases
+
+1. [Illustreets](http://www.illustreets.co.uk/)
+2. [Tweets about Beyonce Album Release](https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map)
+3. [Starwars Galaxy Map](http://www.swgalaxymap.com/)
+
+### 1.2b Journalistic Use Cases
+1. [Demonstrations in Brazil](http://blog.cartodb.com/mapping-the-world-ongoing-demonstrations-in-brazil/) 
+2. [LA Sheriff Election Results](http://graphics.latimes.com/2014-la-sheriff-primary-map/)
+3. [Alcatraz Escape revisited](http://www.washingtonpost.com/news/morning-mix/wp/2014/12/15/the-alcatraz-escapees-could-have-survived-and-this-interactive-model-proves-it/)
+
+## 1.3 Tour of the interface
+### Data Import
+Basic Data Import
+![Data import dialog](http://i.imgur.com/31oVtI6.png)
+Most major formats for storing data: Excel Spreadsheets, CSV files, Shapefiles, KML (Google Earth), etc. [See complete list here.](http://docs.cartodb.com/cartodb-editor.html#supported-data-formats)
+
+1. Import by URL! Super handy when in a workshop and you don't want to overwhelm the bandwidth
+2. Select file from your HD
+3. [Common Data](http://docs.cartodb.com/cartodb-editor.html#common-data) contains useful datasets for everyday use (admin regions, USGS earthquake data, ports and their locations, and many more)
+
+Integration with **Google Drive** and **Dropbox**.
+
+**Twitter** firehose access for Enterprise accounts.
+<iframe src="https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map" width="600px" height="400px"></iframe>
+
+
+### Data tables in CartoDB
+Schema or column names
+![Column names](http://i.imgur.com/YGl1HIa.png)
+
+Filters & SQL
+![Filters](http://i.imgur.com/d1s6BY8.png)
+Filters are a great way to explore your data. Besides filtering your data, they allow you to see histograms of the distributions, the number of unique entries, or a search box for columns that have a large number of text entries.
+
+#### Types of visualizations
+
++ Simple -- most basic visualization 
++ Cluster -- counts number of points within a certain binned region
++ Choropleth -- makes a histogram of your data and gives bins different colors depending on the color ramp chosen
++ Category -- color data based on unique category (works best for a handful of unique types)
++ Bubble -- size markers based on column values
++ Intensity -- colors by density
++ Density -- data aggregated by number of points within a hexagon
++ Torque -- temporal visualization of data
+
+Check out [visualization documentation](http://docs.cartodb.com/cartodb-editor.html#wizards) for more.
+
+### _Simple_ Map
+The visualization style _simple_ is the default visualization for all maps.
+![Simple visualization](http://i.imgur.com/bfdXXgt.png)
+
+Styles available in the wizard
+![Styling options](http://i.imgur.com/zkyPz6P.png)
+
+**Marker Fill:** change the size, color, and opacity of all markers
+**Marker Stroke:** change the width, color, and opacity of every marker's border
+**Composite Operation:** change the color of markers when they overlap
+**Label Text:** Text appearing by a marker (can be from columns)
+
+#### Infowindows/hovers
+![Infowindow options](http://i.imgur.com/78selkD.png)
+
++ Select which column data appear in infowindow by toggling column on
++ Customize further by selecting 
+
+#### Change basemap
+Select basemaps from different providers, use custom color, NASA data, MapBox tiles, etc.
+![basemap options](http://i.imgur.com/lzRZKpg.png)
+
+### Choropleth
+Choropleth maps show map elements colored according to where a value associated with the map element falls in a range. It's like a histogram where each bin is colored differently according to a color scale you pick. Notice the CartoCSS screenshot above.
+
+_Quantification_ is an option to pay attention to since it controls how the data is binned into different colors. _Equal interval_ gives bins of equal size across the range,  which means that outliers stand out. _Quantile_ bins so that each quantile has approximately the same number of values. 
+
+#### CartoCSS basics
+CartoCSS is the styling language for our maps. 
+
+![CartoCSS screenshot](http://i.imgur.com/FHF3BSC.png)
+
+#### Legends
+Can be easily customized
+![Legend](http://i.imgur.com/pOypSj1.png)
+
+You have the option of giving it a title, and changing the text for the colors. You can also change the colors manually, or, even better, change the color ramp back in the wizard. If you want to explore other color ramps, check out [Color Brewer](http://colorbrewer2.org/) for some very well thought out color schemes.
+
+### Torque maps
+
+CartoDB created a fully zoomable map that changes in time. 
+
+Some examples
+
+1. World Cup tweets saturate [this map](http://cartodb.com/v/worldcup/match/?TC=x&vis=30acae6a-0a51-11e4-8918-0e73339ffa50&h=t&t=Germany,B40903%7CArgentina,5CA2D1&m=7%2F13%2F2014%2016:00:00%20GMT,7%2F12%2F2014%2018:35:00GMT&g=147%7C#/2/7.7/56.8/0)
+2. Tweets that mention [sunrise map](http://cartodb.s3.amazonaws.com/static_vizz/sunrise.html)
+3. [Animal migration patterns](http://robbykraft.github.io/AnimalTrack/)
+
+### Last few things
+#### Navigating back to your tables or visualization
+Click on the 90-degree arrow to get back to view your tables/visualizations
+![go back to tables](http://i.imgur.com/w4St7b0.png)
+
+#### Navigating in general
+![Navigation bar](http://i.imgur.com/8HRvyj6.png)
+
+## 2. Hands-on Mapping Workshop -- 1:30 - 2:15 p.m.
+**Let's make maps.**
+
+Make sure you already have an account setup: https://cartodb.com/signup?plan=academy
+
+### Data Import
+Import a new dataset by copying the link (not downloading) and pasting it into the import window in your CartoDB account:
+
+**USGS reported seismic activity (earthquakes)**
+http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
+
+### 2.1 _Simple_ Map
+
+#### Challenge #1
+Using the styles in simple, try to recreate the visualization below. It's similar to an intensity map that shows where earthquakes are occurring in largest numbers.
+
+![Styling options](http://i.imgur.com/LjHOLNr.png)
+
+### 2.2 Choropleth Map
+
+More on quantification [here](http://blog.cartographica.com/blog/2010/8/16/gis-data-classifications-in-cartographica.html).
+
+#### Challenge #2
+Make a choropleth map 
+Next select _choropleth_ from the Vizualization wizard. By default it will select `depth`. Select the `mag` column (which means magnitude or power of the earthquake). 
+
+Notice that there are lots of US-based earthquakes that are fairly weak -- so perhaps filtering for earthquakes above 3.0 will give a better visualization of our data.
+
+_hint_: notice that a filter was used
+![Choropleth map](http://i.imgur.com/QiJ1I40.jpg)
+
+### 2.3 Category Map
+
+#### Challenge #3
+
+Try to recreate this map using *category*. `net` is the column to categorize by...
+
+![Category challenge](http://i.imgur.com/xLjLGYV.jpg)
+
+### 2.4 Multilayer map
+Three basic types of data appear on a map.
+
++ Point data -- like we saw for the earthquakes
++ Line data -- like flight paths, can be seen in [this example](http://andye.cartodb.com/viz/93141b9a-784e-11e4-9f55-0e853d047bba/public_map)
++ Polygon data -- like the shapes of states
+
+#### Challenge #4 -- Create a multilayer visualization
+Go back to your dashboard and click on _Common Data_. Find _Administrative Regions_, then click on _USA States_.
+
+After the data imports into your account, click on the large **+** on the panel on the right side of the page.
+
+![multilayer visualization](http://i.imgur.com/p2J4W3m.png)
+
+Select the earthquake dataset. It's default name on import is `all_month`. Then hit **Add layer**.
+
+![Add additional layer](http://i.imgur.com/AEfWWM8.png)
+
+Name your visualization something like "First multilayer visualization."
+
+You can customize each layer just as you would customize a single layer. 
+
+Try to create a map that looks like this:
+
+![Multilayer map](http://i.imgur.com/WTSmd7H.png)
+
+
+####  Challenge #5 -- Create a basic torque map
+
+Create a torque map and select the time column of the earthquake data
+
+#### Multilayer example
+Multilayer tool developed by The Daily Beast on [Abortion Clinic Access](http://www.thedailybeast.com/articles/2013/01/22/interactive-map-america-s-abortion-clinics.html).
+
+![Abortion clinic access](http://i.imgur.com/Izdbeso.png)
+
+## 3. Break -- 2:15 - 2:25 p.m.
+
+## 4. Working with Data Workshop -- 2:25 - 3:00 p.m.
+### Data is messy
+
++ Comes in multiple formats
++ Sources uncertain
++ Contains errors
++ etc.
+
+### Recreating the Pop vs. Soda Map
+
+#### Step 1
+1. Copy this link: http://popvssoda.com/d3/pvscounty_fips.tsv
+2. Paste it into the import dialog box as we've done before
+3. Notice the name of this new data table: `pvscounty_fips` -- we'll use this in a minute to create a new table from it with new information
+4. Look at `the_geom` column to see if it is mappable
+5. Inspect the table to look for information that can be useful to turn it into a map
+
+#### Step 2
+1. Go back to your tables view (by clicking on the little arrow in the upper lefthand corner of your browser window)
+2. import a new table called `usa_counties` into your account by pasting the following link into the import box: `http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20usa_counties&format=csv`
+3. Rename the table to `usa_counties` by clicking on table name in the upper left-hand corner of your browser window, like the image below.
+![Change table name](img/XojldRT.png)
+
+_Pro tip_: this is a call using our SQL API and is a great way to access your data. More at our [SQL API page](http://docs.cartodb.com/cartodb-platform/sql-api.html).
+
+#### Step 3
+Copy the following text (which is a SQL statement) and replace the text in the SQL text box.
+
+```sql
+SELECT
+  uc.the_geom, 
+  uc.the_geom_webmercator AS the_geom_webmercator,
+  pf.pctcoke, 
+  pf.pctsoda,
+  pf.pctpop,
+  pf.pctother,
+  pf.name_cou,
+  pf.name_st
+FROM
+  usa_counties AS uc,
+  pvscounty_fips AS pf
+WHERE
+  uc.admin_fips = pf.fips_combo
+```
+
+#### Step 4
+Once the query is successful, click on "create table from query" in the green field below the column names.
+
+![create table](http://i.imgur.com/LKKFb1k.png)
+
+Give a meaningful name, such as `popvssoda_data`.
+
+### Challenge #6
+Recreate some of the choropleths shown on http://popvssoda.com/ using the CartoDB editor.
+
+![Coke choropleth](http://i.imgur.com/1mEsnyc.png)
+
+
+## 5. Break! (10 minutes) -- 3 - 3:10 p.m.
+
+## 6. CartoDB.js -- 3:10 - 3:25 p.m.
+
+[CartoDB.js](http://docs.cartodb.com/cartodb-platform/cartodb-js.html) is our JavaScript API -- a way to make maps using JavaScript.
+
+### 6.1 What it looks like
+![Three pieces to JavaScript maps](http://i.imgur.com/qdaBqmH.png)
+
+The [example above](http://jsfiddle.net/gh/get/library/pure/CartoDB/academy/tree/master/t/03-cartodbjs-ground-up/lesson-3/jsfiddle_demo_cartocss) use HTML, CSS, and JavaScript to make a map appear on a webpage.
+
+Check out our [Map Academy course on CartoDB.js](http://academy.cartodb.com/courses/03-cartodbjs-ground-up.html) if you want to learn more.
+
+
+### 6.2 Extensibility
+
+Use CartoDB.js with other JavaScript libraries to make powerful web map apps.
+
+Check out [Urban Reviewer](http://www.urbanreviewer.org/).
+
+If you take a look at the source code, there are a dozen libraries linked:
+![Urban Reviewer source code](http://i.imgur.com/Av37HnP.png)
+
+### 6.3 Epic Example
+[Illustreets](http://illustreets.co.uk/) shows standard of living information across England to amazing detail. There are millions of data points, each can be interacted with to give graphs, summaries, etc.
+
+
+
+## Odyssey -- 2:25 - 3 p.m.
+### Tell narratives with maps
+http://cartodb.github.io/odyssey.js/
+
+### Examples
++ *NY Daily News*: [48 Hours of Gun Violence](http://www.nydailynews.com/new-york/nyc-crime/bloody-weekend-19-injured-bullets-cops-arrest-2-article-1.1846552)
++ *Cadena Ser (Spanish radio)*: [The Sounds of 11M](http://www.cadenaser.com/sonidos-11m/)
++ *Al Jazeera*: [Israeli-Palestinian Conflict by Tweets](http://stream.aljazeera.com/projects/socialmediaconversation/)
+
+### Getting started!
+Go to:
+http://cartodb.github.io/odyssey.js/sandbox/sandbox.html
+
+Brief tour of the interface.
+
+Replace the header in the box on the right with this:
+
+```
+- baseurl: "http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"
+- title: "Percent of people that say Coke"
+- author: "Your name"
+- cartodb_filter: ""
+- vizjson: "http://andye.cartodb.com/api/v2/viz/944f113c-95d5-11e4-a3a2-0e4fddd5de28/viz.json"
+```
+
+If you want to add your own `vizjson` file for another visualization, go to the visualization you want to use in the CartoDB Editor, click on _Share_ in the upper right hand corner, and copy the link under _CartoDB.js_. You can now paste that link in place of the vizjson link given in the above example.
+
+I'm using a different base map (`baseurl`), changing the title and author, and adding a data layer by adding the `vizjson` and `cartodb_filter` portions.
+
+If you want to add images use the following format:
+
+```
+![Image title](image link)
+```
+
+Example:
+```
+![David Bowie](https://theartchiveproject.files.wordpress.com/2013/06/db_lom.jpg)
+```
+
+
+### Challenge #7
+Create a story of the Pop vs. Soda data focused on _Percent Coke_ using Odyssey.js.
+
+
+## 7. Wrap Up
+More resources
+
+1. [Map Academy](http://academy.cartodb.com)
+2. [CartoDB Tutorials](http://docs.cartodb.com/tutorials.html)
+3. [CartoDB Editor Documentation](http://docs.cartodb.com/cartodb-editor.html)
+4. [CartoDB APIs](http://docs.cartodb.com/cartodb-platform.html)
+5. [Gallery of nice maps](http://cartodb.com/gallery/)
+
+My contact: [eschbacher@cartodb.com](mailto:eschbacher@cartodb.com)
+
+If you make a map you're proud of or just want to say hello, connect with me [@MrEPhysics](https://twitter.com/MrEPhysics)
