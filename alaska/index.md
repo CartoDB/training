@@ -75,7 +75,7 @@ Most major formats for storing data: Excel Spreadsheets, CSV files, Shapefiles, 
 
 Integration with **Google Drive** and **Dropbox**.
 
-**Twitter** firehose access for Enterprise accounts.
+**Twitter** firehose access for [Enterprise](http://cartodb.com/enterprise) accounts.
 <iframe src="https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map" width="600px" height="400px"></iframe>
 
 
@@ -128,7 +128,7 @@ Choropleth maps show map elements colored according to where a value associated 
 _Quantification_ is an option to pay attention to since it controls how the data is binned into different colors. _Equal interval_ gives bins of equal size across the range,  which means that outliers stand out. _Quantile_ bins so that each quantile has approximately the same number of values. 
 
 #### CartoCSS basics
-CartoCSS is the styling language for our maps. 
+[CartoCSS](https://github.com/mapbox/carto/blob/master/docs/latest.md) is the styling language for our maps. ice presentation
 
 ![CartoCSS screenshot](http://i.imgur.com/FHF3BSC.png)
 
@@ -252,7 +252,7 @@ Multilayer tool developed by The Daily Beast on [Abortion Clinic Access](http://
 
 #### Step 2
 1. Go back to your tables view (by clicking on the little arrow in the upper lefthand corner of your browser window)
-2. import a new table called `usa_counties` into your account by pasting the following link into the import box: `http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20usa_counties&format=csv`
+2. import a new table called `usa_counties` into your account by pasting the following link into the import box: `http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20usa_counties&filename=usa_counties&format=csv`
 3. Rename the table to `usa_counties` by clicking on table name in the upper left-hand corner of your browser window, like the image below.
 ![Change table name](img/XojldRT.png)
 
