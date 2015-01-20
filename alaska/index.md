@@ -66,7 +66,7 @@ I'll show you some slides
 ## 1.3 Tour of the interface
 ### Data Import
 Basic Data Import
-![Data import dialog](../img/data_import_dialog.png)
+![Data import dialog](../../img/data_import_dialog.png)
 Most major formats for storing data: Excel Spreadsheets, CSV files, Shapefiles, KML (Google Earth), etc. [See complete list here.](http://docs.cartodb.com/cartodb-editor.html#supported-data-formats)
 
 1. Import by URL! Super handy when in a workshop and you don't want to overwhelm the bandwidth
@@ -81,7 +81,7 @@ Integration with **Google Drive** and **Dropbox**.
 
 ### Data tables in CartoDB
 Schema or column names
-![Column names](../img/column_names.png)
+![Column names](../../img/column_names.png)
 
 Filters & SQL
 ![Filters](../filters.png)
@@ -102,10 +102,10 @@ Check out [visualization documentation](http://docs.cartodb.com/cartodb-editor.h
 
 ### _Simple_ Map
 The visualization style _simple_ is the default visualization for all maps.
-![Simple visualization](../img/simple_visualization.png)
+![Simple visualization](../../img/simple_visualization.png)
 
 Styles available in the wizard
-![Styling options](../img/styling_options.png)
+![Styling options](../../img/styling_options.png)
 
 **Marker Fill:** change the size, color, and opacity of all markers
 **Marker Stroke:** change the width, color, and opacity of every marker's border
@@ -113,14 +113,14 @@ Styles available in the wizard
 **Label Text:** Text appearing by a marker (can be from columns)
 
 #### Infowindows/hovers
-![Infowindow options](../img/infowindow_options.png)
+![Infowindow options](../../img/infowindow_options.png)
 
 + Select which column data appear in infowindow by toggling column on
 + Customize further by selecting 
 
 #### Change basemap
 Select basemaps from different providers, use custom color, NASA data, MapBox tiles, etc.
-![Basemap options](../img/basemap_options.png)
+![Basemap options](../../img/basemap_options.png)
 
 ### Choropleth
 Choropleth maps show map elements colored according to where a value associated with the map element falls in a range. It's like a histogram where each bin is colored differently according to a color scale you pick. Notice the CartoCSS screenshot above.
@@ -130,11 +130,11 @@ _Quantification_ is an option to pay attention to since it controls how the data
 #### CartoCSS basics
 [CartoCSS](https://github.com/mapbox/carto/blob/master/docs/latest.md) is the styling language for our maps. ice presentation
 
-![CartoCSS screenshot](../img/cartocss.png)
+![CartoCSS screenshot](../../img/cartocss.png)
 
 #### Legends
 Can be easily customized
-![Legend](../img/legend.png)
+![Legend](../../img/legend.png)
 
 You have the option of giving it a title, and changing the text for the colors. You can also change the colors manually, or, even better, change the color ramp back in the wizard. If you want to explore other color ramps, check out [Color Brewer](http://colorbrewer2.org/) for some very well thought out color schemes.
 
@@ -151,10 +151,10 @@ Some examples
 ### Last few things
 #### Navigating back to your tables or visualization
 Click on the 90-degree arrow to get back to view your tables/visualizations
-![go back to tables](../img/back_to_tables_arrow.png)
+![go back to tables](../../img/back_to_tables_arrow.png)
 
 #### Navigating in general
-![Navigation bar](../img/navigation_bar.png)
+![Navigation bar](../../img/navigation_bar.png)
 
 ## 2. Hands-on Mapping Workshop -- 1:30 - 2:15 p.m.
 **Let's make maps.**
@@ -172,7 +172,7 @@ http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
 #### Challenge #1
 Using the styles in simple, try to recreate the visualization below. It's similar to an intensity map that shows where earthquakes are occurring in largest numbers.
 
-![Styling options](../img/styling_options_challenge1.png)
+![Styling options](../../img/styling_options_challenge1.png)
 
 ### 2.2 Choropleth Map
 
@@ -185,7 +185,7 @@ Next select _choropleth_ from the Vizualization wizard. By default it will selec
 Notice that there are lots of US-based earthquakes that are fairly weak -- so perhaps filtering for earthquakes above 3.0 will give a better visualization of our data.
 
 _hint_: notice that a filter was used
-![Choropleth map](../img/choropleth_map_challenge2.jpg)
+![Choropleth map](../../img/choropleth_map_challenge2.jpg)
 
 ### 2.3 Category Map
 
@@ -193,7 +193,7 @@ _hint_: notice that a filter was used
 
 Try to recreate this map using *category*. `net` is the column to categorize by...
 
-![Category challenge](../img/category_map_challenge3.png)
+![Category challenge](../../img/category_map_challenge3.png)
 
 ### 2.4 Multilayer map
 Three basic types of data appear on a map.
@@ -207,11 +207,11 @@ Go back to your dashboard and click on _Common Data_. Find _Administrative Regio
 
 After the data imports into your account, click on the large **+** on the panel on the right side of the page.
 
-![multilayer visualization](../img/multilayer_visualization.png)
+![multilayer visualization](../../img/multilayer_visualization.png)
 
 Select the earthquake dataset. It's default name on import is `all_month`. Then hit **Add layer**.
 
-![Add additional layer](../img/add_additional_layer.png)
+![Add additional layer](../../img/add_additional_layer.png)
 
 Name your visualization something like "First multilayer visualization."
 
@@ -219,7 +219,7 @@ You can customize each layer just as you would customize a single layer.
 
 Try to create a map that looks like this:
 
-![Multilayer map](../img/multilayer_map.png)
+![Multilayer map](../../img/multilayer_map.png)
 
 
 ####  Challenge #5 -- Create a basic torque map
@@ -254,7 +254,7 @@ Multilayer tool developed by The Daily Beast on [Abortion Clinic Access](http://
 1. Go back to your tables view (by clicking on the little arrow in the upper lefthand corner of your browser window)
 2. import a new table called `usa_counties` into your account by pasting the following link into the import box: `http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20usa_counties&filename=usa_counties&format=csv`
 3. Rename the table to `usa_counties` by clicking on table name in the upper left-hand corner of your browser window, like the image below.
-![Change table name](img/XojldRT.png)
+![Change table name](../../img/change_table_name.png)
 
 _Pro tip_: this is a call using our SQL API and is a great way to access your data. More at our [SQL API page](http://docs.cartodb.com/cartodb-platform/sql-api.html).
 
@@ -281,14 +281,14 @@ WHERE
 #### Step 4
 Once the query is successful, click on "create table from query" in the green field below the column names.
 
-![create table](../img/create_table.png)
+![create table](../../img/create_table.png)
 
 Give a meaningful name, such as `popvssoda_data`.
 
 ### Challenge #6
 Recreate some of the choropleths shown on http://popvssoda.com/ using the CartoDB editor.
 
-![Coke choropleth](../img/coke_choropleth.png)
+![Coke choropleth](../../img/coke_choropleth.png)
 
 
 ## 5. Break! (10 minutes) -- 3 - 3:10 p.m.
@@ -298,7 +298,7 @@ Recreate some of the choropleths shown on http://popvssoda.com/ using the CartoD
 [CartoDB.js](http://docs.cartodb.com/cartodb-platform/cartodb-js.html) is our JavaScript API -- a way to make maps using JavaScript.
 
 ### 6.1 What it looks like
-![Three pieces to JavaScript maps](../img/three_pieces_to_js_map.png)
+![Three pieces to JavaScript maps](../../img/three_pieces_to_js_map.png)
 
 The [example above](http://jsfiddle.net/gh/get/library/pure/CartoDB/academy/tree/master/t/03-cartodbjs-ground-up/lesson-3/jsfiddle_demo_cartocss) use HTML, CSS, and JavaScript to make a map appear on a webpage.
 
@@ -312,7 +312,7 @@ Use CartoDB.js with other JavaScript libraries to make powerful web map apps.
 Check out [Urban Reviewer](http://www.urbanreviewer.org/).
 
 If you take a look at the source code, there are a dozen libraries linked:
-![Urban Reviewer source code](../img/urban_reviewer_code_example.png)
+![Urban Reviewer source code](../../img/urban_reviewer_code_example.png)
 
 ### 6.3 Epic Example
 [Illustreets](http://illustreets.co.uk/) shows standard of living information across England to amazing detail. There are millions of data points, each can be interacted with to give graphs, summaries, etc.
