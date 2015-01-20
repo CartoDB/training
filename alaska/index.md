@@ -84,7 +84,7 @@ Schema or column names
 ![Column names](../img/column_names.png)
 
 Filters & SQL
-![Filters](../filters.png)
+![Filters](../img/filters.png)
 Filters are a great way to explore your data. Besides filtering your data, they allow you to see histograms of the distributions, the number of unique entries, or a search box for columns that have a large number of text entries.
 
 #### Types of visualizations
@@ -185,7 +185,7 @@ Next select _choropleth_ from the Vizualization wizard. By default it will selec
 Notice that there are lots of US-based earthquakes that are fairly weak -- so perhaps filtering for earthquakes above 3.0 will give a better visualization of our data.
 
 _hint_: notice that a filter was used
-![Choropleth map](../img/choropleth_map_challenge2.jpg)
+![Choropleth map](../img/choropleth_map_challenge2.png)
 
 ### 2.3 Category Map
 
@@ -229,7 +229,7 @@ Create a torque map and select the time column of the earthquake data
 #### Multilayer example
 Multilayer tool developed by The Daily Beast on [Abortion Clinic Access](http://www.thedailybeast.com/articles/2013/01/22/interactive-map-america-s-abortion-clinics.html).
 
-![Abortion clinic access](../multilayer_map_abortion_clinics.png)
+![Abortion clinic access](../img/multilayer_map_abortion_clinics.png)
 
 ## 3. Break -- 2:15 - 2:25 p.m.
 
