@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Car accidents per person by neighborhood</title>
+		<script src="http://www.chartjs.org/assets/Chart.js"></script>
+		<meta name = "viewport" content = "initial-scale = 1, user-scalable = no">
+		<script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+		<style>
+		    canvas {
+			}
+		</style>
+	</head>
+	<body>
+        <canvas id="canvas" height="500px" width="1000"></canvas>
+        <script>
+
+            var sql = cartodb.SQL({ user: 'andye' });
+
+            sql.execute("SELECT nbrhd_name, (SELECT count(*) FROM   traffic_accidents WHERE  ST_Intersects (traffic_accidents.the_geom, census_neighborhood_demographics_2010.the_geom)) / population AS accidents_per_capita FROM census_neighborhood_demographics_2010 ORDER BY nbrhd_name ASC")
+              .done(function(data) {
+        	    console.log(data);
+        	
+                var total = [];
+            	var labels  = [];
+        	
+            	for (i in data.rows) {
+            		total.push(data.rows[i].accidents_per_capita);
+                    labels.push(data.rows[i].nbrhd_name);
+            	}
+                console.log(data);
+                var lineChartData = {
+    				labels : labels,
+    				datasets : [
+    					{
+                            fillColor : "rgba(151,187,205,0.5)",
+    						strokeColor : "rgba(151,187,205,1)",
+    						pointColor : "rgba(151,187,205,1)",
+    						pointStrokeColor : "#fff",
+    						data : total
+    					}
+    				]
+			}
+            var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Bar(lineChartData);
+	   });
+	</script>
+	</body>
+</html>
