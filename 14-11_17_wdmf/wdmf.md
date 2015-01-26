@@ -1,0 +1,150 @@
+## Screen captures from Workshop
+
+* [Part I](https://vimeo.com/111287736)
+* [Part II](https://vimeo.com/111287688)
+
+I'll reupload part one on Monday, it looks like it was too big for Vimeo right now. Part I should be okay though!
+
+## Who am I
+
+* [Senior Scientist at CartoDB](http://cartodb.com/team)
+* [andrewxhill on twitter](http://twitter.com/andrewxhill)
+* [other things](http://andrewxhill.com)
+
+## Brief introduction to CartoDB
+
+* Tour of dashboard
+* Common data
+* Uploading data
+* Tour of table and map view
+* Publishing maps
+* Public profile
+
+## Creating your accounts
+
+Set you up with accounts here, [https://cartodb.com/signup?plan=academy](https://cartodb.com/signup?plan=academy). This will give you a free upgrade to our **student** plan, since today, we are all students :)
+
+## Your first map in 30 seconds!
+
+Here, we'll make a map of US counties. You can grab the data from Common Data in your account, you can find the link to Common Data up top.
+
+![common data](http://i.imgur.com/sFlZNKl.png)
+
+* Table and map view
+* Styling data
+* Thematic maps!
+
+**Onward!**
+
+## Your second map!
+
+How to import from a URL. First right click and 'copy' [this link](https://dl.dropboxusercontent.com/u/1307405/CartoDB/workshop/severe-wind.csv.zip)
+
+Let's customize our maps
+
+* Basemaps
+* Wizards
+* Pop ups
+* Publishing
+
+## Publishing maps
+
+* Visualizations
+* Labels and annotations
+* Layout
+* Publishing options
+
+## Your final map!
+
+Let's import and play with the following,
+
+[Indian Battles](https://dl.dropboxusercontent.com/u/1307405/CartoDB/workshop/indian_battles_all.geojson)
+
+If you are interested, here is the [source](http://www.upa.pdx.edu/IMS/currentprojects/TAHv3/GIS_Data/West_Expansion/)
+
+Now, let's tell a story with it using another tool, [Odyssey.js](http://cartodb.github.io/odyssey.js/)
+
+### Markdown 
+
+Header
+
+```txt
+-title: "A history of Indian battles"
+-author: "You"
+```
+
+Body
+
+```txt
+# A history of battles
+
+![great plains](//upload.wikimedia.org/wikipedia/commons/thumb/2/27/Great_Plains_Nebraska_USA1.jpg/262px-Great_Plains_Nebraska_USA1.jpg)
+
+Explore some of the history of conflict with Native Americans through history.
+
+# Battle of Fallen Timbers
+
+![Location of battle](//upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Fallen_Timbers_Battlefield.jpg/250px-Fallen_Timbers_Battlefield.jpg)
+
+### 1794
+
+General Anthony Wayne (1745-96) led American troops in a battle against a confederation of Native Americans whose leaders included Chief Little Turtle (Miami), Chief Blue Jacket (Shawnee) and Chief Buckongahelas (Lenape). The fighting took place on the Maumee River, near present-day Toledo. [source](http://www.history.com/topics/native-american-history/battle-of-fallen-timbers)
+
+The battle of Fallen Timbers had ramifications that stretched all the way to Europe. The Treaty of Greenville, negotiated between Wayne and Little Turtle the following year, secured most of what is now Ohio for American settlement. [source](http://en.wikipedia.org/wiki/Battle_of_Fallen_Timbers)
+
+# Battle of the Little Bighorn
+
+![The Custer Fight](//upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Charles_Marion_Russell_-_The_Custer_Fight_%281903%29.jpg/300px-Charles_Marion_Russell_-_The_Custer_Fight_%281903%29.jpg)
+
+### 1876 
+
+The Battle of the Little Bighorn, commonly referred to as Custer's Last Stand, was an armed engagement between combined forces of the Lakota, Northern Cheyenne, and Arapaho tribes, against the 7th Cavalry Regiment of the United States Army. 
+
+It was an overwhelming victory for the Lakota, Northern Cheyenne, and Arapaho, led by several major war leaders, including Crazy Horse and Chief Gall, inspired by the visions of Sitting Bull. [source](http://en.wikipedia.org/wiki/Battle_of_the_Little_Bighorn)
+
+# Wounded Knee Massacre
+
+![Wounded Knee Survivors](//upload.wikimedia.org/wikipedia/en/thumb/2/21/Wounded_Knee_Survivors.jpg/170px-Wounded_Knee_Survivors.jpg)
+
+
+### Black Elk - medicine man - Oglala Lakota
+
+"I did not know then how much was ended. When I look back now from this high hill of my old age, I can still see the butchered women and children lying heaped and scattered all along the crooked gulch as plain as when I saw them with eyes young. And I can see that something else died there in the bloody mud, and was buried in the blizzard. A people's dream died there. It was a beautiful dream ... the nation's hope is broken and scattered. There is no center any longer, and the sacred tree is dead." [source](http://en.wikipedia.org/wiki/Wounded_Knee_Massacre)
+
+# Explore further
+
+Use the map below to explore a full set of battles in the early Americas. Click an point to see the description and date, and find links to search for more information.
+
+```
+
+## Add your layer
+
+Example: 
+
+```txt
+-vizjson: "http://team.cartodb.com/api/v2/viz/a62ff17c-66a1-11e4-a6a3-0e853d047bba/viz.json"
+```
+
+## Change a location
+
+Use the interface.
+
+1. Zoom the map into the location of Fallen Timbers
+2. Select 'add' and Move map to current location
+
+## Custom basemap
+
+Start with the interface button!
+
+Okay, also check out this project, [NYPL Map Warper](maps.nypl.org/warper/)
+
+Tiles: 
+
+```txt
+http://maps.nypl.org/warper/maps/tile/27562/{z}/{x}/{y}.png
+```
+
+## Publishing
+
+Click the airplane! 
+
