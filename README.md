@@ -7,7 +7,7 @@
 `[directory]/` = titled directories include all of the markdown/.html/slide resources from that workshop, with date (YY-MM) indicated (ex: `15-01_alaska/`)
 
 * **outline.md** = whatever structure you decided for the workshop
-* **metadata.md** = [template here]() including at minimum
+* **metadata.md** = [template here](https://github.com/ohasselblad/workshops/blob/master/15-01-08_alaska/metadata.md) including at minimum
 	* title
 	* date
 	* author
