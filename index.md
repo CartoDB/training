@@ -32,7 +32,7 @@ Like this:
 
 
 
-In the above case, the length of this workshop is {{page.length}} hours long. It was hosted by {{ page.author }} on {{ page.date }}.
+In the above case, the `length` of this workshop is hours long.
 
 And choose one of these `category` entries in your header so that the post populates in the sidebar.
 
