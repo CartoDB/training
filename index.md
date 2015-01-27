@@ -22,7 +22,7 @@ Don't forget to include a header at the top of your post!
 
 Like this:
 
-```
+```md
 ---
 layout: page
 title: "WDMF Workshop"
