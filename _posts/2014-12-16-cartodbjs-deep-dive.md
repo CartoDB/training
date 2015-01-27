@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Partners"
+title: "Deep Dive: CartoDB JS"
 subtitle: "CartoDB.js Deep-Dive"
 category: adv
 date: 2014-12-16 12:00:00
