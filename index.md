@@ -22,18 +22,29 @@ Don't forget to include a header at the top of your post!
 
 Like this:
 
-```md
+```
 ---
-layout: page
-title: "WDMF Workshop"
-category: ws
-date: 2014-11-07 12:00:00
-author: 'Andrew Hill'
-length: 2
+	layout: page
+	title: "WDMF Workshop"
+	category: ws
+	date: 2014-11-07 12:00:00
+	author: 'Andrew Hill'
+	length: 2
 ---
 ```
 
+
 In the above case, the length of this workshop is {{page.length}} hours long. It was hosted by {{ page.author }} on {{ page.date }}.
+
+And choose one of these `category` entries in your header so that the post populates in the sidebar.
+
+```
+    * 'ws' = Workshops
+    * 'tut' = Tutorial
+    * 'ref' = Reference
+    * 'dev' = Developers
+    * 'post' = Posts
+```
 
 #### RESOURCES
 
