@@ -1,9 +1,11 @@
 ---
 layout: default
-title: "Jekyll Docs Template"
+title: "CartoDB Workshops"
 ---
 
-### Get Started
+### WORKSHOPS
+
+### Creating a New Post/Workshop
 
 Start by [creating a new post](http://jekyllrb.com/docs/posts/) one of the categories listed in `_config.yml`. It will appear in the navigation on the left once recompiled. Or use the supplied script to make creating pages easier:
 
@@ -11,8 +13,9 @@ Start by [creating a new post](http://jekyllrb.com/docs/posts/) one of the categ
 ruby bin/jekyll-page "Some Page Title" ref
 ```
 
-#### Don't Forget
+#### RESOURCES
 
-- Add your own content to this page (i.e. `index.md`) and change the `title`
-- Change `title` and `subtitle` defined in `config.yml` for your site
-- Set the `baseurl` in `_config.yml` for your repo if deploying to GitHub pages
+* [AxHill's SlideDecks](https://speakerdeck.com/andrewxhill)
+* [Pinterest for Maps](http://www.pinterest.com/andrewxhill/interactive-maps/) = sample maps in context, good for images and anecdotes
+* [CDB Gallery](https://www.dropbox.com/personal/cdb-gallery) = dropbox repository of mapping images and gifs for presentations
+* [CDB Vimeo](https://vimeo.com/vizzuality) = video tutorials and screencasts

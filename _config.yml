@@ -1,6 +1,6 @@
 # Site title and subtitle. This is used in _includes/header.html
-title: 'jekyll-docs-template'
-subtitle: 'Painless documentation for your projects'
+title: 'CartoDB Workshops'
+subtitle: 'Learning Materials for Making Maps'
 
 # if you wish to integrate disqus on pages set your shortname here
 disqus_shortname: ''
@@ -12,7 +12,7 @@ disqus_shortname: ''
 navigation: 2
 
 # URL to source code, used in _includes/footer.html
-codeurl: 'https://github.com/bruth/jekyll-docs-template'
+codeurl: 'https://github.com/ohasselblad/workshops'
 
 # Default categories (in order) to appear in the navigation
 sections: [
