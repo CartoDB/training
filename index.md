@@ -31,6 +31,8 @@ length: 2
 ---
 ```
 
+In the above case, the length of this workshop is {{page.length}} hours long. It was hosted by {{ page.author }} on {{ page.date }}.
+
 #### RESOURCES
 
 * [AxHill's SlideDecks](https://speakerdeck.com/andrewxhill) = good for intro to workshop material
