@@ -42,6 +42,14 @@ And choose one of these `category` entries in your header so that the post popul
 	* 'post' = Posts
 ```
 
+#### CONTRIBUTING
+
+We'd love to add community-developed workshops to our list of resources and materials.
+
+If you've given a workshop, tutorial, or talk on CartoDB, please fork [this repo](https://github.com/ohasselblad/workshops), add your outline in markdown to the [`_posts/`](https://github.com/ohasselblad/workshops/tree/master/_posts) directory. (just follow one of the existing post templates in that file for format), and submit a pull request.
+
+If you'd rather not deal with Github, please feel free to fill out this [Google Form]() and we'll integrate your materials ASAP. Thank you!
+
 #### RESOURCES
 
 * [AxHill's SlideDecks](https://speakerdeck.com/andrewxhill) = good for intro to workshop material
