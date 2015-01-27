@@ -35,11 +35,10 @@ In the above case, the `length` of this workshop is hours long.
 And choose one of these `category` entries in your header so that the post populates in the sidebar.
 
 ```
-	* 'ws' = Workshops
-	* 'tut' = Tutorial
-	* 'ref' = Reference
-	* 'dev' = Developers
-	* 'post' = Posts
+	* 'intro' = Introductory
+	* 'inter' = Intermediate
+	* 'adv' = Advanced
+	* 'sp' = Special
 ```
 
 #### CONTRIBUTING
