@@ -1,14 +1,8 @@
 **title:** alaska press club workshop
 
-**date:** 01/08/15
-
-**author:** andy
-
 **target_audience:** novice mappers, journalists
 
-**length:** 3 hours
-
-**objectives:** 
+**objectives:**
 
 * Quickly and easily make meaningful maps from data in minutes
 * Show the breadth of data analysis available to you through CartoDB

@@ -1,3 +1,12 @@
+---
+layout: page
+title: "WDMF Workshop"
+category: ws
+date: 2014-11-07 12:00:00
+author: 'Andrew Hill'
+length: 2
+---
+
 ## Screen captures from Workshop
 
 * [Part I](https://vimeo.com/111287736)
@@ -64,7 +73,7 @@ If you are interested, here is the [source](http://www.upa.pdx.edu/IMS/currentpr
 
 Now, let's tell a story with it using another tool, [Odyssey.js](http://cartodb.github.io/odyssey.js/)
 
-### Markdown 
+### Markdown
 
 Header
 
@@ -96,9 +105,9 @@ The battle of Fallen Timbers had ramifications that stretched all the way to Eur
 
 ![The Custer Fight](//upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Charles_Marion_Russell_-_The_Custer_Fight_%281903%29.jpg/300px-Charles_Marion_Russell_-_The_Custer_Fight_%281903%29.jpg)
 
-### 1876 
+### 1876
 
-The Battle of the Little Bighorn, commonly referred to as Custer's Last Stand, was an armed engagement between combined forces of the Lakota, Northern Cheyenne, and Arapaho tribes, against the 7th Cavalry Regiment of the United States Army. 
+The Battle of the Little Bighorn, commonly referred to as Custer's Last Stand, was an armed engagement between combined forces of the Lakota, Northern Cheyenne, and Arapaho tribes, against the 7th Cavalry Regiment of the United States Army.
 
 It was an overwhelming victory for the Lakota, Northern Cheyenne, and Arapaho, led by several major war leaders, including Crazy Horse and Chief Gall, inspired by the visions of Sitting Bull. [source](http://en.wikipedia.org/wiki/Battle_of_the_Little_Bighorn)
 
@@ -119,7 +128,7 @@ Use the map below to explore a full set of battles in the early Americas. Click 
 
 ## Add your layer
 
-Example: 
+Example:
 
 ```txt
 -vizjson: "http://team.cartodb.com/api/v2/viz/a62ff17c-66a1-11e4-a6a3-0e853d047bba/viz.json"
@@ -138,7 +147,7 @@ Start with the interface button!
 
 Okay, also check out this project, [NYPL Map Warper](maps.nypl.org/warper/)
 
-Tiles: 
+Tiles:
 
 ```txt
 http://maps.nypl.org/warper/maps/tile/27562/{z}/{x}/{y}.png
@@ -146,5 +155,5 @@ http://maps.nypl.org/warper/maps/tile/27562/{z}/{x}/{y}.png
 
 ## Publishing
 
-Click the airplane! 
+Click the airplane!
 

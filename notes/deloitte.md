@@ -1,14 +1,8 @@
 **title:** deloitte workshop
 
-**date:** 01/14/15
-
-**author:** andrew
-
 **target_audience:** private company
 
-**length:** 2 hours
-
-**objectives:** 
+**objectives:**
 
 * Quickly and easily make meaningful maps from data in minutes
 * Intro to SQL / Intro to Torque Visualizations

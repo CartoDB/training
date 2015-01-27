@@ -1,14 +1,8 @@
 **title:** harvard workshop
 
-**date:** 01/24/15
-
-**author:** andrew
-
 **target_audience:** college mappers
 
-**length:** 3 hours
-
-**objectives:** 
+**objectives:**
 
 * Quickly and easily make meaningful maps from data in minutes
 * Show the breadth of data analysis + viz capabilities available to you through CartoDB (SQL/Torque)

@@ -1,14 +1,10 @@
 **title:** CartoDB.js Deep Dive
 
-**date:** 12/16/14
-
-**author:** andy + andrew
-
 **target_audience:** partners, JS focus
 
 **length:** 3 hours
 
-**objectives:** 
+**objectives:**
 
 * Quickly and easily make meaningful maps from data in minutes
 * Review of the Editor -> CartoDB.js
