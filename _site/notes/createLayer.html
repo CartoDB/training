@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Partners | CartoDB</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+
+    <style type="text/css">
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      .layer_selector {
+          position: absolute;
+          top: 20px;
+          right: 20px;
+          background: rgba(255,255,255,0.9);
+          border-radius: 5px;
+          padding: 0;
+          border: 1px solid #999;
+          width: 250px;
+      }
+      .layer_selector > p {
+          padding: 15px 30px;
+          border-bottom: 1px solid #999;
+      }
+      .layer_selector ul {
+          padding: 0; margin: 0;
+          list-style-type: none;
+      }
+      .layer_selector li {
+          padding: 15px 30px;
+          font-family: Helvetica, Arial;
+          font-size: 13px;
+          color: #444;
+          cursor: pointer;
+      }
+      .layer_selector li:not(:last-child) {
+          border-bottom: 1px solid #999;
+      }
+      .layer_selector li:hover {
+          background-color: #F0F0F0;
+          cursor: pointer;
+      }
+      .layer_selector li.selected {
+          background-color: #A6CEE3;
+      }
+    </style>
+    
+    <style type='cartocss/text' id='simple'>
+    /** simple visualization */
+
+    #census_neighborhood_demographics_2010{
+      polygon-fill: #FF6600;
+      polygon-opacity: 0.7;
+      line-color: #FFF;
+      line-width: 1;
+      line-opacity: 1;
+    }
+    </style>
+    
+    <style type='cartocss/text' id='choropleth'>
+    /** choropleth visualization */
+
+    #census_neighborhood_demographics_2010{
+      polygon-fill: #FFFFB2;
+      polygon-opacity: 0.8;
+      line-color: #FFF;
+      line-width: 1;
+      line-opacity: 1;
+    }
+    #census_neighborhood_demographics_2010 [ accidents_per_capita <= 1.40425531914894] {
+       polygon-fill: #B10026;
+    }
+    #census_neighborhood_demographics_2010 [ accidents_per_capita <= 0.351046698872786] {
+       polygon-fill: #E31A1C;
+    }
+    #census_neighborhood_demographics_2010 [ accidents_per_capita <= 0.19941348973607] {
+       polygon-fill: #FC4E2A;
+    }
+    #census_neighborhood_demographics_2010 [ accidents_per_capita <= 0.164257555847569] {
+       polygon-fill: #FD8D3C;
+    }
+    #census_neighborhood_demographics_2010 [ accidents_per_capita <= 0.115582743077914] {
+       polygon-fill: #FEB24C;
+    }
+    #census_neighborhood_demographics_2010 [ accidents_per_capita <= 0.101583384741929] {
+       polygon-fill: #FED976;
+    }
+    #census_neighborhood_demographics_2010 [ accidents_per_capita <= 0.077445490289527] {
+       polygon-fill: #FFFFB2;
+    }
+    </style>
+    
+    <script type='cartocss/text' id='sql'>
+    SELECT cartodb_id, the_geom,
+           the_geom_webmercator,
+           nbrhd_name, 
+           (SELECT Count(*) 
+            FROM   traffic_accidents AS ta 
+            WHERE  ST_Intersects (ta.the_geom, 
+           census_neighborhood_demographics_2010.the_geom)) / population AS 
+           accidents_per_capita
+    FROM   census_neighborhood_demographics_2010
+    </script>
+    
+    <script type="infowindow/html" id="infowindow_template">
+      <div class="cartodb-popup">
+        <a href="#close" class="cartodb-popup-close-button close">x</a>
+         <div class="cartodb-popup-content-wrapper">
+           <div class="cartodb-popup-header">
+             <img style="width: 100%" src="http://upload.wikimedia.org/wikipedia/commons/5/5b/Downtown_Denver_Skyscrapers.JPG"></src>
+           </div>
+           <div class="cartodb-popup-content">
+             <h4>Neighborhood: </h4>
+             <p>{{content.data.nbrhd_name}}</p>
+           </div>
+         </div>
+         <div class="cartodb-popup-tip-container"></div>
+      </div>
+    </script>
+
+  </head>
+  <body>
+    <div id="map"></div>
+    <div class="layer_selector">
+        <p>Visualization Selector</p>
+        <ul>
+            <li data="choropleth">Color by accidents per neighborhood per capita</li>
+            <li data="simple">Reset CartoCSS</li>
+        </ul>
+    </div>
+
+    <!-- include cartodb.js library -->
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
+    <!-- Place your code in the script tags below -->
+    <script>
+    window.onload = function() {
+        var layerSource = 'http://andye.cartodb.com/api/v2/viz/2b04388c-8131-11e4-9030-0e4fddd5de28/viz.json'; // <-- same viz.json as before
+   
+        var sublayerOptions = {
+            sql: $("#sql").text(),
+            cartocss: $("#choropleth").text(),
+            interactivity: 'cartodb_id, nbrhd_name'
+        }
+   
+       var sublayers = [];
+
+       // Instantiate map object from Leaflet
+       var mapObj = new L.Map('map', {
+           center: [39.7392, -104.9847], // Denver, Colorado
+           zoom: 11
+       });
+       
+       // Create layer selector
+       function createSelector(layer) {
+          var cartocss = "";
+          var $options = $(".layer_selector").find("li");
+          $options.click(function(e) {
+              var $li = $(e.target);
+              var selected = $li.attr('data');
+
+              $options.removeClass('selected');
+              $li.addClass('selected');
+
+              cartocss = $('#'+selected).text();
+
+              layer.setCartoCSS(cartocss);
+          });
+       }
+
+       // Add basemap tiles
+       L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+       }).addTo(mapObj);
+
+       // Add data tile layer
+       cartodb.createLayer(mapObj,layerSource, { // <-- Replace map_object with mapObj
+           legends: false
+       }) 
+           .addTo(mapObj)
+           .done(function(layer) {
+               console.log("Map successfully created.");
+
+               sublayers[0] = layer.getSubLayer(0);
+               sublayers[0].set(sublayerOptions);
+               sublayers[0].infowindow.set('template', $('#infowindow_template').html());
+
+               sublayers[1] = layer.getSubLayer(1);
+               sublayers[1].hide();
+
+               createSelector(sublayers[0]);
+
+           })
+           .error(function(err) {
+               console.log("Map not created: " + err);
+           });
+    }
+    </script>
+  </body>
+</html>
