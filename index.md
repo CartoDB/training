@@ -22,7 +22,7 @@ Don't forget to include a header at the top of your post!
 
 Like this:
 
-```
+
 ---
 	layout: page
 	title: "WDMF Workshop"
@@ -31,7 +31,7 @@ Like this:
 	author: 'Andrew Hill'
 	length: 2
 ---
-```
+
 
 
 In the above case, the length of this workshop is {{page.length}} hours long. It was hosted by {{ page.author }} on {{ page.date }}.
@@ -39,11 +39,11 @@ In the above case, the length of this workshop is {{page.length}} hours long. It
 And choose one of these `category` entries in your header so that the post populates in the sidebar.
 
 ```
-    * 'ws' = Workshops
-    * 'tut' = Tutorial
-    * 'ref' = Reference
-    * 'dev' = Developers
-    * 'post' = Posts
+	* 'ws' = Workshops
+	* 'tut' = Tutorial
+	* 'ref' = Reference
+	* 'dev' = Developers
+	* 'post' = Posts
 ```
 
 #### RESOURCES
