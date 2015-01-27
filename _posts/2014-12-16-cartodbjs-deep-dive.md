@@ -3,7 +3,7 @@ layout: page
 title: "CartoDB.JS Deep-Dive"
 category: ws
 date: 2014-12-16 12:00:00
-author: 'Andy Eschbacher''
+author: 'Andy Eschbacher'
 length: 3
 ---
 
