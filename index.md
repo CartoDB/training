@@ -22,15 +22,13 @@ Don't forget to include a header at the top of your post!
 
 Like this:
 
-
----
 	layout: page
 	title: "WDMF Workshop"
 	category: ws
 	date: 2014-11-07 12:00:00
 	author: 'Andrew Hill'
 	length: 2
----
+
 
 
 
