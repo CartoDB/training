@@ -30,8 +30,6 @@ Like this:
 	length: 2
 
 
-
-
 In the above case, the `length` of this workshop is hours long.
 
 And choose one of these `category` entries in your header so that the post populates in the sidebar.
