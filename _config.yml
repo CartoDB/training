@@ -16,11 +16,10 @@ codeurl: 'https://github.com/ohasselblad/workshops'
 
 # Default categories (in order) to appear in the navigation
 sections: [
-    ['ws', 'Workshops'],
-    ['tut', 'Tutorial'],
-    ['ref', 'Reference'],
-    ['dev', 'Developers'],
-    ['post', 'Posts']
+    ['intro', 'Introductory'],
+    ['inter', 'Intermediate'],
+    ['adv', 'Advanced'],
+    ['sp', 'Special']
 ]
 
 # Keep as an empty string if served up at the root. If served up at a specific
