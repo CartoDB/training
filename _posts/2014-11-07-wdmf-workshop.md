@@ -84,7 +84,6 @@ Header
 
 Body
 
-```txt
 # A history of battles
 
 ![great plains](//upload.wikimedia.org/wikipedia/commons/thumb/2/27/Great_Plains_Nebraska_USA1.jpg/262px-Great_Plains_Nebraska_USA1.jpg)
@@ -124,7 +123,6 @@ It was an overwhelming victory for the Lakota, Northern Cheyenne, and Arapaho, l
 
 Use the map below to explore a full set of battles in the early Americas. Click an point to see the description and date, and find links to search for more information.
 
-```
 
 ## Add your layer
 
