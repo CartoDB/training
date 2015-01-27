@@ -14,13 +14,13 @@ Start by [creating a new post](http://jekyllrb.com/docs/posts/) one of the categ
 ruby bin/jekyll-page "Some Page Title" ref
 ```
 
-You can review the [README](https://github.com/ohasselblad/workshops/blob/master/README.md) for other links, resources and tips on writing up a post.
+You can review the [`README`](https://github.com/ohasselblad/workshops/blob/master/README.md) for other links, resources and tips on writing up a post.
 
 Don't forget to include a header at the top of your post!
 
 Like this:
 
-```md
+```
 ---
 layout: page
 title: "WDMF Workshop"
