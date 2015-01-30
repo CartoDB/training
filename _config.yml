@@ -16,22 +16,21 @@ codeurl: 'https://github.com/ohasselblad/workshops'
 
 # Default categories (in order) to appear in the navigation
 sections: [
-    ['ws', 'Workshops'],
-    ['tut', 'Tutorial'],
-    ['ref', 'Reference'],
-    ['dev', 'Developers'],
-    ['post', 'Posts']
+    ['intro', 'Introductory'],
+    ['inter', 'Intermediate'],
+    ['adv', 'Advanced'],
+    ['sp', 'Special']
 ]
 
 # Keep as an empty string if served up at the root. If served up at a specific
 # path (e.g. on GitHub pages) leave off the trailing slash, e.g. /my-project
-baseurl: ''
+baseurl: '/workshops'
 
 # Dates are not included in permalinks
 permalink: none
 
 # Syntax highlighting
-highlighter: rouge
+highlighter: pygments
 
 # Since these are pages, it doesn't really matter
 future: true
@@ -40,7 +39,7 @@ future: true
 exclude: ['bin', 'README.md']
 
 # Use the redcarpet Markdown renderer
-markdown: redcarpet
+markdown: kramdown
 redcarpet:
     extensions: [
         'no_intra_emphasis',

@@ -1,7 +1,8 @@
 ---
 layout: page
-title: "CartoDB.JS Deep-Dive"
-category: ws
+title: "Partners"
+subtitle: "CartoDB.js Deep-Dive"
+category: adv
 date: 2014-12-16 12:00:00
 author: 'Andy Eschbacher'
 length: 3
