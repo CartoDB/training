@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="https://raw.githubusercontent.com/ohasselblad/workshops/master/img/favicon.ico" type="image/x-icon">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+
+        <title>CartoDB Workshops!!! : Torque + Tax Data</title>
+        <meta name="description" content="Learning Materials for Making Maps">
+
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/workshops/css/syntax.css">
+        <link rel="stylesheet" href="/workshops/css/main.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class=row-fluid>
+                <div id=header class=span12>
+                    <h4><a class=brand href="/workshops/">CartoDB Workshops!!!</a>
+    <small>Learning Materials for Making Maps</small>
+</h4>
+
+
+                </div>
+            </div>
+
+            <div class=row-fluid>
+                
+                
+                    <div id=navigation class=span2>
+                        <ul class="nav nav-list">
+    <li><a href="/workshops/">Home</a></li>
+    
+        
+        
+
+        
+            
+                <li class=nav-header>Introductory</li>
+            
+            <li data-order=""><a href="/workshops/intro/wdmf.html">WDMF</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class=nav-header>Intermediate</li>
+            
+            <li data-order=""><a href="/workshops/inter/alaska.html">Introduction to Mapping</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class=nav-header>Advanced</li>
+            
+            <li data-order=""><a href="/workshops/adv/cartodbjs-deep-dive.html">Partners</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class=nav-header>Special</li>
+            
+            <li data-order=""><a href="/workshops/sp/deloitte.html">Torque + Tax Data</a></li>
+        
+    
+        
+        
+
+        
+            
+                <li class=nav-header>Talks</li>
+            
+            <li data-order="4"><a href="/workshops/tlk/maps-lie-class4.html">Maps Lie Class 4</a></li>
+        
+            
+            <li data-order="3"><a href="/workshops/tlk/maps-lie-class3.html">Maps Lie Class 3</a></li>
+        
+            
+            <li data-order="2"><a href="/workshops/tlk/maps-lie-class2.html">Maps Lie Class 2</a></li>
+        
+            
+            <li data-order="1"><a href="/workshops/tlk/maps-lie-class1.html">Maps Lie Class 1</a></li>
+        
+            
+            <li data-order=""><a href="/workshops/tlk/history-of-maps.html">History of Maps</a></li>
+        
+    
+<!-- List additional links. It is recommended to add a divider
+    e.g. <li class=divider></li> first to break up the content. -->
+</ul>
+
+                    </div>
+
+                    <div id=content class=span10>
+                        <div class=page-header>
+    <h2>Torque + Tax Data
+        <small>Deloitte Torque Intro</small>
+    </h2>
+</div>
+
+<h1 id="deloitte-workshop">Deloitte Workshop</h1>
+
+<p>01/14/15</p>
+
+<p>You can find this page at:</p>
+
+<p><a href="http://bit.ly/cdb-deloitte">http://bit.ly/cdb-deloitte</a></p>
+
+<h1 id="getting-started">Getting Started</h1>
+
+<h2 id="import-a-dataset">Import a dataset</h2>
+
+<p>Today we’ll be making maps and interacting with a dataset of DC Tax lots. The original dataset is available here, <a href="http://opendata.dc.gov/datasets/2a70832d0e9d448fb3775a876c9ffb00_39?geometry=-77.876%2C38.733%2C-76.374%2C39.053">DC tax lots</a>. No need to download that though!</p>
+
+<p>Today we will use a slightly cleaned up version of the dataset.</p>
+
+<p><a href="https://team.cartodb.com/u/andrew/tables/tax_lots_m/public">DC Tax Lots</a></p>
+
+<p>Let’s save the WIFI a bit though, instead of downloading the dataset, copy this URL (ctrl+c):</p>
+
+<p><code>html
+http://andrew.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20tax_lots_m&amp;format=geojson
+</code></p>
+
+<p>After the file is imported, let’s change the name to,</p>
+
+<p><strong>dc_tax_lots</strong></p>
+
+<h2 id="making-our-first-maps">Making our first maps</h2>
+
+<p>Let’s take a second to tour the interface in case some of you haven’t picked up the tool in a while.</p>
+
+<p><img src="http://i.imgur.com/d42ItvY.png" alt="Imgur" /></p>
+
+<p>** Transforming data types **</p>
+
+<p>Some SQL we hide for you, for example, no need to use SQL to change datatypes. But you can use SQL if you want!</p>
+
+<p><img src="http://i.imgur.com/0j2Fylp.png" alt="Imgur" /></p>
+
+<h2 id="using-sql-in-cartodb">Using SQL in CartoDB</h2>
+
+<p>CartoDB is built on PostgreSQL and gives you access to the full relational database model, plus geospatial functions based on PostGIS.</p>
+
+<p>Example, calculating tax lot elevation based on DC contour lines. In this example, I’m using a second dataset from <a href="http://opendata.dc.gov/datasets/18a78a269ed04cba9e4be65ebf722c7d_4">opendata.dc.gov</a> for elevation data.</p>
+
+<h4 id="filtering-on-the-map">Filtering on the map**</h4>
+
+<p><code>sql
+SELECT * FROM dc_tax_lots WHERE
+  elevation &gt; 50 AND elevation &lt; 150
+</code></p>
+
+<h4 id="updating-data-">Updating data **</h4>
+
+<p>First I’ll add a new column, called <code>elevation_b</code>. Next, I’ll run a relational SQL statement, that measures the elevation by finding the closest contour line in my second table (no interpolation here!).</p>
+
+<p><a href="https://team.cartodb.com/u/andrew/tables/andrew.dc_20_foot_contours_orig/public/map">elevation data</a></p>
+
+<p><code>sql
+UPDATE
+ dc_tax_lots
+SET
+ elevation_b = (
+  SELECT
+   elevation
+  FROM
+   dc_20_foot_contours
+  ORDER BY
+   the_geom &lt;-&gt; tax_lots_m.the_geom
+  LIMIT 1
+ )
+</code></p>
+
+<p>Let’s create a choropleth from the elevation column.</p>
+
+<p><img src="http://i.imgur.com/8nzWTeU.png" alt="Imgur" /></p>
+
+<h4 id="transforming-data-type">Transforming data type</h4>
+
+<p>In CartoDB, you can move between points, lines and polygons fairly easily using the PostGIS geospatial functionality. For example, you can join a group of points into a linestring. In this case, let me show you how to extract the centroid of each building so that we can use Torque to animated it.</p>
+
+<p><code>sql
+SELECT
+  ST_Centroid(the_geom) the_geom, elevation, creation_d
+FROM dc_tax_lots
+</code></p>
+
+<p>We can capture a snapshot of this by using the <code>options-&gt;table from query</code> functionality.</p>
+
+<p><img src="http://i.imgur.com/UWghGc0.png" alt="Imgur" /></p>
+
+<h2 id="a-quick-look-at-torque">A quick look at Torque</h2>
+
+<p><strong>Point torque</strong></p>
+
+<p><a href="https://team.cartodb.com/u/andrew/viz/cf1cc3e6-3242-11e4-8036-0e230854a1cb/public_map"><img src="http://i.imgur.com/YYJfvpC.png" alt="Imgur" /></a></p>
+
+<p><strong>Categorical torque</strong></p>
+
+<p><a href="https://team.cartodb.com/u/andrew/viz/508a7508-11e2-11e4-9973-0e73339ffa50/public_map"><img src="http://i.imgur.com/aqlomq0.png" alt="Imgur" /></a></p>
+
+<p><strong>Temporal bubbles</strong></p>
+
+<p><a href="https://team.cartodb.com/u/andrew/viz/32ff4f28-7e51-11e4-9555-0e853d047bba/public_map"><img src="http://i.imgur.com/l4l0Bzr.png" alt="Imgur" /></a></p>
+
+<p><strong>Cumulative bubbles</strong></p>
+
+<p><a href="http://team.cartodb.com/u/andrew/viz/a0a551a0-9b41-11e4-856f-0e853d047bba/embed_map"><img src="http://i.imgur.com/l0uteb1.png" alt="Imgur" /></a></p>
+
+<p><a href="http://gis.stackexchange.com/questions/129838/show-change-in-size-over-time/130114#130114">Method for creating the last two</a></p>
+
+<h1 id="cartodbjs">CartoDB.js</h1>
+
+<p>Let’s all start with the same template, you can download an index.html file here,</p>
+
+<p><a href="https://gist.github.com/andrewxhill/506238c433ff1c4edd08/download">index.html</a></p>
+
+<h3 id="the-simplest-cartodbjs-map">The simplest CartoDB.js map</h3>
+
+<p>A map in one line of javascript</p>
+
+<p><code>js
+    cartodb.createVis('map','http://team.cartodb.com/api/v2/viz/59428614-9c1f-11e4-be16-0e0c41326911/viz.json')
+</code></p>
+
+<h3 id="adding-to-an-existing-map-object">Adding to an existing Map object</h3>
+
+<p>First, make sure you delete the line we added above and create a leaflet map object,</p>
+
+<p><code>js
+        var map = new L.Map('map', {
+          zoomControl: false,
+          center: [38.893, -77.03],
+          zoom: 13
+        });
+</code></p>
+
+<p>Next, add a basemap. You can use one of the freely available <a href="http://cartodb.com/basemaps">CartoDB Basemaps</a></p>
+
+<p><code>js
+        var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png',{
+            attribution: '&amp;copy; &lt;a href="http://www.openstreetmap.org/copyright"&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href="http://cartodb.com/attributions"&gt;CartoDB&lt;/a&gt;'
+          }).addTo(map);
+</code></p>
+
+<h5 id="the-createlayer-method">The createLayer method</h5>
+
+<p>The <a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html#cartodbcreatelayermap-layersource--options--callback">createLayer method</a> is a really powerful way to use CartoDB in your frontend applications. It allows you to add your own map object (leaflet, gmaps) and add your layers from CartoDB.</p>
+
+<p><code>js
+        cartodb.createLayer(map, '{your-vis-json-url-here}')
+          .done(function(layer) {
+        	// Do further things here
+          })
+          .addTo(map);
+</code></p>
+
+<h5 id="add-interactivity">Add interactivity</h5>
+
+<p>You can add interactivity in the Editor very easily, but for maps you are creating on the fly in CartoDB.js, you can also add custom interactivity.</p>
+
+<p><code>js
+          var lots = layer.getSubLayer(0);
+          lots.setInteractivity('cartodb_id, elevation')
+          lots.setInteraction(true)
+</code></p>
+
+<h5 id="add-custom-interaction">Add custom interaction</h5>
+
+<p>You can use cursor events on your polygons (e.g. featureClick, featureOver, featureOut) to create your own actions on your webpage. Let’s log the Elevation value for any lot we hover over</p>
+
+<p><code>js
+          lots.on('featureOver', function(e, pos, pixel, data) {
+            console.log("Elevation: " + data.elevation);
+          });
+</code></p>
+
+<h4 id="map-lot-similarity">Map lot similarity</h4>
+
+<p>Let’s build a simple app that let’s you click a lot and see all lots within a 30 foot elevation envelope. We can do this by combining the click event and the ability to define a new SQL statment on our map tiles.</p>
+
+<p>First, let’s construct our new SQL string from the click input,</p>
+
+<p><code>js
+          lots.on('featureClick', function(e, pos, pixel, data) {
+            var newSql = "SELECT * FROM dc_tax_lots WHERE elevation &gt;= "+(data.elevation - 30)+" AND elevation &lt;= "+(data.elevation - 30);
+            console.log("SQL: " + newSql);
+          });
+</code></p>
+
+<h5 id="updating-layer-parameters">Updating layer parameters</h5>
+
+<p>Using the <code>layer</code> object returned by createLayer, we can actually update our SQL, CartoCSS and interactivity on the fly. Let’s use <a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html#sublayersetlayerdefinition">setSQL</a> to run our new statement:</p>
+
+<p><code>js
+            lots.setSQL(newSql);
+</code></p>
+
+<h5 id="add-a-button">Add a button</h5>
+
+<p>Let’s add a simple button to reset the map. I’ve already added the HTML to the webpage, we just need to remove the class <code>hidden</code> when we set the SQL filter and then wire up the button using jQuery.</p>
+
+<p><code>js
+            $('button').removeClass('hidden');
+</code></p>
+
+<h5 id="wire-a-button-to-a-setsql">Wire a button to a setSQL</h5>
+
+<p><code>js
+          $('button').click(function(){
+            $('button').addClass('hidden');
+            lots.setSQL("SELECT * FROM dc_tax_lots");
+          });
+</code></p>
+
+
+
+                    </div>
+                
+            </div>
+
+            
+
+            <div class=row-fluid>
+                <div id=footer class=span12>
+                    Documentation for <a href="https://github.com/ohasselblad/workshops">CartoDB Workshops!!!</a>
+
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function orderNav() {
+                var list,
+                    section,
+                    header,
+                    sections = [],
+                    lists = {},
+                    headers = {};
+
+                var navUl = document.querySelectorAll('#navigation ul')[0],
+                    navLis = document.querySelectorAll('#navigation ul li');
+
+                if (!navUl) return;
+
+                for (var i = 0; i < navLis.length; i++) {
+                    var order, li = navLis[i];
+
+                    if (li.classList.contains('nav-header')) {
+                        section = li.textContent || li.innerText;
+                        sections.push(section);
+                        headers[section] = li;
+                        continue;
+                    }
+
+                    if (!lists[section]) {
+                        lists[section] = [];
+                    }
+
+                    order = parseFloat(li.getAttribute('data-order'))
+                    lists[section].push([order, li]);
+                }
+
+                for (var i = 0; i < sections.length; i++) {
+                    section = sections[i];
+                    list = lists[section].sort(function(a, b) {
+                        return a[0] - b[0];
+                    });
+
+                    if (header = headers[section]) {
+                        navUl.appendChild(header);
+                    }
+                    for (var j = 0; j < list.length; j++) {
+                        navUl.appendChild(list[j][1]);
+                    }
+                }
+            }
+
+            if (document.querySelectorAll) orderNav();
+        </script>
+    </body>
+</html>

@@ -1,5 +1,5 @@
 # Site title and subtitle. This is used in _includes/header.html
-title: 'CartoDB Workshops'
+title: 'CartoDB Workshops!!!'
 subtitle: 'Learning Materials for Making Maps'
 
 # if you wish to integrate disqus on pages set your shortname here
@@ -19,7 +19,8 @@ sections: [
     ['intro', 'Introductory'],
     ['inter', 'Intermediate'],
     ['adv', 'Advanced'],
-    ['sp', 'Special']
+    ['sp', 'Special'],
+    ['tlk', 'Talks']
 ]
 
 # Keep as an empty string if served up at the root. If served up at a specific
