@@ -10,9 +10,10 @@ length: 2
 ---
 
 ### Maps, Lies, and Storytelling: Class IV, SQL & CartoCSS
+
 #### Target Audience: novice mappers
 
-####Objectives:
+#### Objectives:
 
 * Learning SQL in CartoDB
 * Learning CartoCSS

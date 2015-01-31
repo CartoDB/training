@@ -9,19 +9,20 @@ author: 'Andrew Hill'
 length: 2
 ---
 
-## Maps, Lies, and Storytelling: Class II, Interactive Maps
+### Maps, Lies, and Storytelling: Class II, Interactive Maps
 
-### Target Audience: novice mappers
+#### Target Audience: novice mappers
 
-### Objectives:
+#### Objectives:
 
 * Finding data
 * Processing data
 * Building maps
 
-### Data used: https://gist.github.com/andrewxhill/b99afd5350ee7fc5fd48
+#### Data used:
+https://gist.github.com/andrewxhill/b99afd5350ee7fc5fd48
 
-### Key learnings:
+#### Key learnings:
 * https://gist.github.com/andrewxhill/7f04b7de0a716c696f96
 
 [View Slides here](https://speakerdeck.com/andrewxhill/maps-lies-and-storytelling-p03-hands-on)

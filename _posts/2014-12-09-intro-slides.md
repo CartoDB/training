@@ -1,15 +1,24 @@
-*title:** Inrto to CartoDB 
+---
+layout: page
+title: "Intro to CartoDB"
+subtitle: "Mapping, Usecases, Outreach, Learning"
+category: tlk
+date: 2014-12-09 12:00:00
+author: 'Andrew Hill'
+length: 2
+---
 
-**target_audience:** LocationTech, AvidGeo
+### Intro to CartoDB
 
-**objectives:**
+#### Target Audience:
+LocationTech, AvidGeo
+
+#### Objectives:
 
 * Understand the platform through key use-cases
 * User engagement/outreach
 
-**data_used:** N/A
-
-**key_learnings:**
+#### Key learnings:
 
 * Highlight data import/real-time updating
 * Highlight SQL API and CartoDB.js
@@ -17,4 +26,4 @@
 * Highlight Twitter API/Torque
 * Highlight the Map Academy
 
-**live_link:** https://speakerdeck.com/andrewxhill/avidgeo-conference
+[View Slides here](https://speakerdeck.com/andrewxhill/avidgeo-conference)

@@ -9,16 +9,16 @@ author: 'Andrew Hill'
 length: 2
 ---
 
-## Maps, Lies, and Storytelling: Class III, Maps & Location
+### Maps, Lies, and Storytelling: Class III, Maps & Location
 
-### Target Audience: novice mappers
+#### Target Audience: novice mappers
 
-### Objectives:
+#### Objectives:
 
 * Understand Digital vs. Web maps
 * Understand Google vs. Openstack
 
-### Key Learnings:
+#### Key Learnings:
 
 * What is a tile?
 * The anatomy of a webmap

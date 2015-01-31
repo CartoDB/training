@@ -8,11 +8,12 @@ author: 'Andrew Hill'
 length: 2
 ---
 
-## Maps, Lies, and Storytelling: A Selective History of Maps
+### Maps, Lies, and Storytelling: A Selective History of Maps
 
-### Target Audience: novice mappers
+#### Target Audience:
+Novice mappers
 
-### Objectives:
+#### Objectives:
 
 * Understand the historical trajectory of mapping
 

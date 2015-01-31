@@ -9,16 +9,17 @@ author: 'Andrew Hill'
 length: 2
 ---
 
-## Maps, Lies, and Storytelling: Class I, What is a Map?
+### Maps, Lies, and Storytelling: Class I, What is a Map?
 
-### Target Audience: novice mappers
+#### Target Audience: novice mappers
 
-### Objectives:
+#### Objectives:
 
 * Outline course assignments for student map-makers
 * Introduce GIST, bl.ocks resources
 * Example visualizations
 
-### Data used: http://bit.ly/pluto-data
+#### Data used:
+http://bit.ly/pluto-data
 
 [View Slides Here](https://speakerdeck.com/andrewxhill/maps-lies-and-storytelling-p01-introduction)
