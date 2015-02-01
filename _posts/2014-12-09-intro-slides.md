@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Intro to CartoDB"
+title: "Introduction to CartoDB"
 subtitle: "Mapping, Usecases, Outreach, Learning"
 category: tlk
 date: 2014-12-09 12:00:00
