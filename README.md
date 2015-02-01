@@ -4,22 +4,9 @@
 ###STRUCTURE
 *folder structure in this repo*
 
-`[directory]/` = titled directories include all of the markdown/.html/slide resources from that workshop, with date (YY-MM) indicated (ex: `15-01_alaska/`)
-
-* **outline.md** = whatever structure you decided for the workshop
-* **metadata.md** = [template here](https://github.com/ohasselblad/workshops/blob/master/15-01-08_alaska/metadata.md) including at minimum
-	* title
-	* date
-	* author
-	* target_audience
-	* length
-	* objectives
-	* data_used
-	* key_learnings
-	* live_link
-
-`imgs/` = reusable images from various presentations
+`img/` = reusable images from various presentations
 `data/` = any data used, stored as hardcopies (metadata.md for each workshop has a reference to the data_used)
+`notes/` = metadata about certain workshops (audience, objectives, turnout, key learnings)
 
 ###LINKS
 *other places where you can find materials*
@@ -32,17 +19,13 @@ Workshop | Date | Length | References
 [Harvard Workshop](https://gist.github.com/andrewxhill/7c1efd9bdead734010b0) | 01/15/15  | 3 hrs
 
 
-
+###RESOURCES
+*general, possibly helpful community links*
 
 * [AxHill's SlideDecks](https://speakerdeck.com/andrewxhill)
 * [Pinterest for Maps](http://www.pinterest.com/andrewxhill/interactive-maps/) = sample maps in context, good for images and anecdotes
 * [CDB Gallery](https://www.dropbox.com/personal/cdb-gallery) = dropbox repository of mapping images and gifs for presentations
 * [CDB Vimeo](https://vimeo.com/vizzuality) = video tutorials and screencasts
-
-
-###RESOURCES
-*general, possibly helpful community links*
-
 * [CDBCOMM Trello](https://trello.com/cdbcomm) = includes Academy lessons, Maps, BlogPosts,Conferences, Tutorial ideas
 * [StackEdit.io](https://stackedit.io/) = good for quick markdown tutorials -> live resources
 * [Community Folder on Google Drive](https://drive.google.com/a/cartodb.com/#folders/0B_gM2xM2V0_DSU1mVTlvTW9RSEU) = includes an abstracts folder, presentations, training in case you'd rather store there
