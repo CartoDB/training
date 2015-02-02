@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Startup Institute Technology Session"
+title: "SINYC Technology Session"
 order: 4
 subtitle: "The CartoDB Mapping Challenge"
 category: intro
