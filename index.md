@@ -6,7 +6,7 @@ title: "CartoDB Workshops"
 
 Check out the side bar for featured workshop scripts, and the [`img/`](https://github.com/ohasselblad/workshops/tree/master/img) and [`data/`](https://github.com/ohasselblad/workshops/tree/master/data), and [`notes/`](https://github.com/ohasselblad/workshops/tree/master/notes) directories for support images, data hardcopies, and general notes about session audiences.
 
-![](https://raw.githubusercontent.com/ohasselblad/workshops/master/img/alaska/choropleth_map_challenge2.png)
+![Pretty Map](https://raw.githubusercontent.com/ohasselblad/workshops/master/img/alaska/choropleth_map_challenge2.png)
 
 #### CREATING A POST
 
@@ -48,6 +48,7 @@ And choose one of these `category` entries in your header so that the post popul
 	* 'adv' = Advanced
 	* 'sp' = Special
 	* 'tlk' = Talks
+
 ```
 
 #### CONTRIBUTING
