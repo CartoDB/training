@@ -19,7 +19,8 @@ sections: [
     ['intro', 'Introductory'],
     ['inter', 'Intermediate'],
     ['adv', 'Advanced'],
-    ['sp', 'Special']
+    ['sp', 'Special'],
+    ['tlk', 'Talks']
 ]
 
 # Keep as an empty string if served up at the root. If served up at a specific
