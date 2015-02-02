@@ -1,6 +1,10 @@
 ---
 layout: page
+<<<<<<< HEAD
 title: "Partners"
+=======
+title: "Deep Dive: CartoDB JS"
+>>>>>>> startup-institute
 subtitle: "CartoDB.js Deep-Dive"
 category: adv
 date: 2014-12-16 12:00:00

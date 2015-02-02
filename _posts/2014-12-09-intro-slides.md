@@ -1,6 +1,10 @@
 ---
 layout: page
+<<<<<<< HEAD
 title: "Intro to CartoDB"
+=======
+title: "Introduction to CartoDB"
+>>>>>>> startup-institute
 subtitle: "Mapping, Usecases, Outreach, Learning"
 category: tlk
 date: 2014-12-09 12:00:00
