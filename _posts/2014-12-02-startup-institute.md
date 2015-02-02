@@ -1,7 +1,6 @@
 ---
 layout: page
 title: "SINYC Technology Session"
-order: 4
 subtitle: "The CartoDB Mapping Challenge"
 category: intro
 date: 2014-09-30 12:00:00
@@ -50,7 +49,7 @@ Navigate back to your dashboard.
 
 ###Creating Multi-Layered Maps
 
-How to import from a URL: 
+How to import from a URL:
 First **right click** and 'copy' [this link](https://github.com/namessanti/workshop-data/blob/master/city_council_districts.zip?raw=true) for NYC borough boundaries
 
 * Types of uploads supported
@@ -88,7 +87,7 @@ Click [this link](https://github.com/namessanti/workshop-data/blob/master/rat_si
 
 ###Don't be afraid to explore the possibilities behind our powerful APIs using these **CartoDB advanced resources**:
 
-* The [CartoDB Academy](http://academy.cartodb.com/) is great for recapping the basics, starting to use our APIs, and growing your design capabilities 
+* The [CartoDB Academy](http://academy.cartodb.com/) is great for recapping the basics, starting to use our APIs, and growing your design capabilities
 * This handy [CartCSS Reference Sheet](http://ebrelsford.github.io/talks/2014/Methods3/week7/materials/cartocss-reference.pdf) is a quick guide for beginners to CartoCSS
 * This [blog post](http://blog.cartodb.com/berlin-wall-post/) talks about how I made the Berlin Story
 * This [video and tutorial](http://cartodb.github.io/odyssey.js/documentation/) will quickly help you take your Odyssey.js stories to the next level
