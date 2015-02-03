@@ -326,7 +326,7 @@ Finally, choose `projects_level4` on the right side and hit __Merge tables__.
 
 Now you can create a choropleth based on the number of items from Projects_Level4 that occurred within the districts of Nepal. Make sure to select `intersection_count` for the choropleth column.
 
-![Choropleth of # of intersections](../img/columbia-sipa/intersect-count.png)
+![Choropleth of # of intersections](../img/columbia-sipa/intersect_count.png)
 
 ## Torque -- spatio-temporal maps
 
