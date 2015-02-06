@@ -39,9 +39,8 @@
 			}]
 		}
 
-        // add a nice baselayer from Cartodb
-        L.tileLayer('http://{s}.api.cartocdn.com/base-light/{z}/{x}/{y}.png', {
-          attribution: 'CartoDB'
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+          attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
         }).addTo(map);
 
         cartodb.createLayer(map, layerSource)
