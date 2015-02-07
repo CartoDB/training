@@ -12,6 +12,7 @@ length: 3
 
 ### CartoDB's JavaScript API
 Examples:
+
 + [Global Forest Watch](http://www.globalforestwatch.org/map/3/15.00/27.00/ALL/grayscale/loss,forestgain?begin=2001-01-01&end=2013-12-31&threshold=30)
 + [Urban Reviewer](http://www.urbanreviewer.org/#map=12/40.7400/-73.9998&sidebar=plans)
 
@@ -22,9 +23,11 @@ Table names:
 + The viz.json for the [Visualization Andrew created](http://partners.cartodb.com/api/v2/viz/5060b5e6-8092-11e4-b44f-0e853d047bba/viz.json) or use the one from your account or use one from [my account](http://andye.cartodb.com/api/v2/viz/2b04388c-8131-11e4-9030-0e4fddd5de28/viz.json)
 
 ## Going from CartoDB Editor --> CartoDB.js
+
 ![Share vizualization](http://i.imgur.com/gVxeNMg.png)
 
 ### **viz.json** in depth
+
 The viz.json file is the main source of data for CartoDB JavaScript functions (createVis and createLayer) for creating visualizations in the browser.
 
 Either open in a simple text editor or download a JSON viewer extension for [Chrome](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en) or [Firefox](https://addons.mozilla.org/en-us/firefox/addon/jsonview/) to view it in the browser.
@@ -61,21 +64,21 @@ Overview of template:
 
 Create basic visualization using createVis (docs here) by copying and pasting the following:
 
-``` js
+{% highlight javascript %}
 window.onload = function() {
     var vizjson_url = ''; // <-- Paste viz.json URL between quotes
 
     cartodb.createVis(map_id, vizjson_url) // <-- Change map_id to 'map'
         .done(function(vis, layers) {
             // do stuff
-            console.log("Map successfully created.");
+            console.log("Map successfully created");
         })
         .error(function(err) {
             // report error
             console.log("An error occurred: " + err);
         });
 }
-```
+{% endhighlight %}
 
 createVis is excellent for creating maps quickly with very little code. There is a lot of customization with it as well. The documentation is [here](http://docs.cartodb.com/cartodb-platform/cartodb-js.html#visualization).
 
@@ -86,7 +89,7 @@ createLayer is the other main method for bring maps to your browser.
 
 The following is the basic createLayer structure (depends on [Leaflet.js](http://leafletjs.com/)):
 
-``` js
+{% highlight javascript %}
 window.onload = function() {
    var layerSource = ''; // <-- same viz.json as before
 
@@ -122,7 +125,7 @@ window.onload = function() {
            console.log("Map not created: " + err);
        });
 }
-```
+{% endhighlight %}
 
 One big difference here is that we explicitly expose the SQL and CartoCSS, allowing for easy customization.
 
@@ -131,7 +134,9 @@ One big difference here is that we explicitly expose the SQL and CartoCSS, allow
 **Reload your browser window, your map should work**
 
 ### Changing SQL on the fly
+
 #### Spatial join of crashes in neighborhoods
+
 **New goal:** We'll create an interactive map that allows us to toggle between the basic view and the view of crashes per neighborhood per capita.
 
 To accomplish this, we need to know how many crashes happened per neighborhood, then divide that number by the population of the neighborhood. We could do a simple SQL JOIN if our data tables both contained the neighborhood name. This is less computationally intensive. To have more fun, we can instead use geospatial functions to find out how many points are inside of a shape. The function is called `ST_Intersects` (link to [documentation](http://postgis.net/docs/ST_Intersects.html)) and is part of the PostGIS extension to PostgreSQL.
@@ -139,23 +144,32 @@ To accomplish this, we need to know how many crashes happened per neighborhood, 
 Going back to the createLayer example we just created:
 
 * Copy the following SQL command and place it below the `<style>` tags you just created.
-``` sql
+{% highlight sql %}
 <script type='sql/text' id='sql'>
-SELECT cartodb_id, the_geom,
-       the_geom_webmercator,
-       nbrhd_name,
-       (SELECT count(*)
-        FROM   traffic_accidents
-        WHERE  ST_Intersects (traffic_accidents.the_geom,
-       census_neighborhood_demographics_2010.the_geom)) / population AS
-       accidents_per_capita
-FROM   census_neighborhood_demographics_2010
+SELECT 
+  cartodb_id, the_geom,
+  the_geom_webmercator,
+  nbrhd_name,
+  (
+    SELECT
+      count(*)
+    FROM
+      traffic_accidents
+    WHERE
+      ST_Intersects(
+          traffic_accidents.the_geom,
+          census_neighborhood_demographics_2010.the_geom
+      )
+  ) / population AS accidents_per_capita
+FROM
+  census_neighborhood_demographics_2010
 </script>
-```
+{% endhighlight %}
 
 * Paste the following CartoCSS structure in the `<head>` section of your webpage.
     This is a pre-configured Choropleth style. You could also create one on the fly by calculating the range in data and creating bins within that range.
-``` css
+
+{% highlight css %}
 <style type='cartocss/text' id='choropleth'>
 /** choropleth visualization */
 
@@ -188,18 +202,19 @@ FROM   census_neighborhood_demographics_2010
    polygon-fill: #FFFFB2;
 }
 </style>
-```
+{% endhighlight %}
 
 3. Next, replace the string for `sql` in the sublayerOptions object with
 
-``` js
+{% highlight javascript %}
 $("#sql").text(),
-```
+{% endhighlight %}
+
 (don't forget the comma!), and the string after `cartocss` with
 
-``` js
+{% highlight javascript %}
 $("#choropleth").text()
-```
+{% endhighlight %}
 
 These two pieces of code are just a jQuery operation that finds the HTML element that has an `id` of `sql` or `cartocss` and extracts the text contained within it.
 
@@ -213,7 +228,7 @@ Preview lesson product for next CartoDB.js lesson.
 
 First, create another `<style type="cartocss/text" id="simple">` tag set with the following CartoCSS style. Make sure the `id` is set to `simple`
 
-``` css
+{% highlight css %}
 /** simple visualization */
 
 #census_neighborhood_demographics_2010{
@@ -223,10 +238,10 @@ First, create another `<style type="cartocss/text" id="simple">` tag set with th
   line-width: 1;
   line-opacity: 1;
 }
-```
+{% endhighlight %}
 
 * Next, let's create some buttons. Put the following snippet below the `div` with an `id='map'`.
-``` html
+{% highlight html %}
 <div class="layer_selector">
     <p>Visualization Selector</p>
     <ul>
@@ -234,10 +249,10 @@ First, create another `<style type="cartocss/text" id="simple">` tag set with th
         <li data="simple">Reset CartoCSS</li>
     </ul>
 </div>
-```
+{% endhighlight %}
 
 * Wire up the buttons with click events:
-``` js
+{% highlight javascript %}
 // Create layer selector
 function createSelector(layer) {
    var cartocss = "";
@@ -254,7 +269,7 @@ function createSelector(layer) {
        layer.setCartoCSS(cartocss);
    });
 }
-```
+{% endhighlight %}
 
 ![Basic selectors](http://i.imgur.com/Y8voITB.png)
 
@@ -271,7 +286,7 @@ Helpful examples
     * Customizing display of information
     * Pulling in images
 
-``` html
+{% highlight html %}
 <script type="infowindow/html" id="infowindow_template">
   <div class="cartodb-popup">
     <a href="#close" class="cartodb-popup-close-button close">x</a>
@@ -288,18 +303,18 @@ Helpful examples
      <div class="cartodb-popup-tip-container"></div>
   </div>
 </script>
-```
+{% endhighlight %}
 
 Then add this to the `sublayerOptions`:
-``` js
+{% highlight javascript %}
 interactivity: 'cartodb_id, nbrhd_name'
-```
+{% endhighlight %}
 
-Add this after `sublayer[0].set(...)`:
+After `sublayer[0].set(...)`, add this:
 
-``` js
+{% highlight javascript %}
 sublayers[0].infowindow.set('template', $('#infowindow_template').html());
-```
+{% endhighlight %}
 
 * Click events
     * On hover
