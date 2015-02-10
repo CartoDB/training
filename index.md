@@ -10,7 +10,7 @@ Check out the side bar for featured workshop scripts, and the [`img/`](https://g
 
 #### CONTRIBUTING
 
-We'd love to add community-developed workshops to our list of resources and materials. Please visit our `CONTRIBUTING.md` file for more information!
+We'd love to add community-developed workshops to our list of resources and materials. Please visit our [`CONTRIBUTING.md`](https://github.com/ohasselblad/workshops/blob/gh-pages/CONTRIBUTING.md) file for more information!
 
 #### RESOURCES
 
