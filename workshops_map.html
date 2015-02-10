@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Custom infowindow example | CartoDB.js</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" />
+    <style>
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartodb.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script src="http://libs.cartodb.com/cartodb.js/v3/3.11/cartodb.js"></script>
+
+    <script>
+      function main() {
+
+        // create map
+        var map = L.map('map', { 
+          center: [40.7127, -74.0059],
+          zoom: 3,
+		  scrollWheelZoom: false
+        });
+
+		var layerSource = {
+			user_name: 'eschbacher',
+			type: 'cartodb',
+			sublayers: [{
+				sql: 'SELECT ST_MakeLine(the_geom_webmercator) the_geom_webmercator FROM workshops',
+				cartocss: '#workshops{line-color: #FF6600; line-width: 2; line-opacity: 0.7;}'
+			}]
+		}
+
+        L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+          attribution: "&copy; <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+        }).addTo(map);
+
+        cartodb.createLayer(map, layerSource)
+         .addTo(map)
+         .on('done', function(layer) {
+			 var sublayer = layer.getSubLayer(0);
+          }).on('error', function() {
+            console.log("some error occurred");
+          });
+      }
+
+      window.onload = main;
+    </script>
+  </body>
+</html>
