@@ -19,8 +19,16 @@ If you have any questions feel free to chat us on Gitter:
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/ohasselblad/workshops)
 
 ====
+##GENERAL
+If you'd rather contribute via github, here's a short guide to doing that.
+Sometimes understanding the mental model of git can be tough, so, check out these tools for practicing before you contribute.
 
-## Develop
+* [Github in 15 minutes](https://try.github.io/levels/1/challenges/1)
+* [D3 Visual Git Sandbox](http://onlywei.github.io/explain-git-with-d3/#deletebranches)
+* [Mental Model of Git branching](http://nvie.com/posts/a-successful-git-branching-model/)
+
+
+## DEVELOP
 
 ### How to install
 
@@ -56,7 +64,7 @@ $ jekyll build
 A tab in your browser will open and direct you to [http://localhost:9000/](http://localhost:9000/), it will track changes to rebuild and reload your browser so you can see your modifications.
 
 
-## Write
+## WRITE
 
 Much of our recommendations and some details about syntax in jekyll came from our [blog post guidelines](https://github.com/CartoDB/blog/wiki/Blog-post-guidelines). But here are some specific instructions for the Workshops repo.
 
@@ -100,7 +108,7 @@ And choose one of these `category` entries in your header so that the post popul
 * 'sp' = Special
 * 'tlk' = Talks
 
-## Deploy
+## DEPLOY
 
 When creating a **Pull Request** (PR), please tag `@` a team member (@auremoser, @ohasselblad) to review them. Once the Pull Request has been reviewed, it can be merged to the `master` branch for deployment.
 
