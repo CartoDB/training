@@ -18,6 +18,8 @@ If you have any questions feel free to chat us on Gitter:
 
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/ohasselblad/workshops)
 
+====
+
 ## Develop
 
 ### How to install
@@ -56,9 +58,13 @@ A tab in your browser will open and direct you to [http://localhost:9000/](http:
 
 ## Write
 
-Much of our recommendations and some details about syntax in jekyll came from our [blog post guidelines](https://github.com/CartoDB/blog/wiki/Blog-post-guidelines). But here are some specific instructions for the Workshops repo:
+Much of our recommendations and some details about syntax in jekyll came from our [blog post guidelines](https://github.com/CartoDB/blog/wiki/Blog-post-guidelines). But here are some specific instructions for the Workshops repo.
 
-Start by [creating a new post](http://jekyllrb.com/docs/posts/) for one of the categories listed in `_config.yml` (also bulleted below). It will appear in the navigation on the left once recompiled. 
+Start by [creating a new post](http://jekyllrb.com/docs/posts/) for one of the categories listed in `_config.yml` (also bulleted below). It will appear in the navigation on the left once recompiled. You can copy the format for one of the other posts and just edit the header configurations (date, title, category) and body content to suit your needs. 
+
+Save it with a title.md that matches the other posts, but with your date + title:
+
+`YYYY-MM-DD-title.md`
 
 ###Guide to Git
 * fork the repo and create a branch
