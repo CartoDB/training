@@ -8,46 +8,6 @@ Check out the side bar for featured workshop scripts, and the [`img/`](https://g
 
 <iframe width="100%" height="480px" src="workshops_map.html"></iframe>
 
-#### CREATING A POST
-
-Start by [creating a new post](http://jekyllrb.com/docs/posts/) one of the categories listed in `_config.yml`. It will appear in the navigation on the left once recompiled. Or use the supplied script to make creating pages easier:
-
-{% highlight bash %}
-ruby bin/jekyll-page "Some Page Title" ref
-{% endhighlight %}
-
-* fork the repo and create a branch
-* add your materials (guidelines explained below)
-* submit a pull request and ask us to merge it with our [live site](ohasselblad.github.io/workshops)!
-
-You can review the [`README`](https://github.com/ohasselblad/workshops/blob/master/README.md) for other links, resources and tips on writing up a post.
-
-Don't forget to include a header at the top of your post!
-
-Like this:
-{% highlight yaml %}
-layout: page
-title: "WDMF"
-subtitle: "Woodstock Digital Media Festival"
-category: intro
-date: 2014-11-07 12:00:00
-author: 'Andrew Hill'
-length: 2
-order: 1
-{% endhighlight %}
-
-In the above case, the `length` of this workshop is hours long.
-
-If you could like to structure the order of posts in the sidebar menu, you can force a sequence by category by giving it an `order` item in the header.
-
-And choose one of these `category` entries in your header so that the post populates in the sidebar.
-
-* 'intro' = Introductory
-* 'inter' = Intermediate
-* 'adv' = Advanced
-* 'sp' = Special
-* 'tlk' = Talks
-
 #### CONTRIBUTING
 
 We'd love to add community-developed workshops to our list of resources and materials. Please visit our `CONTRIBUTING.md` file for more information!
