@@ -3,7 +3,7 @@ layout: page
 title: "SCGIS Webinar"
 order: 2
 subtitle: "Amazing Uses of CartoDB"
-category: tlk
+category: talk
 date: 2014-02-05 12:00:00
 author: 'Andrew Hill'
 length: 2

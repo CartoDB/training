@@ -2,7 +2,7 @@
 layout: page
 title: "Introduction to CartoDB"
 subtitle: "Mapping, Usecases, Outreach, Learning"
-category: tlk
+category: talk
 date: 2014-12-09 12:00:00
 author: 'Andrew Hill'
 length: 2

@@ -2,7 +2,7 @@
 layout: page
 title: "Humanitarian Aid Maps"
 subtitle: "H.O.T. Planet: Humanitarian Crisis + Contextual Mapping with CartoDB"
-category: tlk
+category: talk
 date: 2015-02-04 12:00:00
 author: 'Aurelia Moser'
 length: 2

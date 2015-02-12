@@ -3,7 +3,7 @@ layout: page
 title: "Maps Lie Class 2"
 order: 2
 subtitle: "Maps, Lies, and Storytelling: A Selective History of Maps"
-category: tlk
+category: talk
 date: 2014-09-19 12:00:00
 author: 'Andrew Hill'
 length: 2
