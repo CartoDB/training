@@ -7,7 +7,7 @@ title: "Speaker Resources"
 
 [CartoDB Academy](http://academy.cartodb.com/) = The place to learn full concepts on CartoDB. Filled with ~1hr lessons on topics from begining mapping to SQL.
 
-[Flickr Gallery](https://www.flickr.com/photos/62832379@N00/) = A great place to get images of awesome projects to include in your slide decks
+[Slide Gallery](https://www.flickr.com/photos/62832379@N00/) = A great place to get images of awesome projects to include in your slide decks
 
 [Pinterest for Maps](http://www.pinterest.com/andrewxhill/interactive-maps/) = Sample maps in context, good for images and anecdotes
 
