@@ -1,18 +1,12 @@
 ---
 layout: default
-title: "Collaborate"
+title: "Submit"
 ---
 
-There are a lot of ways you can join our project. Here are a few.
+#### SIMPLE SUBMIT
 
-#### LIST YOUR EVENT
+If you'd rather not deal with Github, please feel free to fill out this [Google Form](https://docs.google.com/forms/d/1aRVYb1gQEii0MjMSXWUtoWlMPmBLO07AEh9zCabiDrA/edit?usp=sharing) and we'll integrate your materials ASAP.
 
-How-to
+#### COLLABORATIVE SUBMIT
 
-#### CONTRIBUTE YOUR MATERIAL
-
-Point to FORM for non-github people. Point to CONTRIBUTING.md for gh people
-
-#### MAINTAIN MATERIAL
-
-Point to CONTRIBUTING.md for gh people for fixing existing workshops.
+We'd love to add community-developed workshops to our list of resources and materials. Please visit our [`CONTRIBUTING.md`](https://github.com/ohasselblad/workshops/blob/gh-pages/CONTRIBUTING.md) file for more information!

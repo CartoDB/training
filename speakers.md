@@ -1,18 +1,15 @@
 ---
-layout: default
-title: "Collaborate"
+layout: speakers
+title: "Speaker Resources"
 ---
 
-There are a lot of ways you can join our project. Here are a few.
+#### EXTERNAL RESOURCES
 
-#### LIST YOUR EVENT
+* [Flickr Gallery](https://www.flickr.com/photos/62832379@N00/) = A great place to get images of awesome projects to include in your slide decks
+* [Pinterest for Maps](http://www.pinterest.com/andrewxhill/interactive-maps/) = Sample maps in context, good for images and anecdotes
+* [CDB Gallery](https://www.dropbox.com/personal/cdb-gallery) = dropbox repository of mapping images and gifs for presentations
+* [CDB Vimeo](https://vimeo.com/vizzuality) = video tutorials and screencasts
 
-How-to
+#### RECORDED LESSONS
 
-#### CONTRIBUTE YOUR MATERIAL
-
-Point to FORM for non-github people. Point to CONTRIBUTING.md for gh people
-
-#### MAINTAIN MATERIAL
-
-Point to CONTRIBUTING.md for gh people for fixing existing workshops.
+This should autopopulate if we include posts of category: 'video'
