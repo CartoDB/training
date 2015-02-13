@@ -56,12 +56,12 @@ code {
     text-transform: uppercase;
 }
 #navigation .inner {
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
     text-transform: uppercase;
 }
 
 #navigation .leaf {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
