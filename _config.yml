@@ -1,6 +1,6 @@
 # Site title and subtitle. This is used in _includes/header.html
 title: 'CartoDB Workshops'
-subtitle: 'Learning Materials for Making Maps'
+subtitle: 'Materials for Teaching Maps'
 
 # if you wish to integrate disqus on pages set your shortname here
 disqus_shortname: ''
@@ -12,7 +12,7 @@ disqus_shortname: ''
 navigation: 2
 
 # URL to source code, used in _includes/footer.html
-codeurl: 'https://github.com/ohasselblad/workshops'
+codeurl: 'https://github.com/cartodb/training'
 
 # Default categories (in order) to appear in the navigation
 sections: [
@@ -20,7 +20,8 @@ sections: [
     ['inter', 'Intermediate'],
     ['adv', 'Advanced'],
     ['sp', 'Special'],
-    ['tlk', 'Talks']
+    ['talk', 'Talks'],
+    ['video', 'Videos']
 ]
 
 # Keep as an empty string if served up at the root. If served up at a specific

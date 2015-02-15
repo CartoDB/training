@@ -2,7 +2,7 @@
 layout: page
 title: "Eco: World Parks Congress"
 subtitle: "World Parks Congress Presentation, Sydney"
-category: tlk
+category: talk
 date: 2014-11-12 12:00:00
 author: 'Andrew Hill'
 length: 2

@@ -3,7 +3,7 @@ layout: page
 title: "Maps Lie Class 3"
 order: 3
 subtitle: "Maps, Lies, and Storytelling: Class III, Maps & Location"
-category: tlk
+category: talk
 date: 2014-09-26 12:00:00
 author: 'Andrew Hill'
 length: 2

@@ -2,7 +2,7 @@
 layout: page
 title: "History of Maps"
 subtitle: "Maps, Lies, and Storytelling: A Selective History of Maps"
-category: tlk
+category: talk
 date: 2014-09-02 12:00:00
 author: 'Andrew Hill'
 length: 2

@@ -3,7 +3,7 @@ layout: page
 title: "Maps Lie Class 1"
 order: 1
 subtitle: "Maps, Lies, and Storytelling: Class I, What is a Map?"
-category: tlk
+category: talk
 date: 2014-09-02 12:00:00
 author: 'Andrew Hill'
 length: 2

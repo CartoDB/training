@@ -3,7 +3,7 @@ layout: page
 title: "Maps Lie Class 4"
 order: 4
 subtitle: "Maps, Lies, and Storytelling: Class IV, SQL & CartoCSS"
-category: tlk
+category: talk
 date: 2014-09-30 12:00:00
 author: 'Andrew Hill'
 length: 2

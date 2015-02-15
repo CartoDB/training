@@ -48,11 +48,20 @@ code {
 }
 
 #navigation li a {
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
 #navigation .nav-header {
     padding-left: 0;
     padding-right: 0;
+    text-transform: uppercase;
+}
+#navigation .inner {
+    padding-left: 3px;
+    padding-right: 3px;
+    text-transform: uppercase;
+}
+
+#navigation .leaf {
+    padding-left: 10px;
+    padding-right: 10px;
 }

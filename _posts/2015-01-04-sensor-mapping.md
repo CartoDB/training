@@ -2,7 +2,7 @@
 layout: page
 title: "Sensor + Crisis Maps"
 subtitle: "Map the Planet: Crisimapping, Crowsdsourcing and Sensible City Planning"
-category: tlk
+category: talk
 date: 2015-02-04 12:00:00
 author: 'Aurelia Moser'
 length: 2
