@@ -36,7 +36,11 @@
 			sublayers: [{
 				sql: 'SELECT ST_MakeLine(the_geom_webmercator) the_geom_webmercator FROM workshops',
 				cartocss: '#workshops{ line-color: #FF6600; line-width: 2; line-opacity: 0.7; line-clip: false; line-smooth: 3;}'
-			}]
+			},
+            {
+            				sql: 'SELECT * FROM workshops',
+            				cartocss: '#workshops{marker-file: url(http://com.cartodb.users-assets.production.s3.amazonaws.com/pin-maps/pins91.svg);marker-fill-opacity: 0.9;marker-line-color: #FFF; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 10; marker-fill: #5CA2D1; marker-allow-overlap: true;}'
+            }]
 		}
 
         L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
