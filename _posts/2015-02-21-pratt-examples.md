@@ -8,7 +8,7 @@ author: 'Santiago Giraldo Anduaga'
 length: 2
 ---
 
-#Pratt Workshop: Intermediate Styling and Features in CartoDB - Personal Project workshop
+# Intermediate Styling and Features in CartoDB - Personal Project workshop
 (This workshop is designed to leave a lot of flexible space to work on personal projects, tackle challenges, and achieve a safe project-need-specific learning experience with the help of experts.)
 
 ## About me:
@@ -26,11 +26,13 @@ length: 2
 A few things to note about this map:
 * The data was scraped using the [Kimono API builder](https://www.kimonolabs.com).
 * The title and text boxes were made using the 'add element' icon on the top right of the editor.
-![Add Element](https://raw.githubusercontent.com/namessanti/Pictures/master/element_button.PNG)
+
+![Add Element]({{site.baseurl}}/img/pratt//element_button.png)
 
  * Here you can also add annotations. Check out this [After The Fall map](http://cdb.io/1yjVagF) to see how they can used.
 * This map has no basemap, but uses another data layer as the base. You can change your basemaps, add your own images, or remove the basemap using the basemap selector in the lower left corner of the editor.
-![Basemaps](https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/basemap_options.png)
+
+![Basemaps]({{site.baseurl}}/img/common/basemap_options.png)
 
 * The stylings of the map was done entirely in the CartoCSS built in API
 * The torque animation elements are clickable. This is not a functionality available in torque at the moment
@@ -46,7 +48,7 @@ A few things to note about this map:
 
 This map combines multiple layers, and many of the features were created using the built in "Add feature" function
 
-![Add Feature](https://raw.githubusercontent.com/namessanti/Pictures/master/add_feature.PNG)
+![Add Feature]({{site.baseurl}}/img/pratt/add_feature.png)
 
 ###Create a new layer in your project and experiment with making new features.
 ###Take a look at what they look like in the data table. You can add columns with information to these spatial featuresin order to generate your own styles, categories, or info windows.
@@ -60,7 +62,7 @@ This is done by importing data from a URL.
 * real-time sync is available only in paid accounts (unless you contact us as and you're doing something super awesome).
 * This map also contains a custom legend created using the built in HTML editor.
 
-![HTML Editor](https://raw.githubusercontent.com/namessanti/Pictures/master/custom_legend.PNG)
+![HTML Editor]({{site.baseurl}}/img/pratt/custom_legend.png)
 
 ###Let's take another moment for questions and to tackle challenges. While I understand not everyone is HTML savy, a quick tutorial on [Codecademy](http://www.codecademy.com/learn) will get you going in no time : )
 
@@ -70,7 +72,7 @@ This is done by importing data from a URL.
 
 * The data was styled in the CartoDB editor, then the vizjson was pulled out using the 'share' button in the upper right hand corner.
 
-![share](http://i.imgur.com/gVxeNMg.png)
+![share]({{site.baseurl}}/img/common/share.png)
 
 * CartoDB.js was used to create a layer selector, and toggle map legends, which were also created in the JavaScript
 
