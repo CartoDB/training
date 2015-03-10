@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Visualizing Flux"
+title: "Visualizing Flux: Temporal and Torque Maps"
 order: 4
 subtitle: "Time Travel, Torque and Temporal Maps"
 category: talk
