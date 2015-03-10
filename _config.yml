@@ -21,7 +21,8 @@ sections: [
     ['adv', 'Advanced'],
     ['sp', 'Special'],
     ['talk', 'Talks'],
-    ['video', 'Videos']
+    ['video', 'Videos'],
+    ['event', 'Events']
 ]
 
 # Keep as an empty string if served up at the root. If served up at a specific
