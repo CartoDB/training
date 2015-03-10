@@ -14,12 +14,10 @@ Aurelia Moser, Map Scientist, [CartoDB](http://cartodb.com)
 Workshop - Yale
 February 4, 2015
 
-Find this document here: **[http://bit.ly/1At1cQQ](# CartoDB Workshop -- Humanitarian Haiti Maps
-Aurelia Moser, Map Scientist, [CartoDB](http://cartodb.com)
-Workshop - Yale
-February 4, 2015
+Find this document here:
+[http://bit.ly/1At1cQQ](http://bit.ly/1At1cQQ)
 
-Find this document here: **http://bit.ly/1At1cQQ**  | [Gist](https://gist.github.com/cedbafd367aabf8fe188.git)
+[Gist](https://gist.github.com/cedbafd367aabf8fe188.git)
 
 ![Haiti Flag from wikipedia](http://upload.wikimedia.org/wikipedia/commons/5/56/Flag_of_Haiti.svg)
 
@@ -125,7 +123,7 @@ Choropleth maps show map elements colored according to where a value associated 
 _Quantification_ is an option to pay attention to since it controls how the data is binned into different colors. _Equal interval_ gives bins of equal size across the range,  which means that outliers stand out. _Quantile_ bins so that each quantile has approximately the same number of values.
 
 #### CartoCSS basics
-[CartoCSS](https://github.com/mapbox/carto/blob/master/docs/latest.md) is the styling language for our maps. 
+[CartoCSS](https://github.com/mapbox/carto/blob/master/docs/latest.md) is the styling language for our maps.
 
 ![CartoCSS screenshot](https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/cartocss.png)
 
@@ -259,16 +257,16 @@ A more detailed query is like this:
 
 {% highlight sql %}
 SELECT
-  name, 
-  height, 
+  name,
+  height,
   age
-FROM 
+FROM
   class_list
-WHERE 
-  name = 'Aure' 
+WHERE
+  name = 'Aure'
   AND (
-    height > 1.2 
-    OR 
+    height > 1.2
+    OR
     height < 1.9
   )
 {% endhighlight %}
@@ -282,7 +280,7 @@ WHERE
 ####Consider the Geom
 There are two special columns in CartoDB:
 
-1. `the_geom` 
+1. `the_geom`
 2. `the_geom_webmercator`
 
 The first of these is in the units of standard latitude/longitude, while the second is a projection based on the [original Mercator projection](http://en.wikipedia.org/wiki/Mercator_projection) but [optimized for the web](http://en.wikipedia.org/wiki/Web_Mercator).
@@ -305,7 +303,7 @@ This is a SQL statement and you'll note it in your visualization tray as a way o
 SELECT * FROM earthquakes_all_month WHERE (mag >= 0.2975 AND mag < 3.17)
 {% endhighlight %}
 
-You can enter queries, apply them, click on "create table from query" in the green field below the column names. 
+You can enter queries, apply them, click on "create table from query" in the green field below the column names.
 
 ![create table](https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/create_table.png)
 
@@ -340,7 +338,7 @@ If you take a look at the source code, there are a dozen libraries linked:
 
 ## Torque -- spatio-temporal maps
 
-Requirements: 
+Requirements:
 
 1. Info in `the_geom`
 2. A time column (numeric or date type)
@@ -358,7 +356,7 @@ Topical Temporal Examples:
 
 ## Odyssey -- building narratives with your geospatial data
 
-[Home page](http://cartodb.github.io/odyssey.js/index.html) 
+[Home page](http://cartodb.github.io/odyssey.js/index.html)
 
 Huge revamp coming next week!
 
@@ -508,7 +506,7 @@ Choropleth maps show map elements colored according to where a value associated 
 _Quantification_ is an option to pay attention to since it controls how the data is binned into different colors. _Equal interval_ gives bins of equal size across the range,  which means that outliers stand out. _Quantile_ bins so that each quantile has approximately the same number of values.
 
 #### CartoCSS basics
-[CartoCSS](https://github.com/mapbox/carto/blob/master/docs/latest.md) is the styling language for our maps. 
+[CartoCSS](https://github.com/mapbox/carto/blob/master/docs/latest.md) is the styling language for our maps.
 
 ![CartoCSS screenshot](https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/cartocss.png)
 
@@ -642,16 +640,16 @@ A more detailed query is like this:
 
 {% highlight sql %}
 SELECT
-  name, 
-  height, 
+  name,
+  height,
   age
-FROM 
+FROM
   class_list
-WHERE 
-  name = 'Aure' 
+WHERE
+  name = 'Aure'
   AND (
-    height > 1.2 
-    OR 
+    height > 1.2
+    OR
     height < 1.9
   )
 {% endhighlight %}
@@ -665,7 +663,7 @@ WHERE
 ####Consider the Geom
 There are two special columns in CartoDB:
 
-1. `the_geom` 
+1. `the_geom`
 2. `the_geom_webmercator`
 
 The first of these is in the units of standard latitude/longitude, while the second is a projection based on the [original Mercator projection](http://en.wikipedia.org/wiki/Mercator_projection) but [optimized for the web](http://en.wikipedia.org/wiki/Web_Mercator).
@@ -688,7 +686,7 @@ This is a SQL statement and you'll note it in your visualization tray as a way o
 SELECT * FROM earthquakes_all_month WHERE (mag >= 0.2975 AND mag < 3.17)
 {% endhighlight%}
 
-You can enter queries, apply them, click on "create table from query" in the green field below the column names. 
+You can enter queries, apply them, click on "create table from query" in the green field below the column names.
 
 ![create table](https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/create_table.png)
 
@@ -723,7 +721,7 @@ If you take a look at the source code, there are a dozen libraries linked:
 
 ## Torque -- spatio-temporal maps
 
-Requirements: 
+Requirements:
 
 1. Info in `the_geom`
 2. A time column (numeric or date type)
@@ -741,7 +739,7 @@ Topical Temporal Examples:
 
 ## Odyssey -- building narratives with your geospatial data
 
-[Home page](http://cartodb.github.io/odyssey.js/index.html) 
+[Home page](http://cartodb.github.io/odyssey.js/index.html)
 
 Huge revamp coming next week!
 
