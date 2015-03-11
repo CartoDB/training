@@ -3,17 +3,17 @@ layout: default
 title: "Collaborate"
 ---
 
-There are two ways to submit **events** to this site, read on below. You can find out more about [submitting materials on our submit page](http://cartodb.github.io/training/submit.html).
-
 #### EVENTS
 
-| Event Title | Host | Start Date | End Date | Link |
-| ----------- | ---- | ---------- | -------- | ---- |
-| NICAR: JS for Journalists | Atlanta Marriott Conference Center - M109 | 03/06/15 at 3:20 p.m. | 03/06/15 at 4:20 p.m. | [Mapping JS](http://ire.org/events-and-training/event/1494/1646/) |
+There are two ways to submit **events** to this site, read on below. You can find out more about [submitting materials on our submit page](http://cartodb.github.io/training/submit.html).
+
+* **YOUR EVENT HERE**: PLACE, DATE/TIME, LINK
+* **NICAR: JS for Journalists**: Atlanta, GA, 03/06/15 at 3:20 p.m. - 4:20 p.m., [Mapping JS](http://ire.org/events-and-training/event/1494/1646/)
+
 
 #### LIST YOUR EVENT
 
-To add your event to the table above, just fork this repo and add your event in Markdown (reverse chronological order) to the table above, and then submit a pull request. You can read more about how to do this on our [`CONTRIBUTING.md`](https://github.com/CartoDB/training/blob/gh-pages/CONTRIBUTING.md) page.
+To add your event to the list above, just fork this repo and add your event in [markdown](https://github.com/programminghistorian/jekyll/wiki/Markdown-Style-Guide) (reverse chronological order) to the list above, and then submit a pull request. You can read more about how to do this on our [`CONTRIBUTING.md`](https://github.com/CartoDB/training/blob/gh-pages/CONTRIBUTING.md) page.
 
 #### CONTRIBUTE YOUR EVENT
 
