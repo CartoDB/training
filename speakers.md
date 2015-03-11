@@ -2,8 +2,7 @@
 layout: speakers
 title: "Speaker Resources"
 ---
-
-#### EXTERNAL RESOURCES
+### RESOURCES
 
 [CartoDB Academy](http://academy.cartodb.com/) = The place to learn full concepts on CartoDB. Filled with ~1hr lessons on topics from begining mapping to SQL.
 
