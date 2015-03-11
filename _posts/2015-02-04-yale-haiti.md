@@ -8,8 +8,6 @@ author: 'Aurelia Moser'
 length: 3
 ---
 
-
-# CartoDB Workshop -- Humanitarian Haiti Maps
 Aurelia Moser, Map Scientist, [CartoDB](http://cartodb.com)
 Workshop - Yale
 February 4, 2015
