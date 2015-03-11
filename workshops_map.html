@@ -35,7 +35,7 @@
 			type: 'cartodb',
 			sublayers: [{
 				sql: 'SELECT ST_MakeLine(the_geom_webmercator ORDER BY date ASC) the_geom_webmercator FROM workshops',
-				cartocss: '#workshops{ line-color: #FF6600; line-width: 2; line-opacity: 0.7; line-clip: false; line-smooth: 3;}'
+				cartocss: '#workshops{ line-color: #FFCC00; line-width: 1.5; line-opacity: 0.7; line-clip: false; line-smooth: 3; line-dasharray: 5,3,2;}'
 			},
             {
                 sql: 'SELECT * FROM workshops',

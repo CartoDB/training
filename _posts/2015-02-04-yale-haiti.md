@@ -15,6 +15,11 @@ Workshop - Yale
 February 4, 2015
 
 Find this document here: [http://bit.ly/1At1cQQ](http://bit.ly/1At1cQQ)
+=======
+Find this document here:
+[http://bit.ly/1At1cQQ](http://bit.ly/1At1cQQ)
+
+[Gist](https://gist.github.com/cedbafd367aabf8fe188.git)
 
 ![Haiti Flag from wikipedia](http://upload.wikimedia.org/wikipedia/commons/5/56/Flag_of_Haiti.svg)
 
@@ -50,6 +55,13 @@ Find this document here: [http://bit.ly/1At1cQQ](http://bit.ly/1At1cQQ)
 ### Later reference
 You can find this document in [my GitHub Account](https://gist.github.com/cedbafd367aabf8fe188.git).
 
+## 1. Intro to CartoDB!
+### Examples
+1. [Illustreets](http://www.illustreets.co.uk/)
+2. [Tweets about Beyonce Album Release](https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map)
+3. [Starwars Galaxy Map](http://www.swgalaxymap.com/)
+
+### Humanitarian Use Cases
 1. [Demonstrations in Brazil](http://blog.cartodb.com/mapping-the-world-ongoing-demonstrations-in-brazil/)
 2. [Violence in Africa](http://team.cartodb.com/u/santiagoa/viz/bd69bca0-7449-11e4-88e4-0e018d66dc29/public_map)
 3. [NGO Aid Map](http://ngoaidmap.org/)
@@ -298,7 +310,7 @@ This is a SQL statement and you'll note it in your visualization tray as a way o
 
 {% highlight sql %}
 SELECT * FROM earthquakes_all_month WHERE (mag >= 0.2975 AND mag < 3.17)
-{% endhighlight %}
+{% endhighlight%}
 
 You can enter queries, apply them, click on "create table from query" in the green field below the column names.
 
@@ -391,7 +403,7 @@ My contact: [aurelia@cartodb.com](mailto:aurelia@cartodb.com)
 
 If you make a map you're proud of or just want to say hello, connect with me [@auremoser](https://twitter.com/auremoser)
 
-![Coat of Arms - Haiti](http://upload.wikimedia.org/wikipedia/commons/7/75/Coat_of_arms_of_Haiti.svg))**  | [Gist](https://gist.github.com/cedbafd367aabf8fe188.git)
+![Coat of Arms - Haiti](http://upload.wikimedia.org/wikipedia/commons/7/75/Coat_of_arms_of_Haiti.svg)
 
 
 
