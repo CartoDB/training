@@ -9,7 +9,6 @@
 * `notes/` = metadata about certain workshops (audience, objectives, turnout, key learnings)
 
 
-
 ###RESOURCES
 *general, possibly helpful community links*
 

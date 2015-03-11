@@ -4,7 +4,11 @@ title: "CartoDB Workshops"
 ---
 #### WELCOME!
 
-Check out the side bar for featured workshop scripts (at Beginner, Intermediat, Advanced, and Special Topics levels). Review the [`img/`](https://github.com/CartoDB/training/tree/gh-pages/img) and [`data/`](https://github.com/CartoDB/training/tree/gh-pages/data), and [`notes/`](https://github.com/CartoDB/training/tree/gh-pages/notes) directories for support images, data hardcopies, and general notes about session audiences.
+Check out the side bar for featured workshop scripts (at Beginner, Intermediate, Advanced, and Special Topics levels).
+
+Review the [`img/`](https://github.com/CartoDB/training/tree/gh-pages/img) and [`data/`](https://github.com/CartoDB/training/tree/gh-pages/data), and [`notes/`](https://github.com/CartoDB/training/tree/gh-pages/notes) directories for support images, data hardcopies, and general notes about session audiences.
+
+Below you'll find a map of the places we've traveled to give trainings! If you [submit materials](http://cartodb.github.io/training/submit.html) from your event, ping [Andy](mailto:eschbacher@cartodb.com) to add your event details to the map!
 
 <iframe width="100%" height="480px" src="workshops_map.html"></iframe>
 

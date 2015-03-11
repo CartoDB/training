@@ -3,7 +3,7 @@ layout: default
 title: "Collaborate"
 ---
 
-#### EVENTS
+### EVENTS
 
 There are two ways to submit **events** to this site, read on below. You can find out more about [submitting materials on our submit page](http://cartodb.github.io/training/submit.html).
 

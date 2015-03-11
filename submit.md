@@ -3,7 +3,7 @@ layout: default
 title: "Submit"
 ---
 
-#### MATERIALS
+### MATERIALS
 
 There are many ways to submit **materials** to this site; here are a few:
 
