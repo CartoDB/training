@@ -68,7 +68,7 @@ A tab in your browser will open and direct you to [http://localhost:9000/](http:
 
 Much of our recommendations and some details about syntax in jekyll came from our [blog post guidelines](https://github.com/CartoDB/blog/wiki/Blog-post-guidelines). But here are some specific instructions for the Workshops repo.
 
-Start by [creating a new post](http://jekyllrb.com/docs/posts/) for one of the categories listed in `_config.yml` (also bulleted below). It will appear in the navigation on the left once recompiled. You can copy the format for one of the other posts and just edit the header configurations (date, title, category) and body content to suit your needs. 
+Start by [creating a new post](http://jekyllrb.com/docs/posts/) for one of the categories listed in `_config.yml` (also bulleted below). It will appear in the navigation on the left once recompiled. You can copy the format for one of the other posts and just edit the header configurations (date, title, category) and body content to suit your needs.
 
 Save it with a title.md that matches the other posts, but with your date + title:
 
@@ -106,7 +106,8 @@ And choose one of these `category` entries in your header so that the post popul
 * 'inter' = Intermediate
 * 'adv' = Advanced
 * 'sp' = Special
-* 'tlk' = Talks
+* 'talk' = Talks
+* 'video' = Videos
 
 ## DEPLOY
 
