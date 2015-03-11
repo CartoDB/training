@@ -3,16 +3,20 @@ layout: default
 title: "Collaborate"
 ---
 
-There are a lot of ways you can join our project. Here are a few.
+There are two ways to submit **events** to this site, read on below. You can find out more about [submitting materials on our submit page](http://cartodb.github.io/training/submit.html).
+
+#### EVENTS
+
+| Event Title | Host | Start Date | End Date | Link |
+| ----------- | ---- | ---------- | -------- | ---- |
+| NICAR: JS for Journalists | Atlanta Marriott Conference Center - M109 | 03/06/15 at 3:20 p.m. | 03/06/15 at 4:20 p.m. | [Mapping JS](http://ire.org/events-and-training/event/1494/1646/) |
 
 #### LIST YOUR EVENT
 
-How-to
+To add your event to the table above, just fork this repo and add your event in Markdown (reverse chronological order) to the table above, and then submit a pull request. You can read more about how to do this on our [`CONTRIBUTING.md`](https://github.com/CartoDB/training/blob/gh-pages/CONTRIBUTING.md) page.
 
-#### CONTRIBUTE YOUR MATERIAL
+#### CONTRIBUTE YOUR EVENT
 
-Point to FORM for non-github people. Point to CONTRIBUTING.md for gh people
+If you'd rather not edit markdown or fork this repo, you can also submit your event via [this form](http://goo.gl/forms/KQU1GYWgSr), and send a quick email to [aurelia@cartodb.com](mailto:aurelia@cartodb.com) to reminder her to add your event ASAP. Thanks!
 
-#### MAINTAIN MATERIAL
-
-Point to CONTRIBUTING.md for gh people for fixing existing workshops.
+<iframe src="https://docs.google.com/forms/d/1uh8v8AahkY_0CmKBbXUm43mHA3xLlvPfAvBwztAkVIg/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>
