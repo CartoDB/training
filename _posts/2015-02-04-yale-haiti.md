@@ -2,7 +2,7 @@
 layout: page
 title: Humanitarian Aid Maps
 subtitle: "Haiti Humanitarian Project"
-category: inter
+category: intermediate
 date: 2015-02-04 12:00:00
 author: 'Aurelia Moser'
 length: 3

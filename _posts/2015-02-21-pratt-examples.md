@@ -2,13 +2,13 @@
 layout: page
 title: Styling and Map Examples
 subtitle: "Pratt Ongoing Projects Workshop"
-category: inter
+category: intermediate
 date: 2015-02-21 12:00:00
 author: 'Santiago Giraldo Anduaga'
 length: 2
 ---
 
-# Intermediate Styling and Features in CartoDB 
+# Intermediate Styling and Features in CartoDB
 **Personal Projects Workshop**
 
 _This workshop is designed to leave a lot of flexible space to work on personal projects, tackle challenges, and achieve a safe project-need-specific learning experience with the help of experts._
@@ -64,7 +64,7 @@ This map combines multiple layers, and many of the features were created using t
 #### Check out this map:
 <iframe width='100%' height='520' frameborder='0' src='http://team.cartodb.com/u/santiagoa/viz/f29910f6-a59a-11e4-bf9a-0e0c41326911/embed_map' allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
-* It updates every hour to let you know where storms have been reported and where there they're headed. 
+* It updates every hour to let you know where storms have been reported and where there they're headed.
 This is done by importing data from a URL.
 * real-time sync is available only in paid accounts (unless you contact us as and you're doing something super awesome).
 * This map also contains a custom legend created using the built in HTML editor.
@@ -93,7 +93,7 @@ Here are some examples of additional data stories:
 
 **Don't be afraid to explore the possibilities behind the User Interface, APIs, and cartodb.js using these _resources_:**
 
-* The [CartoDB Academy](http://academy.cartodb.com/) is great for recapping the basics, starting to use our APIs, and growing your design capabilities 
+* The [CartoDB Academy](http://academy.cartodb.com/) is great for recapping the basics, starting to use our APIs, and growing your design capabilities
 * This handy [CartoCSS Reference Sheet](http://ebrelsford.github.io/talks/2014/Methods3/week7/materials/cartocss-reference.pdf) is a quick guide for beginners to CartoCSS
 * If you have any questions or need any help, I am also available as a resource! Please email me at santiago@cartodb.com
 

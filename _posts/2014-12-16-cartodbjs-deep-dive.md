@@ -2,7 +2,7 @@
 layout: page
 title: "Deep Dive: CartoDB JS"
 subtitle: "CartoDB.js Deep-Dive"
-category: adv
+category: advanced
 date: 2014-12-16 12:00:00
 author: 'Andy Eschbacher'
 length: 3
@@ -146,7 +146,7 @@ Going back to the createLayer example we just created:
 * Copy the following SQL command and place it below the `<style>` tags you just created.
 {% highlight sql %}
 <script type='sql/text' id='sql'>
-SELECT 
+SELECT
   cartodb_id, the_geom,
   the_geom_webmercator,
   nbrhd_name,
