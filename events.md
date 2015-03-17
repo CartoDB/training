@@ -8,7 +8,7 @@ title: "Collaborate"
 There are two ways to submit **events** to this site, read on below. You can find out more about [submitting materials on our submit page](http://cartodb.github.io/training/submit.html).
 
 * **YOUR EVENT HERE**: PLACE, DATE/TIME, LINK
-* **NICAR: JS for Journalists**: Atlanta, GA, 03/06/15 at 3:20 p.m. - 4:20 p.m., [Mapping JS](http://ire.org/events-and-training/event/1494/1646/)
+* [PAST] **NICAR: JS for Journalists**: Atlanta, GA, 03/06/15 at 3:20 p.m. - 4:20 p.m., [Mapping JS](http://ire.org/events-and-training/event/1494/1646/)
 
 
 #### LIST YOUR EVENT
