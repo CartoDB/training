@@ -16,10 +16,10 @@ codeurl: 'https://github.com/cartodb/training'
 
 # Default categories (in order) to appear in the navigation
 sections: [
-    ['intro', 'Introductory'],
-    ['inter', 'Intermediate'],
-    ['adv', 'Advanced'],
-    ['sp', 'Special'],
+    ['introductory', 'Introductory'],
+    ['intermediate', 'Intermediate'],
+    ['advanced', 'Advanced'],
+    ['special', 'Special'],
     ['talk', 'Talks'],
     ['video', 'Videos']
 ]

@@ -2,7 +2,7 @@
 layout: page
 title: 'Spatial Data Analysis with Policy Data'
 subtitle: 'SIPA analysis of data from OpenNepal.net'
-category: inter
+category: intermediate
 date: 2015-02-03 13:00:00
 author: 'Andy Eschbacher'
 length: 1
@@ -61,16 +61,16 @@ A more detailed query is like this:
 
 {% highlight sql %}
 SELECT
-  name, 
-  height, 
+  name,
+  height,
   age
-FROM 
+FROM
   class_list
-WHERE 
-  name = 'Andy' 
+WHERE
+  name = 'Andy'
   AND (
-    height > 1.8 
-    OR 
+    height > 1.8
+    OR
     height < 1.6
   )
 {% endhighlight %}
@@ -88,7 +88,7 @@ SELECT
   district,
   year,
   number_of_schools
-FROM 
+FROM
   number_of_schools_in_nepal
 ORDER BY
   number_of_schools
@@ -100,7 +100,7 @@ LIMIT
 
 There are two special columns in CartoDB:
 
-1. `the_geom` 
+1. `the_geom`
 2. `the_geom_webmercator`
 
 The first of these is in the units of standard latitude/longitude, while the second is a projection based on the [original Mercator projection](http://en.wikipedia.org/wiki/Mercator_projection) but [optimized for the web](http://en.wikipedia.org/wiki/Web_Mercator).
@@ -161,10 +161,10 @@ What we can instead do is __combine the needed parts__ from two __different__ da
 2. `avg_num_schools_nepal` has the information about schools that we need
 
 {% highlight sql %}
-SELECT 
-  nd.the_geom_webmercator, 
+SELECT
+  nd.the_geom_webmercator,
   nd.population,
-  ansn.district, 
+  ansn.district,
   ansn.avg_num_schools,
   ansn.avg_num_schools * 1000 / nd.population AS schools_per_thousand,
   ansn.cartodb_id
@@ -178,10 +178,10 @@ WHERE
 This is called a `JOIN`. It's written more formally as:
 
 {% highlight sql %}
-SELECT 
-  nd.the_geom_webmercator, 
+SELECT
+  nd.the_geom_webmercator,
   nd.population,
-  ansn.district, 
+  ansn.district,
   ansn.avg_num_schools,
   ansn.avg_num_schools * 1000 / nd.population AS schools_per_thousand,
   ansn.cartodb_id
@@ -208,10 +208,10 @@ We can visualize this with a `LEFT JOIN`. The left is the Nepal district polygon
 All we need to do is update our statement below with a `LEFT` keyword before `JOIN`.
 
 {% highlight sql %}
-SELECT 
+SELECT
   nd.the_geom_webmercator,
   nd.population,
-  ansn.district, 
+  ansn.district,
   ansn.avg_num_schools,
   ansn.avg_num_schools * 1000 / nd.population AS schools_per_thousand,
   ansn.cartodb_id
@@ -282,7 +282,7 @@ Find the distance each adm4-level admin area is from Kathmandu.
 
 
 {% highlight sql %}
-SELECT 
+SELECT
   the_geom_webmercator,
   ST_Distance(
     ST_Transform(
@@ -291,8 +291,8 @@ SELECT
         85.3261328),
       3857),
     the_geom_webmercator
-    ) / 1000 AS d 
-FROM 
+    ) / 1000 AS d
+FROM
   npl_adm4
 {% endhighlight %}
 
@@ -330,7 +330,7 @@ Now you can create a choropleth based on the number of items from Projects_Level
 
 ## Torque -- spatio-temporal maps
 
-Requirements: 
+Requirements:
 
 1. Info in `the_geom`
 2. A time column (numeric or date type)
@@ -349,7 +349,7 @@ Examples in the news:
 
 ## Odyssey -- telling narratives with your geospatial data
 
-[Home page](http://cartodb.github.io/odyssey.js/index.html) 
+[Home page](http://cartodb.github.io/odyssey.js/index.html)
 
 Huge revamp coming within a week or two.
 

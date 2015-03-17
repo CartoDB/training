@@ -2,7 +2,7 @@
 layout: page
 title: "SINYC Technology Session"
 subtitle: "The CartoDB Mapping Challenge"
-category: intro
+category: introductory
 date: 2014-09-30 12:00:00
 author: 'Santiago Giraldo Anduaga'
 length: 3
