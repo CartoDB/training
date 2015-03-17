@@ -6,7 +6,7 @@
 
 * `img/` = reusable images from various presentations
 * `data/` = any data used, stored as hardcopies (metadata.md for each workshop has a reference to the data_used)
-* `notes/` = metadata about certain workshops (audience, objectives, turnout, key learnings)
+* `templates/` = html/code templates referenced in workshops
 
 
 ###RESOURCES
