@@ -208,7 +208,7 @@ The most basic SQL statement is:
 
 {% highlight sql %}
 SELECT * FROM table_name
-{% end highlight %}
+{% endhighlight %}
 
 The * means everything. This means that all rows and columns from the table are given back once the query is run.
 
@@ -228,7 +228,7 @@ WHERE
     OR
     height < 1.9
   )
-{% end highlight %}
+{% endhighlight %}
 
 1. `SELECT` is what you're requesting (required)
 2. `FROM` is where the data is located (required)
@@ -249,7 +249,7 @@ This is a SQL statement and you can load it in your visualization tray as a way 
 
 {% highlight sql %}
 SELECT *, 100 * awater / ST_Area(the_geom::geography) perc_water FROM tl_2014_census_tracts
-{% end highlight %}
+{% endhighlight %}
 
 This is a query that adds some more information from the sample, to include percent counts for land as well as a total addition to ensure that the data isn't too skewed (everything adds up to 100%).
 
@@ -462,7 +462,7 @@ window.onload = function() {
             console.log("An error occurred: " + err);
         });
 }
-{% end highlight %}
+{% endhighlight %}
 
 `createVis` is excellent for creating maps quickly with very little code. There is a lot of customization with it as well. The documentation is [here](http://docs.cartodb.com/cartodb-platform/cartodb-js.html#visualization).
 
@@ -477,7 +477,7 @@ window.onload = function() {
 
 The following is the basic createLayer structure (depends on [Leaflet.js](http://leafletjs.com/)):
 
-{% highlight sql %}
+{% highlight js %}
 
 window.onload = function () {
   //
@@ -517,7 +517,7 @@ window.onload = function () {
        });
 }
 
-{% end highlight %}
+{% endhighlight %}
 
 One big difference here is that we explicitly expose the SQL and CartoCSS, allowing for easy customization.
 
@@ -543,7 +543,7 @@ Going back to the `createLayer` example we just made:
       SELECT *, 100 * awater / ST_Area(the_geom::geography) perc_water
       FROM tl_2014_census_tracts
 </script>
-{% end highlight %}
+{% endhighlight %}
 
 * Paste the following CartoCSS structure in the `<head>` section of your webpage.
 * This is a pre-configured Choropleth style. You could also create one on the fly by calculating the range in data and creating bins within that range.
@@ -574,19 +574,19 @@ Going back to the `createLayer` example we just made:
        polygon-fill: #FFFFCC;
     }
 </style>
-{% end highlight %}
+{% endhighlight %}
 
 * Next replace the string for `sql in the options object with
 
 {% highlight js %}
 $("#sql").text(),
-{% end highlight %}
+{% endhighlight %}
 
 (don't forget the comma!), and the string after `cartocss` with
 
 {% highlight js %}
 $("#choropleth").text()
-{% end highlight %}
+{% endhighlight %}
 
 These two pieces of code are just a jQuery operation that finds the HTML element that has an `id` of `sql` or `cartocss` and extracts the text contained within it.
 
@@ -617,7 +617,7 @@ First, create another `<style type="cartocss/text" id="simple">` tag set with th
         line-width: 0.25;
         line-opacity: 1;
       }
-{% end highlight %}
+{% endhighlight %}
 
 * Next, let's create some buttons. Put the following snippet below the `div` with an `id='map'`.
 
@@ -629,7 +629,7 @@ First, create another `<style type="cartocss/text" id="simple">` tag set with th
             <li data="simple">Simple County Map</li>
         </ul>
 </div>
-{% end highlight %}
+{% endhighlight %}
 
 * Wire up the buttons with click events:
 
@@ -649,7 +649,7 @@ function createSelector(layer) {
           layer[0].setCartoCSS(cartocss);
       });
    }
-{% end highlight %}
+{% endhighlight %}
 
 ![sqlcss](https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/5.png)
 
@@ -688,18 +688,18 @@ You can enable hover infowindows in your editor, that will port to your map and 
   </div>
 </div>
 </script>
-{% end highlight %}
+{% endhighlight %}
 
 Then add this to the `options`:
 {% highlight js %}
 interactivity: 'cartodb_id, name, perc_water'
-{% end highlight %}
+{% endhighlight %}
 
 After `sublayers[0].set(...)`, add this:
 
 {% highlight js %}
 sublayers[0].infowindow.set('template', $('#infowindow_template').html());
-{% end highlight %}
+{% endhighlight %}
 
 * Click events
     * On hover
