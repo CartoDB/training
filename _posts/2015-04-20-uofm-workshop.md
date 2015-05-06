@@ -2,14 +2,14 @@
 layout: page
 title: Land Census Maps + Journalism
 subtitle: "University of Maryland: Color By Number Cartography"
-category: introductory
+category: intermediate
 date: 2015-04-20
 author: 'Aurelia Moser'
 length: 2
 ---
 
 
-##Color by Number Cartography w/ CartoDB
+## Color by Number Cartography w/ CartoDB
 
 Aurelia Moser, Map Scientist, [CartoDB](http://cartodb.com)
 Workshop - University of Maryland
