@@ -28,8 +28,10 @@
               <p>{{content.data.place}}</p>
               <h4>date</h4>
               <p>{{content.data.date}}</p>
+              {{#content.data.url}}
               <h4>Workshop Information</h4>
               <p><a href="{{url}}">{{content.data.description}}</a></p>
+              {{/content.data.url}}
             </div>
           </div>
           <div class="cartodb-popup-tip-container"></div>
@@ -88,7 +90,7 @@
             {
                 sql: 'SELECT * FROM workshops',
                 cartocss: '#workshops{ marker-file: url(http://com.cartodb.users-assets.production.s3.amazonaws.com/pin-maps/pins91.svg); marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 20; marker-fill: #5CA2D1; marker-allow-overlap: true; marker-comp-op: screen; }',
-                    interactivity: 'name, description, place, url, date'
+                    interactivity: 'name, description, place, date, url'
             }]
 		}
 
@@ -101,7 +103,6 @@
          .done(function(layer) {
 			 var visitLayer = layer.getSubLayer(1);
              visitLayer.setInteraction(true);
-             // cursor.addInteraction(layer);
              cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(1), ['name', 'description', 'place', 'date', 'url'], {
                  infowindowTemplate: $('#infowindow_template').text(),
                  templateType: 'mustache',
@@ -109,7 +110,7 @@
                  cursorInteraction: true
              });
           }).error(function() {
-            console.log($("#robot").text());
+              console.log($("#robot").text());
           });
       }
 
