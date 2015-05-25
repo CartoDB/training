@@ -8,6 +8,6 @@ layout: default
     </h2>
 </div>
 
-<i>This {{page.category}} {% if page.category != 'talk' %} workshop {% endif %} was given by {{page.author}} on {{page.date | date: "%B %-d, %Y" }} at {{page.subtitle}}. As {% if page.category != 'talk' %}taught{% else %}talked{% endif %}, it was {{page.length}} hours long.<i>
+<i>This {{page.category}} {% if page.category != 'talk' %} workshop {% endif %} was given by {{page.author}} on {{page.date | date: "%B %-d, %Y" }} at {{page.subtitle}}. As {% if page.category != 'talk' %}taught{% else %}talked{% endif %}, it was {{page.length}} hours long.</i>
 
 {{ content }}
