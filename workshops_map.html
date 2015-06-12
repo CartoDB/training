@@ -89,7 +89,7 @@
 				cartocss: '#workshops{ line-color: #FFCC00; line-width: 1.5; line-opacity: 0.7; line-clip: false; line-smooth: 3; line-dasharray: 5,3,2;}'
 			},
             {
-                sql: 'SELECT * FROM workshops',
+                sql: "SELECT the_geom_webmercator, name, description, place, url, to_char(date,'Mon DD, YYYY') AS date FROM workshops",
                 cartocss: '#workshops{ marker-file: url(http://com.cartodb.users-assets.production.s3.amazonaws.com/pin-maps/pins91.svg); marker-fill-opacity: 0.9; marker-line-color: #FFF; marker-line-width: 0; marker-line-opacity: 1; marker-placement: point; marker-type: ellipse; marker-width: 20; marker-fill: #5CA2D1; marker-allow-overlap: true; marker-comp-op: screen; }',
                     interactivity: 'name, description, place, date, url'
             }]
