@@ -12,6 +12,8 @@ Aurelia Moser, Map Scientist, [CartoDB](http://cartodb.com)
 Workshop - Yale
 February 4, 2015
 
+Find this document here: [http://bit.ly/1At1cQQ](http://bit.ly/1At1cQQ)
+=======
 Find this document here:
 [http://bit.ly/1At1cQQ](http://bit.ly/1At1cQQ)
 
@@ -51,6 +53,16 @@ Find this document here:
 ### Later reference
 You can find this document in [my GitHub Account](https://gist.github.com/cedbafd367aabf8fe188.git).
 
+<<<<<<< HEAD
+=======
+## 1. Intro to CartoDB!
+### Examples
+1. [Illustreets](http://www.illustreets.co.uk/)
+2. [Tweets about Beyonce Album Release](https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map)
+3. [Starwars Galaxy Map](http://www.swgalaxymap.com/)
+
+### Humanitarian Use Cases
+>>>>>>> 2f317bf0ec89489331467a91fa3b771d02ec1e75
 1. [Demonstrations in Brazil](http://blog.cartodb.com/mapping-the-world-ongoing-demonstrations-in-brazil/)
 2. [Violence in Africa](http://team.cartodb.com/u/santiagoa/viz/bd69bca0-7449-11e4-88e4-0e018d66dc29/public_map)
 3. [NGO Aid Map](http://ngoaidmap.org/)
@@ -222,7 +234,11 @@ Create a torque map and select the time column of the earthquake data
 #### Multilayer example
 Multilayer tool developed by The Daily Beast on [Abortion Clinic Access](http://www.thedailybeast.com/articles/2013/01/22/interactive-map-america-s-abortion-clinics.html).
 
+<<<<<<< HEAD
 ## Working with Data Workshop
+=======
+##Working with Data Workshop
+>>>>>>> 2f317bf0ec89489331467a91fa3b771d02ec1e75
 ### Data is messy
 
 + Comes in multiple formats
@@ -299,7 +315,11 @@ This is a SQL statement and you'll note it in your visualization tray as a way o
 
 {% highlight sql %}
 SELECT * FROM earthquakes_all_month WHERE (mag >= 0.2975 AND mag < 3.17)
+<<<<<<< HEAD
 {% endhighlight %}
+=======
+{% endhighlight%}
+>>>>>>> 2f317bf0ec89489331467a91fa3b771d02ec1e75
 
 You can enter queries, apply them, click on "create table from query" in the green field below the column names.
 
@@ -349,6 +369,12 @@ Topical Temporal Examples:
 
 <iframe src="http://team.cartodb.com/u/andrew/viz/1e90fefa-ab11-11e4-8b14-0e4fddd5de28/embed_map" width="600px" height="400px"></iframe>
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 2f317bf0ec89489331467a91fa3b771d02ec1e75
 ## Odyssey -- building narratives with your geospatial data
 
 [Home page](http://cartodb.github.io/odyssey.js/index.html)
@@ -389,4 +415,13 @@ My contact: [aurelia@cartodb.com](mailto:aurelia@cartodb.com)
 
 If you make a map you're proud of or just want to say hello, connect with me [@auremoser](https://twitter.com/auremoser)
 
+<<<<<<< HEAD
+=======
+![Coat of Arms - Haiti](http://upload.wikimedia.org/wikipedia/commons/7/75/Coat_of_arms_of_Haiti.svg)
+
+
+
+
+
+>>>>>>> 2f317bf0ec89489331467a91fa3b771d02ec1e75
 
