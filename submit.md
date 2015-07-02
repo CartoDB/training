@@ -25,5 +25,11 @@ If you'd rather not deal with Github, please feel free to fill out this [Google 
 
 If you note any mistakes or would like to improve exhisting materials (thank you!), please review [`CONTRIBUTING.md`](https://github.com/CartoDB/training/blob/gh-pages/CONTRIBUTING.md) to learn more about how to help.
 
+#### PROVIDE FEEDBACK
+
+We always welcome feedback on the quality or delivery of our workshops and talks.
+
+Please [fill out this form](http://go.cartodb.com/we-love-your-feedback) if you'd like to submit some of your thoughts.
+
 
 
