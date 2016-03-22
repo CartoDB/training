@@ -131,7 +131,7 @@ We're here in the north, so most projections warp things so they look huge as co
 
 Let's re-project Alaska from the standard Mercator Projection to something that doesn't distort it very much. The [Alaska Albers projection](http://epsg.io/3338) is great for this. We do this by copying and pasting the following text and placing it in the SQL text box in the right pane:
 
-{% highlight sql %}
+```sql
 SELECT
   ST_Transform(the_geom_webmercator,3338) AS the_geom_webmercator,
   cartodb_id,
@@ -141,7 +141,7 @@ SELECT
   total_area
 FROM 
   alaska_template
-{% endhighlight %}
+```
 
 ## Adding annotations and infowindows
 
@@ -159,14 +159,14 @@ This is a dataset of populated places throughout the world filtered for places i
 
 After you have this new layer added, apply this SQL query to project it to our nicer projection:
 
-{% highlight sql %}
+```sql
 SELECT 
   ST_Transform(the_geom_webmercator,3338) the_geom_webmercator, 
   name, 
   cartodb_id 
 FROM 
   populated_places
-{% endhighlight %}
+```
 
 ![multilayer map](http://i.imgur.com/lfe6NB3.png)
 
@@ -202,7 +202,7 @@ For instance, Googling "alaska census shapefile" leads us to the county boundari
 
 To reproject your data to a nicer projection, you have to run the following SQL query in the SQL tab in the right pane. Hit "Apply Query" and just leave it how you want it.
 
-{% highlight sql %}
+```sql
 SELECT
   ST_Transform(the_geom_webmercator,3338) the_geom_webmercator, -- this reprojects your Alaska geometries
   cartodb_id, -- this column allows your to interact with your map
@@ -211,7 +211,7 @@ SELECT
   column_3  -- the last column you want shouldn't end in a comma
 FROM
   table_name -- this is the name of your table that contains your data
-{% endhighlight %}
+```
 
 The `--` and what follow it are comments that are ignored when the statement is processed by the database.
 

@@ -146,13 +146,13 @@ I based most of this demo on my assumptions, because I wanted to make a fast map
 ## Geocoding + SQL/PostGIS
 The most basic SQL statement is:
 
-{% highlight sql %}
+```sql
 SELECT * FROM table_name
-{% endhighlight %}
+```
 
 A more detailed query is like this:
 
-{% highlight sql %}
+```sql
 SELECT
   name,
   height,
@@ -166,7 +166,7 @@ WHERE
     OR
     height < 1.9
   )
-{% endhighlight %}
+```
 
 1. `SELECT` is what you're requesting (required)
 2. `FROM` is where the data is located (required)
@@ -184,9 +184,9 @@ If you want to run SQL commands and see your map update, make sure to `SELECT` t
 
 You can also do cool things like re-set the projection in SQL. Say you load in your data and want to make sure it's in [ITM (Israeli Transverse Mercator)](http://tx.technion.ac.il/~zvikabh/software/ITM/) or another ESPG, you can do that on the fly.
 
-{% highlight sql %}
+```sql
 SELECT cartodb_id, ST_Transform(the_geom_webmercator,2039) AS the_geom_webmercator FROM aureliamoser.municipalities
-{% endhighlight %}
+```
 
 ![ITM](https://raw.githubusercontent.com/auremoser/hasadna/master/img/is-proj.jpg)
 
@@ -374,7 +374,7 @@ You can view it by opening a text editor and loading the file, or downloading a 
 
 The following is the basic createLayer structure (depends on [Leaflet.js](http://leafletjs.com/)):
 
-{% highlight js %}
+```js
 
 window.onload = function() {
     var vizjson_url = 'https://team.cartodb.com/u/aureliamoser/api/v2/viz/f1af78c8-23c7-11e5-bff0-0e9d821ea90d/viz.json'; // <-- Paste viz.json URL between quotes
@@ -413,7 +413,7 @@ window.onload = function() {
            });
     }
 
-{% endhighlight %}
+```
 
 ![CreateLayer](https://raw.githubusercontent.com/auremoser/hasadna/master/img/3-createLayer.jpg)
 
@@ -426,7 +426,7 @@ You can create interactive maps that respond to javascript methods a number of w
 * Paste the following CartoCSS structure in the `<head>` section of your webpage.
 * This is a pre-configured Choropleth style. You could also create one on the fly by calculating the range in data and creating bins within that range.
 
-{% highlight css %}
+```css
 <!-- CHOROPLETH CSS -->
     <style type='cartocss/text' id='choropleth'>
       /** choropleth visualization */
@@ -454,7 +454,7 @@ You can create interactive maps that respond to javascript methods a number of w
          polygon-fill: #FFFFCC;
       }
     </style>
-{% endhighlight %}
+```
 
 These two pieces of code are just a jQuery operation that finds the HTML element that has an `id` of `sql` or `cartocss` and extracts the text contained within it.
 
@@ -474,7 +474,7 @@ First, create another `<style type="cartocss/text" id="electric">` tag set with 
 
 * Next, let's create some buttons. Put the following snippet below the `div` with an `id='map'`.
 
-{% highlight html %}
+```html
 <!-- ADD BUTTONS -->
     <div id="cartocss" class="layer_selector">
         <p><strong>Layers</strong></p>
@@ -483,9 +483,9 @@ First, create another `<style type="cartocss/text" id="electric">` tag set with 
             <li data="electric">Electrical Pollution</li>
         </ul>
     </div>
-{% endhighlight %}
+```
 
-{% highlight js %}
+```js
 function createSelector(layer) {
       var cartocss = "";
       var $options = $(".layer_selector").find("li");
@@ -501,7 +501,7 @@ function createSelector(layer) {
           layer[0].setCartoCSS(cartocss);
       });
    }
-{% endhighlight %}
+```
 
 Examples:
 
