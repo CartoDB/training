@@ -85,9 +85,9 @@ Steps I took to get this dataset into a usable form:
 
 You can grab my [data directly](https://andye.cartodb.com/tables/alaska_house_election_results_2014_geometry_fi/public), but to reduce bandwidth it's so much easier to copy the following link and pasting it into the importer at CartoDB:
 
-{% highlight html %}
+```html
 http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20public.alaska_house_election_results_2014_geometry_fi&format=geojson&filename=alaska_house_election_2014
-{% endhighlight %}
+```
 
 ### Map after import
 
@@ -142,7 +142,7 @@ The colors aren't very traditional, let's change them to the typical colors for 
 
 Go back to the "simple" visualization you did before, click on the CSS tab, and copy the block that has the labels... or paste the following at the bottom of the text box that's labeled CSS:
 
-{% highlight css %}
+```css
 #alaska_house_election_2014::labels {
   text-name: [district];
   text-face-name: 'DejaVu Sans Book';
@@ -156,7 +156,7 @@ Go back to the "simple" visualization you did before, click on the CSS tab, and 
   text-placement: point;
   text-placement-type: simple;
 }
-{% endhighlight %}
+```
 
 You should now have the labels back on your map.
 

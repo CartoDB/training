@@ -261,15 +261,15 @@ Data sets we could use:
 ### Data Representation in CartoDB (SQL schema)
 The most basic SQL statement is:
 
-{% highlight sql %}
+```sql
 SELECT * FROM table_name
-{% endhighlight %}
+```
 
 The * means everything. This means that all rows and columns from the table are given back once the query is run.
 
 A more detailed query is like this:
 
-{% highlight sql %}
+```sql
 SELECT
   name,
   height,
@@ -283,7 +283,7 @@ WHERE
     OR
     height < 1.9
   )
-{% endhighlight %}
+```
 
 1. `SELECT` is what you're requesting (required)
 2. `FROM` is where the data is located (required)
@@ -312,14 +312,6 @@ _Pro tip_: this is a call using our SQL API and is a great way to access your da
 ### SQL/PostGIS
 
 This is a SQL statement and you'll note it in your visualization tray as a way of querying and exploring your data with immediate visual output.
-
-{% highlight sql %}
-SELECT * FROM earthquakes_all_month WHERE (mag >= 0.2975 AND mag < 3.17)
-<<<<<<< HEAD
-{% endhighlight %}
-=======
-{% endhighlight%}
->>>>>>> 2f317bf0ec89489331467a91fa3b771d02ec1e75
 
 You can enter queries, apply them, click on "create table from query" in the green field below the column names.
 
@@ -369,12 +361,7 @@ Topical Temporal Examples:
 
 <iframe src="http://team.cartodb.com/u/andrew/viz/1e90fefa-ab11-11e4-8b14-0e4fddd5de28/embed_map" width="600px" height="400px"></iframe>
 
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> 2f317bf0ec89489331467a91fa3b771d02ec1e75
 ## Odyssey -- building narratives with your geospatial data
 
 [Home page](http://cartodb.github.io/odyssey.js/index.html)
@@ -415,8 +402,6 @@ My contact: [aurelia@cartodb.com](mailto:aurelia@cartodb.com)
 
 If you make a map you're proud of or just want to say hello, connect with me [@auremoser](https://twitter.com/auremoser)
 
-<<<<<<< HEAD
-=======
 ![Coat of Arms - Haiti](http://upload.wikimedia.org/wikipedia/commons/7/75/Coat_of_arms_of_Haiti.svg)
 
 

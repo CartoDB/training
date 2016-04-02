@@ -32,7 +32,7 @@ baseurl: '/training'
 permalink: none
 
 # Syntax highlighting
-highlighter: pygments
+highlighter: rouge
 
 # Since these are pages, it doesn't really matter
 future: true
@@ -42,14 +42,6 @@ exclude: ['bin', 'README.md']
 
 # Use the redcarpet Markdown renderer
 markdown: kramdown
-redcarpet:
-    extensions: [
-        'no_intra_emphasis',
-        'fenced_code_blocks',
-        'autolink',
-        'strikethrough',
-        'superscript',
-        'with_toc_data',
-        'tables',
-        'hardwrap'
-    ]
+kramdown:
+      input: GFM
+      syntax_highlighter: rouge

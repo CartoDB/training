@@ -64,7 +64,7 @@ Overview of template:
 
 Create basic visualization using createVis (docs here) by copying and pasting the following:
 
-{% highlight javascript %}
+```javascript
 window.onload = function() {
     var vizjson_url = ''; // <-- Paste viz.json URL between quotes
 
@@ -78,7 +78,7 @@ window.onload = function() {
             console.log("An error occurred: " + err);
         });
 }
-{% endhighlight %}
+```
 
 createVis is excellent for creating maps quickly with very little code. There is a lot of customization with it as well. The documentation is [here](http://docs.cartodb.com/cartodb-platform/cartodb-js.html#visualization).
 
@@ -89,7 +89,7 @@ createLayer is the other main method for bring maps to your browser.
 
 The following is the basic createLayer structure (depends on [Leaflet.js](http://leafletjs.com/)):
 
-{% highlight javascript %}
+```javascript
 window.onload = function() {
    var layerSource = ''; // <-- same viz.json as before
 
@@ -125,7 +125,7 @@ window.onload = function() {
            console.log("Map not created: " + err);
        });
 }
-{% endhighlight %}
+```
 
 One big difference here is that we explicitly expose the SQL and CartoCSS, allowing for easy customization.
 
@@ -144,7 +144,7 @@ To accomplish this, we need to know how many crashes happened per neighborhood, 
 Going back to the createLayer example we just created:
 
 * Copy the following SQL command and place it below the `<style>` tags you just created.
-{% highlight sql %}
+```sql
 <script type='sql/text' id='sql'>
 SELECT
   cartodb_id, the_geom,
@@ -164,12 +164,12 @@ SELECT
 FROM
   census_neighborhood_demographics_2010
 </script>
-{% endhighlight %}
+```
 
 * Paste the following CartoCSS structure in the `<head>` section of your webpage.
     This is a pre-configured Choropleth style. You could also create one on the fly by calculating the range in data and creating bins within that range.
 
-{% highlight css %}
+```css
 <style type='cartocss/text' id='choropleth'>
 /** choropleth visualization */
 
@@ -202,19 +202,19 @@ FROM
    polygon-fill: #FFFFB2;
 }
 </style>
-{% endhighlight %}
+```
 
 3. Next, replace the string for `sql` in the sublayerOptions object with
 
-{% highlight javascript %}
+```javascript
 $("#sql").text(),
-{% endhighlight %}
+```
 
 (don't forget the comma!), and the string after `cartocss` with
 
-{% highlight javascript %}
+```javascript
 $("#choropleth").text()
-{% endhighlight %}
+```
 
 These two pieces of code are just a jQuery operation that finds the HTML element that has an `id` of `sql` or `cartocss` and extracts the text contained within it.
 
@@ -228,7 +228,7 @@ Preview lesson product for next CartoDB.js lesson.
 
 First, create another `<style type="cartocss/text" id="simple">` tag set with the following CartoCSS style. Make sure the `id` is set to `simple`
 
-{% highlight css %}
+```css
 /** simple visualization */
 
 #census_neighborhood_demographics_2010{
@@ -238,10 +238,10 @@ First, create another `<style type="cartocss/text" id="simple">` tag set with th
   line-width: 1;
   line-opacity: 1;
 }
-{% endhighlight %}
+```
 
 * Next, let's create some buttons. Put the following snippet below the `div` with an `id='map'`.
-{% highlight html %}
+```html
 <div class="layer_selector">
     <p>Visualization Selector</p>
     <ul>
@@ -249,10 +249,10 @@ First, create another `<style type="cartocss/text" id="simple">` tag set with th
         <li data="simple">Reset CartoCSS</li>
     </ul>
 </div>
-{% endhighlight %}
+```
 
 * Wire up the buttons with click events:
-{% highlight javascript %}
+```javascript
 // Create layer selector
 function createSelector(layer) {
    var cartocss = "";
@@ -269,7 +269,7 @@ function createSelector(layer) {
        layer.setCartoCSS(cartocss);
    });
 }
-{% endhighlight %}
+```
 
 ![Basic selectors](http://i.imgur.com/Y8voITB.png)
 
@@ -286,7 +286,7 @@ Helpful examples
     * Customizing display of information
     * Pulling in images
 
-{% highlight html %}
+```html
 <script type="infowindow/html" id="infowindow_template">
   <div class="cartodb-popup">
     <a href="#close" class="cartodb-popup-close-button close">x</a>
@@ -303,18 +303,18 @@ Helpful examples
      <div class="cartodb-popup-tip-container"></div>
   </div>
 </script>
-{% endhighlight %}
+```
 
 Then add this to the `sublayerOptions`:
-{% highlight javascript %}
+```javascript
 interactivity: 'cartodb_id, nbrhd_name'
-{% endhighlight %}
+```
 
 After `sublayer[0].set(...)`, add this:
 
-{% highlight javascript %}
+```javascript
 sublayers[0].infowindow.set('template', $('#infowindow_template').html());
-{% endhighlight %}
+```
 
 * Click events
     * On hover

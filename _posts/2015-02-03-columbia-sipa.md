@@ -25,14 +25,14 @@ Find this document here: http://bit.ly/cdb-sipa
 To make sure we're all on the same page, let's import these two files into your CartoDB account.
 
 **Nepal District Polygons**
-{% highlight text %}
+```text
 http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20nepal_districts2&filename=nepal_districts2&format=geojson
-{% endhighlight %}
+```
 
 **Number of Schools in Nepal (2007-2011)**
-{% highlight text %}
+```text
 http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20number_of_schools_in_nepal&filename=number_of_schools_in_nepal&format=geojson
-{% endhighlight %}
+```
 
 To import, copy the URL and paste it into the Import Box in your CartoDB account. Don't worry about downloading--it's more efficient to just import directly through the URL. Like the Himalayas, we're in the cloud!
 
@@ -51,15 +51,15 @@ SQL is a language that's easy to learn and get a lot of power from. It might see
 
 The most basic statement is:
 
-{% highlight sql %}
+```sql
 SELECT * FROM table_name
-{% endhighlight %}
+```
 
 The * means everything. This means that all rows and columns from the table are given back once the query is run.
 
 A more detailed query is like this:
 
-{% highlight sql %}
+```sql
 SELECT
   name,
   height,
@@ -73,7 +73,7 @@ WHERE
     OR
     height < 1.6
   )
-{% endhighlight %}
+```
 
 1. `SELECT` is what you're requesting (required)
 2. `FROM` is where the data is located (required)
@@ -83,7 +83,7 @@ As a sentence it reads, _Select the name, height, and age from a data table wher
 
 You can optionally add `LIMIT n` (where n is an integer >= 0), which gives you only n entries, and `ORDER BY column_name ASC`, which sorts in ascending order (`DESC` is another option). You can combine them to give you the top 20 largest districts by number of schools.
 
-{% highlight sql %}
+```sql
 SELECT
   district,
   year,
@@ -94,7 +94,7 @@ ORDER BY
   number_of_schools
 LIMIT
   20
-{% endhighlight %}
+```
 
 ### the_geom, the_geom_webmercator, and cartodb_id
 
@@ -111,14 +111,14 @@ If you want to enable interaction on your maps (click events, hover boxes, etc.)
 
 For instance, the following statement will produce a map with click features:
 
-{% highlight sql %}
+```sql
 SELECT
   the_geom_webmercator,
   district,
   cartodb_id
 FROM
   nepal_districts2
-{% endhighlight %}
+```
 
 ### Available functions
 
@@ -131,7 +131,7 @@ Several are **aggregate functions**, meaning that they need to be grouped by a c
 
 Find the __average__ of the number of schools over all years grouped by __district__:
 
-{% highlight sql %}
+```sql
 SELECT
   avg(number_of_schools) AS avg_num_schools,
   district
@@ -139,7 +139,7 @@ FROM
   number_of_schools_in_nepal
 GROUP BY
   district
-{% endhighlight %}
+```
 
 Let's __create a table__ from this query. To do so, click on the "create table from query" text. Rename your table to `avg_num_schools_nepal`.
 
@@ -160,7 +160,7 @@ What we can instead do is __combine the needed parts__ from two __different__ da
 1. `nepal_districts2` has the geospatial component
 2. `avg_num_schools_nepal` has the information about schools that we need
 
-{% highlight sql %}
+```sql
 SELECT
   nd.the_geom_webmercator,
   nd.population,
@@ -173,11 +173,11 @@ FROM
   avg_num_schools_nepal AS ansn
 WHERE
   ansn.district = nd.district
-{% endhighlight %}
+```
 
 This is called a `JOIN`. It's written more formally as:
 
-{% highlight sql %}
+```sql
 SELECT
   nd.the_geom_webmercator,
   nd.population,
@@ -191,7 +191,7 @@ JOIN
   avg_num_schools_nepal AS ansn
 ON
   ansn.district = nd.district
-{% endhighlight %}
+```
 
 We can represent this as a Venn Diagram (images and inspiration from [this excellent blog post](http://blog.codinghorror.com/a-visual-explanation-of-sql-joins/)):
 
@@ -207,7 +207,7 @@ We can visualize this with a `LEFT JOIN`. The left is the Nepal district polygon
 
 All we need to do is update our statement below with a `LEFT` keyword before `JOIN`.
 
-{% highlight sql %}
+```sql
 SELECT
   nd.the_geom_webmercator,
   nd.population,
@@ -221,7 +221,7 @@ LEFT JOIN
   avg_num_schools_nepal AS ansn
 ON
   ansn.district = nd.district
-{% endhighlight %}
+```
 
 Run this statement in your SQL editor and now look at your map. All the district polygons should be present.
 
@@ -232,7 +232,7 @@ Now choose Choropleth to get your map styled as you like it.
 
 Here's the CartoCSS that I used to style my map:
 
-{% highlight css %}
+```css
 /** choropleth visualization */
 
 #avg_num_schools_nepal{
@@ -266,22 +266,22 @@ Here's the CartoCSS that I used to style my map:
 #avg_num_schools_nepal [ schools_per_thousand = null] {
    polygon-fill: #AAAAAA;
 }
-{% endhighlight %}
+```
 
 ## PostGIS -- geospatial analysis in a database
 
 Using the `npl_admn4` shapefile:
 
-{% highlight sql %}
+```sql
 http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20npl_adm4&filename=npl_adm4&format=shp
-{% endhighlight %}
+```
 
 ### ST_Distance
 
 Find the distance each adm4-level admin area is from Kathmandu.
 
 
-{% highlight sql %}
+```sql
 SELECT
   the_geom_webmercator,
   ST_Distance(
@@ -294,7 +294,7 @@ SELECT
     ) / 1000 AS d
 FROM
   npl_adm4
-{% endhighlight %}
+```
 
 ![Choropleth of distance admin 4 regions are from Kathmandu](../img/columbia-sipa/st_distance_nepal.png)
 
@@ -309,9 +309,9 @@ Let's find out how many items in "Projects_Level4" are within districts in `nepa
 
 First import Projects_Level4:
 
-{% highlight text %}
+```text
 http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20projects_level4&filename=projects_level4&format=shp
-{% endhighlight %}
+```
 
 Next, go back to your table view and click on `nepal_districts2`.
 
