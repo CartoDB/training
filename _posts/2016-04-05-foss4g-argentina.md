@@ -9,31 +9,43 @@ length: 4
 
 * Facilitador: Jorge Sanz · jsanz@cartodb.com · [@xurxosanz](http://twitter.com/xurxosanz)
 * Taller del [FOSS4G Argentina](http://www.foss4g-ar.org/)
-* 4 de Abril de 2016
+* 5 de Abril de 2016 · Instituto Geográfico Nacional · Buenos Aires
+
+## Contenidos
+
+<!-- MarkdownTOC -->
+
+- Introducción \(30m\)
+- CartoDB Editor \(45m\)
+  - Hello Map
+  - Más características
+  - El *dashboard* de CartoDB
+- Análisis de datos con SQL \(1h\)
+  - Introducción
+  - PostGIS
+  - Ejemplos de SQL espacial
+- Aplicaciones web con CartoDB.js \(1h 30m\)
+  - Ejemplos
+  - Ejemplos avanzados
+
+<!-- /MarkdownTOC -->
 
 
-## Agenda
-
-* Introducción (30m)
-* El editor de CartoDB (1h)
-* SQL espacial (1h)
-* CartoDB.js (1h 30m)
-
-## 0: Introducción
+## Introducción (30m)
 
 * Qué es CartoDB
 * CartoDB es una plataforma: editor + APIs + SDKs
 * Crear una cuenta nueva en CartoDB
 
-### Recursos adicionales
+Recursos adicionales
 
 * [Documentación](http://docs.cartodb.com)
 * [Academy](http://academy.cartodb.com)
 * [Galería](https://cartodb.com/gallery)
 
-## 1:  CartoDB Editor
+## CartoDB Editor (45m)
 
-### 1.1: Hello Map
+### Hello Map
 
 * Acceder a la cuenta
 * El _dashboard_
@@ -62,7 +74,7 @@ Resultado:
 
 ![](../img/160405-foss4gar/ejercicio1.png)
 
-### 1.2 Más características
+### Más características
 
 * Interactividad: *infowindows* y *tooltips*
 * Leyenda de mapa
@@ -111,7 +123,7 @@ Resultado:
 * CartoDB Documentation, [CartoCSS](http://docs.cartodb.com/cartodb-platform/cartocss/)
 * CartoDB Documentation, [Maps](http://docs.cartodb.com/cartodb-editor/maps/)
 
-### 1.3 El *dashboard* de CartoDB
+### El *dashboard* de CartoDB
 
 * Las opciones del *dashboard*
   * Mapas y tablas en CartoDB
@@ -146,12 +158,13 @@ Resultado:
 * CartoDB Documentation, [CartoDB account](http://docs.cartodb.com/cartodb-editor/your-account/)
 
 
-## 2 SQL Espacial
+## Análisis de datos con SQL (1h)
 
-### 2.1 Introducción a SQL
+### Introducción
 
-Nota: Importar la tabla `ne_10m_populated_places_simple` desde el *Data Library*.
+En esta sección vamos a cubrir los aspectos más básicos del acceso a información mediante el lenguaje de consulta SQL.
 
+**Nota:** Importar la tabla `ne_10m_populated_places_simple` desde el *Data Library*.
 
 ##### Seleccionar datos
 
@@ -293,7 +306,7 @@ WHERE name ILIKE '%ori%';
   * Nombre del país
 * ¿Qué ciudades encontramos de Argentina? ¿Cuál es su población máxima?
 * ¿Qué ciudades de Argentina tienen más de 500.000 habitantes?
-* ¿Cuántas ciudades tienen son *megacities* y acaban su nombre por `a`?
+* ¿Cuántas ciudades son *megacities* y su nombre acaba por `a`?
 * ¿Cuáles son las cinco ciudades más pobladas de Argentina?
 
 
@@ -340,7 +353,11 @@ Un par de recursos adicionales:
 * [Tutorial](http://docs.cartodb.com/tutorials/projections/) sobre proyecciones
 * [Blog post](http://blog.cartodb.com/free-your-maps-web-mercator/) sobre como usar otras proyecciones en CartoDB.
 
-### Análisis espaciales en CartoDB con SQL espacial
+### Ejemplos de SQL espacial
+
+Las consultas que se muestran a continuación se pueden aplicar directamente sobre la consola SQL del editor. En [este enlace](http://cartodb.github.io/labs-cdbfiddle/#https://jsanzacademy1.cartodb.com/api/v2/viz/941b2ad2-f8ff-11e5-b255-0ecfd53eb7d3/viz.json) se puede visualizar el resultado de las consultas.
+
+![](../img/160405-foss4gar/sql.png)
 
 #### Generar un *buffer* dado un radio determinado
 
@@ -403,26 +420,8 @@ WHERE
 
 #### Contar puntos contenidos en cada polígono
 
-Número de ciudades en `ne_10m_populated_places_simple` por país de Sudamérica
+Número de ciudades en `ne_10m_populated_places_simple` por país de Sudamérica. Usando `GROUP BY`:
 
-```sql
-SELECT
-  a.cartodb_id,
-  a.name,
-  a.the_geom_webmercator,
-  (
-    SELECT
-      count(*) as number_cities
-    FROM
-      ne_10m_populated_places_simple b
-    WHERE
-      ST_Intersects(a.the_geom, b.the_geom)
-  )
-FROM
-  samerica_adm0 a
-```
-
-Otra forma de hacerlo para poder obtener también la suma de su población
 
 ```sql
 SELECT
@@ -440,6 +439,29 @@ GROUP BY
   b.cartodb_id,
   b.name,
   b.the_geom_webmercator
+```
+
+Una forma más correcta de hacerlo usando `LATERAL`:
+
+```sql
+SELECT
+  a.cartodb_id,
+  a.name,
+  a.the_geom_webmercator,
+  counts.number_cities,
+  to_char(counts.sum_pop,'999,999,999') as sum_pop --con separador de decimales
+FROM
+  samerica_adm0 a
+CROSS JOIN LATERAL
+  (
+    SELECT
+      count(*) as number_cities,
+      sum(pop_max) as sum_pop
+    FROM
+      ne_10m_populated_places_simple b
+    WHERE
+      ST_Intersects(a.the_geom, b.the_geom)
+  ) AS counts
 ```
 
 #### Obtener las ciudades argentinas que están a menos de 25 km una de otra
@@ -499,6 +521,8 @@ WHERE adm0_a3 like 'ARG'
 
 #### Recursos adicionales
 
+* [CartoDB Map Academy - SQL and PostGIS](http://academy.cartodb.com/courses/sql-postgis/)
+
 Algunos artículos sobre SQL espacial en el blog de CartoDB
 
 * [Generando líneas de círculos máximos cruzando la línea de la fecha](http://blog.cartodb.com/jets-and-datelines/)
@@ -506,8 +530,7 @@ Algunos artículos sobre SQL espacial en el blog de CartoDB
 * [Sobre ST_Subdivide](http://blog.cartodb.com/subdivide-all-things/)
 
 
-
-### Cartodb.js and API
+## Aplicaciones web con CartoDB.js (1h 30m)
 
 [CartoDB.js](http://docs.cartodb.com/cartodb-platform/cartodb-js/) es la librería JavaScript que permite crear aplicaciones de *webmapping* usando los servicios de CartoDB de forma rápida y eficiente.
 
@@ -518,6 +541,8 @@ La librería está basada en los siguientes componentes:
 * [Backbone.js](http://backbonejs.org/)
 * Puede utilizar indistintamente [Google Maps API](https://developers.google.com/maps/) o [Leaflet](http://leafletjs.com/)
 
+
+### Ejemplos
 
 * createVis() - single layer
   [example](http://bl.ocks.org/ernesmb/80490597ad592a1ce0bd)
@@ -542,15 +567,11 @@ La librería está basada en los siguientes componentes:
 * Change SQL query
   [example](http://bl.ocks.org/ernesmb/a5edb4d524b87b569c4b)
 
-* Further examples
-  * [Playing with Torque time](http://bl.ocks.org/ernesmb/4939b3751d3be0cdd64b)
-  * [Aggregating content from clustered features with SQL](http://bl.ocks.org/ernesmb/348b9eed9ee4c7038fd7)
-  * [Creating a simple layer selector](http://bl.ocks.org/jsanz/6a83dbae9d6e984ca938)
+### Ejemplos avanzados
 
-### Docs and further reading
-* [CartoDB Map Academy - SQL and PostGIS](http://academy.cartodb.com/courses/sql-postgis/)
-* [CartoDB Map Academy - Cartodb.js from the ground up](http://academy.cartodb.com/courses/cartodbjs-ground-up/)
-
+* [Playing with Torque time](http://bl.ocks.org/ernesmb/4939b3751d3be0cdd64b)
+* [Aggregating content from clustered features with SQL](http://bl.ocks.org/ernesmb/348b9eed9ee4c7038fd7)
+* [Creating a simple layer selector](http://bl.ocks.org/jsanz/6a83dbae9d6e984ca938)
 
 
 
