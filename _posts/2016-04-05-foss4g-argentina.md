@@ -8,11 +8,16 @@ length: 4
 ---
 
 * Facilitador: Jorge Sanz · jsanz@cartodb.com · [@xurxosanz](http://twitter.com/xurxosanz)
-* Taller del [FOSS4G Argentina](http://www.foss4g-ar.org/)
-* 5 de Abril de 2016 · Instituto Geográfico Nacional · Buenos Aires
+* 5 de Abril de 2016
+* [FOSS4G Argentina](http://www.foss4g-ar.org/)· Instituto Geográfico Nacional · Buenos Aires
+
+Encuestas:
+
+* [Previa](http://goo.gl/forms/OXnyTLMEPJ)
+* [Encuesta de satisfacción](https://docs.google.com/forms/d/1OTZdPQsDEiuyhmEQH7b7I8gH_gwRNMvMp7CAufYx9Mw/viewform)
+
 
 ## Contenidos
-
 
 - [Introducción](#intro) \(30m\)
 - [CartoDB Editor](#editor) \(45m\): Hello Map · Más características · El *dashboard* de CartoDB
@@ -37,6 +42,7 @@ Recursos adicionales
 
 * [Documentación](http://docs.cartodb.com)
 * [Academy](http://academy.cartodb.com)
+* [Tutoriales](http://docs.cartodb.com/tutorials/)
 * [Galería](https://cartodb.com/gallery)
 
 ## CartoDB Editor (45m) <a name="editor"></a>
@@ -165,7 +171,12 @@ Resultado:
 
 En esta sección vamos a cubrir los aspectos más básicos del acceso a información mediante el lenguaje de consulta SQL.
 
-**Nota:** Importar la tabla `ne_10m_populated_places_simple` desde el *Data Library*.
+Para poder hacer todos los ejercicios se requiere importar del *Data Library* los siguientes juegos de datos:
+
+* `ne_10m_populated_places_simple`: ciudades del mundo
+* `samerica_adm0`: países de Sudamérica
+* `ne_50m_land`: polígono global
+
 
 ##### Seleccionar datos
 
@@ -381,7 +392,7 @@ FROM
 
 #### Calcular la diferencia entre dos geometrías
 
-Importar las tablas `samerica_adm0` y `ne_50m_lakes` para obtener la geometría correspondiente a Argentina sin sus lagos.
+Obtener la geometría correspondiente Sudamérica restando el contorno de Argentina.
 
 ```sql
 SELECT
@@ -402,7 +413,7 @@ WHERE
 
 #### Intersectar dos geometrías
 
-Obtener las ciudades de Sudamérica
+Obtener las ciudades que se encuentran en Sudamérica
 
 ```sql
 SELECT
@@ -472,7 +483,7 @@ SELECT
   a.*
 FROM
   ne_10m_populated_places_simple a,
-    ne_10m_populated_places_simple b
+  ne_10m_populated_places_simple b
 WHERE
     a.cartodb_id != b.cartodb_id
   AND ST_DWithin(
