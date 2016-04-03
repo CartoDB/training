@@ -13,28 +13,24 @@ length: 4
 
 ## Contenidos
 
-<!-- MarkdownTOC -->
 
-- Introducción \(30m\)
-- CartoDB Editor \(45m\)
-  - Hello Map
-  - Más características
-  - El *dashboard* de CartoDB
-- Análisis de datos con SQL \(1h\)
-  - Introducción
-  - PostGIS
-  - Ejemplos de SQL espacial
-- Aplicaciones web con CartoDB.js \(1h 30m\)
-  - Ejemplos
-  - Ejemplos avanzados
-
-<!-- /MarkdownTOC -->
+- [Introducción](#intro) \(30m\)
+- [CartoDB Editor](#editor) \(45m\): Hello Map · Más características · El *dashboard* de CartoDB
+- [Análisis de datos con SQL](#sql) \(1h\): Introducción · PostGIS · Ejemplos de SQL espacial
+- [Aplicaciones web con CartoDB.js](#js) \(1h 30m\): Ejemplos · Ejemplos avanzados
 
 
-## Introducción (30m)
+
+
+
+
+----
+
+## Introducción (30m) <a name="intro"></a>
 
 * Qué es CartoDB
 * CartoDB es una plataforma: editor + APIs + SDKs
+  * [Diapositivas](https://docs.google.com/presentation/d/1k3VdfK8Cf94uNng7ZNRE1fIAyfxYyv8td-DJSLLE4xs/pub?start=false)
 * Crear una cuenta nueva en CartoDB
 
 Recursos adicionales
@@ -43,7 +39,7 @@ Recursos adicionales
 * [Academy](http://academy.cartodb.com)
 * [Galería](https://cartodb.com/gallery)
 
-## CartoDB Editor (45m)
+## CartoDB Editor (45m) <a name="editor"></a>
 
 ### Hello Map
 
@@ -158,7 +154,12 @@ Resultado:
 * CartoDB Documentation, [CartoDB account](http://docs.cartodb.com/cartodb-editor/your-account/)
 
 
-## Análisis de datos con SQL (1h)
+
+
+
+----
+
+## Análisis de datos con SQL (1h) <a name="sql"></a>
 
 ### Introducción
 
@@ -530,7 +531,13 @@ Algunos artículos sobre SQL espacial en el blog de CartoDB
 * [Sobre ST_Subdivide](http://blog.cartodb.com/subdivide-all-things/)
 
 
-## Aplicaciones web con CartoDB.js (1h 30m)
+
+
+
+
+----
+
+## Aplicaciones web con CartoDB.js (1h 30m) <a name="js"></a>
 
 [CartoDB.js](http://docs.cartodb.com/cartodb-platform/cartodb-js/) es la librería JavaScript que permite crear aplicaciones de *webmapping* usando los servicios de CartoDB de forma rápida y eficiente.
 
@@ -541,31 +548,23 @@ La librería está basada en los siguientes componentes:
 * [Backbone.js](http://backbonejs.org/)
 * Puede utilizar indistintamente [Google Maps API](https://developers.google.com/maps/) o [Leaflet](http://leafletjs.com/)
 
-
 ### Ejemplos
 
-* createVis() - single layer
-  [example](http://bl.ocks.org/ernesmb/80490597ad592a1ce0bd)
+Puedes copiar el código de los siguientes ejemplos y ejecutarlos en tu computadora. También puedes usar los enlaces al editor en línea y hacer ahí tus cambios. Prueba a visualizar tus mapas, consultar tus tablas, cambiar estilos y comportamientos para crear visores de la información que existe en tu cuenta de CartoDB.
 
-  [sandbox](http://plnkr.co/edit/n8QPBmiBPa2uG4rc0a0K?p=preview)
+* Cargar una visualización con `createVis`: [ejemplo](http://bl.ocks.org/ernesmb/80490597ad592a1ce0bd), [editor](http://plnkr.co/edit/VzZmMh)
 
-* createLayer() - single layerSource object
-  [example](http://bl.ocks.org/ernesmb/af3f957d109d0686612d)
+* Cargar una SQL y CartoCSS sobre un mapa con `createLayer`: [ejemplo](http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645), [editor](http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info)
 
-  * Async events. Actions on feature click
-  [example](http://bl.ocks.org/ernesmb/84d4c365d1a30b9dd404)
+* Eventos. Acción al hacer clic: [ejemplo](http://bl.ocks.org/jsanz/1881f68fd76546eda08cafd8fdcf480c), [editor](http://plnkr.co/edit/rLjESjaFzr4m9qrvl4pj?p=preview)
 
-  * Custom Infowindow
-  [example](http://bl.ocks.org/ernesmb/10fc2938a35c1a7dc184)
+* Ventana (*infowindow*) personalizada: [ejemplo](http://bl.ocks.org/jsanz/a0f606c08ec854df3f5e982b3890e188), [editor](http://plnkr.co/edit/CQZL48I1QDfdMZUSH9ve?p=info)
 
-  * Custom Tooltip
-  [example](http://bl.ocks.org/ernesmb/b23e5c0ff30f39cdbe53)
+* Custom Tooltip: [ejemplo](http://bl.ocks.org/jsanz/cd541c5a61f72e19c1e50c06fb688f40), [editor](http://plnkr.co/edit/3loqq6?p=preview)
 
-* createLayer() - Multilayer interactivity (Infowindow + Tooltip)
-  [example](http://bl.ocks.org/ernesmb/f5e42f61b7f81e2f0791)
+* Cambiar la consulta SQL y el CartoCSS: [ejemplo](http://bl.ocks.org/jsanz/b454ed94c8ab9131dc823166226c18ef), [editor](http://plnkr.co/edit/xqpP5J?p=preview)
 
-* Change SQL query
-  [example](http://bl.ocks.org/ernesmb/a5edb4d524b87b569c4b)
+* Cambiar la consulta SQL con un deslizador: [ejemplo](http://bl.ocks.org/jsanz/8e3195f2606a22fbfcdd0a117e109fb4), [editor](http://plnkr.co/edit/8HX6Yq?p=preview)
 
 ### Ejemplos avanzados
 
