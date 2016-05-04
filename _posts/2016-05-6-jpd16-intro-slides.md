@@ -2,7 +2,7 @@
 layout: page
 title: "Introduction to CartoDB for Data Journalists"
 order: 23
-subtitle: "Spacetime Stories"
+subtitle: "Importing, working and mapping your data with CartoDB"
 category: talk
 date: 2016-05-06
 author: 'Ramiro Aznar'
@@ -10,8 +10,8 @@ length: 20'
 ---
 
 
-### Storytelling from Space
-#### spacetime, citizen science, and open source maps
+### Introduction to CartoDB for Data Journalists
+#### Importing, working and mapping your data with CartoDB
 
 Talk for the Jornadas de Periodismo de Datos 2016, Madrid.
 
