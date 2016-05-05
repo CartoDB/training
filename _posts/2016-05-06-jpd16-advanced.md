@@ -86,6 +86,16 @@ Some extra resources:
 ----
 
 ### PostGIS Spatial Analysis Queries
+We are going to make use of the following datasets, available from CartoDB's Data Library: 
+* [ne_50m_land](https://jpd16.cartodb.com/tables/ne_50m_land/public) - Emerged lands
+* [ne_adm0_europe](https://jpd16.cartodb.com/tables/ne_adm0_europe/public) - European countries
+* [ne_10m_populated_places_simple](https://jpd16.cartodb.com/tables/ne_10m_populated_places_simple) - Populated places in the world
+
+----
+
+>Check __[this visualization](http://cartodb.github.io/labs-cdbfiddle/#https://jpd16.cartodb.com/api/v2/viz/579f83ee-12a6-11e6-9a4a-0ea31932ec1d/viz.json)__ to see the result from each of the queries below
+
+----
 
 #### __ST_Buffer()__ creates a round area with a given radius.
 
@@ -99,6 +109,8 @@ SELECT
   ) AS the_geom_webmercator
 FROM
   ne_10m_populated_places_simple
+WHERE
+  adm0name LIKE 'Spain'  
 ```
 
 * [ST_Transform](http://postgis.net/docs/ST_Transform.html)
@@ -115,10 +127,9 @@ SELECT
   ) AS the_geom_webmercator
 FROM
   ne_50m_land a,
-  samerica_adm0 b
+  ne_adm0_europe b
 WHERE
-  b.adm0_a3 like 'ARG' AND
-  a.cartodb_id = 1200
+  b.adm0_a3 like 'ESP'
 ```
 
 * [ST_Difference](http://postgis.net/docs/ST_Difference.html)
@@ -130,7 +141,7 @@ SELECT
   a.*
 FROM
   ne_10m_populated_places_simple a,
-  samerica_adm0 b
+  ne_adm0_europe b
 WHERE
   ST_Intersects(
     b.the_geom_webmercator,
@@ -153,7 +164,7 @@ SELECT
   sum(a.pop_max) as sum_pop
 FROM
   ne_10m_populated_places_simple a,
-  samerica_adm0 b
+  ne_adm0_europe b
 WHERE
   ST_Intersects(a.the_geom, b.the_geom)
 GROUP BY
@@ -172,7 +183,7 @@ SELECT
   counts.number_cities,
   to_char(counts.sum_pop,'999,999,999') as sum_pop --decimal separator
 FROM
-  samerica_adm0 a
+  ne_adm0_europe a
 CROSS JOIN LATERAL
   (
     SELECT
@@ -200,8 +211,8 @@ WHERE
         b.the_geom::geography,
         25000
     )
-  AND a.adm0name = 'Argentina'
-  AND b.adm0name = 'Argentina'
+  AND a.adm0name = 'Spain'
+  AND b.adm0name = 'Spain'
 ```
 
 * [ST_DWithin](http://postgis.net/docs/ST_DWithin.html)
@@ -218,8 +229,8 @@ SELECT
     250000,
     250000
   ) AS the_geom_webmercator
-FROM samerica_adm0
-WHERE adm0_a3 like 'ARG'
+FROM ne_adm0_europe
+WHERE adm0_a3 like 'ESP'
 ```
 
 * [CDB_RectangleGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid)
@@ -234,8 +245,8 @@ SELECT
     ST_Envelope (the_geom_webmercator),
     250000
   ) AS the_geom_webmercator
-FROM samerica_adm0
-WHERE adm0_a3 like 'ARG'
+FROM ne_adm0_europe
+WHERE adm0_a3 like 'ESP'
 ```
 
 * [CDB_HexagonGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-hexagon-grid)
@@ -265,7 +276,7 @@ It's built upon the following components:
 
 ### Examples
 
-* Load a visualisation with `createVis()`: [example](http://bl.ocks.org/ernesmb/80490597ad592a1ce0bd), [editor](http://plnkr.co/edit/VzZmMh)
+* Load a visualisation with `createVis()`: [example](http://bl.ocks.org/jsanz/78d004e805ea4dbf8397814edc477a89), [editor](http://plnkr.co/edit/plhwv3IQwFxLHBGWodQp)
 
 * Load SQL+CartoCSS with `createLayer`: [example](http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645), [editor](http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info)
 
