@@ -223,14 +223,14 @@ Rectangular grid
 
 ```sql
 SELECT
-  row_number() over () as cartodb_id, -- generated id field
+  row_number() over () as cartodb_id,
   CDB_RectangleGrid(
-    ST_Envelope(the_geom_webmercator), -- geometry bounding box
-    250000,
-    250000
+    ST_Buffer(the_geom_webmercator,125000),
+   250000,
+   250000
   ) AS the_geom_webmercator
 FROM ne_adm0_europe
-WHERE adm0_a3 like 'ESP'
+WHERE adm0_a3 IN ('ITA','GBR')
 ```
 
 * [CDB_RectangleGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid)
@@ -243,7 +243,7 @@ WITH grid AS
 (SELECT
   row_number() over () as cartodb_id,
   CDB_HexagonGrid(
-    ST_Envelope(the_geom_webmercator),
+    ST_Buffer(the_geom_webmercator, 100000),
     100000
   ) AS the_geom_webmercator
 FROM ne_adm0_europe
