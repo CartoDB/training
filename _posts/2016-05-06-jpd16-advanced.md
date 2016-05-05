@@ -257,7 +257,6 @@ WHERE adm0_a3 IN ('ITA','GBR')
 ```
 
 * [CDB_RectangleGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid)
-* [ST_Envelolpe](http://postgis.net/docs/ST_Envelolpe.html)
 
 Adaptative Hexagonal grid
 
@@ -309,7 +308,7 @@ It's built upon the following components:
 
 ### Examples
 
-* Load a visualisation with `createVis()`: [example](http://bl.ocks.org/jsanz/78d004e805ea4dbf8397814edc477a89), [editor](http://plnkr.co/edit/plhwv3IQwFxLHBGWodQp)
+* Load a visualisation with `createVis()`: [example](http://bl.ocks.org/jsanz/78d004e805ea4dbf8397814edc477a89), [editor](http://plnkr.co/edit/plhwv3IQwFxLHBGWodQp?p=preview)
 
 * Load SQL+CartoCSS with `createLayer`: [example](http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645), [editor](http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info)
 
