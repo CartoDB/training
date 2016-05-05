@@ -104,7 +104,7 @@ SELECT
   cartodb_id,
   name,
   ST_Transform(
-    ST_Buffer(the_geom::geography, 50000)::geometry
+    ST_Buffer(the_geom::geography, 100000)::geometry
     ,3857
   ) AS the_geom_webmercator
 FROM
@@ -196,7 +196,7 @@ CROSS JOIN LATERAL
   ) AS counts
 ```
 
-#### __ST_DWithin__ to know if a geometry is within the given range from another geometry
+#### __ST_DWithin()__ to know wether a geometry is within the given range from another geometry
 
 ```sql
 SELECT
@@ -217,7 +217,26 @@ WHERE
 
 * [ST_DWithin](http://postgis.net/docs/ST_DWithin.html)
 
-#### Generating Grids
+#### __ST_DWithin()__ + __ST_MakeLine()__ to connect nearby cities
+
+```sql
+SELECT
+  ST_MakeLine(a.the_geom_webmercator, b.the_geom_webmercator) As the_geom_webmercator
+FROM
+  ne_10m_populated_places_simple a,
+  ne_10m_populated_places_simple b
+WHERE
+    a.cartodb_id != b.cartodb_id
+  AND ST_DWithin(
+        a.the_geom::geography,
+        b.the_geom::geography,
+        100000
+    )
+  AND a.adm0name = 'Spain'
+  AND b.adm0name = 'Spain'
+```
+
+#### Generating Grids with CDB functions
 
 Rectangular grid
 
