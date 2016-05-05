@@ -236,17 +236,27 @@ WHERE adm0_a3 like 'ESP'
 * [CDB_RectangleGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid)
 * [ST_Envelolpe](http://postgis.net/docs/ST_Envelolpe.html)
 
-Hexagonal grid
+Adaptative Hexagonal grid
 
 ```sql
-SELECT
+WITH grid AS 
+(SELECT
   row_number() over () as cartodb_id,
   CDB_HexagonGrid(
-    ST_Envelope (the_geom_webmercator),
-    250000
+    ST_Envelope(the_geom_webmercator),
+    100000
   ) AS the_geom_webmercator
 FROM ne_adm0_europe
-WHERE adm0_a3 like 'ESP'
+WHERE adm0_a3 IN ('ESP','ITA'))
+
+SELECT 
+  grid.the_geom_webmercator, 
+  grid.cartodb_id
+FROM
+  grid, ne_adm0_europe a
+WHERE 
+  ST_intersects(grid.the_geom_webmercator, a.the_geom_webmercator)
+AND a.adm0_a3 IN ('ESP','ITA')
 ```
 
 * [CDB_HexagonGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-hexagon-grid)
