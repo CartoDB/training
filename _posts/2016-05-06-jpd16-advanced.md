@@ -196,6 +196,8 @@ CROSS JOIN LATERAL
   ) AS counts
 ```
 
+* [Lateral JOIN](http://blog.heapanalytics.com/postgresqls-powerful-new-join-type-lateral)
+
 #### __ST_DWithin()__ to know wether a geometry is within the given range from another geometry
 
 ```sql
@@ -235,6 +237,8 @@ WHERE
   AND a.adm0name = 'Spain'
   AND b.adm0name = 'Spain'
 ```
+
+* [ST_MakeLine](http://postgis.net/docs/ST_MakeLine.html)
 
 #### Generating Grids with CDB functions
 
