@@ -207,9 +207,9 @@ FROM
 WHERE
     a.cartodb_id != b.cartodb_id
   AND ST_DWithin(
-        a.the_geom::geography,
-        b.the_geom::geography,
-        25000
+        a.the_geom_webmercator,
+        b.the_geom_webmercator,
+        150000
     )
   AND a.adm0name = 'Spain'
   AND b.adm0name = 'Spain'
@@ -228,9 +228,9 @@ FROM
 WHERE
     a.cartodb_id != b.cartodb_id
   AND ST_DWithin(
-        a.the_geom::geography,
-        b.the_geom::geography,
-        100000
+        a.the_geom_webmercator,
+        b.the_geom_webmercator,
+        150000
     )
   AND a.adm0name = 'Spain'
   AND b.adm0name = 'Spain'
