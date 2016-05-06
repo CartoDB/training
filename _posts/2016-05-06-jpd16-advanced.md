@@ -12,6 +12,7 @@ length: 1.5
 * [JPD16](http://jpd16.okfn.es/)· IV Jornadas de Periodismo de Datos · Madrid
 
 ## [http://bit.ly/adv-cdb-jpd16](http://bit.ly/adv-cdb-jpd16)
+Continue from [Introduction to CartoDB Workshop for Data Journalists](http://cartodb.github.io/training/introductory/jpd16-intro.html)
 
 ## Contents
 - [CartoDB as a platform](#platform)
