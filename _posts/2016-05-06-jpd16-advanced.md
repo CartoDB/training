@@ -8,20 +8,21 @@ length: 1.5
 ---
 
 * Speaker: Ernesto Martínez · ernesto@cartodb.com · [@ernesmb](http://twitter.com/ernesmb)
-* 6th May 2016
+* May 6th 2016
 * [JPD16](http://jpd16.okfn.es/)· IV Jornadas de Periodismo de Datos · Madrid
+
+## [http://bit.ly/adv-cdb-jpd16](http://bit.ly/adv-cdb-jpd16)
 
 ## Contents
 - [CartoDB as a platform](#platform)
 - [PostGIS](#postgis)
 - [cartodb.js](#js)
-- [APIs overview]()
 
 ----
 
 ## CartoDB as a Platform <a name="platfom"></a>
 * __SQL API__ allows to interact with CartoDB tables. Query and modify CartoDB tables
-* __Import API__ allows to upload new data to CartoDB.
+* __Import API__ allows to upload new data to CartoDB
 * __Maps API__ allows to visualize the underlying data
 
 ----
@@ -48,11 +49,11 @@ length: 1.5
   ![cart vs sph](http://workshops.boundlessgeo.com/postgis-intro/_images/cartesian_spherical.jpg)
 
   ![LA-CDG](http://workshops.boundlessgeo.com/postgis-intro/_images/lax_cdg.jpg)
+
   *Source: [Boundless Postgis intro](http://workshops.boundlessgeo.com/postgis-intro)*
 
-  *[Know more](http://workshops.boundlessgeo.com/postgis-intro/geography.html) about the Geography type*
-
-  *[Official PostGIS docs](http://postgis.net/docs/manual-1.5/ch04.html#PostGIS_Geography)*
+  * [Know more](http://workshops.boundlessgeo.com/postgis-intro/geography.html) about the Geography type
+  * [Official PostGIS docs](http://postgis.net/docs/manual-1.5/ch04.html#PostGIS_Geography)
 
 ----
 
@@ -79,6 +80,7 @@ CartoDB tables have **two** `geometry` fields:
 ----
 
 Some extra resources: 
+
 * [Map Projections in Wikipedia](https://en.wikipedia.org/wiki/Map_projection)
 * [Projections tutorial](http://docs.cartodb.com/tutorials/projections/)
 * [Blog post](http://blog.cartodb.com/free-your-maps-web-mercator/) about using other projections in CartoDB
@@ -87,6 +89,7 @@ Some extra resources:
 
 ### PostGIS Spatial Analysis Queries
 We are going to make use of the following datasets, available from CartoDB's Data Library: 
+
 * [ne_50m_land](https://jpd16.cartodb.com/tables/ne_50m_land/public) - Emerged lands
 * [ne_adm0_europe](https://jpd16.cartodb.com/tables/ne_adm0_europe/public) - European countries
 * [ne_10m_populated_places_simple](https://jpd16.cartodb.com/tables/ne_10m_populated_places_simple) - Populated places in the world
@@ -97,7 +100,7 @@ We are going to make use of the following datasets, available from CartoDB's Dat
 
 ----
 
-#### __ST_Buffer()__ creates a round area with a given radius.
+#### __ST_Buffer()__ creates a round area with a given radius
 
 ```sql
 SELECT
@@ -209,9 +212,9 @@ FROM
 WHERE
     a.cartodb_id != b.cartodb_id
   AND ST_DWithin(
-        a.the_geom_webmercator,
-        b.the_geom_webmercator,
-        150000
+      a.the_geom_webmercator,
+      b.the_geom_webmercator,
+      150000
     )
   AND a.adm0name = 'Spain'
   AND b.adm0name = 'Spain'
@@ -223,16 +226,16 @@ WHERE
 
 ```sql
 SELECT
-  ST_MakeLine(a.the_geom_webmercator, b.the_geom_webmercator) As the_geom_webmercator
+  ST_MakeLine(a.the_geom_webmercator, b.the_geom_webmercator) AS the_geom_webmercator
 FROM
   ne_10m_populated_places_simple a,
   ne_10m_populated_places_simple b
 WHERE
     a.cartodb_id != b.cartodb_id
   AND ST_DWithin(
-        a.the_geom_webmercator,
-        b.the_geom_webmercator,
-        150000
+      a.the_geom_webmercator,
+      b.the_geom_webmercator,
+      150000
     )
   AND a.adm0name = 'Spain'
   AND b.adm0name = 'Spain'
@@ -249,11 +252,13 @@ SELECT
   row_number() over () as cartodb_id,
   CDB_RectangleGrid(
     ST_Buffer(the_geom_webmercator,125000),
-   250000,
-   250000
+  250000,
+  250000
   ) AS the_geom_webmercator
-FROM ne_adm0_europe
-WHERE adm0_a3 IN ('ITA','GBR')
+FROM 
+  ne_adm0_europe
+WHERE 
+  adm0_a3 IN ('ITA','GBR')
 ```
 
 * [CDB_RectangleGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid)
@@ -268,8 +273,10 @@ WITH grid AS
     ST_Buffer(the_geom_webmercator, 100000),
     100000
   ) AS the_geom_webmercator
-FROM ne_adm0_europe
-WHERE adm0_a3 IN ('ESP','ITA'))
+FROM 
+  ne_adm0_europe
+WHERE 
+  adm0_a3 IN ('ESP','ITA'))
 
 SELECT 
   grid.the_geom_webmercator, 
@@ -277,8 +284,8 @@ SELECT
 FROM
   grid, ne_adm0_europe a
 WHERE 
-  ST_intersects(grid.the_geom_webmercator, a.the_geom_webmercator)
-AND a.adm0_a3 IN ('ESP','ITA')
+    ST_intersects(grid.the_geom_webmercator, a.the_geom_webmercator)
+  AND a.adm0_a3 IN ('ESP','ITA')
 ```
 
 * [CDB_HexagonGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-hexagon-grid)
