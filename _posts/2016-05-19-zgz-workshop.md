@@ -24,6 +24,18 @@ length: 2h
 
 # Intermediate CartoDB Workshop for MSc GIS & Remote Sensing
 
+## 0. Before we start...
+
+* __Import API__ allows to upload new data to CartoDB.
+* __SQL API__ allows to interact with CartoDB tables. Query and modify CartoDB tables.
+* __Maps API__ allows to visualize the underlying data.
+
+----
+
+>The CartoDB Editor **is a client** of the platform
+
+----
+
 ## 1. Importing datasets <a name="import"></a>
 
 ### 1. 1. Supported Geospatial Data Files
@@ -39,7 +51,7 @@ CartoDB supports the following geospatial data formats to upload vector data*:
 * **`OSM`**.
 
 *Importing **different geometry types** in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information [here](http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats).
-**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html).
+**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html). Sandbox ([here](http://geojson.io/#map=2/20.0/0.0) & [here])
 
 ### 1. 2. Common importing errors
 * **Dataset too large**:
@@ -102,6 +114,7 @@ Know more about geocoding in CartoDB:
 * **Populated Places** [`ne_10m_populated_places_simple`]: City and town points.
 * **World Borders** [`world_borders`]: World countries borders.
 * **Land** [`ne_50m_land`]: World emerged lands.
+* **European countries** [`ne_adm0_europe`]: European countries geometries.
 
 ### 2. 3. Selecting
 
@@ -572,7 +585,7 @@ FROM (SELECT * FROM populated_places
 
 *About [ST_MakeLine](http://postgis.net/docs/ST_MakeLine.html).
 
-* Create a great circles between two points:
+* Create **great circles** between two points:
 
 ```sql
 SELECT 

@@ -12,7 +12,7 @@ length: 1h30'
 
 ### Introduction to CartoDB for Data Journalists
 
-Link: [http://bit.ly/cdb-zgz](http://bit.ly/cdb-zgz)
+Link: [http://bit.ly/cdb-zgz-talk](http://bit.ly/cdb-zgz-talk)
 
 Charla de introducción a CartoDB para la Universidad de Zargoza y el Colegio de Geógrafos de Aragón. Puedes seguir la presentación [aquí](https://docs.google.com/presentation/d/1oywEmIV8r1DNFh6YJof9yM_775jHT_hvLLOfwlJhdHQ/edit?usp=sharing).
 

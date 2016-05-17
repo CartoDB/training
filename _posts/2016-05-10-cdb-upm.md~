@@ -2,16 +2,16 @@
 layout: page
 title: Intermediate CartoDB Workshop for MSc GIS & Remote Sensing
 category: intermediate
-date: 2016-05-10
+date: 2016-05-19
 author: 'Ramiro Aznar'
-length: 2h
+length: 4h
 ---
 
 * Speaker: Ramiro Aznar · ramiroaznar@cartodb.com · [@ramiroaznar](http://twitter.com/ramiroaznar)
 * May 19th 2016
 * MSc GIS & Remote Sensing · Universidad de Zaragoza · Zaragoza
 
-## [http://bit.ly/cdb-zgz-workshop](cdb-zgz-workshop)
+## [http://bit.ly/cdb-upm](http://bit.ly/cdb-upm)
 
 ## Contents
 - [Importing datasets](#import)
@@ -22,7 +22,7 @@ length: 2h
 
 ----
 
-# Intermediate CartoDB Workshop for MSc GIS & Remote Sensing
+# Intermediate CartoDB Workshop for MSc Geo Engineers
 
 ## 1. Importing datasets <a name="import"></a>
 
@@ -39,7 +39,7 @@ CartoDB supports the following geospatial data formats to upload vector data*:
 * **`OSM`**.
 
 *Importing **different geometry types** in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information [here](http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats).
-**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html). Sandbox ([here](http://geojson.io/#map=2/20.0/0.0) & [here])
+**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html).
 
 ### 1. 2. Common importing errors
 * **Dataset too large**:
@@ -101,8 +101,7 @@ Know more about geocoding in CartoDB:
 
 * **Populated Places** [`ne_10m_populated_places_simple`]: City and town points.
 * **World Borders** [`world_borders`]: World countries borders.
-* **Land** [`ne_50m_land`]: World emerged lands.
-* **European countries** [`ne_adm0_europe`]: European countries geometries.
+* **Emerged Lands** [`ne_50m_land`]: World emerged lands.
 
 ### 2. 3. Selecting
 
@@ -509,23 +508,6 @@ FROM
 * **World Robinson** projection (ESPG:54030):
 
 ```sql
-INSERT INTO spatial_ref_sys
-  (srid, auth_name, auth_srid, proj4text, srtext) values (54030, 'EPSG', 54030,
-'+proj=robin +datum=WGS84','PROJCS["World_Robinson",
-    GEOGCS["GCS_WGS_1984",
-        DATUM["WGS_1984",
-            SPHEROID["WGS_1984",6378137,298.257223563]],
-        PRIMEM["Greenwich",0],
-        UNIT["Degree",0.017453292519943295]],
-    PROJECTION["Robinson"],
-    PARAMETER["False_Easting",0],
-    PARAMETER["False_Northing",0],
-    PARAMETER["Central_Meridian",0],
-    UNIT["Meter",1],
-    AUTHORITY["EPSG","54030"]]');
-```
-
-```sql
 SELECT 
   cartodb_id, ST_Transform(the_geom, 54030) AS the_geom_webmercator
 FROM 
@@ -533,8 +515,6 @@ FROM
 ```
 
 ![robinson](../img/160510-upm/robinson.png)
-
-*About [ST_Transform](http://postgis.net/docs/ST_Transform.html).
 
 ### 4. 3. Geoprocessing
 
@@ -556,8 +536,6 @@ WHERE
 
 ![buffer](../img/160510-upm/buffer.png)
 
-*About [ST_Buffer](http://postgis.net/docs/ST_Buffer.html).
-
 * Create a **straight line** between two points:
 
 ```sql
@@ -571,9 +549,7 @@ FROM (SELECT * FROM populated_places
 
 ![lines](../img/160510-upm/lines.png)
 
-*About [ST_MakeLine](http://postgis.net/docs/ST_MakeLine.html).
-
-* Create **great circles** between two points:
+* Create a great circles between two points:
 
 ```sql
 SELECT 
@@ -595,8 +571,6 @@ FROM
 ```
 
 ![greatcircles](../img/160510-upm/greatcircles.png)
-
-*About [Great Circles](http://blog.cartodb.com/jets-and-datelines/).
 
 ----
 
