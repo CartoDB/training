@@ -823,10 +823,51 @@ cdb.vis.Vis.addInfowindow(
           });
 ```
 
-
 * **Legends**:
 
+In order to add legends with CartoDB.js you would need to define the elemenets and colors of the legend with HTML, then you could use the legend classes of CartoDB.js to create the legends.
+  
+There is two kind of legend classes:
 
+First, ``cartodb-legend choropleth``, applied in Choropleth maps:
+
+```HTML
+<div class='cartodb-legend choropleth'>
+    <div class="legend-title">Population</div>
+      <ul>
+      	<li class="min">
+      		1256
+      	</li>
+      	<li class="max">
+      		8300
+      	</li>
+      	<li class="graph count_441">
+      	<div class="colors">
+      	<div class="quartile" style="background-color:#FFFFB2"></div>
+      	<div class="quartile" style="background-color:#FED976"></div>
+      	<div class="quartile" style="background-color:#FEB24C"></div>
+      	<div class="quartile" style="background-color:#FD8D3C"></div>
+      	<div class="quartile" style="background-color:#FC4E2A"></div>
+      	<div class="quartile" style="background-color:#E31A1C"></div>
+      	<div class="quartile" style="background-color:#B10026"></div>
+      	</div>
+      	</li>
+      </ul>
+  </div>
+```
+
+Second, `cartodb-legend category`, applied in simple or category maps:
+  	
+```HTML
+    <div class='cartodb-legend category'>
+      <div class="legend-title" style="color:#284a59">Countries</div>
+        <ul>
+          <li><div class="bullet" style="background-color:#fbb4ae"></div>Spain</li>
+          <li><div class="bullet" style="background-color:#ccebc5"></div>Portugal</li>
+          <li><div class="bullet" style="background-color:#b3cde3"></div>France</li>    
+        </ul>
+      </div>
+```
 
 ### 5. 4. Examples
 
@@ -835,5 +876,7 @@ cdb.vis.Vis.addInfowindow(
 * Load SQL+CartoCSS with `createLayer()`: [example](http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645), [editor](http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info).
 
 * Add custom infowindow, infobox, tooltip & legend with with `createLayer()`: [example](http://bl.ocks.org/oriolbx/3950e1a9b458a9177f9c).
+
+* Events. Actions on feature click: [example](http://bl.ocks.org/jsanz/1881f68fd76546eda08cafd8fdcf480c), [editor](http://plnkr.co/edit/rLjESjaFzr4m9qrvl4pj?p=preview).
 
 ----
