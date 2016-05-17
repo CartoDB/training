@@ -617,6 +617,29 @@ WHERE
 
 *About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html).
 
+* Know wether a geometry is **within** the given range from another geometry:
+
+```sql
+SELECT
+  a.*
+FROM
+  ne_10m_populated_places_simple a,
+  ne_10m_populated_places_simple b
+WHERE
+    a.cartodb_id != b.cartodb_id
+  AND ST_DWithin(
+      a.the_geom_webmercator,
+      b.the_geom_webmercator,
+      150000
+    )
+  AND a.adm0name = 'Spain'
+  AND b.adm0name = 'Spain'
+```
+
+![dwithin](../img/160520-zgz/dwithin.png)
+
+*About [`ST_DWithin`](http://postgis.net/docs/ST_DWithin.html).
+
 * Create a **straight line** between two points:
 
 ```sql
