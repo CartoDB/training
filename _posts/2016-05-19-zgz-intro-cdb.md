@@ -30,9 +30,9 @@ Charla de introducción a CartoDB para la Universidad de Zargoza y el Colegio de
 	* CartoDB se alía con Mapzen: [blog](https://mapzen.com/blog/cartodb-partnership/).
 	* Overviews: [blog](http://blog.cartodb.com/data-overviews/).	
 	* Turbo-Carto: [blog](http://blog.cartodb.com/turbo-carto/).
-	* CartoColors: 
+	* CartoColors: [labs-colorscales](http://cartodb.github.io/labs-colorscales/#).
 	* Proyecciones: [blog](http://blog.cartodb.com/free-your-maps-web-mercator/) & [cartoblock](http://blocks.cartodb.io/#121faa4da3a584dae20d)
-	* Data Observatory:
+	* Data Observatory: [blog]().
 	* Deep Insights: [blog](http://blog.cartodb.com/deep-insights/).
 <br/>
 * Demos:
