@@ -764,7 +764,7 @@ A tooltip is an infowindow that appears when you hover your mouse over a map fea
  
 To add a tooltip to a map you need to do two steps:
  
-1. Define tooltip variable:
+First, define tooltip variable:
   
 ```javascript
   var tooltip = layer.leafletMap.viz.addOverlay({
@@ -776,7 +776,7 @@ To add a tooltip to a map you need to do two steps:
             fields: [{ name: 'name' }]
   });
 ```
-2. Add tooltip to the map:
+Second, add tooltip to the map:
 
 ```javascript
      $('body').append(tooltip.render().el);
@@ -798,27 +798,26 @@ However, you can create custom infowindows with different tools (`Moustache.js`,
 
 Example: Custom infowindow template to display ``No value`` no value instead of ``Null`` when there is no data in a column:
   
-  ```HTML
-  <script type="infowindow/html" id="infowindow_template">
-    <div class="cartodb-popup v2">
-  <a href="#close" class="cartodb-popup-close-button close">x</a>
-  <div class="cartodb-popup-content-wrapper">
-    <div class="cartodb-popup-content">
-   
-      <h4>c_distri</h4>
-      {{#c_distri}}
-        		<p>{{c_distri}}</p>
-        {{/c_distri}}
-        {{^c_distri}}
-  			<p>No value</p>
-		{{/c_distri}}
-      
-    </div>
-  </div>
-  <div class="cartodb-popup-tip-container"></div>
-</div>
+```HTML
+<script type="infowindow/html" id="infowindow_template">
+	<div class="cartodb-popup v2">
+	<a href="#close" class="cartodb-popup-close-button close">x</a>
+		<div class="cartodb-popup-content-wrapper">
+			<div class="cartodb-popup-content">
+				<h4>c_distri</h4>
+				{{#c_distri}}
+				<p>{{c_distri}}</p>
+				{{/c_distri}}
+				{{^c_distri}}
+				<p>No value</p>
+				{{/c_distri}}     
+			</div>
+		</div>
+  		<div class="cartodb-popup-tip-container"></div>
+	</div>
 </script>
-  ```
+```
+
 Then you can apply the custom infowindow template to the map with:
 
 ```javascript
@@ -828,7 +827,6 @@ cdb.vis.Vis.addInfowindow(
              infowindowTemplate: $('#infowindow_template').html()
           });
 ```
-
 
 
 * **Legends**:
