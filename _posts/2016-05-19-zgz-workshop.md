@@ -11,7 +11,7 @@ length: 2h
 * May 19th 2016
 * MSc GIS & Remote Sensing · Universidad de Zaragoza · Zaragoza
 
-## [http://bit.ly/cdb-zgz-workshop](cdb-zgz-workshop)
+## [http://bit.ly/cdb-zgz-workshop](bit.ly/cdb-zgz-workshop)
 
 ## Contents
 - [Importing datasets](#import)
