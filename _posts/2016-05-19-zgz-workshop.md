@@ -696,7 +696,7 @@ Know more about CartoDB.js [here](http://docs.cartodb.com/cartodb-platform/carto
 
 ### 5. 2. Create Visualizations and Layers
 
-### 5. 2. 1. `createVis`
+#### 5. 2. 1. `createVis`
 
 The most basic way to display your map from CartoDB.js involves a call to:
 
@@ -704,7 +704,7 @@ The most basic way to display your map from CartoDB.js involves a call to:
 cartodb.createVis(div_id, viz_json_url)
 ```
 
-Couched between the `<script> ... </script>` tags, createVis puts a map and CartoDB data layers into the DOM element you specify. In the snippet below we assume that `<div id='map'></div>` placed earlier in an HTML file.
+Couched between the `<script> ... </script>` tags, `createVis` puts a map and CartoDB data layers into the DOM element you specify. In the snippet below we assume that `<div id='map'></div>` placed earlier in an HTML file.
 
 ```javascript
 window.onload = function() {
@@ -722,7 +722,38 @@ var options = {
   scrollwheel: true
 };
 
-cartodb.createVis('map',vizjson,options);
+cartodb.createVis('map', vizjson, options);
+```
+
+#### 5. 2. 2. `createLayer`
+
+If you want to exercise more control over the layers and base map, `createLayer` may be the best option for you. You specifiy the base map yourself and load the layer from one or multiple viz.json files. Unlike `createVis`, `createLayer` needs a map object, such as one created by Google Maps or Leaflet. This difference allows for more control of the basemap for the JavaScript/HTML you’re writing.
+
+A basic [Leaflet map](http://leafletjs.com/reference.html#map-class) without your data can be created as follows:
+
+```javascript
+window.onload = function() {
+  // Choose center and zoom level
+  var options = {
+    center: [41.8369, -87.6847], // Chicago
+    zoom: 7
+  }
+
+  // Instantiate map on specified DOM element
+  var map_object = new L.Map(dom_id, options);
+
+  // Add a basemap to the map object just created
+  L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
+    attribution: 'Stamen'
+  }).addTo(map_object);
+}
+```
+
+The map we just created doesn’t have any CartoDB data layers yet. If you’re just adding a single layer, you can put your data on top of the basemap from above. If you want to add more, you just repeat the process. We’ll be doing much more with this later. This is the basic snippet to put your data on top of the map you just created. Drop this in below the `L.tileLayer` section.
+
+```javascript
+var vizjson = 'link from share panel';
+cartodb.createLayer(map_object, vizjson).addTo(map_object);
 ```
 
 ### 5. 3. UI Functions
