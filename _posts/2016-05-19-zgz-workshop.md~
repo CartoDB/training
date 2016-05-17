@@ -24,6 +24,18 @@ length: 2h
 
 # Intermediate CartoDB Workshop for MSc GIS & Remote Sensing
 
+## 0. Before we start...
+
+* __Import API__ allows to upload new data to CartoDB.
+* __SQL API__ allows to interact with CartoDB tables. Query and modify CartoDB tables.
+* __Maps API__ allows to visualize the underlying data.
+
+----
+
+>The CartoDB Editor **is a client** of the platform
+
+----
+
 ## 1. Importing datasets <a name="import"></a>
 
 ### 1. 1. Supported Geospatial Data Files
@@ -39,7 +51,7 @@ CartoDB supports the following geospatial data formats to upload vector data*:
 * **`OSM`**.
 
 *Importing **different geometry types** in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information [here](http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats).
-**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html). Sandbox ([here](http://geojson.io/#map=2/20.0/0.0) & [here])
+**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html), [here](http://geojsonlint.com/) and [here](http://geojson.io/#map=2/20.0/0.0).
 
 ### 1. 2. Common importing errors
 * **Dataset too large**:
@@ -140,7 +152,7 @@ FROM
 
 ### 2. 4. Filtering
 
-![filtering](../img/160510-upm/filtering.png)
+![filtering](../img/160520-zgz/filtering.png)
 
 * Filtering **numeric fields**:
 
@@ -260,6 +272,14 @@ ORDER BY
 
 ## 3. Making a map <a name="map"></a>
 
+### 3. 0. Before making maps...
+
+----
+
+> CartoDB make maps using **SQL queries**, not tables!
+
+----
+
 ### 3. 1. Wizard
 
 [Analyzing your dataset...](http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset) In some cases, when you connect a dataset and click on the MAP VIEW for the first time, the Analyzing dataset dialog appears. This analytical tool analyzes the data in each column, predicts how to visualize this data, and offers you snapshots of the visualized maps. You can select one of the possible map styles, or ignore the analyzing dataset suggestions.
@@ -292,7 +312,7 @@ SET
   pop_norm = pop2005 / new_area
 ```
 
-![choropleth](../img/160510-upm/choropleth.png)
+![choropleth](../img/160520-zgz/choropleth.png)
 
 Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
@@ -361,15 +381,15 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Basemaps**:
 
-![basemap](../img/160510-upm/basemap.png)
+![basemap](../img/160520-zgz/basemap.png)
 
 * **Options**:
 
-![options](../img/160510-upm/options.png)
+![options](../img/160520-zgz/options.png)
 
 * **Legend**:
 
-![legend](../img/160510-upm/legend.png)
+![legend](../img/160520-zgz/legend.png)
 
 ```html
 <div class='cartodb-legend choropleth'>	
@@ -398,7 +418,7 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Labels**:
 
-![intensity](../img/160510-upm/labels.png)
+![intensity](../img/160520-zgz/labels.png)
 
 ```css
 #world_borders::labels {
@@ -418,7 +438,7 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Infowindows and tooltip**:
 
-![infowindows](../img/160510-upm/infowindows.png)
+![infowindows](../img/160520-zgz/infowindows.png)
 
 ```html
 <div class="cartodb-popup v2">
@@ -439,11 +459,11 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Title, text and images**:
 
-![elements](../img/160510-upm/elements.png)
+![elements](../img/160520-zgz/elements.png)
 
 ### 3. 4. Share your map!
 
-![share](../img/160510-upm/share.png)
+![share](../img/160520-zgz/share.png)
 
 * **Get the link**: [https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map](https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map)
 
@@ -495,7 +515,7 @@ FROM
   spatial_ref_sys
 ```
 
-![srid](../img/160510-upm/srid.png)
+![srid](../img/160520-zgz/srid.png)
 
 * Accessing the occult **the_geom_webmercator** field:
 
@@ -532,9 +552,9 @@ FROM
   ne_50m_land
 ```
 
-![robinson](../img/160510-upm/robinson.png)
+![robinson](../img/160520-zgz/robinson.png)
 
-*About [ST_Transform](http://postgis.net/docs/ST_Transform.html).
+*About [`ST_Transform`](http://postgis.net/docs/ST_Transform.html).
 
 ### 4. 3. Geoprocessing
 
@@ -554,9 +574,71 @@ WHERE
   name ilike 'madrid'
 ```
 
-![buffer](../img/160510-upm/buffer.png)
+![buffer](../img/160520-zgz/buffer.png)
 
-*About [ST_Buffer](http://postgis.net/docs/ST_Buffer.html).
+*About [`ST_Buffer`](http://postgis.net/docs/ST_Buffer.html).
+
+* Get the **difference** between two geometries:
+
+```sql
+SELECT
+  a.cartodb_id,
+    ST_Difference(
+        a.the_geom_webmercator,
+        b.the_geom_webmercator
+  ) AS the_geom_webmercator
+FROM
+  ne_50m_land a,
+  ne_adm0_europe b
+WHERE
+  b.adm0_a3 like 'ESP'
+```
+
+![difference](../img/160520-zgz/difference.png)
+
+*About [`ST_Difference`](http://postgis.net/docs/ST_Difference.html).
+
+* Know if tow geometries **intersect**:
+
+```sql
+SELECT
+  a.*
+FROM
+  ne_10m_populated_places_simple a,
+  ne_adm0_europe b
+WHERE
+  ST_Intersects(
+    b.the_geom_webmercator,
+    a.the_geom_webmercator
+  )
+```
+
+![intersects](../img/160520-zgz/intersects.png)
+
+*About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html).
+
+* Know wether a geometry is **within** the given range from another geometry:
+
+```sql
+SELECT
+  a.*
+FROM
+  ne_10m_populated_places_simple a,
+  ne_10m_populated_places_simple b
+WHERE
+    a.cartodb_id != b.cartodb_id
+  AND ST_DWithin(
+      a.the_geom_webmercator,
+      b.the_geom_webmercator,
+      150000
+    )
+  AND a.adm0name = 'Spain'
+  AND b.adm0name = 'Spain'
+```
+
+![dwithin](../img/160520-zgz/dwithin.png)
+
+*About [`ST_DWithin`](http://postgis.net/docs/ST_DWithin.html).
 
 * Create a **straight line** between two points:
 
@@ -569,9 +651,9 @@ FROM (SELECT * FROM populated_places
     WHERE name ILIKE 'barcelona'AND adm0name ILIKE 'spain') as b
 ```
 
-![lines](../img/160510-upm/lines.png)
+![lines](../img/160520-zgz/lines.png)
 
-*About [ST_MakeLine](http://postgis.net/docs/ST_MakeLine.html).
+*About [`ST_MakeLine`](http://postgis.net/docs/ST_MakeLine.html).
 
 * Create **great circles** between two points:
 
@@ -594,7 +676,7 @@ FROM
   WHERE name ILIKE 'new york') as b
 ```
 
-![greatcircles](../img/160510-upm/greatcircles.png)
+![greatcircles](../img/160520-zgz/greatcircles.png)
 
 *About [Great Circles](http://blog.cartodb.com/jets-and-datelines/).
 
@@ -610,7 +692,143 @@ FROM
 * [Backbone.js](http://backbonejs.org/)
 * It can use either [Google Maps API](https://developers.google.com/maps/) or [Leaflet](http://leafletjs.com/)
 
-### 5. 2. Examples
+Know more about CartoDB.js [here](http://docs.cartodb.com/cartodb-platform/cartodb-js/) and [here](http://academy.cartodb.com/courses/cartodbjs-ground-up/createvis-vs-createlayer/).
+
+### 5. 2. Create Visualizations and Layers
+
+#### 5. 2. 1. `createVis`
+
+The most basic way to display your map from CartoDB.js involves a call to:
+
+```javascript
+cartodb.createVis(div_id, viz_json_url)
+```
+
+Couched between the `<script> ... </script>` tags, `createVis` puts a map and CartoDB data layers into the DOM element you specify. In the snippet below we assume that `<div id='map'></div>` placed earlier in an HTML file.
+
+```javascript
+window.onload = function() {
+  var vizjson = 'link from share panel';
+  cartodb.createVis('map', vizjson);
+}
+```
+
+And that’s it! All you need is that snippet of code, a script block that sources CartoDB.js, and inclusion of the CartoDB.js CSS file. It’s really one of the easiest ways to create a custom map on your webpage. `createVis` also accepts options that you specifiy outside of the CartoDB Editor. They take the form of a [JS object](http://www.w3schools.com/js/js_objects.asp), and can be passed as a third optional argument.
+
+```javascript
+var options = {
+  center: [40.4000, -3.6833], // Madrid
+  zoom: 7,
+  scrollwheel: true
+};
+
+cartodb.createVis('map', vizjson, options);
+```
+
+#### 5. 2. 2. `createLayer`
+
+If you want to exercise more control over the layers and base map, `createLayer` may be the best option for you. You specifiy the base map yourself and load the layer from one or multiple viz.json files. Unlike `createVis`, `createLayer` needs a map object, such as one created by Google Maps or Leaflet. This difference allows for more control of the basemap for the JavaScript/HTML you’re writing.
+
+A basic [Leaflet map](http://leafletjs.com/reference.html#map-class) without your data can be created as follows:
+
+```javascript
+window.onload = function() {
+  // Choose center and zoom level
+  var options = {
+    center: [41.8369, -87.6847], // Chicago
+    zoom: 7
+  }
+
+  // Instantiate map on specified DOM element
+  var map_object = new L.Map(dom_id, options);
+
+  // Add a basemap to the map object just created
+  L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
+    attribution: 'Stamen'
+  }).addTo(map_object);
+}
+```
+
+The map we just created doesn’t have any CartoDB data layers yet. If you’re just adding a single layer, you can put your data on top of the basemap from above. If you want to add more, you just repeat the process. We’ll be doing much more with this later. This is the basic snippet to put your data on top of the map you just created. Drop this in below the `L.tileLayer` section.
+
+```javascript
+var vizjson = 'link from share panel';
+cartodb.createLayer(map_object, vizjson).addTo(map_object);
+```
+
+### 5. 3. UI Functions
+
+* **Tooltips**:
+
+A tooltip is an infowindow that appears when you hover your mouse over a map feature with vis.addOverlay(options). A tooltip appears where the mouse cursor is located on the map.
+ 
+To add a tooltip to a map you need to do two steps:
+ 
+First, define tooltip variable:
+  
+```javascript
+  var tooltip = layer.leafletMap.viz.addOverlay({
+            type: 'tooltip',
+            layer: layer,
+            template: '<div class="cartodb-tooltip-content-wrapper"><p>{{name}}</p></div>', 
+            width: 200,
+            position: 'bottom|right',
+            fields: [{ name: 'name' }]
+  });
+```
+Second, add tooltip to the map:
+
+```javascript
+     $('body').append(tooltip.render().el);
+```
+
+* **Infowindows**:
+
+Infowindows provide additional interactivity for your published map, controlled by layer events. It enables interaction and overrides the layer interactivity. A pop-up information window appears when a viewer clicks on a map feature.
+  
+In order to add the CartoDB.js infowindow you need to add this line within your code:
+
+```javascript
+cdb.vis.Vis.addInfowindow(map_object, layer, ['fields']);
+```
+
+However, you can create custom infowindows with different tools (`Moustache.js`, HML or `underscore.js`). Whatever choice you use, you would need to create a template first and then add the infowindow with the template. Here we will see how to do it using `Moustache.js`.
+
+[Mustache.js](http://mustache.github.io/) is a `logic-less` logic-template. That means that only tags you create templates that are replaced with a value or series of values, it works by expanding tags in a template using values provided in a hash or object.
+
+Example: Custom infowindow template to display `cartodb_id`:
+  
+```html
+  <script type="infowindow/html" id="infowindow_template">
+    <div class="cartodb-popup v2">
+  <a href="#close" class="cartodb-popup-close-button close">x</a>
+  <div class="cartodb-popup-content-wrapper">
+    <div class="cartodb-popup-content">
+      <h4>ID</h4>
+      <p>{{cartodb_id}}</p>
+    </div>
+  </div>
+  <div class="cartodb-popup-tip-container"></div>
+</div>
+</script>
+```
+
+Then you can apply the custom infowindow template to the map with:
+
+```javascript
+cdb.vis.Vis.addInfowindow(
+          map, layer, [columnName],
+          {
+             infowindowTemplate: $('#infowindow_template').html()
+          });
+```
+
+
+* **Legends**:
+
+
+
+### 5. 4. Examples
 
 * Load a visualisation with `createVis()`: [example](http://bl.ocks.org/ramiroaznar/084f63f4200406508467826522dba842), [editor](http://plnkr.co/edit/x6YvoL?p=preview).
 
