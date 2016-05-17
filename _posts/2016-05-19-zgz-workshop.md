@@ -692,7 +692,44 @@ FROM
 * [Backbone.js](http://backbonejs.org/)
 * It can use either [Google Maps API](https://developers.google.com/maps/) or [Leaflet](http://leafletjs.com/)
 
-### 5. 2. Examples
+Know more about CartoDB.js [here](http://docs.cartodb.com/cartodb-platform/cartodb-js/) and [here](http://academy.cartodb.com/courses/cartodbjs-ground-up/createvis-vs-createlayer/).
+
+### 5. 2. Create Visualizations and Layers
+
+### 5. 2. 1. `createVis`
+
+The most basic way to display your map from CartoDB.js involves a call to:
+
+```javascript
+cartodb.createVis(div_id, viz_json_url)
+```
+
+Couched between the `<script> ... </script>` tags, createVis puts a map and CartoDB data layers into the DOM element you specify. In the snippet below we assume that `<div id='map'></div>` placed earlier in an HTML file.
+
+```javascript
+window.onload = function() {
+  var vizjson = 'link from share panel';
+  cartodb.createVis('map', vizjson);
+}
+```
+
+And that’s it! All you need is that snippet of code, a script block that sources CartoDB.js, and inclusion of the CartoDB.js CSS file. It’s really one of the easiest ways to create a custom map on your webpage. `createVis` also accepts options that you specifiy outside of the CartoDB Editor. They take the form of a [JS object](http://www.w3schools.com/js/js_objects.asp), and can be passed as a third optional argument.
+
+```javascript
+var options = {
+  center: [40.4000, -3.6833], // Madrid
+  zoom: 7,
+  scrollwheel: true
+};
+
+cartodb.createVis('map',vizjson,options);
+```
+
+### 5. 3. UI Functions
+
+
+
+### 5. 4. Examples
 
 * Load a visualisation with `createVis()`: [example](http://bl.ocks.org/ramiroaznar/084f63f4200406508467826522dba842), [editor](http://plnkr.co/edit/x6YvoL?p=preview).
 
