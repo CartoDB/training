@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Advanced CartoDB for Data Journalists
-category: intermediate
+category: advanced
 date: 2016-05-06
 author: 'Ernesto Martínez'
 length: 1.5
