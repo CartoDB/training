@@ -805,8 +805,7 @@ Example: Custom infowindow template to display `cartodb_id`:
   <div class="cartodb-popup-content-wrapper">
     <div class="cartodb-popup-content">
       <h4>ID</h4>
-	{{#cartodb_id}}
-      <p>{{cartodb_id}}</p>
+      <p>\{{cartodb_id\}}</p>
     </div>
   </div>
   <div class="cartodb-popup-tip-container"></div>
