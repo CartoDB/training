@@ -758,7 +758,7 @@ cartodb.createLayer(map_object, vizjson).addTo(map_object);
 
 ### 5. 3. UI Functions
 
-* **Tooltips**:
+#### 5. 3. 1. Tooltips
 
 A tooltip is an infowindow that appears when you hover your mouse over a map feature with vis.addOverlay(options). A tooltip appears where the mouse cursor is located on the map.
  
@@ -782,7 +782,7 @@ Second, add tooltip to the map:
      $('body').append(tooltip.render().el);
 ```
 
-* **Infowindows**:
+#### 5. 3. 2. Infowindows
 
 Infowindows provide additional interactivity for your published map, controlled by layer events. It enables interaction and overrides the layer interactivity. A pop-up information window appears when a viewer clicks on a map feature.
   
@@ -823,7 +823,7 @@ cdb.vis.Vis.addInfowindow(
           });
 ```
 
-* **Legends**:
+#### 5. 3. 3. Legends
 
 In order to add legends with CartoDB.js you would need to define the elemenets and colors of the legend with HTML, then you could use the legend classes of CartoDB.js to create the legends.
   
