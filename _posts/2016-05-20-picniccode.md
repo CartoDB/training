@@ -1,0 +1,78 @@
+---
+layout: page
+title: Introduction to Location Intelligence with CartoDB
+category: intermediate
+date: 2016-05-20
+author: 'juanignaciosl@gmail.com'
+length: 2
+---
+
+* Speaker: Juan Ignacio Sánchez Lara · juanignaciosl@cartodb.com · [@juanignaciosl](http://twitter.com/juanignaciosl)
+* May 20th 2016
+* [PC16](https://picniccode.es/)· Picnic Code · Valladolid
+
+## [Introduction to Location Intelligence with CartoDB](https://www.gui.uva.es/taller-introduction-to-location-intelligence-with-cartodb/)
+
+## Contents
+- [CartoDB presentation](#platform)
+- [Editor demo](#editor-demo)
+- [PostgreSQL and PostGIS](#sql)
+
+----
+
+## CartoDB presentation <a name="presentation"></a>
+
+TODO: link slides
+
+----
+
+## Editor demo<a name="editor-demo"></a>
+
+* Register new account
+* Import [Barrios de Valladolid](https://github.com/juanignaciosl/test-data-repository/blob/864b0ddfbd48f453ee9ce024691bf11b48d03dd8/Valladolid/barrios%20valladolid.zip?raw=true)
+  * Display table data.
+  * Show Pecan.
+  * Edit title and annotations, and explain what it is.
+  * Change basemap and explain the notion of layers.
+  * Add options and try search.
+  * Display changed map.
+  * Use a filter.
+* Import [twitter_t3chfest_reduced.csv](https://github.com/juanignaciosl/test-data-repository/blob/864b0ddfbd48f453ee9ce024691bf11b48d03dd8/twitter_t3chfest_reduced.csv?raw=true)
+  * Create animated Torque map with Pecan.
+  * Show new wizards.
+  * Create new empty layer and geocode. Speak about Dropbox connector.
+  * Publish.
+
+----
+
+## PostgreSQL and PostGIS
+
+TODO: link slides
+
+* Go to table view and filter the query.
+
+```sql
+SELECT
+  cartodb_id,
+  ST_Transform(
+    ST_Buffer(the_geom::geography, 100000)::geometry
+    ,3857
+  ) AS the_geom_webmercator
+FROM
+  twitter_t3chfest_reduced
+```
+
+```sql
+SELECT
+  ST_MakeLine(a.the_geom_webmercator, b.the_geom_webmercator) AS the_geom_webmercator
+FROM
+  twitter_t3chfest_reduced a,
+  twitter_t3chfest_reduced b
+WHERE
+    a.cartodb_id != b.cartodb_id
+  AND ST_DWithin(
+      a.the_geom_webmercator,
+      b.the_geom_webmercator,
+      15000
+    )
+```
