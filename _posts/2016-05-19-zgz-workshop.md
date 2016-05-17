@@ -796,7 +796,7 @@ However, you can create custom infowindows with different tools (`Moustache.js`,
 
 [Mustache.js](http://mustache.github.io/) is a `logic-less` logic-template. That means that only tags you create templates that are replaced with a value or series of values, it works by expanding tags in a template using values provided in a hash or object.
 
-Example: Custom infowindow template to display `No value` no value instead of `Null` when there is no data in a column:
+Example: Custom infowindow template to display `cartodb_id`:
   
 ```html
   <script type="infowindow/html" id="infowindow_template">
@@ -804,15 +804,8 @@ Example: Custom infowindow template to display `No value` no value instead of `N
   <a href="#close" class="cartodb-popup-close-button close">x</a>
   <div class="cartodb-popup-content-wrapper">
     <div class="cartodb-popup-content">
-
-      <h4>c_distri</h4>
-      {{#c_distri}}
-                <p>{{c_distri}}</p>
-        {{/c_distri}}
-        {{^c_distri}}
-            <p>No value</p>
-        {{/c_distri}}
-
+      <h4>ID</h4>
+      <p>{{cartodb_id}}</p>
     </div>
   </div>
   <div class="cartodb-popup-tip-container"></div>
