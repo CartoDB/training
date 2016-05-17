@@ -758,6 +758,81 @@ cartodb.createLayer(map_object, vizjson).addTo(map_object);
 
 ### 5. 3. UI Functions
 
+* **Tooltips**:
+
+A tooltip is an infowindow that appears when you hover your mouse over a map feature with vis.addOverlay(options). A tooltip appears where the mouse cursor is located on the map.
+ 
+To add a tooltip to a map you need to do two steps:
+ 
+1. Define tooltip variable:
+  
+```javascript
+  var tooltip = layer.leafletMap.viz.addOverlay({
+            type: 'tooltip',
+            layer: layer,
+            template: '<div class="cartodb-tooltip-content-wrapper"><p>{{name}}</p></div>', 
+            width: 200,
+            position: 'bottom|right',
+            fields: [{ name: 'name' }]
+  });
+```
+2. Add tooltip to the map:
+
+```javascript
+     $('body').append(tooltip.render().el);
+```
+
+* **Infowindows**:
+
+Infowindows provide additional interactivity for your published map, controlled by layer events. It enables interaction and overrides the layer interactivity. A pop-up information window appears when a viewer clicks on a map feature.
+  
+In order to add the CartoDB.js infowindow you need to add this line within your code:
+
+```javascript
+cdb.vis.Vis.addInfowindow(map_object, layer, ['fields']);
+```
+
+However, you can create custom infowindows with different tools (`Moustache.js`, HML or `underscore.js`). Whatever choice you use, you would need to create a template first and then add the infowindow with the template. Here we will see how to do it using `Moustache.js`.
+
+[Mustache.js](http://mustache.github.io/) is a ``logic-less``logic-template. That means that only tags you create templates that are replaced with a value or series of values, it works by expanding tags in a template using values provided in a hash or object.
+
+Example: Custom infowindow template to display ``No value`` no value instead of ``Null`` when there is no data in a column:
+  
+  ```HTML
+  <script type="infowindow/html" id="infowindow_template">
+    <div class="cartodb-popup v2">
+  <a href="#close" class="cartodb-popup-close-button close">x</a>
+  <div class="cartodb-popup-content-wrapper">
+    <div class="cartodb-popup-content">
+   
+      <h4>c_distri</h4>
+      {{#c_distri}}
+        		<p>{{c_distri}}</p>
+        {{/c_distri}}
+        {{^c_distri}}
+  			<p>No value</p>
+		{{/c_distri}}
+      
+    </div>
+  </div>
+  <div class="cartodb-popup-tip-container"></div>
+</div>
+</script>
+  ```
+Then you can apply the custom infowindow template to the map with:
+
+```javascript
+cdb.vis.Vis.addInfowindow(
+          map, layer, [columnName],
+          {
+             infowindowTemplate: $('#infowindow_template').html()
+          });
+```
+
+
+
+* **Legends**:
+
 
 
 ### 5. 4. Examples
