@@ -794,27 +794,29 @@ cdb.vis.Vis.addInfowindow(map_object, layer, ['fields']);
 
 However, you can create custom infowindows with different tools (`Moustache.js`, HML or `underscore.js`). Whatever choice you use, you would need to create a template first and then add the infowindow with the template. Here we will see how to do it using `Moustache.js`.
 
-[Mustache.js](http://mustache.github.io/) is a ``logic-less``logic-template. That means that only tags you create templates that are replaced with a value or series of values, it works by expanding tags in a template using values provided in a hash or object.
+[Mustache.js](http://mustache.github.io/) is a `logic-less` logic-template. That means that only tags you create templates that are replaced with a value or series of values, it works by expanding tags in a template using values provided in a hash or object.
 
-Example: Custom infowindow template to display ``No value`` no value instead of ``Null`` when there is no data in a column:
+Example: Custom infowindow template to display `No value` no value instead of `Null` when there is no data in a column:
   
-```HTML
-<script type="infowindow/html" id="infowindow_template">
-	<div class="cartodb-popup v2">
-	<a href="#close" class="cartodb-popup-close-button close">x</a>
-		<div class="cartodb-popup-content-wrapper">
-			<div class="cartodb-popup-content">
-				<h4>c_distri</h4>
-				{{#c_distri}}
-				<p>{{c_distri}}</p>
-				{{/c_distri}}
-				{{^c_distri}}
-				<p>No value</p>
-				{{/c_distri}}     
-			</div>
-		</div>
-  		<div class="cartodb-popup-tip-container"></div>
-	</div>
+```html
+  <script type="infowindow/html" id="infowindow_template">
+    <div class="cartodb-popup v2">
+  <a href="#close" class="cartodb-popup-close-button close">x</a>
+  <div class="cartodb-popup-content-wrapper">
+    <div class="cartodb-popup-content">
+
+      <h4>c_distri</h4>
+      {{#c_distri}}
+                <p>{{c_distri}}</p>
+        {{/c_distri}}
+        {{^c_distri}}
+            <p>No value</p>
+        {{/c_distri}}
+
+    </div>
+  </div>
+  <div class="cartodb-popup-tip-container"></div>
+</div>
 </script>
 ```
 
