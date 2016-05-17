@@ -51,7 +51,7 @@ CartoDB supports the following geospatial data formats to upload vector data*:
 * **`OSM`**.
 
 *Importing **different geometry types** in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information [here](http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats).
-**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html). Sandbox ([here](http://geojson.io/#map=2/20.0/0.0) & [here])
+**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html), [here](http://geojsonlint.com/) and [here](http://geojson.io/#map=2/20.0/0.0).
 
 ### 1. 2. Common importing errors
 * **Dataset too large**:
@@ -152,7 +152,7 @@ FROM
 
 ### 2. 4. Filtering
 
-![filtering](../img/160510-upm/filtering.png)
+![filtering](../img/160519-zgz/filtering.png)
 
 * Filtering **numeric fields**:
 
@@ -272,6 +272,14 @@ ORDER BY
 
 ## 3. Making a map <a name="map"></a>
 
+### 3. 0. Before making maps...
+
+----
+
+> CartoDB make maps using **SQL queries**, not tables!
+
+----
+
 ### 3. 1. Wizard
 
 [Analyzing your dataset...](http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset) In some cases, when you connect a dataset and click on the MAP VIEW for the first time, the Analyzing dataset dialog appears. This analytical tool analyzes the data in each column, predicts how to visualize this data, and offers you snapshots of the visualized maps. You can select one of the possible map styles, or ignore the analyzing dataset suggestions.
@@ -304,7 +312,7 @@ SET
   pop_norm = pop2005 / new_area
 ```
 
-![choropleth](../img/160510-upm/choropleth.png)
+![choropleth](../img/160519-zgz/choropleth.png)
 
 Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
@@ -373,15 +381,15 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Basemaps**:
 
-![basemap](../img/160510-upm/basemap.png)
+![basemap](../img/160519-zgz/basemap.png)
 
 * **Options**:
 
-![options](../img/160510-upm/options.png)
+![options](../img/160519-zgz/options.png)
 
 * **Legend**:
 
-![legend](../img/160510-upm/legend.png)
+![legend](../img/160519-zgz/legend.png)
 
 ```html
 <div class='cartodb-legend choropleth'>	
@@ -410,7 +418,7 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Labels**:
 
-![intensity](../img/160510-upm/labels.png)
+![intensity](../img/160519-zgz/labels.png)
 
 ```css
 #world_borders::labels {
@@ -430,7 +438,7 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Infowindows and tooltip**:
 
-![infowindows](../img/160510-upm/infowindows.png)
+![infowindows](../img/160519-zgz/infowindows.png)
 
 ```html
 <div class="cartodb-popup v2">
@@ -451,11 +459,11 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Title, text and images**:
 
-![elements](../img/160510-upm/elements.png)
+![elements](../img/160519-zgz/elements.png)
 
 ### 3. 4. Share your map!
 
-![share](../img/160510-upm/share.png)
+![share](../img/160519-zgz/share.png)
 
 * **Get the link**: [https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map](https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map)
 
@@ -507,7 +515,7 @@ FROM
   spatial_ref_sys
 ```
 
-![srid](../img/160510-upm/srid.png)
+![srid](../img/160519-zgz/srid.png)
 
 * Accessing the occult **the_geom_webmercator** field:
 
@@ -544,9 +552,9 @@ FROM
   ne_50m_land
 ```
 
-![robinson](../img/160510-upm/robinson.png)
+![robinson](../img/160519-zgz/robinson.png)
 
-*About [ST_Transform](http://postgis.net/docs/ST_Transform.html).
+*About [`ST_Transform`](http://postgis.net/docs/ST_Transform.html).
 
 ### 4. 3. Geoprocessing
 
@@ -566,9 +574,48 @@ WHERE
   name ilike 'madrid'
 ```
 
-![buffer](../img/160510-upm/buffer.png)
+![buffer](../img/160519-zgz/buffer.png)
 
-*About [ST_Buffer](http://postgis.net/docs/ST_Buffer.html).
+*About [`ST_Buffer`](http://postgis.net/docs/ST_Buffer.html).
+
+* Get the **difference** between two geometries:
+
+```sql
+SELECT
+  a.cartodb_id,
+    ST_Difference(
+        a.the_geom_webmercator,
+        b.the_geom_webmercator
+  ) AS the_geom_webmercator
+FROM
+  ne_50m_land a,
+  ne_adm0_europe b
+WHERE
+  b.adm0_a3 like 'ESP'
+```
+
+![difference](../img/160519-zgz/difference.png)
+
+*About [`ST_Difference`](http://postgis.net/docs/ST_Difference.html).
+
+* Know if tow geometries **intersect**:
+
+```sql
+SELECT
+  a.*
+FROM
+  ne_10m_populated_places_simple a,
+  ne_adm0_europe b
+WHERE
+  ST_Intersects(
+    b.the_geom_webmercator,
+    a.the_geom_webmercator
+  )
+```
+
+![intersects](../img/160519-zgz/intersects.png)
+
+*About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html).
 
 * Create a **straight line** between two points:
 
@@ -581,9 +628,9 @@ FROM (SELECT * FROM populated_places
     WHERE name ILIKE 'barcelona'AND adm0name ILIKE 'spain') as b
 ```
 
-![lines](../img/160510-upm/lines.png)
+![lines](../img/160519-zgz/lines.png)
 
-*About [ST_MakeLine](http://postgis.net/docs/ST_MakeLine.html).
+*About [`ST_MakeLine`](http://postgis.net/docs/ST_MakeLine.html).
 
 * Create **great circles** between two points:
 
@@ -606,7 +653,7 @@ FROM
   WHERE name ILIKE 'new york') as b
 ```
 
-![greatcircles](../img/160510-upm/greatcircles.png)
+![greatcircles](../img/160519-zgz/greatcircles.png)
 
 *About [Great Circles](http://blog.cartodb.com/jets-and-datelines/).
 
