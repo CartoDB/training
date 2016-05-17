@@ -152,7 +152,7 @@ FROM
 
 ### 2. 4. Filtering
 
-![filtering](../img/160519-zgz/filtering.png)
+![filtering](../img/160520-zgz/filtering.png)
 
 * Filtering **numeric fields**:
 
@@ -312,7 +312,7 @@ SET
   pop_norm = pop2005 / new_area
 ```
 
-![choropleth](../img/160519-zgz/choropleth.png)
+![choropleth](../img/160520-zgz/choropleth.png)
 
 Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
@@ -381,15 +381,15 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Basemaps**:
 
-![basemap](../img/160519-zgz/basemap.png)
+![basemap](../img/160520-zgz/basemap.png)
 
 * **Options**:
 
-![options](../img/160519-zgz/options.png)
+![options](../img/160520-zgz/options.png)
 
 * **Legend**:
 
-![legend](../img/160519-zgz/legend.png)
+![legend](../img/160520-zgz/legend.png)
 
 ```html
 <div class='cartodb-legend choropleth'>	
@@ -418,7 +418,7 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Labels**:
 
-![intensity](../img/160519-zgz/labels.png)
+![intensity](../img/160520-zgz/labels.png)
 
 ```css
 #world_borders::labels {
@@ -438,7 +438,7 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Infowindows and tooltip**:
 
-![infowindows](../img/160519-zgz/infowindows.png)
+![infowindows](../img/160520-zgz/infowindows.png)
 
 ```html
 <div class="cartodb-popup v2">
@@ -459,11 +459,11 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 
 * **Title, text and images**:
 
-![elements](../img/160519-zgz/elements.png)
+![elements](../img/160520-zgz/elements.png)
 
 ### 3. 4. Share your map!
 
-![share](../img/160519-zgz/share.png)
+![share](../img/160520-zgz/share.png)
 
 * **Get the link**: [https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map](https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map)
 
@@ -515,7 +515,7 @@ FROM
   spatial_ref_sys
 ```
 
-![srid](../img/160519-zgz/srid.png)
+![srid](../img/160520-zgz/srid.png)
 
 * Accessing the occult **the_geom_webmercator** field:
 
@@ -552,7 +552,7 @@ FROM
   ne_50m_land
 ```
 
-![robinson](../img/160519-zgz/robinson.png)
+![robinson](../img/160520-zgz/robinson.png)
 
 *About [`ST_Transform`](http://postgis.net/docs/ST_Transform.html).
 
@@ -574,7 +574,7 @@ WHERE
   name ilike 'madrid'
 ```
 
-![buffer](../img/160519-zgz/buffer.png)
+![buffer](../img/160520-zgz/buffer.png)
 
 *About [`ST_Buffer`](http://postgis.net/docs/ST_Buffer.html).
 
@@ -594,7 +594,7 @@ WHERE
   b.adm0_a3 like 'ESP'
 ```
 
-![difference](../img/160519-zgz/difference.png)
+![difference](../img/160520-zgz/difference.png)
 
 *About [`ST_Difference`](http://postgis.net/docs/ST_Difference.html).
 
@@ -613,7 +613,7 @@ WHERE
   )
 ```
 
-![intersects](../img/160519-zgz/intersects.png)
+![intersects](../img/160520-zgz/intersects.png)
 
 *About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html).
 
@@ -628,7 +628,7 @@ FROM (SELECT * FROM populated_places
     WHERE name ILIKE 'barcelona'AND adm0name ILIKE 'spain') as b
 ```
 
-![lines](../img/160519-zgz/lines.png)
+![lines](../img/160520-zgz/lines.png)
 
 *About [`ST_MakeLine`](http://postgis.net/docs/ST_MakeLine.html).
 
@@ -653,7 +653,7 @@ FROM
   WHERE name ILIKE 'new york') as b
 ```
 
-![greatcircles](../img/160519-zgz/greatcircles.png)
+![greatcircles](../img/160520-zgz/greatcircles.png)
 
 *About [Great Circles](http://blog.cartodb.com/jets-and-datelines/).
 
