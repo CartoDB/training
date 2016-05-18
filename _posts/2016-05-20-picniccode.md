@@ -17,6 +17,7 @@ length: 2
 - [CartoDB presentation](#platform)
 - [Editor demo](#editor-demo)
 - [PostgreSQL and PostGIS](#sql)
+- [Full demo](#full-demo)
 
 ----
 
@@ -41,6 +42,7 @@ TODO: link slides
   * Create animated Torque map with Pecan.
   * Show new wizards.
   * Create new empty layer and geocode. Speak about Dropbox connector.
+  * Edit CartoCSS.
   * Publish.
 
 ----
@@ -75,4 +77,57 @@ WHERE
       b.the_geom_webmercator,
       15000
     )
+```
+
+## Full demo<a name="full-demo"></a>
+
+Getting the stops per area.
+
+```sql
+SELECT
+  p.cartodb_id,
+  p.clave,
+  count(*) AS p_count
+FROM
+  autobus_urbano_paradas a,
+  poblacion_2015_zonas p
+WHERE
+  ST_Intersects(a.the_geom, p.the_geom)
+GROUP BY
+  p.cartodb_id,
+  p.clave
+```
+
+Replace choropleth CSS:
+
+```CSS
+#poblacion_2015_zonas [ shape_area <= 51296277.9908] {
+   polygon-fill: #8A4E8A;
+}
+#poblacion_2015_zonas [ shape_area <= 183623.9264] {
+   polygon-fill: #A05AA0;
+}
+#poblacion_2015_zonas [ shape_area <= 65630.35375] {
+   polygon-fill: #B379B3;
+}
+#poblacion_2015_zonas [ shape_area <= 42417.14795] {
+   polygon-fill: #C08FC0;
+}
+#poblacion_2015_zonas [ shape_area <= 30620.58055] {
+   polygon-fill: #CCA5CC;
+}
+#poblacion_2015_zonas [ shape_area <= 24426.18045] {
+   polygon-fill: #D8BBD8;
+}
+#poblacion_2015_zonas [ shape_area <= 18082.63345] {
+   polygon-fill: #F1E6F1;
+}
+```
+
+with
+
+```CSS
+#poblacion_2015_zonas {
+  polygon-fill: ramp([shape_area], 15000, 51296277);
+}
 ```
