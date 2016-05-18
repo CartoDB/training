@@ -20,7 +20,6 @@ Charla de introducción a CartoDB para la Universidad de Zargoza y el Colegio de
 
 * Sobre Ramiro Aznar: [web](http://ramiroaznar.com/).
 <br/>
-
 * Sobre CartoDB:
 	* CartoDB es *Location Intelligence*: [blog](http://blog.cartodb.com/what-is-location-intelligence-and-its-benefits/).
 	* CartoDB es una plataforma: [platform](https://cartodb.com/platform/).
@@ -34,12 +33,13 @@ Charla de introducción a CartoDB para la Universidad de Zargoza y el Colegio de
 	* Turbo-Carto: [blog](http://blog.cartodb.com/turbo-carto/).
 	* CartoColors: [labs-colorscales](http://cartodb.github.io/labs-colorscales/#).
 	* Proyecciones: [blog](http://blog.cartodb.com/free-your-maps-web-mercator/) & [cartoblock](http://blocks.cartodb.io/#121faa4da3a584dae20d)
-	* Data Observatory: [blog]().
+	* Data Observatory: [blog](http://blog.cartodb.com/data-observatory).
 	* Deep Insights: [blog](http://blog.cartodb.com/deep-insights/).
 <br/>
 
 * Demos:
-	* Telco: [demo](https://cartodb.github.io/labs-telco-insights/).
+	* TelCo: [demo](https://cartodb.github.io/labs-telco-insights/).
+	* Airbnb: [demo](http://cartodb.github.io/deep-insights.js/examples/airbnb_and_closest_metro.html).
 <br/>
 
 ----
