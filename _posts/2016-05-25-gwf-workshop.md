@@ -2,14 +2,14 @@
 layout: page
 title: Intermediate >> Advanced CartoDB Workshop
 category: intermediate
-date: 2016-05-10
+date: 2016-05-25
 author: 'Ernesto Martínez'
 length: 2h
 ---
 
 * Speaker: Ernesto Martínez · ernesto@cartodb.com · [@ernesmb](http://twitter.com/ernesmb)
-* May 19th 2016
-* MSc GIS & Remote Sensing · Universidad de Zaragoza · Zaragoza
+* May 25th 2016
+* Geospatial World Forum 2016 • Rotterdam
 
 ## [http://bit.ly/link-to-workshop]()
 
@@ -21,8 +21,6 @@ length: 2h
 - [Webmapping apps with CartoDB.js](#cartodbjs)
 
 ----
-
-# Intermediate CartoDB Workshop
 
 ## 0. Before we start...
 
@@ -38,22 +36,23 @@ length: 2h
 
 ## 1. Importing datasets <a name="import"></a>
 
-### 1. 1. Supported Geospatial Data Files
+### 1.1 Supported Geospatial Data Files
 CartoDB supports the following geospatial data formats to upload vector data*:
 
 * **`Shapefile`**
 * **`KML`**
 * **`KMZ`**
-* **`GeoJSON`**** 
+* **`GeoJSON`***
 * **`CSV`**
-* **`Spreedsheets`**
+* **`Spreadsheets`**
 * **`GPX`**
 * **`OSM`**
 
-*_Importing **different geometry types** in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information [here](http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats)._
-**More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html), [here](http://geojsonlint.com/) and [here](http://geojson.io/#map=2/20.0/0.0).
+_Importing **different geometry types** in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information [here](http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats)._
 
-### 1. 2. Common importing errors
+[*] More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html), [here](http://geojsonlint.com/) and [here](http://geojson.io/#map=2/20.0/0.0).
+
+### 1.2 Common importing errors
 * **Dataset too large**:
 	* File size limit: 150 Mb (free).
 	* Import row limit: 500,000 rows (free).
@@ -63,7 +62,7 @@ CartoDB supports the following geospatial data formats to upload vector data*:
 	* *Solution*: check termination lines, header...
 <br/>
 * **Encoding**:
-	* *Solution*: `Save with Encoding` > `UTF-8 with BOM` in [Sublime Text](https://www.sublimetext.com/).
+	* *Solution*: `Save with Encoding` > `UTF-8 with BOM` in [Sublime Text](https://www.sublimetext.com/) or any other text editor.
 <br/>
 * **Shapefile missing files**:
 	* Missing any of the following files within the compressed file will produce an importing error:
@@ -92,7 +91,7 @@ Other importing errors and their codes can be found [here](http://docs.cartodb.c
 
 ## 2. Getting your data ready <a name="dataset"></a>
 
-### 2. 1. Geocoding
+### 2.1 Geocoding
 
 If you have a column with longitude coordinates and another with latitude coordinates, CartoDB will automatically detect and covert values into `the_geom`. If this is not the case, CartoDB can help you by turning the named places into best guess of latitude-longitude coordinates:
 
@@ -106,19 +105,19 @@ If you have a column with longitude coordinates and another with latitude coordi
 Know more about geocoding in CartoDB:
 
 * In [**this tutorial**](http://docs.cartodb.com/tutorials/how_to_georeference/).
-* In [**our Location Data Services website**](https://cartodb.com/location-data-services/geocoding/).
+* In our [**Location Data Services website**](https://cartodb.com/location-data-services/geocoding/).
 * In our [**documentation**](http://docs.cartodb.com/cartodb-platform/dataservices-api/geocoding-functions/).
 
-### 2. 2. Datasets
+### 2.2 Datasets
 
 * **Populated Places** [`ne_10m_populated_places_simple`]: City and town points.
 * **World Borders** [`world_borders`]: World countries borders.
 * **Land** [`ne_50m_land`]: World emerged lands.
 * **European countries** [`ne_adm0_europe`]: European countries geometries.
 
-### 2. 3. Selecting
+### 2.3 Selecting
 
-* Selecting **all the columns**:
+#### Selecting **all columns**:
 
 ```sql
 SELECT
@@ -127,7 +126,7 @@ FROM
   ne_10m_populated_places_simple;
 ```
 
-* Selecting **some columns**:
+#### Selecting **some columns**:
 
 ```sql
 SELECT
@@ -141,7 +140,7 @@ FROM
   ne_10m_populated_places_simple
 ```
 
-* Selecting **distinc values**:
+#### Selecting **distinc values**:
 
 ```sql
 SELECT DISTINCT
@@ -150,11 +149,11 @@ FROM
   ne_10m_populated_places_simple
 ```
 
-### 2. 4. Filtering
+### 2.4 Filtering
 
 ![filtering](../img/160520-zgz/filtering.png)
 
-* Filtering **numeric fields**:
+#### Filtering **numeric fields**:
 
 ```sql
 SELECT 
@@ -165,7 +164,7 @@ WHERE
   pop_max > 5000000;
 ```
 
-* Filtering **character fields**:
+#### Filtering **character fields**:
 
 ```sql
 SELECT 
@@ -176,7 +175,7 @@ WHERE
   adm0name ilike 'spain'
 ```
 
-* Filtering a **range**:
+#### Filtering a **range**:
 
 ```sql
 SELECT 
@@ -189,7 +188,7 @@ AND
   adm0name ilike 'spain'
 ```
 
-* **Combining** character and numeric filters:
+#### **Combining** character and numeric filters:
 
 ```sql
 SELECT 
@@ -204,9 +203,9 @@ AND
   pop_max > 5000000
 ```
 
-### 2. 5. Others:
+### 2.5 Others:
 
-* Selecting **aggregated values**:
+#### Selecting **aggregated values**:
 
 ```sql
 SELECT
@@ -233,7 +232,7 @@ WHERE
   adm0name ilike 'spain'
 ```
 
-* **Ordering results**:
+#### **Ordering results**:
 
 ```sql
 SELECT 
@@ -250,7 +249,7 @@ ORDER BY
   pop_max DESC
 ```
 
-* **Limiting results**:
+#### **Limiting results**:
 
 ```sql
 SELECT 
@@ -270,17 +269,17 @@ ORDER BY
 ----
 
 
-## 3. Making a map <a name="map"></a>
+## 3. Making our first map <a name="map"></a>
 
-### 3. 0. Before making maps...
-
-----
-
-> CartoDB make maps using **SQL queries**, not tables!
+### 3.0 Before we start...
 
 ----
 
-### 3. 1. Wizard
+> CartoDB makes maps using **SQL queries**, not tables!
+
+----
+
+### 3.1 Wizard
 
 [Analyzing your dataset...](http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset) In some cases, when you connect a dataset and click on the MAP VIEW for the first time, the Analyzing dataset dialog appears. This analytical tool analyzes the data in each column, predicts how to visualize this data, and offers you snapshots of the visualized maps. You can select one of the possible map styles, or ignore the analyzing dataset suggestions.
 
@@ -296,29 +295,30 @@ ORDER BY
 
 * **Choropleth Map**:
 
-Before making a choropleth map, we need to normalize our target column. So we are going to create two new columns with `numeric` as data type: `new_area` and `po_norm`. Finally, run the following SQL queries to update their values:
+Before making a choropleth map, we need to normalize our target column. For that, we need an auxiliary table with the area of each country. We will use it afterwards to divide the population.
 
 ```sql
-UPDATE
-  world_borders
-SET
-  new_area = round(st_area(the_geom)::numeric, 6)
-```
-
-```sql
-UPDATE
-  world_borders
-SET
-  pop_norm = pop2005 / new_area
+WITH aux AS
+  (
+  SELECT 
+    round(st_area(the_geom)::numeric, 6) AS new_area,
+  FROM world_borders
+  )
+SELECT
+  wb.*,
+  pop2005/new_area AS pop_norm
+FROM
+  world_borders wb,
+  aux
 ```
 
 ![choropleth](../img/160520-zgz/choropleth.png)
 
 Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
-### 3. 2. Styles
+### 3.2 Styles
 
-* **Simple Map**:
+#### **Simple Map**:
 
 ```css
 /** simple visualization */
@@ -332,7 +332,7 @@ Know more about chosing the right map to make [here](http://academy.cartodb.com/
 }
 ```
 
-* **Choropleth Map**:
+#### **Choropleth Map**:
 
 ```css
 /** choropleth visualization */
@@ -367,27 +367,27 @@ Know more about chosing the right map to make [here](http://academy.cartodb.com/
 }
 ```
 
-* **Category Map**.
-* **Bubble Map**.
-* **Torque Map**.
-* **Heatmap Map**.
-* **Torque Cat Map**.
-* **Intensity Map**.
-* **Density Map**.
+#### Proportional symbols map
+_WIP_
 
-Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset).
+_from [this post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/)_
 
-### 3. 3. Other elements
+#### Two-variable CartoCSS
+_WIP_
 
-* **Basemaps**:
+_Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/)._
+
+### 3.3 Other elements
+
+#### **Basemaps**:
 
 ![basemap](../img/160520-zgz/basemap.png)
 
-* **Options**:
+#### **Options**:
 
 ![options](../img/160520-zgz/options.png)
 
-* **Legend**:
+#### **Legend**:
 
 ![legend](../img/160520-zgz/legend.png)
 
@@ -416,7 +416,7 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 </div>
 ```
 
-* **Labels**:
+#### **Labels**:
 
 ![intensity](../img/160520-zgz/labels.png)
 
@@ -436,7 +436,7 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 }
 ```
 
-* **Infowindows and tooltip**:
+#### **Infowindows and tooltip**:
 
 ![infowindows](../img/160520-zgz/infowindows.png)
 
@@ -457,31 +457,41 @@ Know more about CartoCSS with our [documentation](http://docs.cartodb.com/cartod
 </div>
 ```
 
-* **Title, text and images**:
+#### **Title, text and images**:
 
 ![elements](../img/160520-zgz/elements.png)
 
-### 3. 4. Share your map!
+### 3.4 Share your map! 
+
+WIP => update links
 
 ![share](../img/160520-zgz/share.png)
 
-* **Get the link**: [https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map](https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map)
+#### **Get the link**: 
 
-* **Embed it**: 
+[https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map](https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map)
+
+#### **Embed it**: 
+
+```html
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+```
 
 <iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
-* **CartoDB.js** [vizJSON file*]: https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json
+#### **CartoDB.js** 
 
-*BONUS: **[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc)**, a Google Chrome extension and **[Pretty JSON](https://github.com/dzhibas/SublimePrettyJson)**, a Sublime Text plugin to visualize json files are good resources.
+[https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json](https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json)
+
+_BONUS: **[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc)**, a Google Chrome extension and **[Pretty JSON](https://github.com/dzhibas/SublimePrettyJson)**, a Sublime Text plugin to visualize json files are good resources._
 
 ----
 
 ## 4. Going spatial with PostGIS <a name="postgis"></a>
 
-### 4. 1. Working with projections
+### 4.1 Working with projections
 
-#### 4. 1. 1. `geometry` vs. `geography`
+#### `geometry` vs. `geography`
 * **`Geometry`** uses a cartesian plane to measure and store features (CRS units):
  
     >The basis for the PostGIS `geometry` type is a plane. The shortest path between two points on the plane is a straight line. That means calculations on geometries (areas, distances, lengths, intersections, etc) can be calculated using cartesian mathematics and straight line vectors.
@@ -494,7 +504,11 @@ More about the `geography` type can be found [here](http://workshops.boundlessge
 
 ![cart vs sph](http://workshops.boundlessgeo.com/postgis-intro/_images/cartesian_spherical.jpg)
 
-#### 4. 1. 2. `the_geom` and `the_geom_webmercator`
+![LA-CDG](http://workshops.boundlessgeo.com/postgis-intro/_images/lax_cdg.jpg)
+
+_Source: [Boundless Postgis intro](http://workshops.boundlessgeo.com/postgis-intro)_
+
+#### `the_geom` vs. `the_geom_webmercator`
 * **`the_geom`** EPSG:4326. Unprojected coordinates in **decimal degrees** (Lon/Lat). WGS84 Spheroid.
 * **`the_geom_webmercator`** EPSG:3857. UTM projected coordinates in **meters**. This is a conventional Coordinate Reference System, widely accepted as a 'de facto' standard in webmapping. 
 
@@ -504,9 +518,9 @@ In CartoDB, **the_geom_webmercator column is the one we see represented in the m
 * [Map Projections in Wikipedia](https://en.wikipedia.org/wiki/Map_projection).
 * In [this CartoDB blog post](http://blog.cartodb.com/free-your-maps-web-mercator/).
 
-### 4. 2. Changing map projections
+### 4.2 Changing map projections
 
-* Accessing the **list of default projections** available in CartoDB:
+#### Accessing the **list of default projections** available in CartoDB:
 
 ```sql
 SELECT 
@@ -517,7 +531,7 @@ FROM
 
 ![srid](../img/160520-zgz/srid.png)
 
-* Accessing the occult **the_geom_webmercator** field:
+#### Accessing the hidden **the_geom_webmercator** field:
 
 ```sql
 SELECT 
@@ -526,7 +540,7 @@ FROM
   ne_50m_land
 ```
 
-* **World Robinson** projection (ESPG:54030):
+#### Adding **World Robinson** projection (ESPG:54030):
 
 ```sql
 INSERT INTO spatial_ref_sys
@@ -554,11 +568,11 @@ FROM
 
 ![robinson](../img/160520-zgz/robinson.png)
 
-*About [`ST_Transform`](http://postgis.net/docs/ST_Transform.html).
+_About [`ST_Transform`](http://postgis.net/docs/ST_Transform.html)._
 
-### 4. 3. Geoprocessing
+### 4.3 Geoprocessing
 
-* Create a **buffer** from points:
+#### Create a **buffer** from points:
 
 ```sql
 SELECT
@@ -576,9 +590,9 @@ WHERE
 
 ![buffer](../img/160520-zgz/buffer.png)
 
-*About [`ST_Buffer`](http://postgis.net/docs/ST_Buffer.html).
+_About [`ST_Buffer`](http://postgis.net/docs/ST_Buffer.html)._
 
-* Get the **difference** between two geometries:
+#### Get the **difference** between two geometries:
 
 ```sql
 SELECT
@@ -596,28 +610,57 @@ WHERE
 
 ![difference](../img/160520-zgz/difference.png)
 
-*About [`ST_Difference`](http://postgis.net/docs/ST_Difference.html).
+_About [`ST_Difference`](http://postgis.net/docs/ST_Difference.html)._
 
-* Know if tow geometries **intersect**:
+#### Get the number of points inside a polygon
+
+Using `GROUP BY`:
 
 ```sql
 SELECT
-  a.*
+  b.cartodb_id,
+  b.name,
+  b.the_geom_webmercator,
+  count(*) AS pp_count,
+  sum(a.pop_max) as sum_pop
 FROM
   ne_10m_populated_places_simple a,
   ne_adm0_europe b
 WHERE
-  ST_Intersects(
-    b.the_geom_webmercator,
-    a.the_geom_webmercator
-  )
+  ST_Intersects(a.the_geom, b.the_geom)
+GROUP BY
+  b.cartodb_id,
+  b.name,
+  b.the_geom_webmercator
 ```
 
-![intersects](../img/160520-zgz/intersects.png)
+Using `LATERAL`:
 
-*About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html).
+```sql
+SELECT
+  a.cartodb_id,
+  a.name,
+  a.the_geom_webmercator,
+  counts.number_cities,
+  to_char(counts.sum_pop,'999,999,999') as sum_pop --decimal separator
+FROM
+  ne_adm0_europe a
+CROSS JOIN LATERAL
+  (
+    SELECT
+      count(*) as number_cities,
+      sum(pop_max) as sum_pop
+    FROM
+      ne_10m_populated_places_simple b
+    WHERE
+      ST_Intersects(a.the_geom, b.the_geom)
+  ) AS counts
+```
+_About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html) and [Lateral JOIN](http://blog.heapanalytics.com/postgresqls-powerful-new-join-type-lateral)_
 
-* Know wether a geometry is **within** the given range from another geometry:
+![ADD IMAGE](../img/)
+
+#### Know wether a geometry is **within** the given range from another geometry:
 
 ```sql
 SELECT
@@ -638,9 +681,9 @@ WHERE
 
 ![dwithin](../img/160520-zgz/dwithin.png)
 
-*About [`ST_DWithin`](http://postgis.net/docs/ST_DWithin.html).
+_About [`ST_DWithin`](http://postgis.net/docs/ST_DWithin.html)._
 
-* Create a **straight line** between two points:
+#### Create a **straight line** between two points:
 
 ```sql
 SELECT 
@@ -653,9 +696,9 @@ FROM (SELECT * FROM populated_places
 
 ![lines](../img/160520-zgz/lines.png)
 
-*About [`ST_MakeLine`](http://postgis.net/docs/ST_MakeLine.html).
+_About [`ST_MakeLine`](http://postgis.net/docs/ST_MakeLine.html)._
 
-* Create **great circles** between two points:
+#### Create **great circles** between two points:
 
 ```sql
 SELECT 
@@ -678,13 +721,64 @@ FROM
 
 ![greatcircles](../img/160520-zgz/greatcircles.png)
 
-*About [Great Circles](http://blog.cartodb.com/jets-and-datelines/).
+_About [Great Circles](http://blog.cartodb.com/jets-and-datelines/)._
+
+#### Generating Grids with CDB functions
+
+**Rectangular grid**
+
+```sql
+SELECT
+  row_number() over () as cartodb_id,
+  CDB_RectangleGrid(
+    ST_Buffer(the_geom_webmercator,125000),
+  250000,
+  250000
+  ) AS the_geom_webmercator
+FROM 
+  ne_adm0_europe
+WHERE 
+  adm0_a3 IN ('ITA','GBR')
+```
+
+![ADD IMAGE]()
+
+_About [CDB_RectangleGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid)_
+
+**Adaptative Hexagonal grid**
+
+```sql
+WITH grid AS 
+(SELECT
+  row_number() over () as cartodb_id,
+  CDB_HexagonGrid(
+    ST_Buffer(the_geom_webmercator, 100000),
+    100000
+  ) AS the_geom_webmercator
+FROM 
+  ne_adm0_europe
+WHERE 
+  adm0_a3 IN ('ESP','ITA'))
+
+SELECT 
+  grid.the_geom_webmercator, 
+  grid.cartodb_id
+FROM
+  grid, ne_adm0_europe a
+WHERE 
+    ST_intersects(grid.the_geom_webmercator, a.the_geom_webmercator)
+  AND a.adm0_a3 IN ('ESP','ITA')
+```
+
+![ADD IMAGE]()
+
+_About [CDB_HexagonGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-hexagon-grid)_
 
 ----
 
 ## 5. Webmapping apps with CartoDB.js <a name="cartodbjs"></a>
 
-### 5. 1. CartoDB.js
+### 5.1 CartoDB.js
 [CartoDB.js](http://docs.cartodb.com/cartodb-platform/cartodb-js/) is the JavaScript library that allows to create webmapping apps using CartoDB services quickly and efficiently. It's built upon the following components:
 
 * [jQuery](http://jquery.com)
@@ -694,9 +788,9 @@ FROM
 
 Know more about CartoDB.js [here](http://docs.cartodb.com/cartodb-platform/cartodb-js/) and [here](http://academy.cartodb.com/courses/cartodbjs-ground-up/createvis-vs-createlayer/).
 
-### 5. 2. Create Visualizations and Layers
+### 5.2 Create Visualizations and Layers
 
-#### 5. 2. 1. `createVis`
+#### `createVis()`
 
 The most basic way to display your map from CartoDB.js involves a call to:
 
@@ -725,7 +819,7 @@ var options = {
 cartodb.createVis('map', vizjson, options);
 ```
 
-#### 5. 2. 2. `createLayer`
+#### `createLayer()`
 
 If you want to exercise more control over the layers and base map, `createLayer` may be the best option for you. You specifiy the base map yourself and load the layer from one or multiple viz.json files. Unlike `createVis`, `createLayer` needs a map object, such as one created by Google Maps or Leaflet. This difference allows for more control of the basemap for the JavaScript/HTML you’re writing.
 
@@ -756,9 +850,9 @@ var vizjson = 'link from share panel';
 cartodb.createLayer(map_object, vizjson).addTo(map_object);
 ```
 
-### 5. 3. UI Functions
+### 5.3 UI Functions
 
-#### 5. 3. 1. Tooltips
+#### Tooltips
 
 A tooltip is an infowindow that appears when you hover your mouse over a map feature with vis.addOverlay(options). A tooltip appears where the mouse cursor is located on the map.
  
@@ -782,7 +876,7 @@ Second, add tooltip to the map:
      $('body').append(tooltip.render().el);
 ```
 
-#### 5. 3. 2. Infowindows
+#### Infowindows
 
 Infowindows provide additional interactivity for your published map, controlled by layer events. It enables interaction and overrides the layer interactivity. A pop-up information window appears when a viewer clicks on a map feature.
   
@@ -823,15 +917,15 @@ cdb.vis.Vis.addInfowindow(
           });
 ```
 
-#### 5. 3. 3. Legends
+#### Legends
 
 In order to add legends with CartoDB.js you would need to define the elemenets and colors of the legend with HTML, then you could use the legend classes of CartoDB.js to create the legends.
   
 There is two kind of legend classes:
 
-First, ``cartodb-legend choropleth``, applied in Choropleth maps:
+First, `cartodb-legend choropleth`, applied in Choropleth maps:
 
-```HTML
+```html
 <div class='cartodb-legend choropleth'>
     <div class="legend-title">Population</div>
       <ul>
@@ -858,7 +952,7 @@ First, ``cartodb-legend choropleth``, applied in Choropleth maps:
 
 Second, `cartodb-legend category`, applied in simple or category maps:
   	
-```HTML
+```html
     <div class='cartodb-legend category'>
       <div class="legend-title" style="color:#284a59">Countries</div>
         <ul>
@@ -869,14 +963,26 @@ Second, `cartodb-legend category`, applied in simple or category maps:
       </div>
 ```
 
-### 5. 4. Examples
+### 5.4 Examples
 
-* Load a visualisation with `createVis()`: [example](http://bl.ocks.org/ramiroaznar/084f63f4200406508467826522dba842), [editor](http://plnkr.co/edit/x6YvoL?p=preview).
+* Load a visualisation with `createVis()`: [example](http://bl.ocks.org/jsanz/78d004e805ea4dbf8397814edc477a89), [editor](http://plnkr.co/edit/plhwv3IQwFxLHBGWodQp?p=preview)
 
-* Load SQL+CartoCSS with `createLayer()`: [example](http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645), [editor](http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info).
+* Load SQL+CartoCSS with `createLayer`: [example](http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645), [editor](http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info)
 
-* Add custom infowindow, infobox, tooltip & legend with with `createLayer()`: [example](http://bl.ocks.org/oriolbx/3950e1a9b458a9177f9c).
+* Events. Actions on feature click: [example](http://bl.ocks.org/jsanz/1881f68fd76546eda08cafd8fdcf480c), [editor](http://plnkr.co/edit/rLjESjaFzr4m9qrvl4pj?p=preview)
 
-* Events. Actions on feature click: [example](http://bl.ocks.org/jsanz/1881f68fd76546eda08cafd8fdcf480c), [editor](http://plnkr.co/edit/rLjESjaFzr4m9qrvl4pj?p=preview).
+* Custom Infowindows: [example](http://bl.ocks.org/jsanz/a0f606c08ec854df3f5e982b3890e188), [editor](http://plnkr.co/edit/CQZL48I1QDfdMZUSH9ve?p=info)
+
+* Custom Tooltip: [example](http://bl.ocks.org/jsanz/cd541c5a61f72e19c1e50c06fb688f40), [editor](http://plnkr.co/edit/3loqq6?p=preview)
+
+* Changing SQL and CartoCSS: [example](http://bl.ocks.org/jsanz/b454ed94c8ab9131dc823166226c18ef), [editor](http://plnkr.co/edit/xqpP5J?p=preview)
+
+* Use a slider to change SQL: [example](http://bl.ocks.org/jsanz/8e3195f2606a22fbfcdd0a117e109fb4), [editor](http://plnkr.co/edit/8HX6Yq?p=preview)
+
+#### Some more advanced examples
+
+* [Playing with Torque time](http://bl.ocks.org/ernesmb/4939b3751d3be0cdd64b)
+* [Aggregating content from clustered features with SQL](http://bl.ocks.org/ernesmb/348b9eed9ee4c7038fd7)
+* [Creating a simple layer selector](http://bl.ocks.org/jsanz/6a83dbae9d6e984ca938)
 
 ----
