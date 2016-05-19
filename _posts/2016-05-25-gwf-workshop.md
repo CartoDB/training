@@ -24,6 +24,8 @@ length: 2h
 
 ## 0. Before we start...
 
+**CartoDB as a platform:**
+
 * __Import API__ allows to upload new data to CartoDB.
 * __SQL API__ allows to interact with CartoDB tables. Query and modify CartoDB tables.
 * __Maps API__ allows to visualize the underlying data.
@@ -115,9 +117,9 @@ Know more about geocoding in CartoDB:
 * **Land** [`ne_50m_land`]: World emerged lands.
 * **European countries** [`ne_adm0_europe`]: European countries geometries.
 
-### 2.3 Selecting
+### 2.3 Simple SQL operations
 
-#### Selecting **all columns**:
+#### Selecting all columns:
 
 ```sql
 SELECT
@@ -126,7 +128,7 @@ FROM
   ne_10m_populated_places_simple;
 ```
 
-#### Selecting **some columns**:
+#### Selecting some columns:
 
 ```sql
 SELECT
@@ -140,7 +142,7 @@ FROM
   ne_10m_populated_places_simple
 ```
 
-#### Selecting **distinc values**:
+#### Selecting distinc values:
 
 ```sql
 SELECT DISTINCT
@@ -153,7 +155,7 @@ FROM
 
 ![filtering](../img/160520-zgz/filtering.png)
 
-#### Filtering **numeric fields**:
+#### Filtering numeric fields:
 
 ```sql
 SELECT 
@@ -164,7 +166,7 @@ WHERE
   pop_max > 5000000;
 ```
 
-#### Filtering **character fields**:
+#### Filtering character fields:
 
 ```sql
 SELECT 
@@ -175,7 +177,7 @@ WHERE
   adm0name ilike 'spain'
 ```
 
-#### Filtering a **range**:
+#### Filtering a range:
 
 ```sql
 SELECT 
@@ -188,7 +190,7 @@ AND
   adm0name ilike 'spain'
 ```
 
-#### **Combining** character and numeric filters:
+#### Combining character and numeric filters:
 
 ```sql
 SELECT 
@@ -205,7 +207,9 @@ AND
 
 ### 2.5 Others:
 
-#### Selecting **aggregated values**:
+#### Selecting aggregated values:
+
+**count**
 
 ```sql
 SELECT
@@ -213,6 +217,7 @@ SELECT
 FROM 
   ne_10m_populated_places_simple
 ```
+**sum**
 
 ```sql
 SELECT
@@ -222,6 +227,7 @@ FROM
 WHERE 
   adm0name ilike 'spain'
 ```
+**avg**
 
 ```sql
 SELECT 
@@ -232,7 +238,7 @@ WHERE
   adm0name ilike 'spain'
 ```
 
-#### **Ordering results**:
+#### Ordering results:
 
 ```sql
 SELECT 
@@ -295,7 +301,7 @@ ORDER BY
 
 * **Choropleth Map**:
 
-Before making a choropleth map, we need to normalize our target column. For that, we need an auxiliary table with the area of each country. We will use it afterwards to divide the population.
+Before making a choropleth map, we need to **normalize** our target column. For that, we need an auxiliary table with the area of each country. We will use it afterwards to divide the population.
 
 ```sql
 WITH aux AS
