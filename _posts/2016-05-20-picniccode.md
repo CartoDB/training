@@ -81,6 +81,10 @@ WHERE
 
 ## Full demo<a name="full-demo"></a>
 
+```sql
+SELECT z.*, p.denominacion, replace(p._2015, '.', '')::integer as poblacion FROM zonasestadisticas z inner join  table_01012016pobla_zonasestadist_1986_2016_enero p on z.clave = p.clave where p.clave ~ '[0-9]*' and p._2015 is not null and p._2015 <> ''
+```
+
 Getting the stops per area.
 
 ```sql
