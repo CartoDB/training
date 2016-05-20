@@ -635,9 +635,7 @@ FROM
 WHERE
   ST_Intersects(a.the_geom, b.the_geom)
 GROUP BY
-  b.cartodb_id,
-  b.name,
-  b.the_geom_webmercator
+  b.cartodb_id
 ```
 
 Using `LATERAL`:
@@ -645,7 +643,7 @@ Using `LATERAL`:
 ```sql
 SELECT
   a.cartodb_id,
-  a.name,
+  a.admin AS name,
   a.the_geom_webmercator,
   counts.number_cities,
   to_char(counts.sum_pop,'999,999,999') as sum_pop --decimal separator
