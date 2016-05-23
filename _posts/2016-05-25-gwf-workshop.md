@@ -147,7 +147,7 @@ FROM
 
 ### 2.4 Filtering
 
-![filtering](../img/160520-zgz/filtering.png)
+![filtering](../img/common/filtering.png)
 
 #### Filtering numeric fields:
 
@@ -309,7 +309,7 @@ Click on 'create new dataset from query'.
 
 Rename the new dataset to **`world_borders_norm`**
 
-![choropleth](../img/160520-zgz/choropleth.png)
+![choropleth](../img/common/choropleth.png)
 
 Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
@@ -516,15 +516,17 @@ _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cart
 
 #### **Basemaps**:
 
-![basemap](../img/160520-zgz/basemap.png)
+![basemap](../img/common/basemap_options.png)
 
 #### **Options**:
 
-![options](../img/160520-zgz/options.png)
+![options](../img/common/map_options.png)
 
 #### **Legend**:
 
-![legend](../img/160520-zgz/legend.png)
+![legend](../img/common/legends.png)
+
+By clicking on the `</>` icon, you would see and edit the source HTML code
 
 ```html
 <div class='cartodb-legend choropleth'>	
@@ -553,7 +555,9 @@ _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cart
 
 #### **Labels**:
 
-![intensity](../img/160520-zgz/labels.png)
+![intensity](../img/common/labels.png)
+
+Selecting a field in the wizard will produce the following CartoCSS code to render the labels.
 
 ```css
 #world_borders::labels {
@@ -587,7 +591,9 @@ On the above simplified CartoCSS example we use the same layer for a red backgro
 
 #### **Infowindows and tooltip**:
 
-![infowindows](../img/160520-zgz/infowindows.png)
+![infowindows](../img/common/infowindows.png)
+
+Clicking on the `</>` will also show the source code for the Infowindows.
 
 ```html
 <div class="cartodb-popup v2">
@@ -608,15 +614,15 @@ On the above simplified CartoCSS example we use the same layer for a red backgro
 
 #### **Title, text and images**:
 
-![elements](../img/160520-zgz/elements.png)
+![elements](../img/common/add_annotation.gif)
 
 ### 3.4 Share your map! 
 
 WIP => update links
 
-![share](../img/160520-zgz/share.png)
+![share](../img/common/share.png)
 
-#### **Get the link**: 
+#### **Get the link**: UPDATE LINK!
 
 [https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map](https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map)
 
@@ -651,9 +657,9 @@ _BONUS: **[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanh
 
 More about the `geography` type can be found [here](http://workshops.boundlessgeo.com/postgis-intro/geography.html) and [here](http://postgis.net/docs/manual-1.5/ch04.html#PostGIS_Geography).
 
-![cart vs sph](http://workshops.boundlessgeo.com/postgis-intro/_images/cartesian_spherical.jpg)
+![cart vs sph](../img/common/cartesian_spherical.jpg)
 
-![LA-CDG](http://workshops.boundlessgeo.com/postgis-intro/_images/lax_cdg.jpg)
+![LA-CDG](../img/common/lax_cdg.jpg)
 
 _Source: [Boundless Postgis intro](http://workshops.boundlessgeo.com/postgis-intro)_
 
@@ -678,7 +684,7 @@ FROM
   spatial_ref_sys
 ```
 
-![srid](../img/160520-zgz/srid.png)
+![srid](../img/common/srid.png)
 
 #### Accessing the hidden **the_geom_webmercator** field:
 
@@ -708,6 +714,8 @@ INSERT INTO spatial_ref_sys
     AUTHORITY["EPSG","54030"]]');
 ```
 
+#### ST_Transform()
+
 ```sql
 SELECT 
   cartodb_id, ST_Transform(the_geom, 54030) AS the_geom_webmercator
@@ -715,7 +723,7 @@ FROM
   ne_50m_land
 ```
 
-![robinson](../img/160520-zgz/robinson.png)
+![robinson](../img/common/robinson.png)
 
 _About [`ST_Transform`](http://postgis.net/docs/ST_Transform.html)._
 
@@ -737,7 +745,7 @@ WHERE
   name ilike 'madrid'
 ```
 
-![buffer](../img/160520-zgz/buffer.png)
+![buffer](../img/common/buffer.png)
 
 _About [`ST_Buffer`](http://postgis.net/docs/ST_Buffer.html)._
 
@@ -757,7 +765,7 @@ WHERE
   b.adm0_a3 like 'ESP'
 ```
 
-![difference](../img/160520-zgz/difference.png)
+![difference](../img/common/difference.png)
 
 _About [`ST_Difference`](http://postgis.net/docs/ST_Difference.html)._
 
@@ -806,7 +814,7 @@ CROSS JOIN LATERAL
 ```
 _About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html) and [Lateral JOIN](http://blog.heapanalytics.com/postgresqls-powerful-new-join-type-lateral)_
 
-![ADD IMAGE](../img/)
+![ADD IMAGE](../img/common/intersects.png)
 
 #### Know wether a geometry is **within** the given range from another geometry:
 
@@ -831,7 +839,7 @@ In this case, we are using `the_geom_webmercator` to avoid casting to `geography
 
 Keep in mind that CRS **units in webmercator are not meters**, and they depend directly on the latitude. 
 
-![dwithin](../img/160520-zgz/dwithin.png)
+![dwithin](../img/common/dwithin.png)
 
 _About [`ST_DWithin`](http://postgis.net/docs/ST_DWithin.html)._
 
@@ -846,7 +854,7 @@ FROM (SELECT * FROM populated_places
     WHERE name ILIKE 'barcelona'AND adm0name ILIKE 'spain') as b
 ```
 
-![lines](../img/160520-zgz/lines.png)
+![lines](../img/common/lines.png)
 
 _About [`ST_MakeLine`](http://postgis.net/docs/ST_MakeLine.html)._
 
@@ -871,7 +879,7 @@ FROM
   WHERE name ILIKE 'new york') as b
 ```
 
-![greatcircles](../img/160520-zgz/greatcircles.png)
+![greatcircles](../img/common/greatcircles.png)
 
 _About [Great Circles](http://blog.cartodb.com/jets-and-datelines/)._
 
@@ -893,7 +901,7 @@ WHERE
   adm0_a3 IN ('ITA','GBR')
 ```
 
-![ADD IMAGE]()
+![ADD IMAGE](../img/common/rect_grid.png)
 
 _About [CDB_RectangleGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid)_
 
@@ -922,7 +930,7 @@ WHERE
   AND a.adm0_a3 IN ('ESP','ITA')
 ```
 
-![ADD IMAGE]()
+![ADD IMAGE](../img/common/hex_grid.png)
 
 _About [CDB_HexagonGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-hexagon-grid)_
 
@@ -986,12 +994,12 @@ window.onload = function() {
   }
 
   // Instantiate map on specified DOM element
-  var map_object = new L.Map(dom_id, options);
+  var map = new L.Map(dom_id, options);
 
   // Add a basemap to the map object just created
   L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
     attribution: 'Stamen'
-  }).addTo(map_object);
+  }).addTo(map);
 }
 ```
 
@@ -999,7 +1007,7 @@ The map we just created doesn’t have any CartoDB data layers yet. If you’re 
 
 ```javascript
 var vizjson = 'link from share panel';
-cartodb.createLayer(map_object, vizjson).addTo(map_object);
+cartodb.createLayer(map, vizjson).addTo(map);
 ```
 
 ### 5.3 UI Functions
@@ -1035,7 +1043,7 @@ Infowindows provide additional interactivity for your published map, controlled 
 In order to add the CartoDB.js infowindow you need to add this line within your code:
 
 ```javascript
-cdb.vis.Vis.addInfowindow(map_object, layer, ['fields']);
+cdb.vis.Vis.addInfowindow(map, layer, ['fields']);
 ```
 
 However, you can create custom infowindows with different tools (`Moustache.js`, HML or `underscore.js`). Whatever choice you use, you would need to create a template first and then add the infowindow with the template. Here we will see how to do it using `Moustache.js`.
