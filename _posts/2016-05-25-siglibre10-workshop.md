@@ -443,6 +443,21 @@ _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cart
 }
 ```
 
+This also shows an important concept for CartoCSS. you can specify more than one rendering pass for your features. This means that using the `#layername::passname` notation you can render more than one symbol on your features. One typical example of this feature is to render lines with more than one symbol.
+
+```css
+#layer::background{
+  line-width: 10;
+  line-color: red;
+}
+#layer::foreground{
+  line-width: 5;
+  line-color: white;
+}
+```
+
+On the above simplified CartoCSS example we put for our layer a red background, 10 pixels widh, and then on top of it a white 5 pixels symbol.
+
 #### **Infowindows and tooltip**:
 
 ![infowindows](../img/160520-zgz/infowindows.png)
@@ -453,11 +468,11 @@ _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cart
   <div class="cartodb-popup-content-wrapper">
     <div class="cartodb-popup-content">
       <h4>country</h4>
-      <p>{{name}}</p>
+      <p>{% raw %}{{name}}{% endraw %}</p>
       <h4>population</h4>
-      <p>{{pop_norm}}</p>
+      <p>{% raw %}{{pop_norm}}{% endraw %}</p>
       <h4>area</h4>
-      <p>{{new_area}}</p>
+      <p>{% raw %}{{new_area}}{% endraw %}</p>
     </div>
   </div>
   <div class="cartodb-popup-tip-container"></div>
@@ -871,7 +886,7 @@ First, define tooltip variable:
   var tooltip = layer.leafletMap.viz.addOverlay({
             type: 'tooltip',
             layer: layer,
-            template: '<div class="cartodb-tooltip-content-wrapper"><p>{{name}}</p></div>',
+            template: '<div class="cartodb-tooltip-content-wrapper"><p>{% raw %}{{name}}{% endraw %}</p></div>',
             width: 200,
             position: 'bottom|right',
             fields: [{ name: 'name' }]
