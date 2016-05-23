@@ -485,8 +485,6 @@ On the above simplified CartoCSS example we put for our layer a red background, 
 
 ### 3.4 Share your map!
 
-WIP => update links
-
 ![share](../img/160520-zgz/share.png)
 
 #### **Get the link**:
@@ -614,6 +612,10 @@ WHERE
 
 _About [`ST_Buffer`](http://postgis.net/docs/ST_Buffer.html)._
 
+---
+**Note**: try to compute a Buffer on a place with high latitude and check the difference between using directly `the_geomwebmecator` and `the_geom::geography`
+---
+
 #### Get the **difference** between two geometries:
 
 ```sql
@@ -640,20 +642,19 @@ Using `GROUP BY`:
 
 ```sql
 SELECT
-  b.cartodb_id,
-  b.name,
-  b.the_geom_webmercator,
+  e.cartodb_id,
+  e.admin,
+  e.the_geom_webmercator,
   count(*) AS pp_count,
-  sum(a.pop_max) as sum_pop
+  sum(p.pop_max) as sum_pop
 FROM
-  ne_10m_populated_places_simple a,
-  ne_adm0_europe b
-WHERE
-  ST_Intersects(a.the_geom, b.the_geom)
+  ne_adm0_europe e
+JOIN
+  ne_10m_populated_places_simple p
+ON
+  ST_Intersects(p.the_geom, e.the_geom)
 GROUP BY
-  b.cartodb_id,
-  b.name,
-  b.the_geom_webmercator
+  e.cartodb_id
 ```
 
 Using `LATERAL`:
@@ -661,7 +662,7 @@ Using `LATERAL`:
 ```sql
 SELECT
   a.cartodb_id,
-  a.name,
+  a.admin,
   a.the_geom_webmercator,
   counts.number_cities,
   to_char(counts.sum_pop,'999,999,999') as sum_pop --decimal separator
@@ -681,6 +682,11 @@ CROSS JOIN LATERAL
 _About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html) and [Lateral JOIN](http://blog.heapanalytics.com/postgresqls-powerful-new-join-type-lateral)_
 
 ![ADD IMAGE](../img/)
+
+---
+**Note:** You know about the `EXPLAIN ANALYZE` function? use it to take a look on how both queries are pretty similar in terms of performance.
+---
+
 
 #### Know wether a geometry is **within** the given range from another geometry:
 
@@ -704,6 +710,10 @@ WHERE
 ![dwithin](../img/160520-zgz/dwithin.png)
 
 _About [`ST_DWithin`](http://postgis.net/docs/ST_DWithin.html)._
+
+In this case, we are using `the_geom_webmercator` to avoid casting to `geography` type. Calculations made with `geometry` type takes the CRS units.
+
+Keep in mind that CRS **units in webmercator are not meters**, and they depend directly on the latitude.
 
 #### Create a **straight line** between two points:
 
