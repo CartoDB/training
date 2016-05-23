@@ -375,12 +375,12 @@ The last link of the previous link is a great discussion about the different map
 ```
 
 #### Proportional symbols map
-_WIP_
 
-_from [this post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/)_
+Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/)_ regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS section needs a bit of SQL computation but nothing hard.
 
 #### Two-variable CartoCSS
-_WIP_
+
+It's common practice to use two visual variables, typically color and size to represent one or two variables. To do this easily using CartoDB wizards you start for example with a coropleth map, copy on a separate text file the CartoCSS section where the field is used to color the geometries, then change the wizard to the bubble map and paste the previous code so instead of one color bubbles you get both variables styled.
 
 _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/)._
 
