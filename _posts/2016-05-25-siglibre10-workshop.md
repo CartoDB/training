@@ -64,13 +64,10 @@ _Importing **different geometry types** in the same layer or in a FeatureCollect
   * File size limit: 150 Mb (free).
   * Import row limit: 500,000 rows (free).
   * *Solution*: split your dataset into smaller ones, import them into CartoDB and merge them.
-<br/>
 * **Malformed CSV**:
   * *Solution*: check termination lines, header...
-<br/>
 * **Encoding**:
-  * *Solution*: `Save with Encoding` > `UTF-8 with BOM` in [Sublime Text](https://www.sublimetext.com/) or any other text editor.
-<br/>
+  * *Solution*: `Save with Encoding` > `UTF-8 with BOM` in [Sublime Text](https://www.sublimetext.com/), any other decent text editor or [iconv](https://en.wikipedia.org/wiki/Iconv).
 * **Shapefile missing files**:
   * Missing any of the following files within the compressed file will produce an importing error:
     * `.shp`: contains the geometry. REQUIRED.
@@ -79,18 +76,16 @@ _Importing **different geometry types** in the same layer or in a FeatureCollect
     * `.dbf`: contains the attributes. REQUIRED.
   * Other auxiliary files such as `.sbn`, `.sbx` or `.shp.xml` are not REQUIRED.
   * *Solution*: make sure to add all required files.
-<br/>
 * **Duplicated id fields**:
   * *Solution*: check your dataset, remove or rename fields containing the `id` keyword.
-<br/>
 * **Format not supported**:
   * URLs -that are not points to a file- are not supported by CartoDB.
   * *Solution*: check for missing url parameters or download the file into your local machine, import it into CartoDB.
-<br/>
 * **MAYUS extensions not supported**:
   * `example.CSV` is not supported by CartoDB.
   * *Solution*: rename the file.
-<br/>
+* **Non supported SRID**:
+  * Solution: try to reproject your resources locally to a well known projection like `EPSG:4326`,`EPSG:3857`,`EPSG:25830` and so on.
 
 Other importing errors and their codes can be found [here](http://docs.cartodb.com/cartodb-platform/import-api/import-errors/).
 
@@ -116,6 +111,10 @@ Know more about geocoding in CartoDB:
 * In our [**documentation**](http://docs.cartodb.com/cartodb-platform/dataservices-api/geocoding-functions/).
 
 ### 2.2 Datasets
+
+These are the datasets we are going to use on our workshop. You'll find them
+all on our [Data Library](https://cartodb.com/data-library) and fit way well
+on a free account.
 
 * **Populated Places** [`ne_10m_populated_places_simple`]: City and town points.
 * **World Borders** [`world_borders`]: World countries borders.
@@ -147,7 +146,7 @@ FROM
   ne_10m_populated_places_simple
 ```
 
-#### Selecting distinc values:
+#### Selecting distinct values:
 
 ```sql
 SELECT DISTINCT
@@ -274,7 +273,8 @@ FROM
 WHERE
   adm0name ilike 'spain'
 ORDER BY
-  pop_max DESC LIMIT 10
+  pop_max DESC
+LIMIT 10
 ```
 
 ----
@@ -294,30 +294,23 @@ ORDER BY
 
 [Analyzing your dataset...](http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset) In some cases, when you connect a dataset and click on the MAP VIEW for the first time, the Analyzing dataset dialog appears. This analytical tool analyzes the data in each column, predicts how to visualize this data, and offers you snapshots of the visualized maps. You can select one of the possible map styles, or ignore the analyzing dataset suggestions.
 
-* **Simple Map**.
-* **Cluster Map**.
-* **Category Map**.
-* **Bubble Map**.
-* **Torque Map**.
-* **Heatmap Map**.
-* **Torque Cat Map**.
-* **Intensity Map**.
-* **Density Map**.
-
+* **Simple Map**
+* **Cluster Map**
+* **Category Map**
+* **Bubble Map**
+* **Torque Map**
+* **Heatmap Map**
+* **Torque Cat Map**
+* **Intensity Map**
+* **Density Map**
 * **Choropleth Map**:
 
-Before making a choropleth map, we need to **normalize** our target column. For that, we need an auxiliary table with the area of each country. We will use it afterwards to divide the population.
+Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area. More about what that `::geography` means later.
 
 ```sql
-WITH aux AS
-  (
-  SELECT
-    round(st_area(the_geom)::numeric, 6) AS new_area,
-  FROM world_borders
-  )
 SELECT
   wb.*,
-  pop2005/new_area AS pop_norm
+  pop2005/ST_Area(the_geom::geography) AS pop_norm
 FROM
   world_borders wb,
   aux
@@ -328,6 +321,9 @@ FROM
 Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
 ### 3.2 Styles
+
+The last link of the previous link is a great discussion about the different maps you can create with CartoDB.
+
 
 #### **Simple Map**:
 
