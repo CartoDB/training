@@ -59,13 +59,10 @@ _Importing **different geometry types** in the same layer or in a FeatureCollect
 	* File size limit: 150 Mb (free).
 	* Import row limit: 500,000 rows (free).
 	* *Solution*: split your dataset into smaller ones, import them into CartoDB and merge them.
-<br/>
 * **Malformed CSV**:
 	* *Solution*: check termination lines, header...
-<br/>
 * **Encoding**:
-	* *Solution*: `Save with Encoding` > `UTF-8 with BOM` in [Sublime Text](https://www.sublimetext.com/) or any other text editor.
-<br/>
+	* *Solution*: `Save with Encoding` > `UTF-8 with BOM` in [Sublime Text](https://www.sublimetext.com/), any other decent text editor or [iconv](https://en.wikipedia.org/wiki/Iconv).
 * **Shapefile missing files**:
 	* Missing any of the following files within the compressed file will produce an importing error:
 		* `.shp`: contains the geometry. REQUIRED.
@@ -74,18 +71,13 @@ _Importing **different geometry types** in the same layer or in a FeatureCollect
 		* `.dbf`: contains the attributes. REQUIRED.
 	* Other auxiliary files such as `.sbn`, `.sbx` or `.shp.xml` are not REQUIRED.
 	* *Solution*: make sure to add all required files.
-<br/>
 * **Duplicated id fields**:
 	* *Solution*: check your dataset, remove or rename fields containing the `id` keyword.
-<br/>
 * **Format not supported**:
 	* URLs -that are not points to a file- are not supported by CartoDB. 
 	* *Solution*: check for missing url parameters or download the file into your local machine, import it into CartoDB.
-<br/>
-* **MAYUS extensions not supported**:
-	* `example.CSV` is not supported by CartoDB.
-	* *Solution*: rename the file.
-<br/>
+* **Non supported SRID**:
+  * Solution: try to reproject your resources locally to a well known projection like `EPSG:4326`,`EPSG:3857`,`EPSG:25830` and so on.
 
 Other importing errors and their codes can be found [here](http://docs.cartodb.com/cartodb-platform/import-api/import-errors/). 
 
@@ -111,6 +103,8 @@ Know more about geocoding in CartoDB:
 * In our [**documentation**](http://docs.cartodb.com/cartodb-platform/dataservices-api/geocoding-functions/).
 
 ### 2.2 Datasets
+
+These are the datasets we are going to use on our workshop. You'll find them all on our [Data Library](https://cartodb.com/data-library) and fit well on a free account.
 
 * **Populated Places** [`ne_10m_populated_places_simple`]: City and town points.
 * **World Borders** [`world_borders`]: World countries borders.
@@ -142,7 +136,7 @@ FROM
   ne_10m_populated_places_simple
 ```
 
-#### Selecting distinc values:
+#### Selecting distinct values:
 
 ```sql
 SELECT DISTINCT
@@ -269,7 +263,8 @@ FROM
 WHERE 
   adm0name ilike 'spain'
 ORDER BY
-  pop_max DESC LIMIT 10
+  pop_max DESC
+LIMIT 10
 ```
 
 ----
@@ -289,34 +284,30 @@ ORDER BY
 
 [Analyzing your dataset...](http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset) In some cases, when you connect a dataset and click on the MAP VIEW for the first time, the Analyzing dataset dialog appears. This analytical tool analyzes the data in each column, predicts how to visualize this data, and offers you snapshots of the visualized maps. You can select one of the possible map styles, or ignore the analyzing dataset suggestions.
 
-* **Simple Map**.
-* **Cluster Map**.
-* **Category Map**.
-* **Bubble Map**.
-* **Torque Map**.
-* **Heatmap Map**.
-* **Torque Cat Map**.
-* **Intensity Map**.
-* **Density Map**.
-
+* **Simple Map**
+* **Cluster Map**
+* **Category Map**
+* **Bubble Map**
+* **Torque Map**
+* **Heatmap Map**
+* **Torque Cat Map**
+* **Intensity Map**
+* **Density Map**
 * **Choropleth Map**:
 
-Before making a choropleth map, we need to **normalize** our target column. For that, we need an auxiliary table with the area of each country. We will use it afterwards to divide the population.
+Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area. More about what that `::geography` means later. 
 
 ```sql
-WITH aux AS
-  (
-  SELECT 
-    round(st_area(the_geom)::numeric, 6) AS new_area,
-  FROM world_borders
-  )
 SELECT
   wb.*,
-  pop2005/new_area AS pop_norm
+  pop2005/ST_Area(the_geom::geography) AS pop_norm
 FROM
-  world_borders wb,
-  aux
+  world_borders wb
 ```
+
+Click on 'create new dataset from query'. 
+
+Rename the new dataset to **`world_borders_norm`**
 
 ![choropleth](../img/160520-zgz/choropleth.png)
 
@@ -324,12 +315,14 @@ Know more about chosing the right map to make [here](http://academy.cartodb.com/
 
 ### 3.2 Styles
 
+The last link in the website referenced above is a great discussion about the different maps CartoDB allows to create. 
+
 #### **Simple Map**:
 
 ```css
 /** simple visualization */
 
-#world_borders{
+#layer{
   polygon-fill: #FF6600;
   polygon-opacity: 0.7;
   line-color: #FFF;
@@ -343,13 +336,157 @@ Know more about chosing the right map to make [here](http://academy.cartodb.com/
 ```css
 /** choropleth visualization */
 
-#world_borders{
+#layer{
   polygon-fill: #FFFFB2;
   polygon-opacity: 0.8;
   line-color: #FFF;
   line-width: 0.5;
   line-opacity: 1;
 }
+#layer [ pop_norm <= 247992435.530086] {
+   polygon-fill: #B10026;
+}
+#layer [ pop_norm <= 4086677.23673585] {
+   polygon-fill: #E31A1C;
+}
+#layer [ pop_norm <= 1538732.3943662] {
+   polygon-fill: #FC4E2A;
+}
+#layer [ pop_norm <= 923491.374542489] {
+   polygon-fill: #FD8D3C;
+}
+#layer [ pop_norm <= 616975.331234902] {
+   polygon-fill: #FEB24C;
+}
+#layer [ pop_norm <= 326396.192958792] {
+   polygon-fill: #FED976;
+}
+#layer [ pop_norm <= 95044.5589361554] {
+   polygon-fill: #FFFFB2;
+}
+```
+
+#### Proportional symbols map
+
+Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/)_ regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS section needs a bit of SQL computation but nothing hard.
+
+```sql
+WITH aux AS(
+  SELECT
+    max(pop2005) AS max_pop
+  FROM 
+    world_borders_norm
+  )
+SELECT
+  cartodb_id,
+  pop2005,
+  ST_Centroid(the_geom_webmercator) AS the_geom_webmercator,
+  5+30*sqrt(pop2005)/sqrt(aux.max_pop) AS size
+FROM
+  world_borders_norm,
+  aux
+```
+```css
+#layer{
+  marker-fill-opacity: 0.8;
+  marker-line-color: #FFF;
+  marker-line-width: 1;
+  marker-line-opacity: 1;
+  marker-width: [size];
+  marker-fill: #FF9900;
+  marker-allow-overlap: true;
+}
+```
+
+#### Two-variable CartoCSS
+
+It's common practice to use two visual variables, typically color and size to represent one or two variables. To do this easily using CartoDB wizards you start for example with a coropleth map, copy on a separate text file the CartoCSS section where the field is used to color the geometries, then change the wizard to the bubble map and paste the previous code so instead of one color bubbles you get both variables styled.
+
+```css
+#layer{
+  marker-fill-opacity: 0.8;
+  marker-line-color: #FFF;
+  marker-line-width: 1;
+  marker-line-opacity: 1;
+  marker-width: 10;
+  marker-fill: #FFFFB2;
+  marker-allow-overlap: true;
+}
+#layer [ pop_norm <= 247992435.530086] {
+   polygon-fill: #B10026;
+}
+#layer [ pop_norm <= 4086677.23673585] {
+   polygon-fill: #E31A1C;
+}
+#layer [ pop_norm <= 1538732.3943662] {
+   polygon-fill: #FC4E2A;
+}
+#layer [ pop_norm <= 923491.374542489] {
+   polygon-fill: #FD8D3C;
+}
+#layer [ pop_norm <= 616975.331234902] {
+   polygon-fill: #FEB24C;
+}
+#layer [ pop_norm <= 326396.192958792] {
+   polygon-fill: #FED976;
+}
+#layer [ pop_norm <= 95044.5589361554] {
+   polygon-fill: #FFFFB2;
+}
+
+
+#layer [ pop_norm <= 247992435.530086] {
+   polygon-fill: #B10026;
+}
+#layer [ pop_norm <= 4086677.23673585] {
+   polygon-fill: #E31A1C;
+}
+#layer [ pop_norm <= 1538732.3943662] {
+   polygon-fill: #FC4E2A;
+}
+#layer [ pop_norm <= 923491.374542489] {
+   polygon-fill: #FD8D3C;
+}
+#layer [ pop_norm <= 616975.331234902] {
+   polygon-fill: #FEB24C;
+}
+#layer [ pop_norm <= 326396.192958792] {
+   polygon-fill: #FED976;
+}
+#layer [ pop_norm <= 95044.5589361554] {
+   polygon-fill: #FFFFB2;
+}
+```
+
+#### A combination of the two methods above
+
+```sql
+WITH aux AS(
+  SELECT
+    max(pop2005) AS max_pop
+  FROM 
+    world_borders_norm
+  )
+SELECT
+  cartodb_id,
+  pop2005,
+  ST_Centroid(the_geom_webmercator) AS the_geom_webmercator,
+  5+30*sqrt(pop2005)/sqrt(aux.max_pop) AS size
+FROM
+  world_borders_norm,
+  aux
+```
+```css
+#layer{
+  marker-fill-opacity: 0.8;
+  marker-line-color: #FFF;
+  marker-line-width: 1;
+  marker-line-opacity: 1;
+  marker-width: [size];
+  marker-fill: #FF9900;
+  marker-allow-overlap: true;
+}
+
 #world_borders [ pop_norm <= 247992435.530086] {
    polygon-fill: #B10026;
 }
@@ -372,14 +509,6 @@ Know more about chosing the right map to make [here](http://academy.cartodb.com/
    polygon-fill: #FFFFB2;
 }
 ```
-
-#### Proportional symbols map
-_WIP_
-
-_from [this post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/)_
-
-#### Two-variable CartoCSS
-_WIP_
 
 _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/)._
 
@@ -441,6 +570,20 @@ _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cart
   text-placement-type: simple;
 }
 ```
+This also shows an important concept for CartoCSS. you can specify more than one rendering pass for your features. This means that using the `#layername::passname` notation you can render more than one symbol on your features. One typical example of this feature is to render lines with more than one symbol.
+
+```css
+#layer::background{
+  line-width: 10;
+  line-color: red;
+}
+#layer::foreground{
+  line-width: 5;
+  line-color: white;
+}
+```
+
+On the above simplified CartoCSS example we use the same layer for a red background, 10 pixels widh, and then on top of it a white 5 pixels symbol.
 
 #### **Infowindows and tooltip**:
 
@@ -452,11 +595,11 @@ _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cart
   <div class="cartodb-popup-content-wrapper">
     <div class="cartodb-popup-content">
       <h4>country</h4>
-      <p>{{name}}</p>
+      <p>{% raw %}{{name}}{% endraw %}</p>
       <h4>population</h4>
-      <p>{{pop_norm}}</p>
+      <p>{% raw %}{{pop_norm}}{% endraw %}</p>
       <h4>area</h4>
-      <p>{{new_area}}</p>
+      <p>{% raw %}{{new_area}}{% endraw %}</p>
     </div>
   </div>
   <div class="cartodb-popup-tip-container"></div>
@@ -624,18 +767,19 @@ Using `GROUP BY`:
 
 ```sql
 SELECT
-  b.cartodb_id,
-  b.name,
-  b.the_geom_webmercator,
+  e.cartodb_id,
+  e.admin,
+  e.the_geom_webmercator,
   count(*) AS pp_count,
-  sum(a.pop_max) as sum_pop
+  sum(p.pop_max) as sum_pop
 FROM
-  ne_10m_populated_places_simple a,
-  ne_adm0_europe b
-WHERE
-  ST_Intersects(a.the_geom, b.the_geom)
+  ne_adm0_europe e
+JOIN
+  ne_10m_populated_places_simple p
+ON
+  ST_Intersects(p.the_geom, e.the_geom)
 GROUP BY
-  b.cartodb_id
+  e.cartodb_id
 ```
 
 Using `LATERAL`:
@@ -682,6 +826,10 @@ WHERE
   AND a.adm0name = 'Spain'
   AND b.adm0name = 'Spain'
 ```
+
+In this case, we are using `the_geom_webmercator` to avoid casting to `geography` type. Calculations made with `geometry` type takes the CRS units.
+
+Keep in mind that CRS **units in webmercator are not meters**, and they depend directly on the latitude. 
 
 ![dwithin](../img/160520-zgz/dwithin.png)
 
@@ -868,7 +1016,7 @@ First, define tooltip variable:
   var tooltip = layer.leafletMap.viz.addOverlay({
             type: 'tooltip',
             layer: layer,
-            template: '<div class="cartodb-tooltip-content-wrapper"><p>{{name}}</p></div>', 
+            template: '<div class="cartodb-tooltip-content-wrapper"><p>{% raw %}{{name}}{% endraw %}</p></div>', 
             width: 200,
             position: 'bottom|right',
             fields: [{ name: 'name' }]
