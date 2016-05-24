@@ -11,6 +11,10 @@ length: 2h
 * May 25th 2016
 * Geospatial World Forum 2016 • Rotterdam
 
+### [CartoSurvey](http://goo.gl/forms/D2OS6fy9Uw7pdhHH3)
+
+### [Give us your opinion :)](http://goo.gl/forms/hGyaIp7X5hcFhSzW2)
+
 ### [Intro Slides](https://docs.google.com/presentation/d/1ZlAfAD44BI-r1PArEPAK7FWq6UuA7-a0cPttWhu1amA/edit?usp=sharing)
 
 ### [http://cartodb.github.io/training/intermediate/gwf-workshop.html]()
@@ -411,6 +415,8 @@ It's common practice to use two visual variables, typically color and size to re
 
 * **SQL**
 
+Create a new column and name it `pop_norm` 
+
 ```sql
 WITH aux AS
   (
@@ -419,47 +425,45 @@ WITH aux AS
   FROM
     ne_10m_populated_places_simple
   )
-SELECT 
-  a.*,
-  (pop_max*100)/aux.max_population AS pop_norm
-FROM 
-  ne_10m_populated_places_simple a,
+UPDATE 
+  ne_10m_populated_places_simple
+SET
+  pop_norm=(pop_max*100.0/aux.max_population)::numeric
   aux
 ```
 
 * **CartoCSS**
 
 ```css
-/** bubble visualization */
-#ne_10m_populated_places_simple [ pop_norm < 100] {
-   marker-width: 25.0;
+#ne_10m_populated_places_simple [ pop_norm <= 100] {
+   marker-width: 24.0;
 }
-#ne_10m_populated_places_simple [ pop_norm < 90] {
-   marker-width: 23.3;
+#ne_10m_populated_places_simple [ pop_norm <= 1.90044848077139] {
+   marker-width: 21.9;
 }
-#ne_10m_populated_places_simple [ pop_norm < 80] {
-   marker-width: 21.7;
+#ne_10m_populated_places_simple [ pop_norm <= 0.842089920394663] {
+   marker-width: 19.8;
 }
-#ne_10m_populated_places_simple [ pop_norm < 70] {
-   marker-width: 20.0;
+#ne_10m_populated_places_simple [ pop_norm <= 0.494685502859065] {
+   marker-width: 17.7;
 }
-#ne_10m_populated_places_simple [ pop_norm < 60] {
-   marker-width: 18.3;
+#ne_10m_populated_places_simple [ pop_norm <= 0.312425720372239] {
+   marker-width: 15.6;
 }
-#ne_10m_populated_places_simple [ pop_norm < 50] {
-   marker-width: 16.7;
+#ne_10m_populated_places_simple [ pop_norm <= 0.203754624957955] {
+   marker-width: 13.4;
 }
-#ne_10m_populated_places_simple [ pop_norm < 40 {
-   marker-width: 15.0;
+#ne_10m_populated_places_simple [ pop_norm <= 0.133571588743133] {
+   marker-width: 11.3;
 }
-#ne_10m_populated_places_simple [ pop_norm < 30] {
-   marker-width: 13.3;
+#ne_10m_populated_places_simple [ pop_norm <= 0.0834538625406436] {
+   marker-width: 9.2;
 }
-#ne_10m_populated_places_simple [ pop_norm < 20] {
-   marker-width: 11.7;
+#ne_10m_populated_places_simple [ pop_norm <= 0.0437296782150465] {
+   marker-width: 7.1;
 }
-#ne_10m_populated_places_simple [ pop_norm < 10] {
-   marker-width: 10.0;
+#ne_10m_populated_places_simple [ pop_norm <= 0.0157584931046081] {
+   marker-width: 5.0;
 }
 
 /** category visualization */
