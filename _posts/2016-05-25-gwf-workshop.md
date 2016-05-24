@@ -11,6 +11,10 @@ length: 2h
 * May 25th 2016
 * Geospatial World Forum 2016 • Rotterdam
 
+### [CartoSurvey](http://goo.gl/forms/D2OS6fy9Uw7pdhHH3)
+
+### [Give us your opinion :)](http://goo.gl/forms/hGyaIp7X5hcFhSzW2)
+
 ### [Intro Slides](https://docs.google.com/presentation/d/1ZlAfAD44BI-r1PArEPAK7FWq6UuA7-a0cPttWhu1amA/edit?usp=sharing)
 
 ### [http://cartodb.github.io/training/intermediate/gwf-workshop.html]()
