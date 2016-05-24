@@ -619,7 +619,54 @@ On the above simplified CartoCSS example we use the same layer for a red backgro
 
 #### Zoom based styling
 
-TBD (Jorge)
+The last feature we are going to cover here about CartoCSS is zoom based
+styling. In the same way we can do thematic maps specifying new rules for a set
+of features, we can also apply different rules for different zoom levels of our
+map. This means we can for example show the labels only between some zoom levels
+or increase the width of our line features when we are on high zooms. This can
+be achieved exactly in the same way we did with our choropleth map. So a possible
+
+```css
+@1 : #F11810;
+
+
+#ne_10m_populated_places_simple{
+  marker-fill-opacity: 0.9;
+  marker-line-color: lighten(@1,30);
+  marker-line-width: 1;
+  marker-line-opacity: 1;
+  marker-placement: point;
+  marker-multi-policy: largest;
+  marker-type: ellipse;
+  marker-fill: @1;
+  marker-allow-overlap: true;
+  marker-clip: false;
+
+  [zoom < 3][pop_norm <= 30]{
+   marker-fill-opacity:0;
+   marker-line-opacity:0;
+  }
+  [zoom < 5][pop_norm <= 10]{
+   marker-fill-opacity:0;
+   marker-line-opacity:0;
+  }
+  [zoom < 7][pop_norm <= 1]{
+   marker-fill-opacity:0;
+   marker-line-opacity:0;
+  }
+}
+
+/* normal buble classification here */
+```
+
+On the example above check how we nest inside the normal CartoCSS definition
+some rules that will filter based on the zoom level and a field value, making
+transparent some features based on these criteria.
+
+You will notice also the use of a variable `@1` and the function `lighten`.
+Variables and color functions are out of the scope of this training but you
+can check here about [colors](https://docs.cartodb.com/cartodb-platform/cartocss/properties/#color)
+and also about composite operations on this great [academy tutorial](https://academy.cartodb.com/courses/intermediate-design/use-composite-operations/)
 
 #### **Infowindows and tooltip**:
 
