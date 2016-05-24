@@ -715,6 +715,7 @@ _BONUS: **[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanh
 * Share datasets/maps with members of the organization
 
 [CartoDB Enterprise Documentation](https://docs.cartodb.com/cartodb-enterprise/)
+
 ----
 
 ## 4. Going spatial with PostGIS <a name="postgis"></a>
