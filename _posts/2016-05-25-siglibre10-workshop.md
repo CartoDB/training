@@ -458,6 +458,10 @@ This also shows an important concept for CartoCSS. you can specify more than one
 
 On the above simplified CartoCSS example we put for our layer a red background, 10 pixels widh, and then on top of it a white 5 pixels symbol.
 
+#### Zoom based styling
+
+TBD (Jorge)
+
 #### **Infowindows and tooltip**:
 
 ![infowindows](../img/160520-zgz/infowindows.png)
@@ -504,6 +508,10 @@ On the above simplified CartoCSS example we put for our layer a red background, 
 [https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json](https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json)
 
 _BONUS: **[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc)**, a Google Chrome extension and **[Pretty JSON](https://github.com/dzhibas/SublimePrettyJson)**, a Sublime Text plugin to visualize json files are good resources._
+
+### CartoDB organization features
+
+TBD (Oriol)
 
 ----
 
