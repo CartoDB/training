@@ -11,7 +11,14 @@ length: 2h
 * May 25th 2016
 * Geospatial World Forum 2016 • Rotterdam
 
-## [http://bit.ly/link-to-workshop]()
+### [Intro Slides](https://docs.google.com/presentation/d/1ZlAfAD44BI-r1PArEPAK7FWq6UuA7-a0cPttWhu1amA/edit?usp=sharing)
+
+### [http://cartodb.github.io/training/intermediate/gwf-workshop.html]()
+
+#### Further questions and troubleshooting
+
+* **[GIS Stack Exchange](gis.stackexchange.com/questions/tagged/cartodb)** `cartodb` tag
+* email to **support@cartodb.com**
 
 ## Contents
 - [Importing datasets](#import)
@@ -104,7 +111,7 @@ Know more about geocoding in CartoDB:
 
 ### 2.2 Datasets
 
-These are the datasets we are going to use on our workshop. You'll find them all on our [Data Library](https://cartodb.com/data-library) and fit well on a free account.
+These are the datasets we are going to use on our workshop. You'll find them all on our [Data Library](https://cartodb.com/data-library) and they fit well on a free account.
 
 * **Populated Places** [`ne_10m_populated_places_simple`]: City and town points.
 * **World Borders** [`world_borders`]: World countries borders.
@@ -300,7 +307,7 @@ Before making a choropleth map, we need to **normalize** our target column. For 
 ```sql
 SELECT
   wb.*,
-  pop2005/ST_Area(the_geom::geography) AS pop_norm
+  pop2005/(ST_Area(the_geom::geography)/1000000) AS pop_norm
 FROM
   world_borders wb
 ```
@@ -375,7 +382,7 @@ WITH aux AS(
   SELECT
     max(pop2005) AS max_pop
   FROM 
-    world_borders_norm
+    world_borders
   )
 SELECT
   cartodb_id,
@@ -383,7 +390,7 @@ SELECT
   ST_Centroid(the_geom_webmercator) AS the_geom_webmercator,
   5+30*sqrt(pop2005)/sqrt(aux.max_pop) AS size
 FROM
-  world_borders_norm,
+  world_borders,
   aux
 ```
 ```css
@@ -402,63 +409,71 @@ FROM
 
 It's common practice to use two visual variables, typically color and size to represent one or two variables. To do this easily using CartoDB wizards you start for example with a coropleth map, copy on a separate text file the CartoCSS section where the field is used to color the geometries, then change the wizard to the bubble map and paste the previous code so instead of one color bubbles you get both variables styled.
 
+* **SQL**
+
+```sql
+WITH aux AS
+  (
+  SELECT 
+    max (pop_max) AS max_population
+  FROM
+    ne_10m_populated_places_simple
+  )
+SELECT 
+  a.*,
+  (pop_max*100)/aux.max_population AS pop_norm
+FROM 
+  ne_10m_populated_places_simple a,
+  aux
+```
+
+* **CartoCSS**
+
 ```css
-#layer{
-  marker-fill-opacity: 0.8;
-  marker-line-color: #FFF;
-  marker-line-width: 1;
-  marker-line-opacity: 1;
-  marker-width: 10;
-  marker-fill: #FFFFB2;
-  marker-allow-overlap: true;
+/** bubble visualization */
+#ne_10m_populated_places_simple [ pop_norm < 100] {
+   marker-width: 25.0;
 }
-#layer [ pop_norm <= 247992435.530086] {
-   polygon-fill: #B10026;
+#ne_10m_populated_places_simple [ pop_norm < 90] {
+   marker-width: 23.3;
 }
-#layer [ pop_norm <= 4086677.23673585] {
-   polygon-fill: #E31A1C;
+#ne_10m_populated_places_simple [ pop_norm < 80] {
+   marker-width: 21.7;
 }
-#layer [ pop_norm <= 1538732.3943662] {
-   polygon-fill: #FC4E2A;
+#ne_10m_populated_places_simple [ pop_norm < 70] {
+   marker-width: 20.0;
 }
-#layer [ pop_norm <= 923491.374542489] {
-   polygon-fill: #FD8D3C;
+#ne_10m_populated_places_simple [ pop_norm < 60] {
+   marker-width: 18.3;
 }
-#layer [ pop_norm <= 616975.331234902] {
-   polygon-fill: #FEB24C;
+#ne_10m_populated_places_simple [ pop_norm < 50] {
+   marker-width: 16.7;
 }
-#layer [ pop_norm <= 326396.192958792] {
-   polygon-fill: #FED976;
+#ne_10m_populated_places_simple [ pop_norm < 40 {
+   marker-width: 15.0;
 }
-#layer [ pop_norm <= 95044.5589361554] {
-   polygon-fill: #FFFFB2;
+#ne_10m_populated_places_simple [ pop_norm < 30] {
+   marker-width: 13.3;
+}
+#ne_10m_populated_places_simple [ pop_norm < 20] {
+   marker-width: 11.7;
+}
+#ne_10m_populated_places_simple [ pop_norm < 10] {
+   marker-width: 10.0;
 }
 
-
-#layer [ pop_norm <= 247992435.530086] {
-   polygon-fill: #B10026;
+/** category visualization */
+#ne_10m_populated_places_simple[megacity=0] {
+   marker-fill: #FF9900;
 }
-#layer [ pop_norm <= 4086677.23673585] {
-   polygon-fill: #E31A1C;
-}
-#layer [ pop_norm <= 1538732.3943662] {
-   polygon-fill: #FC4E2A;
-}
-#layer [ pop_norm <= 923491.374542489] {
-   polygon-fill: #FD8D3C;
-}
-#layer [ pop_norm <= 616975.331234902] {
-   polygon-fill: #FEB24C;
-}
-#layer [ pop_norm <= 326396.192958792] {
-   polygon-fill: #FED976;
-}
-#layer [ pop_norm <= 95044.5589361554] {
-   polygon-fill: #FFFFB2;
+#ne_10m_populated_places_simple[megacity=1] {
+   marker-fill: #B81609;
 }
 ```
 
 #### A combination of the two methods above
+
+* **SQL**
 
 ```sql
 WITH aux AS(
@@ -476,6 +491,9 @@ FROM
   world_borders_norm,
   aux
 ```
+
+* **CartoCSS**
+
 ```css
 #layer{
   marker-fill-opacity: 0.8;
@@ -629,14 +647,14 @@ WIP => update links
 #### **Embed it**: 
 
 ```html
-<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 ```
 
-<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 #### **CartoDB.js** 
 
-[https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json](https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json)
+[https://team.cartodb.com/u/cartotraining/api/v2/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/viz.json](https://team.cartodb.com/u/cartotraining/api/v2/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/viz.json)
 
 _BONUS: **[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc)**, a Google Chrome extension and **[Pretty JSON](https://github.com/dzhibas/SublimePrettyJson)**, a Sublime Text plugin to visualize json files are good resources._
 
@@ -1046,7 +1064,7 @@ In order to add the CartoDB.js infowindow you need to add this line within your 
 cdb.vis.Vis.addInfowindow(map, layer, ['fields']);
 ```
 
-However, you can create custom infowindows with different tools (`Moustache.js`, HML or `underscore.js`). Whatever choice you use, you would need to create a template first and then add the infowindow with the template. Here we will see how to do it using `Moustache.js`.
+However, you can create custom infowindows with different tools (`Moustache.js`, HTML or `underscore.js`). Whatever choice you make, you would need to create a template first and then add the infowindow with the template. Here we will see how to do it using `Moustache.js`.
 
 [Mustache.js](http://mustache.github.io/) is a `logic-less` logic-template. That means that only tags you create templates that are replaced with a value or series of values, it works by expanding tags in a template using values provided in a hash or object.
 
@@ -1081,7 +1099,7 @@ cdb.vis.Vis.addInfowindow(
 
 In order to add legends with CartoDB.js you would need to define the elemenets and colors of the legend with HTML, then you could use the legend classes of CartoDB.js to create the legends.
   
-There is two kind of legend classes:
+There are two kind of legend classes:
 
 First, `cartodb-legend choropleth`, applied in Choropleth maps:
 
