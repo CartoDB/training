@@ -18,7 +18,7 @@ length: 4h
 
 ### [Intro Slides](https://docs.google.com/presentation/d/1ZlAfAD44BI-r1PArEPAK7FWq6UuA7-a0cPttWhu1amA/edit?usp=sharing)
 
-### [http://cartodb.github.io/training/intermediate/gwf-workshop.html]()
+### [http://cartodb.github.io/training/intermediate/siglibre10-workshop.html]()
 
 #### Further questions and troubleshooting
 
@@ -619,12 +619,7 @@ On the above simplified CartoCSS example we use the same layer for a red backgro
 
 #### Zoom based styling
 
-The last feature we are going to cover here about CartoCSS is zoom based
-styling. In the same way we can do thematic maps specifying new rules for a set
-of features, we can also apply different rules for different zoom levels of our
-map. This means we can for example show the labels only between some zoom levels
-or increase the width of our line features when we are on high zooms. This can
-be achieved exactly in the same way we did with our choropleth map. So a possible
+The last feature we are going to cover here about CartoCSS is zoom based styling. In the same way we can do thematic maps specifying new rules for a set of features, we can also apply different rules for different zoom levels of our map. This means we can for example show the labels only between some zoom levels or increase the width of our line features when we are on high zooms. This can be achieved exactly in the same way we did with our choropleth map. So a possible
 
 ```css
 @1 : #F11810;
@@ -659,14 +654,9 @@ be achieved exactly in the same way we did with our choropleth map. So a possibl
 /* normal buble classification here */
 ```
 
-On the example above check how we nest inside the normal CartoCSS definition
-some rules that will filter based on the zoom level and a field value, making
-transparent some features based on these criteria.
+On the example above check how we nest inside the normal CartoCSS definition some rules that will filter based on the zoom level and a field value, making transparent some features based on these criteria.
 
-You will notice also the use of a variable `@1` and the function `lighten`.
-Variables and color functions are out of the scope of this training but you
-can check here about [colors](https://docs.cartodb.com/cartodb-platform/cartocss/properties/#color)
-and also about composite operations on this great [academy tutorial](https://academy.cartodb.com/courses/intermediate-design/use-composite-operations/)
+You will notice also the use of a variable `@1` and the function `lighten`. Variables and color functions are out of the scope of this training but you can check here about [colors](https://docs.cartodb.com/cartodb-platform/cartocss/properties/#color) and also about composite operations on this great [academy tutorial](https://academy.cartodb.com/courses/intermediate-design/use-composite-operations/)
 
 #### **Infowindows and tooltip**:
 
