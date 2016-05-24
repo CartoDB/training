@@ -16,7 +16,14 @@ length: 4h
 * May 28th 2016
 * 10as Jornadas de SIG Libre
 
-## [http://bit.ly/link-to-workshop]()
+### [Intro Slides](https://docs.google.com/presentation/d/1ZlAfAD44BI-r1PArEPAK7FWq6UuA7-a0cPttWhu1amA/edit?usp=sharing)
+
+### [http://cartodb.github.io/training/intermediate/gwf-workshop.html]()
+
+#### Further questions and troubleshooting
+
+* **[GIS Stack Exchange](gis.stackexchange.com/questions/tagged/cartodb)** `cartodb` tag
+* email to **support@cartodb.com**
 
 ## Contents
 - [Importing datasets](#import)
@@ -157,7 +164,7 @@ FROM
 
 ### 2.4 Filtering
 
-![filtering](../img/160520-zgz/filtering.png)
+![filtering](../img/common/filtering.png)
 
 #### Filtering numeric fields:
 
@@ -310,27 +317,29 @@ Before making a choropleth map, we need to **normalize** our target column. For 
 ```sql
 SELECT
   wb.*,
-  pop2005/ST_Area(the_geom::geography) AS pop_norm
+  pop2005/(ST_Area(the_geom::geography)/1000000) AS pop_norm
 FROM
-  world_borders wb,
-  aux
+  world_borders wb
 ```
 
-![choropleth](../img/160520-zgz/choropleth.png)
+Click on 'create new dataset from query'.
+
+Rename the new dataset to **`world_borders_norm`**
+
+![choropleth](../img/common/choropleth.png)
 
 Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
 ### 3.2 Styles
 
-The last link of the previous link is a great discussion about the different maps you can create with CartoDB.
-
+The last link in the website referenced above is a great discussion about the different maps CartoDB allows to create.
 
 #### **Simple Map**:
 
 ```css
 /** simple visualization */
 
-#world_borders{
+#layer{
   polygon-fill: #FF6600;
   polygon-opacity: 0.7;
   line-color: #FFF;
@@ -344,13 +353,168 @@ The last link of the previous link is a great discussion about the different map
 ```css
 /** choropleth visualization */
 
-#world_borders{
+#layer{
   polygon-fill: #FFFFB2;
   polygon-opacity: 0.8;
   line-color: #FFF;
   line-width: 0.5;
   line-opacity: 1;
 }
+#layer [ pop_norm <= 247992435.530086] {
+   polygon-fill: #B10026;
+}
+#layer [ pop_norm <= 4086677.23673585] {
+   polygon-fill: #E31A1C;
+}
+#layer [ pop_norm <= 1538732.3943662] {
+   polygon-fill: #FC4E2A;
+}
+#layer [ pop_norm <= 923491.374542489] {
+   polygon-fill: #FD8D3C;
+}
+#layer [ pop_norm <= 616975.331234902] {
+   polygon-fill: #FEB24C;
+}
+#layer [ pop_norm <= 326396.192958792] {
+   polygon-fill: #FED976;
+}
+#layer [ pop_norm <= 95044.5589361554] {
+   polygon-fill: #FFFFB2;
+}
+```
+
+#### Proportional symbols map
+
+Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/)_ regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS section needs a bit of SQL computation but nothing hard.
+
+```sql
+WITH aux AS(
+  SELECT
+    max(pop2005) AS max_pop
+  FROM
+    world_borders
+  )
+SELECT
+  cartodb_id,
+  pop2005,
+  ST_Centroid(the_geom_webmercator) AS the_geom_webmercator,
+  5+30*sqrt(pop2005)/sqrt(aux.max_pop) AS size
+FROM
+  world_borders,
+  aux
+```
+```css
+#layer{
+  marker-fill-opacity: 0.8;
+  marker-line-color: #FFF;
+  marker-line-width: 1;
+  marker-line-opacity: 1;
+  marker-width: [size];
+  marker-fill: #FF9900;
+  marker-allow-overlap: true;
+}
+```
+
+#### Two-variable CartoCSS
+
+It's common practice to use two visual variables, typically color and size to represent one or two variables. To do this easily using CartoDB wizards you start for example with a coropleth map, copy on a separate text file the CartoCSS section where the field is used to color the geometries, then change the wizard to the bubble map and paste the previous code so instead of one color bubbles you get both variables styled.
+
+* **SQL**
+
+```sql
+WITH aux AS
+  (
+  SELECT
+    max (pop_max) AS max_population
+  FROM
+    ne_10m_populated_places_simple
+  )
+SELECT
+  a.*,
+  (pop_max*100)/aux.max_population AS pop_norm
+FROM
+  ne_10m_populated_places_simple a,
+  aux
+```
+
+* **CartoCSS**
+
+```css
+/** bubble visualization */
+#ne_10m_populated_places_simple [ pop_norm < 100] {
+   marker-width: 25.0;
+}
+#ne_10m_populated_places_simple [ pop_norm < 90] {
+   marker-width: 23.3;
+}
+#ne_10m_populated_places_simple [ pop_norm < 80] {
+   marker-width: 21.7;
+}
+#ne_10m_populated_places_simple [ pop_norm < 70] {
+   marker-width: 20.0;
+}
+#ne_10m_populated_places_simple [ pop_norm < 60] {
+   marker-width: 18.3;
+}
+#ne_10m_populated_places_simple [ pop_norm < 50] {
+   marker-width: 16.7;
+}
+#ne_10m_populated_places_simple [ pop_norm < 40 {
+   marker-width: 15.0;
+}
+#ne_10m_populated_places_simple [ pop_norm < 30] {
+   marker-width: 13.3;
+}
+#ne_10m_populated_places_simple [ pop_norm < 20] {
+   marker-width: 11.7;
+}
+#ne_10m_populated_places_simple [ pop_norm < 10] {
+   marker-width: 10.0;
+}
+
+/** category visualization */
+#ne_10m_populated_places_simple[megacity=0] {
+   marker-fill: #FF9900;
+}
+#ne_10m_populated_places_simple[megacity=1] {
+   marker-fill: #B81609;
+}
+```
+
+#### A combination of the two methods above
+
+* **SQL**
+
+```sql
+WITH aux AS(
+  SELECT
+    max(pop2005) AS max_pop
+  FROM
+    world_borders_norm
+  )
+SELECT
+  cartodb_id,
+  pop2005,
+  ST_Centroid(the_geom_webmercator) AS the_geom_webmercator,
+  5+30*sqrt(pop2005)/sqrt(aux.max_pop) AS size
+FROM
+  world_borders_norm,
+  aux
+```
+
+* **CartoCSS**
+
+```css
+#layer{
+  marker-fill-opacity: 0.8;
+  marker-line-color: #FFF;
+  marker-line-width: 1;
+  marker-line-opacity: 1;
+  marker-width: [size];
+  marker-fill: #FF9900;
+  marker-allow-overlap: true;
+}
+
 #world_borders [ pop_norm <= 247992435.530086] {
    polygon-fill: #B10026;
 }
@@ -374,58 +538,54 @@ The last link of the previous link is a great discussion about the different map
 }
 ```
 
-#### Proportional symbols map
-
-Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/)_ regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS section needs a bit of SQL computation but nothing hard.
-
-#### Two-variable CartoCSS
-
-It's common practice to use two visual variables, typically color and size to represent one or two variables. To do this easily using CartoDB wizards you start for example with a coropleth map, copy on a separate text file the CartoCSS section where the field is used to color the geometries, then change the wizard to the bubble map and paste the previous code so instead of one color bubbles you get both variables styled.
-
 _Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/)._
 
 ### 3.3 Other elements
 
 #### **Basemaps**:
 
-![basemap](../img/160520-zgz/basemap.png)
+![basemap](../img/common/basemap_options.png)
 
 #### **Options**:
 
-![options](../img/160520-zgz/options.png)
+![options](../img/common/map_options.png)
 
 #### **Legend**:
 
-![legend](../img/160520-zgz/legend.png)
+![legend](../img/common/legends.png)
+
+By clicking on the `</>` icon, you would see and edit the source HTML code
 
 ```html
 <div class='cartodb-legend choropleth'>
 <div class="legend-title">Total Population</div>
 <ul>
-  <li class="min">
-    95044.56
-  </li>
-  <li class="max">
-    247992435.53
-  </li>
-  <li class="graph count_441">
-  <div class="colors">
-  <div class="quartile" style="background-color:#FFFFB2"></div>
-  <div class="quartile" style="background-color:#FED976"></div>
-  <div class="quartile" style="background-color:#FEB24C"></div>
-  <div class="quartile" style="background-color:#FD8D3C"></div>
-  <div class="quartile" style="background-color:#FC4E2A"></div>
-  <div class="quartile" style="background-color:#E31A1C"></div>
-  <div class="quartile" style="background-color:#B10026"></div>
-  </div>
-  </li>
+	<li class="min">
+		95044.56
+	</li>
+	<li class="max">
+		247992435.53
+	</li>
+	<li class="graph count_441">
+	<div class="colors">
+	<div class="quartile" style="background-color:#FFFFB2"></div>
+	<div class="quartile" style="background-color:#FED976"></div>
+	<div class="quartile" style="background-color:#FEB24C"></div>
+	<div class="quartile" style="background-color:#FD8D3C"></div>
+	<div class="quartile" style="background-color:#FC4E2A"></div>
+	<div class="quartile" style="background-color:#E31A1C"></div>
+	<div class="quartile" style="background-color:#B10026"></div>
+	</div>
+	</li>
 </ul>
 </div>
 ```
 
 #### **Labels**:
 
-![intensity](../img/160520-zgz/labels.png)
+![intensity](../img/common/labels.png)
+
+Selecting a field in the wizard will produce the following CartoCSS code to render the labels.
 
 ```css
 #world_borders::labels {
@@ -455,8 +615,7 @@ This also shows an important concept for CartoCSS. you can specify more than one
   line-color: white;
 }
 ```
-
-On the above simplified CartoCSS example we put for our layer a red background, 10 pixels widh, and then on top of it a white 5 pixels symbol.
+On the above simplified CartoCSS example we use the same layer for a red background, 10 pixels widh, and then on top of it a white 5 pixels symbol.
 
 #### Zoom based styling
 
@@ -464,7 +623,9 @@ TBD (Jorge)
 
 #### **Infowindows and tooltip**:
 
-![infowindows](../img/160520-zgz/infowindows.png)
+![infowindows](../img/common/infowindows.png)
+
+Clicking on the `</>` will also show the source code for the Infowindows.
 
 ```html
 <div class="cartodb-popup v2">
@@ -485,27 +646,27 @@ TBD (Jorge)
 
 #### **Title, text and images**:
 
-![elements](../img/160520-zgz/elements.png)
+![elements](../img/common/add_annotation.gif)
 
 ### 3.4 Share your map!
 
-![share](../img/160520-zgz/share.png)
+![share](../img/common/share.png)
 
-#### **Get the link**:
+#### **Get the link**: UPDATE LINK!
 
 [https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map](https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map)
 
 #### **Embed it**:
 
 ```html
-<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 ```
 
-<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 #### **CartoDB.js**
 
-[https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json](https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json)
+[https://team.cartodb.com/u/cartotraining/api/v2/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/viz.json](https://team.cartodb.com/u/cartotraining/api/v2/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/viz.json)
 
 _BONUS: **[JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc)**, a Google Chrome extension and **[Pretty JSON](https://github.com/dzhibas/SublimePrettyJson)**, a Sublime Text plugin to visualize json files are good resources._
 
@@ -530,9 +691,9 @@ TBD (Oriol)
 
 More about the `geography` type can be found [here](http://workshops.boundlessgeo.com/postgis-intro/geography.html) and [here](http://postgis.net/docs/manual-1.5/ch04.html#PostGIS_Geography).
 
-![cart vs sph](http://workshops.boundlessgeo.com/postgis-intro/_images/cartesian_spherical.jpg)
+![cart vs sph](../img/common/cartesian_spherical.jpg)
 
-![LA-CDG](http://workshops.boundlessgeo.com/postgis-intro/_images/lax_cdg.jpg)
+![LA-CDG](../img/common/lax_cdg.jpg)
 
 _Source: [Boundless Postgis intro](http://workshops.boundlessgeo.com/postgis-intro)_
 
@@ -557,7 +718,7 @@ FROM
   spatial_ref_sys
 ```
 
-![srid](../img/160520-zgz/srid.png)
+![srid](../img/common/srid.png)
 
 #### Accessing the hidden **the_geom_webmercator** field:
 
@@ -587,6 +748,8 @@ INSERT INTO spatial_ref_sys
     AUTHORITY["EPSG","54030"]]');
 ```
 
+#### ST_Transform()
+
 ```sql
 SELECT
   cartodb_id, ST_Transform(the_geom, 54030) AS the_geom_webmercator
@@ -594,7 +757,7 @@ FROM
   ne_50m_land
 ```
 
-![robinson](../img/160520-zgz/robinson.png)
+![robinson](../img/common/robinson.png)
 
 _About [`ST_Transform`](http://postgis.net/docs/ST_Transform.html)._
 
@@ -616,7 +779,7 @@ WHERE
   name ilike 'madrid'
 ```
 
-![buffer](../img/160520-zgz/buffer.png)
+![buffer](../img/common/buffer.png)
 
 _About [`ST_Buffer`](http://postgis.net/docs/ST_Buffer.html)._
 
@@ -640,7 +803,7 @@ WHERE
   b.adm0_a3 like 'ESP'
 ```
 
-![difference](../img/160520-zgz/difference.png)
+![difference](../img/common/difference.png)
 
 _About [`ST_Difference`](http://postgis.net/docs/ST_Difference.html)._
 
@@ -670,7 +833,7 @@ Using `LATERAL`:
 ```sql
 SELECT
   a.cartodb_id,
-  a.admin,
+  a.admin AS name,
   a.the_geom_webmercator,
   counts.number_cities,
   to_char(counts.sum_pop,'999,999,999') as sum_pop --decimal separator
@@ -689,7 +852,7 @@ CROSS JOIN LATERAL
 ```
 _About [`ST_Intersects`](http://postgis.net/docs/ST_Intersects.html) and [Lateral JOIN](http://blog.heapanalytics.com/postgresqls-powerful-new-join-type-lateral)_
 
-![ADD IMAGE](../img/)
+![ADD IMAGE](../img/common/intersects.png)
 
 ---
 **Note:** You know about the `EXPLAIN ANALYZE` function? use it to take a look on how both queries are pretty similar in terms of performance.
@@ -715,13 +878,13 @@ WHERE
   AND b.adm0name = 'Spain'
 ```
 
-![dwithin](../img/160520-zgz/dwithin.png)
-
-_About [`ST_DWithin`](http://postgis.net/docs/ST_DWithin.html)._
-
 In this case, we are using `the_geom_webmercator` to avoid casting to `geography` type. Calculations made with `geometry` type takes the CRS units.
 
 Keep in mind that CRS **units in webmercator are not meters**, and they depend directly on the latitude.
+
+![dwithin](../img/common/dwithin.png)
+
+_About [`ST_DWithin`](http://postgis.net/docs/ST_DWithin.html)._
 
 #### Create a **straight line** between two points:
 
@@ -734,7 +897,7 @@ FROM (SELECT * FROM populated_places
     WHERE name ILIKE 'barcelona'AND adm0name ILIKE 'spain') as b
 ```
 
-![lines](../img/160520-zgz/lines.png)
+![lines](../img/common/lines.png)
 
 _About [`ST_MakeLine`](http://postgis.net/docs/ST_MakeLine.html)._
 
@@ -759,7 +922,7 @@ FROM
   WHERE name ILIKE 'new york') as b
 ```
 
-![greatcircles](../img/160520-zgz/greatcircles.png)
+![greatcircles](../img/common/greatcircles.png)
 
 _About [Great Circles](http://blog.cartodb.com/jets-and-datelines/)._
 
@@ -781,7 +944,7 @@ WHERE
   adm0_a3 IN ('ITA','GBR')
 ```
 
-![ADD IMAGE]()
+![ADD IMAGE](../img/common/rect_grid.png)
 
 _About [CDB_RectangleGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid)_
 
@@ -810,7 +973,7 @@ WHERE
   AND a.adm0_a3 IN ('ESP','ITA')
 ```
 
-![ADD IMAGE]()
+![ADD IMAGE](../img/common/hex_grid.png)
 
 _About [CDB_HexagonGrid](http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-hexagon-grid)_
 
@@ -874,12 +1037,12 @@ window.onload = function() {
   }
 
   // Instantiate map on specified DOM element
-  var map_object = new L.Map(dom_id, options);
+  var map = new L.Map(dom_id, options);
 
   // Add a basemap to the map object just created
   L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
     attribution: 'Stamen'
-  }).addTo(map_object);
+  }).addTo(map);
 }
 ```
 
@@ -887,7 +1050,7 @@ The map we just created doesn’t have any CartoDB data layers yet. If you’re 
 
 ```javascript
 var vizjson = 'link from share panel';
-cartodb.createLayer(map_object, vizjson).addTo(map_object);
+cartodb.createLayer(map, vizjson).addTo(map);
 ```
 
 ### 5.3 UI Functions
@@ -923,10 +1086,10 @@ Infowindows provide additional interactivity for your published map, controlled 
 In order to add the CartoDB.js infowindow you need to add this line within your code:
 
 ```javascript
-cdb.vis.Vis.addInfowindow(map_object, layer, ['fields']);
+cdb.vis.Vis.addInfowindow(map, layer, ['fields']);
 ```
 
-However, you can create custom infowindows with different tools (`Moustache.js`, HML or `underscore.js`). Whatever choice you use, you would need to create a template first and then add the infowindow with the template. Here we will see how to do it using `Moustache.js`.
+However, you can create custom infowindows with different tools (`Moustache.js`, HTML or `underscore.js`). Whatever choice you make, you would need to create a template first and then add the infowindow with the template. Here we will see how to do it using `Moustache.js`.
 
 [Mustache.js](http://mustache.github.io/) is a `logic-less` logic-template. That means that only tags you create templates that are replaced with a value or series of values, it works by expanding tags in a template using values provided in a hash or object.
 
@@ -961,7 +1124,7 @@ cdb.vis.Vis.addInfowindow(
 
 In order to add legends with CartoDB.js you would need to define the elemenets and colors of the legend with HTML, then you could use the legend classes of CartoDB.js to create the legends.
 
-There is two kind of legend classes:
+There are two kind of legend classes:
 
 First, `cartodb-legend choropleth`, applied in Choropleth maps:
 
@@ -969,23 +1132,23 @@ First, `cartodb-legend choropleth`, applied in Choropleth maps:
 <div class='cartodb-legend choropleth'>
     <div class="legend-title">Population</div>
       <ul>
-        <li class="min">
-          1256
-        </li>
-        <li class="max">
-          8300
-        </li>
-        <li class="graph count_441">
-        <div class="colors">
-        <div class="quartile" style="background-color:#FFFFB2"></div>
-        <div class="quartile" style="background-color:#FED976"></div>
-        <div class="quartile" style="background-color:#FEB24C"></div>
-        <div class="quartile" style="background-color:#FD8D3C"></div>
-        <div class="quartile" style="background-color:#FC4E2A"></div>
-        <div class="quartile" style="background-color:#E31A1C"></div>
-        <div class="quartile" style="background-color:#B10026"></div>
-        </div>
-        </li>
+      	<li class="min">
+      		1256
+      	</li>
+      	<li class="max">
+      		8300
+      	</li>
+      	<li class="graph count_441">
+      	<div class="colors">
+      	<div class="quartile" style="background-color:#FFFFB2"></div>
+      	<div class="quartile" style="background-color:#FED976"></div>
+      	<div class="quartile" style="background-color:#FEB24C"></div>
+      	<div class="quartile" style="background-color:#FD8D3C"></div>
+      	<div class="quartile" style="background-color:#FC4E2A"></div>
+      	<div class="quartile" style="background-color:#E31A1C"></div>
+      	<div class="quartile" style="background-color:#B10026"></div>
+      	</div>
+      	</li>
       </ul>
   </div>
 ```
@@ -1007,17 +1170,15 @@ Second, `cartodb-legend category`, applied in simple or category maps:
 
 * Load a visualisation with `createVis()`: [example](http://bl.ocks.org/jsanz/78d004e805ea4dbf8397814edc477a89), [editor](http://plnkr.co/edit/plhwv3IQwFxLHBGWodQp?p=preview)
 
-* Load SQL+CartoCSS with `createLayer`: [example](http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645), [editor](http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info)
+* Load SQL+CartoCSS with `createLayer`: [example](http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645), [editor](http://plnkr.co/edit/aG7ZSN24WBE6d8ZJQTqY?p=preview)
 
-* Events. Actions on feature click: [example](http://bl.ocks.org/jsanz/1881f68fd76546eda08cafd8fdcf480c), [editor](http://plnkr.co/edit/rLjESjaFzr4m9qrvl4pj?p=preview)
+* Events. Actions on feature click: [example](http://bl.ocks.org/jsanz/1881f68fd76546eda08cafd8fdcf480c), [editor](http://plnkr.co/edit/88Qc99jdgP4X43FSTRdH?p=preview)
 
-* Custom Infowindows: [example](http://bl.ocks.org/jsanz/a0f606c08ec854df3f5e982b3890e188), [editor](http://plnkr.co/edit/CQZL48I1QDfdMZUSH9ve?p=info)
+* Custom Infowindows: [example](http://bl.ocks.org/jsanz/a0f606c08ec854df3f5e982b3890e188), [editor](http://plnkr.co/edit/9FE6BHILGudsIrDmCzdd?p=preview)
 
-* Custom Tooltip: [example](http://bl.ocks.org/jsanz/cd541c5a61f72e19c1e50c06fb688f40), [editor](http://plnkr.co/edit/3loqq6?p=preview)
+* Custom Tooltip: [example](http://bl.ocks.org/jsanz/cd541c5a61f72e19c1e50c06fb688f40), [editor](http://plnkr.co/edit/uD0Fdw?p=preview)
 
-* Changing SQL and CartoCSS: [example](http://bl.ocks.org/jsanz/b454ed94c8ab9131dc823166226c18ef), [editor](http://plnkr.co/edit/xqpP5J?p=preview)
-
-* Use a slider to change SQL: [example](http://bl.ocks.org/jsanz/8e3195f2606a22fbfcdd0a117e109fb4), [editor](http://plnkr.co/edit/8HX6Yq?p=preview)
+* Changing SQL and CartoCSS: [example](http://bl.ocks.org/jsanz/b454ed94c8ab9131dc823166226c18ef), [editor](http://plnkr.co/edit/SzMbyj?p=preview)
 
 #### Some more advanced examples
 
