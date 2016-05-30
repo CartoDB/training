@@ -37,6 +37,10 @@ length: 2h
 
 ----
 
+## Introduction: Objective of this workshop
+
+This workshop is meant to address the necessities of journalists starting to work with CartoDB and election maps mainly. It will focus on CartoDB editor usage and common issues as well as going a bit deeper into CartoCSS to give you an extra mile on that side to help you make better maps.
+
 ## 1. Importing datasets <a name="import"></a>
 
 ### 1.1 Supported Geospatial Data Files
@@ -51,8 +55,18 @@ CartoDB supports the following geospatial data formats to upload vector data*:
 * **`Spreadsheets`**
 * **`GPX`**
 * **`OSM`**
+* **`GeoPackage`**
 
 Importing **different geometry types** in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information [here](http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats).
+
+
+GeoPackage is a new format that has several advantages over the typical Shapefile:
+
+* It's just one file
+* Column names can be as long as needed
+* It supports all data types including dates and booleans
+* It supports all geodata types and coordinate systems
+
 
 [*] More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html), [here](http://geojsonlint.com/) and [here](http://geojson.io/#map=2/20.0/0.0).
 
@@ -105,164 +119,152 @@ Know more about geocoding in CartoDB [here](http://docs.cartodb.com/tutorials/ho
 
 These are the datasets we are going to use on our workshop. You'll find them all on our [Data Library](https://cartodb.com/data-library):
 
-* **Populated Places** [`ne_10m_populated_places_simple`]: City and town points.
-* **World Borders** [`world_borders`]: World countries borders.
+* **Spanish municipalities** [`ign_spanish_adm3_municipalities_displaced_canary`]: This is a dataset with Spanish municipalities and the Canary Islands displaced so they are closer to the Iberian Peninsula.
+* **TODO**: Electoral results
+
+After importing the datasets, in order to be able to join the alphanumeric results with the geodata, we need to add a new column to the geodata. If you are syncing the IGN dataset you need to remove the sync. Then you can add a new column and name it `cod_ine`. Set it as a number column. Then you can run this `UPDATE` to generate the INE code from the national code
+
+```sql
+UPDATE
+  ign_spanish_adm3_municipalities_displaced_canary
+SET
+  cod_ine = natcode::bigint % 100000
+```
+
+![](../img/160601-elections/update-municipalities.png)
+
+Maybe you want to rename the table as `municipalities` to make your SQL and CartoCSS code easier to read.
+
 
 ### 2.3 Simple SQL operations
 
+Before starting to make maps it's a good idea to introduce you to a bit of the query language we use to render our maps. SQL is a language widely used to query relational databases and actually a powerful tool to analyze your data.
+
+CartoDB allows you to interact with your datasets using the interface so you can filter, order and modify your data values directly from the editor. Sometimes it will be useful to use the SQL tray to perform more advanced tasks like formatting your data joining different tables.
+
+
 #### Selecting all columns:
 
+The most basic query to a table is requesting all rows and columns.
+
 ```sql
-SELECT
-  *
-FROM
-  ne_10m_populated_places_simple;
+SELECT * FROM municipalities;
 ```
 
 #### Selecting some columns:
 
+Sometimes we don't need all the columns of a table so we can select just some of them by putting their names. This is specially useful when you have big tables.
+
 ```sql
 SELECT
   cartodb_id,
-  name as city,
-  adm1name as region,
-  adm0name as country,
-  pop_max,
-  pop_min
-FROM
-  ne_10m_populated_places_simple
+  cod_ine,
+  nameunit,
+  the_geom_webmercator
+FROM municipalities
 ```
 
 #### Selecting distinct values:
 
+If for any reason you want to know the values that a field of a table can have the `DISTINCT` keyword will be needed. For example the regions identifiers of Spain (17 regions plus the two autonomous cities).
+
 ```sql
-SELECT DISTINCT
-  adm0name as country
-FROM
-  ne_10m_populated_places_simple
+SELECT
+  DISTINCT codnut2
+FROM municipalities
 ```
 
 ### 2.4 Filtering
 
+Filtering is a common operation when working with CartoDB. With the following examples you'll see how to subset your table according to different criteria.
+
 ![filtering](../img/common/filtering.png)
 
-#### Filtering numeric fields:
+#### Filtering numeric fields
+
+You can use the `>`, `<`, `=`, `!=` operators to restrict a numeric or a date field.
 
 ```sql
-SELECT
-  *
-FROM
-  ne_10m_populated_places_simple
-WHERE
-  pop_max > 5000000;
+SELECT *
+FROM elections_2011
+WHERE participacion > 90
 ```
 
-#### Filtering character fields:
+#### Filtering character fields
+
+Even you can use `=` with text fields, is more convenient to use `LIKE` or even better `ILIKE`. The former will do a case-insesitive search.
 
 ```sql
-SELECT
-  *
-FROM
-  ne_10m_populated_places_simple
-WHERE
-  adm0name ilike 'spain'
+SELECT *
+FROM municipalities
+WHERE name ilike 'madrid'
 ```
 
-#### Filtering a range:
+#### Filtering a list of possible values
+
+If you want to filter by several values you can use the `IN` keyword and pass a list of values between parenthesis and comma separated.
 
 ```sql
-SELECT
-  *
-FROM
-  ne_10m_populated_places_simple
-WHERE
-  name in ('Madrid', 'Barcelona')
-AND
-  adm0name ilike 'spain'
+SELECT *
+FROM elections_2011
+WHERE provincia in ('Albacete','Burgos')
 ```
 
-#### Combining character and numeric filters:
+#### Combining character and numeric filters
+
+Filters can be combined using the `AND`, `OR` and `NOT` keywords. If you have doubts about the operator precedence is always good idea to use parenthesis to make explicit your conditions.
+
 
 ```sql
-SELECT
-  *
-FROM
-  ne_10m_populated_places_simple
+SELECT *
+FROM elections_2011
 WHERE
-  name in ('Madrid', 'Barcelona')
-AND
-  adm0name ilike 'spain'
-AND
-  pop_max > 5000000
+  (
+    provincia  = 'Sevilla' OR
+    provincia  = 'Barcelona'
+  )
+  AND
+    poblacion > 70000
+  AND
+    NOT ganador_2011 = 'PP'
 ```
 
-### 2.5 Others:
+#### Ordering results
 
-#### Selecting aggregated values:
-
-**count**
+Even you can order the results on the editor, sometimes it's useful to order explicitly the results of your query by some field. By default `ORDER` works in ascending order (`ASC`) so you don't need to specify it.
 
 ```sql
-SELECT
-  count(*) as total_rows
-FROM
-  ne_10m_populated_places_simple
-```
-**sum**
-
-```sql
-SELECT
-  sum(pop_max) as total_pop_spain
-FROM
-  ne_10m_populated_places_simple
-WHERE
-  adm0name ilike 'spain'
-```
-**avg**
-
-```sql
-SELECT
-  avg(pop_max) as avg_pop_spain
-FROM
-  ne_10m_populated_places_simple
-WHERE
-  adm0name ilike 'spain'
-```
-
-#### Ordering results:
-
-```sql
-SELECT
-  cartodb_id,
-  name as city,
-  adm1name as region,
-  adm0name as country,
-  pop_max
-FROM
-  ne_10m_populated_places_simple
-WHERE
-  adm0name ilike 'spain'
+SELECT *
+FROM elections_2011
+WHERE ganador_2011 = 'PP'
 ORDER BY
-  pop_max DESC
+  poblacion DESC
 ```
 
-#### **Limiting results**:
+#### Limiting results
+
+If your data is ordered, then you can limit the number of results to retrieve for example the top ten municipalities of Spain by population where Spanish PP party won.
+
 
 ```sql
 SELECT
-  cartodb_id,
-  name as city,
-  adm1name as region,
-  adm0name as country,
-  pop_max
-FROM
-  ne_10m_populated_places_simple
-WHERE
-  adm0name ilike 'spain'
-ORDER BY
-  pop_max DESC
-LIMIT 10
+  nombre,
+  provincia,
+  poblacion
+FROM elections_2011
+WHERE ganador_2011 = 'PP'
+ORDER BY poblacion DESC
+LIMIT
+  10
 ```
+
+#### Joining datasets
+
+** TODO **
+
+#### Other useful SQL functions
+
+** TODO **
 
 ----
 
