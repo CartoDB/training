@@ -11,29 +11,32 @@ length: 2h
 * Trainers:
   * Jorge Sanz · jorge@cartodb.com · [@xurxosanz](http://twitter.com/xurxosanz)
   * Ernesto Martínez · ernesto@cartodb.com · [@ernesmb](http://twitter.com/ernesmb)
+
 * Collaborators:
   * Oriol Boix · oboix@cartodb.com · [@oriolbx](http://twitter.com/oriolbx)
   * Ramiro Aznar · ramiroaznar@cartodb.com · [@ramiroaznar](http://twitter.com/ramiroaznar)
-* June 1st 2016
-* CartoDB Introductory Workshop for journalists on doing election maps
 
-### [http://bit.ly/TODO](http://bit.ly/TODO)
+* Date: June 1st 2016
+* [http://bit.ly/TODO](http://bit.ly/TODO)
 
-#### Map Academy, tutorials and other online resources
+
+Map Academy, tutorials and other online resources:
 
 * [**Map Academy** courses](https://academy.cartodb.com/).
 * [**Tutorials**](https://docs.cartodb.com/tutorials/).
 * [Other online resources](https://github.com/ramiroaznar/intro-cartodb).
 
-#### Further questions and troubleshooting
+Further questions and troubleshooting:
 
 * Email to **support@cartodb.com**.
 * Some questions could be already anwered at **[GIS Stack Exchange](gis.stackexchange.com/questions/tagged/cartodb)** `cartodb` tag.
 
-## Contents
+Contents
+
 - [Importing datasets](#import)
 - [Getting your data ready](#dataset)
-- [Making a map](#map)
+- [Making a simple map](#map)
+- [Election maps](#election-maps)
 
 ----
 
@@ -41,9 +44,12 @@ length: 2h
 
 This workshop is meant to address the necessities of journalists starting to work with CartoDB and election maps mainly. It will focus on CartoDB editor usage and common issues as well as going a bit deeper into CartoCSS to give you an extra mile on that side to help you make better maps.
 
-## 1. Importing datasets <a name="import"></a>
 
-### 1.1 Supported Geospatial Data Files
+** TODO Ernesto: put one of the finished maps here **
+
+## Importing datasets <a name="import"></a>
+
+### Supported Geospatial Data Files
 
 CartoDB supports the following geospatial data formats to upload vector data*:
 
@@ -70,7 +76,7 @@ GeoPackage is a new format that has several advantages over the typical Shapefil
 
 [*] More detailed information about GeoJSON format [here](http://geojson.org/geojson-spec.html), [here](http://geojsonlint.com/) and [here](http://geojson.io/#map=2/20.0/0.0).
 
-### 1.2 Common importing errors
+### Common importing errors
 
 * **Dataset too large**:
   * File size limit: 150 Mb (free).
@@ -100,9 +106,9 @@ Other importing errors and their codes can be found [here](http://docs.cartodb.c
 
 ----
 
-## 2. Getting your data ready <a name="dataset"></a>
+## Getting your data ready <a name="dataset"></a>
 
-### 2.1 Geocoding
+### Geocoding
 
 If you have a column with longitude coordinates and another with latitude coordinates, CartoDB will automatically detect and covert values into `the_geom`. If this is not the case, CartoDB can help you by turning the named places into best guess of latitude-longitude coordinates:
 
@@ -115,7 +121,7 @@ If you have a column with longitude coordinates and another with latitude coordi
 
 Know more about geocoding in CartoDB [here](http://docs.cartodb.com/tutorials/how_to_georeference/).
 
-### 2.2 Datasets
+### Datasets
 
 These are the datasets we are going to use on our workshop. You'll find them all on our [Data Library](https://cartodb.com/data-library):
 
@@ -136,7 +142,7 @@ SET
 Maybe you want to rename the table as `municipalities` to make your SQL and CartoCSS code easier to read.
 
 
-### 2.3 Simple SQL operations
+### Simple SQL operations
 
 Before starting to make maps it's a good idea to introduce you to a bit of the query language we use to render our maps. SQL is a language widely used to query relational databases and actually a powerful tool to analyze your data.
 
@@ -174,7 +180,7 @@ SELECT
 FROM municipalities
 ```
 
-### 2.4 Filtering
+### Filtering
 
 Filtering is a common operation when working with CartoDB. With the following examples you'll see how to subset your table according to different criteria.
 
@@ -258,20 +264,26 @@ LIMIT
   10
 ```
 
+#### Making calculations
+
+** TODO Jorge **
+
 #### Joining datasets
 
-** TODO **
+** TODO Jorge **
 
 #### Other useful SQL functions
 
-** TODO **
+** TODO Jorge **
 
 ----
 
 
-## 3. Making our first map <a name="map"></a>
+## Making our first map <a name="map"></a>
 
-### 3.1 Wizard
+** TODO Jorge **
+
+### CartoDB Editor map wizards
 
 [Analyzing your dataset...](http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset) In some cases, when you connect a dataset and click on the MAP VIEW for the first time, the Analyzing dataset dialog appears. This analytical tool analyzes the data in each column, predicts how to visualize this data, and offers you snapshots of the visualized maps. You can select one of the possible map styles, or ignore the analyzing dataset suggestions.
 
@@ -288,11 +300,10 @@ LIMIT
 
 Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
-### 3.2 Styles
+### Designing a base map
 
 The last link in the website referenced above is a great discussion about the different maps CartoDB allows to create.
 
-#### **Simple Map**:
 
 ```css
 /** simple visualization */
@@ -306,7 +317,134 @@ The last link in the website referenced above is a great discussion about the di
 }
 ```
 
-#### **Choropleth Map**:
+### Other elements
+
+#### Basemaps
+
+![basemap](../img/common/basemap_options.png)
+
+#### Options
+
+![options](../img/common/map_options.png)
+
+#### Legend
+
+![legend](../img/common/legends.png)
+
+By clicking on the `</>` icon, you would see and edit the source HTML code.
+
+```html
+<div class='cartodb-legend choropleth'>
+<div class="legend-title">Total Population</div>
+<ul>
+	<li class="min">
+		95044.56
+	</li>
+	<li class="max">
+		247992435.53
+	</li>
+	<li class="graph count_441">
+	<div class="colors">
+	<div class="quartile" style="background-color:#FFFFB2"></div>
+	<div class="quartile" style="background-color:#FED976"></div>
+	<div class="quartile" style="background-color:#FEB24C"></div>
+	<div class="quartile" style="background-color:#FD8D3C"></div>
+	<div class="quartile" style="background-color:#FC4E2A"></div>
+	<div class="quartile" style="background-color:#E31A1C"></div>
+	<div class="quartile" style="background-color:#B10026"></div>
+	</div>
+	</li>
+</ul>
+</div>
+```
+
+#### Labels
+
+![intensity](../img/common/labels.png)
+
+Selecting a field in the wizard will produce the following CartoCSS code to render the labels.
+
+```css
+#world_borders::labels {
+  text-name: [name];
+  text-face-name: 'DejaVu Sans Book';
+  text-size: 10;
+  text-label-position-tolerance: 10;
+  text-fill: #000;
+  text-halo-fill: #FFF;
+  text-halo-radius: 1;
+  text-dy: -10;
+  text-allow-overlap: true;
+  text-placement: point;
+  text-placement-type: simple;
+}
+```
+
+
+This also shows an important concept for CartoCSS. you can specify more than one rendering pass for your features. This means that using the `#layername::passname` notation you can render more than one symbol on your features. One typical example of this feature is to render lines with more than one symbol.
+
+```css
+#layer::background{
+  line-width: 10;
+  line-color: red;
+}
+#layer::foreground{
+  line-width: 5;
+  line-color: white;
+}
+```
+On the above simplified CartoCSS example we use the same layer for a red background, 10 pixels widh, and then on top of it a white 5 pixels symbol.
+
+
+#### Infowindows and tooltip:
+
+![infowindows](../img/common/infowindows.png)
+
+Clicking on the `</>` will also show the source code for the Infowindows.
+
+```html
+<div class="cartodb-popup v2">
+  <a href="#close" class="cartodb-popup-close-button close">x</a>
+  <div class="cartodb-popup-content-wrapper">
+    <div class="cartodb-popup-content">
+      <h4>country</h4>
+      <p>{% raw %}{{name}}{% endraw %}</p>
+      <h4>population</h4>
+      <p>{% raw %}{{pop_norm}}{% endraw %}</p>
+      <h4>area</h4>
+      <p>{% raw %}{{new_area}}{% endraw %}</p>
+    </div>
+  </div>
+  <div class="cartodb-popup-tip-container"></div>
+</div>
+```
+
+#### Title, text and images:
+
+![elements](../img/common/add_annotation.gif)
+
+### Share your map!
+
+![share](../img/common/share.png)
+
+#### Get the link:
+
+[https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/public_map](https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/public_map)
+
+#### Embed it:
+
+```html
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+```
+
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+
+## Election maps <a name="election-maps"></a>
+
+** TODO Ernesto **
+
+#### Choropleth Map:
 
 Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area.
 
@@ -390,113 +528,5 @@ FROM
 ```
 
 [*] Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/) and try our [cartoColors](http://cartodb.github.io/labs-colorscales/#)!
-
-### 3.3 Other elements
-
-#### **Basemaps**:
-
-![basemap](../img/common/basemap_options.png)
-
-#### **Options**:
-
-![options](../img/common/map_options.png)
-
-#### **Legend**:
-
-![legend](../img/common/legends.png)
-
-By clicking on the `</>` icon, you would see and edit the source HTML code.
-
-```html
-<div class='cartodb-legend choropleth'>
-<div class="legend-title">Total Population</div>
-<ul>
-	<li class="min">
-		95044.56
-	</li>
-	<li class="max">
-		247992435.53
-	</li>
-	<li class="graph count_441">
-	<div class="colors">
-	<div class="quartile" style="background-color:#FFFFB2"></div>
-	<div class="quartile" style="background-color:#FED976"></div>
-	<div class="quartile" style="background-color:#FEB24C"></div>
-	<div class="quartile" style="background-color:#FD8D3C"></div>
-	<div class="quartile" style="background-color:#FC4E2A"></div>
-	<div class="quartile" style="background-color:#E31A1C"></div>
-	<div class="quartile" style="background-color:#B10026"></div>
-	</div>
-	</li>
-</ul>
-</div>
-```
-
-#### **Labels**:
-
-![intensity](../img/common/labels.png)
-
-Selecting a field in the wizard will produce the following CartoCSS code to render the labels.
-
-```css
-#world_borders::labels {
-  text-name: [name];
-  text-face-name: 'DejaVu Sans Book';
-  text-size: 10;
-  text-label-position-tolerance: 10;
-  text-fill: #000;
-  text-halo-fill: #FFF;
-  text-halo-radius: 1;
-  text-dy: -10;
-  text-allow-overlap: true;
-  text-placement: point;
-  text-placement-type: simple;
-}
-```
-
-This also shows an important concept for CartoCSS. you can specify more than one rendering pass for your features. This means that using the `#layername::passname` notation you can render more than one symbol on your features.
-
-#### **Infowindows and tooltip**:
-
-![infowindows](../img/common/infowindows.png)
-
-Clicking on the `</>` will also show the source code for the Infowindows.
-
-```html
-<div class="cartodb-popup v2">
-  <a href="#close" class="cartodb-popup-close-button close">x</a>
-  <div class="cartodb-popup-content-wrapper">
-    <div class="cartodb-popup-content">
-      <h4>country</h4>
-      <p>{% raw %}{{name}}{% endraw %}</p>
-      <h4>population</h4>
-      <p>{% raw %}{{pop_norm}}{% endraw %}</p>
-      <h4>area</h4>
-      <p>{% raw %}{{new_area}}{% endraw %}</p>
-    </div>
-  </div>
-  <div class="cartodb-popup-tip-container"></div>
-</div>
-```
-
-#### **Title, text and images**:
-
-![elements](../img/common/add_annotation.gif)
-
-### 3.4 Share your map!
-
-![share](../img/common/share.png)
-
-#### **Get the link**:
-
-[https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/public_map](https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/public_map)
-
-#### **Embed it**:
-
-```html
-<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
-```
-
-<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 ----
