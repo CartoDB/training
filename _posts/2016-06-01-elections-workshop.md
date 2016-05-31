@@ -266,11 +266,35 @@ LIMIT
 
 #### Making calculations
 
-** TODO Jorge **
+You can make calculations and run functions on your query `SELECT` part and also on the `WHERE` section. This way you can compute densities, normalize columns, format dates and numbers, etc. Next example shows how to get the number of voters multiplying the participation index by the population and how to get the population per square kilometer dividing the total population by the polygon area and multiplying by 10.000.000 to convert square meters to square kilometers.
+
+```sql
+SELECT
+  *,
+  participacion * poblacion as voters,
+  poblacion / ST_Area(the_geom::geography) * 10^6 as pop_km2
+FROM elections_2011
+WHERE
+  poblacion / ST_Area(the_geom::geography) * 10^6 > 10000
+
+```
 
 #### Joining datasets
 
-** TODO Jorge **
+It's very common to have different datasets that we need to join to produce a map. Typically we have a geographic reference dataset (as IGN in this case) and we need to join it with some business data, like election results. To do so we use the `JOIN` clause where we refer to another table and make explicit the condition to join fields from one table to the other, normally using a common field. In our case we have a **one to one** relation, where for every municipality we will look for a row on the elections result table to take the data. There are other cases where we have a **one to many** relationship so we would need to aggregate data from the referenced table. A related example of the former type would be using a provinces table where we want to summarize elections results by municipality.
+
+```sql
+SELECT
+  m.cartodb_id,
+  m.the_geom_webmercator,
+  e.codigo_municipio,
+  e.nombre,
+  e.edad_media,
+  e.ganador_2011
+FROM municipalities m
+JOIN elections_2011 e
+ON m.cod_ine = e.codigo_municipio
+```
 
 #### Other useful SQL functions
 
