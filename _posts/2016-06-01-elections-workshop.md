@@ -470,84 +470,125 @@ Clicking on the `</>` will also show the source code for the Infowindows.
 
 #### Choropleth Map:
 
-Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area.
+Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area. That produces a Population Density map
 
 ```sql
-SELECT
-  wb.*,
-  pop2005/(ST_Area(the_geom::geography)/1000000) AS pop_norm
-FROM
-  world_borders wb
+SELECT 
+  m.cartodb_id,
+  m.the_geom_webmercator,
+  e.codigo_municipio,
+  e.nombre,
+  e.poblacion/(ST_Area(
+    m.the_geom::geography
+  )/1000000) AS pop_density
+FROM cartotraining.municipalities m
+JOIN cartotraining.elections_2011 e
+ON m.cod_ine = e.codigo_municipio
 ```
 
-Click on 'create new dataset from query'.
 
-Rename the new dataset to **`world_borders_norm`**
-
-![choropleth](../img/common/choropleth.png)
+![choropleth](../img/160601-elections/choropleth.png)
 
 ```css
 /** choropleth visualization */
 
-#layer{
+#elections_2011{
   polygon-fill: #FFFFB2;
   polygon-opacity: 0.8;
   line-color: #FFF;
   line-width: 0.5;
   line-opacity: 1;
 }
-#layer [ pop_norm <= 247992435.530086] {
-   polygon-fill: #B10026;
+#elections_2011 [ pop_density <= 26485.0306271969] {
+   polygon-fill: #BD0026;
 }
-#layer [ pop_norm <= 4086677.23673585] {
-   polygon-fill: #E31A1C;
+#elections_2011 [ pop_density <= 80.373823888463] {
+   polygon-fill: #F03B20;
 }
-#layer [ pop_norm <= 1538732.3943662] {
-   polygon-fill: #FC4E2A;
-}
-#layer [ pop_norm <= 923491.374542489] {
+#elections_2011 [ pop_density <= 22.032283718681] {
    polygon-fill: #FD8D3C;
 }
-#layer [ pop_norm <= 616975.331234902] {
-   polygon-fill: #FEB24C;
+#elections_2011 [ pop_density <= 9.28723034439738] {
+   polygon-fill: #FECC5C;
 }
-#layer [ pop_norm <= 326396.192958792] {
-   polygon-fill: #FED976;
-}
-#layer [ pop_norm <= 95044.5589361554] {
+#elections_2011 [ pop_density <= 4.19130396743194] {
    polygon-fill: #FFFFB2;
 }
 ```
 
-#### Proportional symbols map
+#### Graduated symbols + Category map
 
 Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/) regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS* section needs a bit of SQL computation but nothing hard.
+
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/1aa78bd6-274f-11e6-ba8c-0ea31932ec1d/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 ```sql
 WITH aux AS(
   SELECT
-    max(pop2005) AS max_pop
+    max(poblacion) AS max_pop
   FROM
-    world_borders
+    cartotraining.elections_2011
   )
-SELECT
-  cartodb_id,
-  pop2005,
-  ST_Centroid(the_geom_webmercator) AS the_geom_webmercator,
-  5+30*sqrt(pop2005)/sqrt(aux.max_pop) AS size
-FROM
-  world_borders,
-  aux
+SELECT 
+  m.cartodb_id,
+  ST_Centroid(m.the_geom_webmercator) AS the_geom_webmercator,
+  e.codigo_municipio,
+  e.nombre,
+  e.partido_ganador_2015,
+  e.poblacion,
+  5+20*sqrt(poblacion)/sqrt(aux.max_pop) AS size
+FROM 
+  aux,
+  cartotraining.municipalities m
+JOIN cartotraining.elections_2011 e
+ON m.cod_ine = e.codigo_municipio
+ORDER BY poblacion DESC
 ```
+
 ```css
-#layer{
-  marker-fill-opacity: 0.8;
-  marker-line-color: #FFF;
-  marker-line-width: 1;
-  marker-line-opacity: 1;
-  marker-width: [size];
-  marker-fill: #FF9900;
-  marker-allow-overlap: true;
+#elections_2011 {
+   marker-fill-opacity: 0.9;
+   marker-line-color: #FFF;
+   marker-line-width: 0.25;
+   marker-line-opacity: 1;
+   marker-placement: point;
+   marker-type: ellipse;
+   marker-width: [size];
+   marker-allow-overlap: true;
+}
+
+#elections_2011[partido_ganador_2015="C's"] {
+   marker-fill: #FF9900;
+}
+#elections_2011[partido_ganador_2015="DL"] {
+   marker-fill: #FFCC00;
+}
+#elections_2011[partido_ganador_2015="EAJ-PNV"] {
+   marker-fill: #B2DF8A;
+}
+#elections_2011[partido_ganador_2015="EH BILDU"] {
+   marker-fill: #33A02C;
+}
+#elections_2011[partido_ganador_2015="EN COMÚ"] {
+   marker-fill: #7B00B4;
+}
+#elections_2011[partido_ganador_2015="ERC-CATSI"] {
+   marker-fill: #E31A1C;
+}
+#elections_2011[partido_ganador_2015="PODEMOS"] {
+   marker-fill: #3B007F;
+}
+#elections_2011[partido_ganador_2015="PODEMOS-COMPROMÍS"] {
+   marker-fill: #A53ED5;
+}
+#elections_2011[partido_ganador_2015="PP"] {
+   marker-fill: #3E7BB6;
+}
+#elections_2011[partido_ganador_2015="PSOE"] {
+   marker-fill: #F84F40;
+}
+#elections_2011 {
+   marker-fill: #DDDDDD;
 }
 ```
 
