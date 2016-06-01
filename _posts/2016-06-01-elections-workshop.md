@@ -798,7 +798,7 @@ SELECT
   e.partido_ganador_2015,
   CASE
     WHEN ganador_2011 ILIKE partido_ganador_2015 THEN NULL
-    WHEN ganador_2011 NOT ILIKE partido_ganador_2015 THEN partido_ganador_2015
+    ELSE partido_ganador_2015
   END new_winner
 FROM
   municipalities m
