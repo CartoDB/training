@@ -499,10 +499,17 @@ Clicking on the `</>` will also show the source code for the Infowindows.
 
 <iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/36d25ff0-2189-11e6-b39e-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
+----
 
 ## Election maps <a name="election-maps"></a>
 
 ** TODO Ernesto **
+
+----
+
+> Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/) and try our [cartoColors](http://cartodb.github.io/labs-colorscales/#)!
+
+----
 
 #### Choropleth Map:
 
@@ -522,59 +529,68 @@ JOIN cartotraining.elections_2011 e
 ON m.cod_ine = e.codigo_municipio
 ```
 
-
-![choropleth](../img/160601-elections/choropleth.png)
-
 ```css
 /** choropleth visualization */
+/** Jenks scale */
+
+@color0: #f3e79b;
+@color1: #f9b281;
+@color2: #eb7f86;
+@color3: #b85f9a;
+@color4: #5c53a5;
 
 #elections_2011{
-  polygon-fill: #FFFFB2;
-  polygon-opacity: 0.8;
-  line-color: #FFF;
-  line-width: 0.5;
-  line-opacity: 1;
-}
-#elections_2011 [ pop_density <= 26485.0306271969] {
-   polygon-fill: #BD0026;
-}
-#elections_2011 [ pop_density <= 80.373823888463] {
-   polygon-fill: #F03B20;
-}
-#elections_2011 [ pop_density <= 22.032283718681] {
-   polygon-fill: #FD8D3C;
-}
-#elections_2011 [ pop_density <= 9.28723034439738] {
-   polygon-fill: #FECC5C;
-}
-#elections_2011 [ pop_density <= 4.19130396743194] {
-   polygon-fill: #FFFFB2;
+polygon-opacity: 0.9;
+polygon-fill: @color0;
+line-opacity: 1;
+line-width: 0.5;
+line-color: lighten(@color0,5);
+
+  [pop_density>0]{
+    polygon-fill: @color0;
+    line-color: lighten(@color0,5);
+       }
+  [pop_density>8.07419296338199]{
+    polygon-fill: @color1;
+    line-color: lighten(@color1,5);
+       }
+  [pop_density>28.3464260803082]{
+    polygon-fill: @color2;
+    line-color: lighten(@color2,5);
+       }
+  [pop_density>209.091331347213]{
+    polygon-fill: @color3;
+    line-color: lighten(@color3,5);
+       }
+  [pop_density>1560.90092390169]{
+    polygon-fill: @color4;
+    line-color: lighten(@color4,5);
+       }
 }
 ```
 
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/8dd0f622-273d-11e6-b8ad-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+----
+
 #### Graduated symbols + Category map
 
-Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/) regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS* section needs a bit of SQL computation but nothing hard.
+Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/) regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS* section needs a bit of SQL computation but nothing hard
 
-<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/1aa78bd6-274f-11e6-ba8c-0ea31932ec1d/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+![](../img/160601-elections/graduated_symbols_formula.png)
+
+As the formula above states, we need the maximum value for the population column in order to calculate the new `size` column. We could get that running an auxiliary query with `max()` aggregation function, or simply going to DATA VIEW and ordering the column by _DESCENDING_ values.
 
 ```sql
-WITH aux AS(
-  SELECT
-    max(poblacion) AS max_pop
-  FROM
-    cartotraining.elections_2011
-  )
-SELECT
+SELECT 
   m.cartodb_id,
   ST_Centroid(m.the_geom_webmercator) AS the_geom_webmercator,
   e.codigo_municipio,
   e.nombre,
   e.partido_ganador_2015,
   e.poblacion,
-  5+20*sqrt(poblacion)/sqrt(aux.max_pop) AS size
-FROM
-  aux,
+  4+32*sqrt(poblacion)/sqrt(3165235) AS size
+FROM 
   cartotraining.municipalities m
 JOIN cartotraining.elections_2011 e
 ON m.cod_ine = e.codigo_municipio
@@ -591,48 +607,30 @@ ORDER BY poblacion DESC
    marker-type: ellipse;
    marker-width: [size];
    marker-allow-overlap: true;
+   marker-fill: #DDDDDD;
+
+  [partido_ganador_2015="C's"] {marker-fill: #FF9900; } 
+  [partido_ganador_2015="DL"] {marker-fill: #FFCC00; } 
+  [partido_ganador_2015="EAJ-PNV"] {marker-fill: #B2DF8A; } 
+  [partido_ganador_2015="EH BILDU"] {marker-fill: #33A02C; }   
+  [partido_ganador_2015="EN COMÚ"] {marker-fill: #7B00B4; } 
+  [partido_ganador_2015="ERC-CATSI"] {marker-fill: #E31A1C; }
+  [partido_ganador_2015="PODEMOS"] {marker-fill: #3B007F; } 
+  [partido_ganador_2015="PODEMOS-COMPROMÍS"] {marker-fill: #A53ED5; } 
+  [partido_ganador_2015="PP"] {marker-fill: #3E7BB6; } 
+  [partido_ganador_2015="PSOE"] {marker-fill: #F84F40; }
 }
 
-#elections_2011[partido_ganador_2015="C's"] {
-   marker-fill: #FF9900;
-}
-#elections_2011[partido_ganador_2015="DL"] {
-   marker-fill: #FFCC00;
-}
-#elections_2011[partido_ganador_2015="EAJ-PNV"] {
-   marker-fill: #B2DF8A;
-}
-#elections_2011[partido_ganador_2015="EH BILDU"] {
-   marker-fill: #33A02C;
-}
-#elections_2011[partido_ganador_2015="EN COMÚ"] {
-   marker-fill: #7B00B4;
-}
-#elections_2011[partido_ganador_2015="ERC-CATSI"] {
-   marker-fill: #E31A1C;
-}
-#elections_2011[partido_ganador_2015="PODEMOS"] {
-   marker-fill: #3B007F;
-}
-#elections_2011[partido_ganador_2015="PODEMOS-COMPROMÍS"] {
-   marker-fill: #A53ED5;
-}
-#elections_2011[partido_ganador_2015="PP"] {
-   marker-fill: #3E7BB6;
-}
-#elections_2011[partido_ganador_2015="PSOE"] {
-   marker-fill: #F84F40;
-}
-#elections_2011 {
-   marker-fill: #DDDDDD;
-}
+
 ```
 
-#### Percentage for one specific party + Participation
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/1aa78bd6-274f-11e6-ba8c-0ea31932ec1d/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
-We made a choropleth map using the vote percentage for one specific party. We also created some rules to style the opacity based on the participation column.
+----
 
-<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/242e57be-27d3-11e6-8b8c-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+#### Percentage for one specific party
+
+We made a standard choropleth map using the vote percentage for one specific party.
 
 ```sql
 SELECT
@@ -657,6 +655,7 @@ ON m.cod_ine = e.codigo_municipio
   line-width: 0.5;
   line-opacity: 0.5;
 }
+
 #elections_2011 [ porcentaje_psoe <= 77.78] {
    polygon-fill: #C1373C;
 }
@@ -672,41 +671,10 @@ ON m.cod_ine = e.codigo_municipio
 #elections_2011 [ porcentaje_psoe <= 12.16] {
    polygon-fill: #F2D2D3;
 }
-
-#elections_2011 {
-  [participacion <= 100] {
-    polygon-opacity: 1;
-   }
-  [participacion <= 90] {
-    polygon-opacity: 0.9;
-   }
-  [participacion <= 80] {
-    polygon-opacity: 0.8;
-   }
-  [participacion <= 70] {
-    polygon-opacity: 0.7;
-   }
-  [participacion <= 60] {
-    polygon-opacity: 0.6;
-   }
-  [participacion <= 50] {
-    polygon-opacity: 0.5;
-   }
-  [participacion <= 40] {
-    polygon-opacity: 0.4;
-   }
-  [participacion <= 30] {
-    polygon-opacity: 0.3;
-   }
-  [participacion <= 20] {
-    polygon-opacity: 0.2;
-   }
-  [participacion <= 10] {
-    polygon-opacity: 0.1;
-   }
-}
 ```
 
-[*] Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/) and try our [cartoColors](http://cartodb.github.io/labs-colorscales/#)!
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/242e57be-27d3-11e6-8b8c-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 ----
+
+
