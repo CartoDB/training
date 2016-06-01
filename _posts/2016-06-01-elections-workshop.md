@@ -260,8 +260,7 @@ SELECT
 FROM elections_2011
 WHERE ganador_2011 = 'PP'
 ORDER BY poblacion DESC
-LIMIT
-  10
+LIMIT 10
 ```
 
 #### Making calculations
@@ -271,13 +270,15 @@ You can make calculations and run functions on your query `SELECT` part and also
 ```sql
 SELECT
   *,
-  participacion * poblacion as voters,
+  participacion * poblacion / 100.0 as voters,
   poblacion / ST_Area(the_geom::geography) * 10^6 as pop_km2
 FROM elections_2011
 WHERE
   poblacion / ST_Area(the_geom::geography) * 10^6 > 10000
 
 ```
+
+More about mathematical functions [here](https://www.postgresql.org/docs/9.1/static/functions-math.html).
 
 #### Joining datasets
 
@@ -298,10 +299,45 @@ ON m.cod_ine = e.codigo_municipio
 
 #### Other useful SQL functions
 
-** TODO Jorge **
+Apart from doing normal calculations there are other functions you can apply to your columns. For example you can compute aggregated functions to count the nomber of records, or get the maximum, minimum and average values for a column.
+
+```sql
+SELECT
+  count(*)       as counts,
+  max(poblacion) as max_pob,
+  min(poblacion) as min_pob,
+  avg(poblacion) as avg_pob
+FROM elections_2011
+```
+
+This can be very useful if you group your data, for example:
+
+```sql
+SELECT
+  partido_ganador_2015,
+  count(*)       as counts,
+  max(poblacion) as max_pob,
+  min(poblacion) as min_pob,
+  avg(poblacion) as avg_pob
+FROM elections_2011
+GROUP BY partido_ganador_2015
+ORDER BY counts DESC
+```
+
+`ROUND` and `TRUNC` will convert float numbers into integers, the first rounding to the nearest one. `TO_CHAR` is a more complex function that can be used to format numbers and dates into strings with decimal and thousand separators, any arbitrary date format, etc.
+
+```sql
+SELECT
+  ROUND(1.9)     as rounded,    -- 2
+  ROUND(1.193,1) as rounded2,   -- 1.2
+  TRUNC(1.9)     as truncated,  -- 1
+  TO_CHAR(12345.9332,'999,999.99') as formatted,    -- '12,345.93'
+  TO_CHAR(now(),'Day DD/MM/YY HH:mm:SS') as today   -- 'Wednesday 01/06/16 10:06:32'
+```
+
+More about the `TO_CHAR` function [here](https://www.postgresql.org/docs/9.5/static/functions-formatting.html).
 
 ----
-
 
 ## Making our first map <a name="map"></a>
 
@@ -473,7 +509,7 @@ Clicking on the `</>` will also show the source code for the Infowindows.
 Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area. That produces a Population Density map
 
 ```sql
-SELECT 
+SELECT
   m.cartodb_id,
   m.the_geom_webmercator,
   e.codigo_municipio,
@@ -529,7 +565,7 @@ WITH aux AS(
   FROM
     cartotraining.elections_2011
   )
-SELECT 
+SELECT
   m.cartodb_id,
   ST_Centroid(m.the_geom_webmercator) AS the_geom_webmercator,
   e.codigo_municipio,
@@ -537,7 +573,7 @@ SELECT
   e.partido_ganador_2015,
   e.poblacion,
   5+20*sqrt(poblacion)/sqrt(aux.max_pop) AS size
-FROM 
+FROM
   aux,
   cartotraining.municipalities m
 JOIN cartotraining.elections_2011 e
@@ -599,7 +635,7 @@ We made a choropleth map using the vote percentage for one specific party. We al
 <iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/242e57be-27d3-11e6-8b8c-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 ```sql
-SELECT 
+SELECT
   m.cartodb_id,
   m.the_geom_webmercator,
   e.codigo_municipio,
