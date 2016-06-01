@@ -493,11 +493,11 @@ This also shows an important concept for CartoCSS. you can specify more than one
 On the above simplified CartoCSS example we use the same layer for a red background, 10 pixels widh, and then on top of it a white 5 pixels symbol.
 
 
-#### Infowindows and tooltip:
+#### Infowindows and tooltip
+
+Adding interactivity to our maps make them more interesting and useful to our readers. With CartoDB editor it's easy to select the fields you want to be displayed when user clicks or hover the mouse on our features. Clicking on the `</>` will also show the source code for the Infowindows so we can customize their aspect and content.
 
 ![infowindows](../img/common/infowindows.png)
-
-Clicking on the `</>` will also show the source code for the Infowindows.
 
 ```html
 <div class="cartodb-popup v2">
@@ -516,11 +516,15 @@ Clicking on the `</>` will also show the source code for the Infowindows.
 </div>
 ```
 
-#### Title, text and images:
+#### Title, text and images
+
+The editor allows you to add text, images and annotations to your map. An annotation is like a label that is attached to a certain position in your map so it will be displaced when you change the area displayed.
 
 ![elements](../img/common/add_annotation.gif)
 
 ### Share your map!
+
+Finally, once you are satisfied with your creation you are ready to share your map using any of the three methods: a link to the map, the `iframe` code to embed it on another website or the `JSON` call to be used with the CartoDB.js SDK.
 
 ![share](../img/common/share.png)
 
@@ -539,8 +543,6 @@ Clicking on the `</>` will also show the source code for the Infowindows.
 ----
 
 ## Election maps <a name="election-maps"></a>
-
-** TODO Ernesto **
 
 ----
 
