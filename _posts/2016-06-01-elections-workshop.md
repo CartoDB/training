@@ -307,6 +307,8 @@ JOIN elections_2011 e
 ON m.cod_ine = e.codigo_municipio;
 ```
 
+Note the use of alias for tables and how they are used at the `SELECT` section.
+
 #### Other useful SQL functions
 
 Apart from doing normal calculations there are other functions you can apply to your columns. For example you can compute aggregated functions to count the nomber of records, or get the maximum, minimum and average values for a column.
@@ -334,15 +336,15 @@ GROUP BY partido_ganador_2015
 ORDER BY counts DESC;
 ```
 
-`ROUND` and `TRUNC` will convert float numbers into integers, the first rounding to the nearest one. `TO_CHAR` is a more complex function that can be used to format numbers and dates into strings with decimal and thousand separators, any arbitrary date format, etc.
+`ROUND` and `TRUNC` will convert float numbers into integers, the first rounding to the nearest one. `ROUND` can also accept a second parameter to round to a specific decimal position. `TO_CHAR` is a more complex function that can be used to format numbers and dates into strings with decimal and thousand separators, any arbitrary date format, etc.
 
 ```sql
 SELECT
   ROUND(1.9)     as rounded,    -- 2
   ROUND(1.193,1) as rounded2,   -- 1.2
   TRUNC(1.9)     as truncated,  -- 1
-  TO_CHAR(12345.9332,'999,999.99') as formatted,    -- '12,345.93'
-  TO_CHAR(now(),'Day DD/MM/YY HH:mm:SS') as today;   -- 'Wednesday 01/06/16 10:06:32'
+  TO_CHAR(12345.9332,'999,999.99') as formatted, -- '12,345.93'
+  TO_CHAR(now(),'Day DD/MM/YY HH:mm') as today;  -- 'Wednesday 01/06/16 10:06:32'
 ```
 
 More about the `TO_CHAR` function [here](https://www.postgresql.org/docs/9.5/static/functions-formatting.html).
