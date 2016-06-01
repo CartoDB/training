@@ -129,7 +129,10 @@ These are the datasets we are going to use on our workshop. You'll find them all
 
 * **Spanish municipalities** (`ign_spanish_adm3_municipalities_displaced_canary`): This is a dataset with Spanish municipalities and the Canary Islands displaced so they are closer to the Iberian Peninsula.
 * **Spanish provinces** (`ign_spanish_adm2_provinces_displaced_canary`)
-* **TODO**: Electoral results
+
+For this workshop we will use this 2015 elections dataset:
+
+* **Electoral results:** Use this URL to import the dataset from the Editor `http://bit.ly/1XgsUMb`
 
 After importing the datasets, in order to be able to join the alphanumeric results with the geodata, we need to add a new column to the geodata. If you are syncing the IGN dataset you need to remove the sync. Then you can add a new column and name it `cod_ine`. Set it as a number column. Then you can run this `UPDATE` to generate the INE code from the national code
 
