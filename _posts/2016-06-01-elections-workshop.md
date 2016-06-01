@@ -127,7 +127,8 @@ Know more about geocoding in CartoDB [here](http://docs.cartodb.com/tutorials/ho
 
 These are the datasets we are going to use on our workshop. You'll find them all on our [Data Library](https://cartodb.com/data-library):
 
-* **Spanish municipalities** [`ign_spanish_adm3_municipalities_displaced_canary`]: This is a dataset with Spanish municipalities and the Canary Islands displaced so they are closer to the Iberian Peninsula.
+* **Spanish municipalities** (`ign_spanish_adm3_municipalities_displaced_canary`): This is a dataset with Spanish municipalities and the Canary Islands displaced so they are closer to the Iberian Peninsula.
+* **Spanish provinces** (`ign_spanish_adm2_provinces_displaced_canary`)
 * **TODO**: Electoral results
 
 After importing the datasets, in order to be able to join the alphanumeric results with the geodata, we need to add a new column to the geodata. If you are syncing the IGN dataset you need to remove the sync. Then you can add a new column and name it `cod_ine`. Set it as a number column. Then you can run this `UPDATE` to generate the INE code from the national code
