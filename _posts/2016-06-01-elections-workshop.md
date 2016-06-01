@@ -271,10 +271,10 @@ You can make calculations and run functions on your query `SELECT` part and also
 SELECT
   *,
   participacion * poblacion / 100.0 as voters,
-  poblacion / ST_Area(the_geom::geography) * 10^6 as pop_km2
+  poblacion / ST_Area(the_geom::geography) * 1000000 as pop_km2
 FROM elections_2011
 WHERE
-  poblacion / ST_Area(the_geom::geography) * 10^6 > 10000
+  poblacion / ST_Area(the_geom::geography) * 1000000 > 10000
 
 ```
 
@@ -358,40 +358,64 @@ More about the `TO_CHAR` function [here](https://www.postgresql.org/docs/9.5/sta
 * **Density Map**
 * **Choropleth Map**:
 
-Know more about chosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
+Know more about choosing the right map to make [here](http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/).
 
 ### Designing a base map
 
-The last link in the website referenced above is a great discussion about the different maps CartoDB allows to create.
+In this exercise on working with elections maps, the first thing to do is preparing a base map. This is necessary mainly because we are using a version of the municipalities dataset where the Canary Islands are displaced so we can't use normal CartoDB basemaps. This base map will serve as reference background but it will also use the provinces dataset to give a better visual context and understanding of the different Spanish regions.
+
+Create a new map and add the municipalities and the provinces datasets as two layers. The result should be like this one.
+
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/af49ac7e-2687-11e6-b081-0e31c9be1b51/embed_map?zoom=6" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+```css
+#provincias[zoom>3] {
+    line-color: #fff;
+    line-width: 1.5;
+    polygon-opacity:0;
+}
+```
+
+The provinces CartoCSS is just a lines symbol with transparent polygons.
 
 
 ```css
-/** simple visualization */
+#municipalities{
+  polygon-fill: #E1E1E1;
+  line-color:white;
+  line-width:1;
+  line-opacity:0.1;
 
-#layer{
-  polygon-fill: #FF6600;
-  polygon-opacity: 0.7;
-  line-color: #FFF;
-  line-width: 0.5;
-  line-opacity: 1;
+
+  [zoom>=7]{
+    line-width:.25;
+    line-opacity:.7;
+  }
 }
 ```
+
+Municipalities CartoCSS is a simple map symbol with a small change for zoom bigger than 6, decreasing lines opacity and width.
+
 
 ### Other elements
 
 #### Basemaps
 
+On this map we will use a custom color (white). Depending on your needs you can use a variety of predefined basemaps or even put your own from a third party services.
+
 ![basemap](../img/common/basemap_options.png)
 
 #### Options
+
+Use the options to choose the functionality you want for your map, like enabling a layer selector or removing the search box.
 
 ![options](../img/common/map_options.png)
 
 #### Legend
 
-![legend](../img/common/legends.png)
+In this case our base map won't need a legend but for other layers you configure using the wizard CartoDB will set up a legend for you. If you do a further work on CartoCSS or just want to have a customized legend you will need to manually edit its HTML code clicking on the `</>` icon
 
-By clicking on the `</>` icon, you would see and edit the source HTML code.
+![legend](../img/common/legends.png)
 
 ```html
 <div class='cartodb-legend choropleth'>
@@ -420,24 +444,37 @@ By clicking on the `</>` icon, you would see and edit the source HTML code.
 
 #### Labels
 
+Labels are a common feature on maps, CartoDB wizard will help you to configure their settings like font, size, halo and colors.
+
 ![intensity](../img/common/labels.png)
 
-Selecting a field in the wizard will produce the following CartoCSS code to render the labels.
+Selecting a field in the wizard will produce the following CartoCSS code to render the labels. Once you have your labels CartoCSS you can customize manually other settings like only showing them on a certain zoom range.
 
 ```css
-#world_borders::labels {
-  text-name: [name];
-  text-face-name: 'DejaVu Sans Book';
+Map{
+  buffer-size:256
+}
+
+#provincias[zoom>3] {
+    line-color: #fff;
+    line-width: 1.5;
+    polygon-opacity:0;
+}
+
+#provincias::labels[zoom>5] {
+  text-name: [nameunit];
+  text-face-name: 'Lato Regular';
   text-size: 10;
-  text-label-position-tolerance: 10;
-  text-fill: #000;
-  text-halo-fill: #FFF;
+  text-label-position-tolerance: 0;
+  text-fill: #3f3f3f;
+  text-halo-fill: #fffdfd;
   text-halo-radius: 1;
   text-dy: -10;
   text-allow-overlap: true;
   text-placement: point;
-  text-placement-type: simple;
+  text-placement-type: dummy;
 }
+
 ```
 
 
@@ -513,8 +550,8 @@ Clicking on the `</>` will also show the source code for the Infowindows.
 
 #### Choropleth Map:
 
-Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area of each municipality. That produces a Population Density map. 
-The CartoCSS section in this map is coming from our cartoColors app (see the link above), that allows to analize the data and assign the most suitable color ramp for our data. 
+Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area of each municipality. That produces a Population Density map.
+The CartoCSS section in this map is coming from our cartoColors app (see the link above), that allows to analize the data and assign the most suitable color ramp for our data.
 
 ##### SQL
 ```sql
@@ -586,7 +623,7 @@ As the formula above states, we need the maximum value for the population column
 
 ##### SQL
 ```sql
-SELECT 
+SELECT
   m.cartodb_id,
   ST_Centroid(m.the_geom_webmercator) AS the_geom_webmercator,
   e.codigo_municipio,
@@ -594,7 +631,7 @@ SELECT
   e.partido_ganador_2015,
   e.poblacion,
   4+32*sqrt(poblacion)/sqrt(3165235) AS size
-FROM 
+FROM
   cartotraining.municipalities m
 JOIN cartotraining.elections_2011 e
 ON m.cod_ine = e.codigo_municipio
@@ -614,15 +651,15 @@ ORDER BY poblacion DESC
    marker-allow-overlap: true;
    marker-fill: #DDDDDD;
 
-  [partido_ganador_2015="C's"] {marker-fill: #FF9900; } 
-  [partido_ganador_2015="DL"] {marker-fill: #FFCC00; } 
-  [partido_ganador_2015="EAJ-PNV"] {marker-fill: #B2DF8A; } 
-  [partido_ganador_2015="EH BILDU"] {marker-fill: #33A02C; }   
-  [partido_ganador_2015="EN COMÚ"] {marker-fill: #7B00B4; } 
+  [partido_ganador_2015="C's"] {marker-fill: #FF9900; }
+  [partido_ganador_2015="DL"] {marker-fill: #FFCC00; }
+  [partido_ganador_2015="EAJ-PNV"] {marker-fill: #B2DF8A; }
+  [partido_ganador_2015="EH BILDU"] {marker-fill: #33A02C; }
+  [partido_ganador_2015="EN COMÚ"] {marker-fill: #7B00B4; }
   [partido_ganador_2015="ERC-CATSI"] {marker-fill: #E31A1C; }
-  [partido_ganador_2015="PODEMOS"] {marker-fill: #3B007F; } 
-  [partido_ganador_2015="PODEMOS-COMPROMÍS"] {marker-fill: #A53ED5; } 
-  [partido_ganador_2015="PP"] {marker-fill: #3E7BB6; } 
+  [partido_ganador_2015="PODEMOS"] {marker-fill: #3B007F; }
+  [partido_ganador_2015="PODEMOS-COMPROMÍS"] {marker-fill: #A53ED5; }
+  [partido_ganador_2015="PP"] {marker-fill: #3E7BB6; }
   [partido_ganador_2015="PSOE"] {marker-fill: #F84F40; }
 }
 ```
@@ -661,11 +698,11 @@ ON m.cod_ine = e.codigo_municipio
   line-opacity: 0.5;
 }
 
-#elections_2011 [ porcentaje_psoe <= 77.78] {polygon-fill: #C1373C; } 
-#elections_2011 [ porcentaje_psoe <= 40.48] {polygon-fill: #CC4E52; } 
-#elections_2011 [ porcentaje_psoe <= 29.93] {polygon-fill: #D4686C; } 
-#elections_2011 [ porcentaje_psoe <= 21.28] {polygon-fill: #EBB7B9; } 
-#elections_2011 [ porcentaje_psoe <= 12.16] {polygon-fill: #F2D2D3; } 
+#elections_2011 [ porcentaje_psoe <= 77.78] {polygon-fill: #C1373C; }
+#elections_2011 [ porcentaje_psoe <= 40.48] {polygon-fill: #CC4E52; }
+#elections_2011 [ porcentaje_psoe <= 29.93] {polygon-fill: #D4686C; }
+#elections_2011 [ porcentaje_psoe <= 21.28] {polygon-fill: #EBB7B9; }
+#elections_2011 [ porcentaje_psoe <= 12.16] {polygon-fill: #F2D2D3; }
 ```
 
 <iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/242e57be-27d3-11e6-8b8c-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
@@ -674,11 +711,11 @@ ON m.cod_ine = e.codigo_municipio
 
 #### Winner party + Population Density
 
-In this case we are going to use the winner party to create a category map. We are also going to use the opacity to 
+In this case we are going to use the winner party to create a category map. We are also going to use the opacity to
 
 ##### SQL
 ```sql
-SELECT 
+SELECT
   m.cartodb_id,
   m.the_geom_webmercator,
   e.codigo_municipio,
@@ -704,7 +741,7 @@ ON m.cod_ine = e.codigo_municipio
    line-width: 0.25;
    line-opacity: 0.5;
    polygon-fill: #DDDDDD;
-  
+
   [pop_density<=100]{polygon-opacity:1.0}
   [pop_density<=90]{polygon-opacity:0.9}
   [pop_density<=80]{polygon-opacity:0.8}
@@ -714,19 +751,19 @@ ON m.cod_ine = e.codigo_municipio
   [pop_density<=40]{polygon-opacity:0.4}
   [pop_density<=30]{polygon-opacity:0.3}
   [pop_density<=20]{polygon-opacity:0.2}
-  [pop_density<=10]{polygon-opacity:0.1}  
+  [pop_density<=10]{polygon-opacity:0.1}
 }
 
-#elections_2011[partido_ganador_2015="C's"] {polygon-fill: #ff9900; } 
-#elections_2011[partido_ganador_2015="DL"] {polygon-fill: #ffcc00; } 
-#elections_2011[partido_ganador_2015="EAJ-PNV"] {polygon-fill: #B2DF8A; } 
-#elections_2011[partido_ganador_2015="EH BILDU"] {polygon-fill: #33A02C; } 
+#elections_2011[partido_ganador_2015="C's"] {polygon-fill: #ff9900; }
+#elections_2011[partido_ganador_2015="DL"] {polygon-fill: #ffcc00; }
+#elections_2011[partido_ganador_2015="EAJ-PNV"] {polygon-fill: #B2DF8A; }
+#elections_2011[partido_ganador_2015="EH BILDU"] {polygon-fill: #33A02C; }
 #elections_2011[partido_ganador_2015="EN COMÚ"] {polygon-fill: #7b00b4; }
-#elections_2011[partido_ganador_2015="ERC-CATSI"] {polygon-fill: #850200; } 
-#elections_2011[partido_ganador_2015="PODEMOS"] {polygon-fill: #3b007f; } 
-#elections_2011[partido_ganador_2015="PODEMOS-COMPROMÍS"] {polygon-fill: #a53ed5; } 
-#elections_2011[partido_ganador_2015="PP"] {polygon-fill: #3e7bb6; } 
-#elections_2011[partido_ganador_2015="PSOE"] {polygon-fill: #f84f40; } 
+#elections_2011[partido_ganador_2015="ERC-CATSI"] {polygon-fill: #850200; }
+#elections_2011[partido_ganador_2015="PODEMOS"] {polygon-fill: #3b007f; }
+#elections_2011[partido_ganador_2015="PODEMOS-COMPROMÍS"] {polygon-fill: #a53ed5; }
+#elections_2011[partido_ganador_2015="PP"] {polygon-fill: #3e7bb6; }
+#elections_2011[partido_ganador_2015="PSOE"] {polygon-fill: #f84f40; }
 ```
 
 <iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/bdcf3914-27f2-11e6-8fe7-0ecd1babdde5/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
