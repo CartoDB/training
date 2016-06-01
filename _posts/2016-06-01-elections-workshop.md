@@ -26,6 +26,11 @@ Map Academy, tutorials and other online resources:
 * [**Tutorials**](https://docs.cartodb.com/tutorials/).
 * [Other online resources](https://github.com/ramiroaznar/intro-cartodb).
 
+Materials specific on elections maps:
+
+* [Taller mapas electorales Octubre 2015](https://github.com/GeoinquietosMadrid/taller-cartodb)
+* [Taller mapas electorales Diciembre 2015](https://gist.github.com/jsanz/b621435f418ad6a856c2)
+
 Further questions and troubleshooting:
 
 * Email to **support@cartodb.com**.
@@ -134,7 +139,7 @@ For this workshop we will use this 2015 elections dataset:
 
 * **Electoral results:** Use this URL to import the dataset from the Editor `http://bit.ly/1XgsUMb`
 
-After importing the datasets, in order to be able to join the alphanumeric results with the geodata, we need to add a new column to the geodata. If you are syncing the IGN dataset you need to remove the sync. Then you can add a new column and name it `cod_ine`. Set it as a number column. Then you can run this `UPDATE` to generate the INE code from the national code
+After importing the datasets, in order to be able to join the alphanumeric results with the geodata, we need to add a new column. If you are syncing the IGN dataset you need to remove the sync. Then you can add a new column and name it `cod_ine`. Set it as a number column. Finally you need to run this `UPDATE` to generate the INE code from the national code
 
 ```sql
 UPDATE
@@ -173,7 +178,7 @@ SELECT
   cod_ine,
   nameunit,
   the_geom_webmercator
-FROM municipalities
+FROM municipalities;
 ```
 
 #### Selecting distinct values:
@@ -183,7 +188,7 @@ If for any reason you want to know the values that a field of a table can have t
 ```sql
 SELECT
   DISTINCT codnut2
-FROM municipalities
+FROM municipalities;
 ```
 
 ### Filtering
@@ -199,7 +204,7 @@ You can use the `>`, `<`, `=`, `!=` operators to restrict a numeric or a date fi
 ```sql
 SELECT *
 FROM elections_2011
-WHERE participacion > 90
+WHERE participacion > 90;
 ```
 
 #### Filtering character fields
@@ -209,7 +214,7 @@ Even you can use `=` with text fields, is more convenient to use `LIKE` or even 
 ```sql
 SELECT *
 FROM municipalities
-WHERE name ilike 'madrid'
+WHERE name ilike 'madrid';
 ```
 
 #### Filtering a list of possible values
@@ -219,7 +224,7 @@ If you want to filter by several values you can use the `IN` keyword and pass a 
 ```sql
 SELECT *
 FROM elections_2011
-WHERE provincia in ('Albacete','Burgos')
+WHERE provincia in ('Albacete','Burgos');
 ```
 
 #### Combining character and numeric filters
@@ -238,7 +243,7 @@ WHERE
   AND
     poblacion > 70000
   AND
-    NOT ganador_2011 = 'PP'
+    NOT ganador_2011 = 'PP';
 ```
 
 #### Ordering results
@@ -250,7 +255,7 @@ SELECT *
 FROM elections_2011
 WHERE ganador_2011 = 'PP'
 ORDER BY
-  poblacion DESC
+  poblacion DESC;
 ```
 
 #### Limiting results
@@ -266,7 +271,7 @@ SELECT
 FROM elections_2011
 WHERE ganador_2011 = 'PP'
 ORDER BY poblacion DESC
-LIMIT 10
+LIMIT 10;
 ```
 
 #### Making calculations
@@ -280,8 +285,7 @@ SELECT
   poblacion / ST_Area(the_geom::geography) * 1000000 as pop_km2
 FROM elections_2011
 WHERE
-  poblacion / ST_Area(the_geom::geography) * 1000000 > 10000
-
+  poblacion / ST_Area(the_geom::geography) * 1000000 > 10000;
 ```
 
 More about mathematical functions [here](https://www.postgresql.org/docs/9.1/static/functions-math.html).
@@ -300,7 +304,7 @@ SELECT
   e.ganador_2011
 FROM municipalities m
 JOIN elections_2011 e
-ON m.cod_ine = e.codigo_municipio
+ON m.cod_ine = e.codigo_municipio;
 ```
 
 #### Other useful SQL functions
@@ -313,7 +317,7 @@ SELECT
   max(poblacion) as max_pob,
   min(poblacion) as min_pob,
   avg(poblacion) as avg_pob
-FROM elections_2011
+FROM elections_2011;
 ```
 
 This can be very useful if you group your data, for example:
@@ -327,7 +331,7 @@ SELECT
   avg(poblacion) as avg_pob
 FROM elections_2011
 GROUP BY partido_ganador_2015
-ORDER BY counts DESC
+ORDER BY counts DESC;
 ```
 
 `ROUND` and `TRUNC` will convert float numbers into integers, the first rounding to the nearest one. `TO_CHAR` is a more complex function that can be used to format numbers and dates into strings with decimal and thousand separators, any arbitrary date format, etc.
@@ -338,7 +342,7 @@ SELECT
   ROUND(1.193,1) as rounded2,   -- 1.2
   TRUNC(1.9)     as truncated,  -- 1
   TO_CHAR(12345.9332,'999,999.99') as formatted,    -- '12,345.93'
-  TO_CHAR(now(),'Day DD/MM/YY HH:mm:SS') as today   -- 'Wednesday 01/06/16 10:06:32'
+  TO_CHAR(now(),'Day DD/MM/YY HH:mm:SS') as today;   -- 'Wednesday 01/06/16 10:06:32'
 ```
 
 More about the `TO_CHAR` function [here](https://www.postgresql.org/docs/9.5/static/functions-formatting.html).
@@ -374,9 +378,9 @@ Create a new map and add the municipalities and the provinces datasets as two la
 
 ```css
 #provincias[zoom>3] {
-    line-color: #fff;
-    line-width: 1.5;
-    polygon-opacity:0;
+  line-color: #fff;
+  line-width: 1.5;
+  polygon-opacity:0;
 }
 ```
 
@@ -460,9 +464,9 @@ Map{
 }
 
 #provincias[zoom>3] {
-    line-color: #fff;
-    line-width: 1.5;
-    polygon-opacity:0;
+  line-color: #fff;
+  line-width: 1.5;
+  polygon-opacity:0;
 }
 
 #provincias::labels[zoom>5] {
@@ -571,7 +575,7 @@ SELECT
   )/1000000) AS pop_density
 FROM cartotraining.municipalities m
 JOIN cartotraining.elections_2011 e
-ON m.cod_ine = e.codigo_municipio
+ON m.cod_ine = e.codigo_municipio;
 ```
 
 ##### CartoCSS
@@ -586,32 +590,32 @@ ON m.cod_ine = e.codigo_municipio
 @color4: #5c53a5;
 
 #elections_2011{
-polygon-opacity: 0.9;
-polygon-fill: @color0;
-line-opacity: 1;
-line-width: 0.5;
-line-color: lighten(@color0,5);
+  polygon-opacity: 0.9;
+  polygon-fill: @color0;
+  line-opacity: 1;
+  line-width: 0.5;
+  line-color: lighten(@color0,5);
 
   [pop_density>0]{
     polygon-fill: @color0;
     line-color: lighten(@color0,5);
-       }
+  }
   [pop_density>8.07419296338199]{
     polygon-fill: @color1;
     line-color: lighten(@color1,5);
-       }
+  }
   [pop_density>28.3464260803082]{
     polygon-fill: @color2;
     line-color: lighten(@color2,5);
-       }
+  }
   [pop_density>209.091331347213]{
     polygon-fill: @color3;
     line-color: lighten(@color3,5);
-       }
+  }
   [pop_density>1560.90092390169]{
     polygon-fill: @color4;
     line-color: lighten(@color4,5);
-       }
+  }
 }
 ```
 
@@ -641,7 +645,7 @@ FROM
   cartotraining.municipalities m
 JOIN cartotraining.elections_2011 e
 ON m.cod_ine = e.codigo_municipio
-ORDER BY poblacion DESC
+ORDER BY poblacion DESC;
 ```
 
 ##### CartoCSS
@@ -657,16 +661,16 @@ ORDER BY poblacion DESC
    marker-allow-overlap: true;
    marker-fill: #DDDDDD;
 
-  [partido_ganador_2015="C's"] {marker-fill: #FF9900; }
-  [partido_ganador_2015="DL"] {marker-fill: #FFCC00; }
-  [partido_ganador_2015="EAJ-PNV"] {marker-fill: #B2DF8A; }
-  [partido_ganador_2015="EH BILDU"] {marker-fill: #33A02C; }
-  [partido_ganador_2015="EN COMÚ"] {marker-fill: #7B00B4; }
+  [partido_ganador_2015="C's"]       {marker-fill: #FF9900; }
+  [partido_ganador_2015="DL"]        {marker-fill: #FFCC00; }
+  [partido_ganador_2015="EAJ-PNV"]   {marker-fill: #B2DF8A; }
+  [partido_ganador_2015="EH BILDU"]  {marker-fill: #33A02C; }
+  [partido_ganador_2015="EN COMÚ"]   {marker-fill: #7B00B4; }
   [partido_ganador_2015="ERC-CATSI"] {marker-fill: #E31A1C; }
-  [partido_ganador_2015="PODEMOS"] {marker-fill: #3B007F; }
+  [partido_ganador_2015="PODEMOS"]   {marker-fill: #3B007F; }
+  [partido_ganador_2015="PP"]        {marker-fill: #3E7BB6; }
+  [partido_ganador_2015="PSOE"]      {marker-fill: #F84F40; }
   [partido_ganador_2015="PODEMOS-COMPROMÍS"] {marker-fill: #A53ED5; }
-  [partido_ganador_2015="PP"] {marker-fill: #3E7BB6; }
-  [partido_ganador_2015="PSOE"] {marker-fill: #F84F40; }
 }
 ```
 
@@ -690,7 +694,7 @@ SELECT
 FROM
   cartotraining.municipalities m
 JOIN cartotraining.elections_2011 e
-ON m.cod_ine = e.codigo_municipio
+ON m.cod_ine = e.codigo_municipio;
 ```
 
 ##### CartoCSS
@@ -733,7 +737,7 @@ SELECT
 FROM
   municipalities m
 JOIN elections_2011 e
-ON m.cod_ine = e.codigo_municipio
+ON m.cod_ine = e.codigo_municipio;
 ```
 
 ##### CartoCSS
@@ -746,27 +750,27 @@ ON m.cod_ine = e.codigo_municipio
    polygon-fill: #DDDDDD;
 
   [pop_density<=100]{polygon-opacity:1.0}
-  [pop_density<=90]{polygon-opacity:0.9}
-  [pop_density<=80]{polygon-opacity:0.8}
-  [pop_density<=70]{polygon-opacity:0.7}
-  [pop_density<=60]{polygon-opacity:0.6}
-  [pop_density<=50]{polygon-opacity:0.5}
-  [pop_density<=40]{polygon-opacity:0.4}
-  [pop_density<=30]{polygon-opacity:0.3}
-  [pop_density<=20]{polygon-opacity:0.2}
-  [pop_density<=10]{polygon-opacity:0.1}
+  [pop_density<=90] {polygon-opacity:0.9}
+  [pop_density<=80] {polygon-opacity:0.8}
+  [pop_density<=70] {polygon-opacity:0.7}
+  [pop_density<=60] {polygon-opacity:0.6}
+  [pop_density<=50] {polygon-opacity:0.5}
+  [pop_density<=40] {polygon-opacity:0.4}
+  [pop_density<=30] {polygon-opacity:0.3}
+  [pop_density<=20] {polygon-opacity:0.2}
+  [pop_density<=10] {polygon-opacity:0.1}
 }
 
-#elections_2011[partido_ganador_2015="C's"] {polygon-fill: #ff9900; }
-#elections_2011[partido_ganador_2015="DL"] {polygon-fill: #ffcc00; }
-#elections_2011[partido_ganador_2015="EAJ-PNV"] {polygon-fill: #B2DF8A; }
-#elections_2011[partido_ganador_2015="EH BILDU"] {polygon-fill: #33A02C; }
-#elections_2011[partido_ganador_2015="EN COMÚ"] {polygon-fill: #7b00b4; }
+#elections_2011[partido_ganador_2015="C's"]       {polygon-fill: #ff9900; }
+#elections_2011[partido_ganador_2015="DL"]        {polygon-fill: #ffcc00; }
+#elections_2011[partido_ganador_2015="EAJ-PNV"]   {polygon-fill: #B2DF8A; }
+#elections_2011[partido_ganador_2015="EH BILDU"]  {polygon-fill: #33A02C; }
+#elections_2011[partido_ganador_2015="EN COMÚ"]   {polygon-fill: #7b00b4; }
 #elections_2011[partido_ganador_2015="ERC-CATSI"] {polygon-fill: #850200; }
-#elections_2011[partido_ganador_2015="PODEMOS"] {polygon-fill: #3b007f; }
+#elections_2011[partido_ganador_2015="PODEMOS"]   {polygon-fill: #3b007f; }
+#elections_2011[partido_ganador_2015="PP"]        {polygon-fill: #3e7bb6; }
+#elections_2011[partido_ganador_2015="PSOE"]      {polygon-fill: #f84f40; }
 #elections_2011[partido_ganador_2015="PODEMOS-COMPROMÍS"] {polygon-fill: #a53ed5; }
-#elections_2011[partido_ganador_2015="PP"] {polygon-fill: #3e7bb6; }
-#elections_2011[partido_ganador_2015="PSOE"] {polygon-fill: #f84f40; }
 ```
 
 <iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/bdcf3914-27f2-11e6-8fe7-0ecd1babdde5/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
@@ -798,7 +802,7 @@ SELECT
 FROM
   municipalities m
 JOIN elections_2011 e
-ON m.cod_ine = e.codigo_municipio
+ON m.cod_ine = e.codigo_municipio;
 ```
 
 ###### CartoCSS
