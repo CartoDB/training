@@ -652,8 +652,6 @@ ON m.cod_ine = e.codigo_municipio
 
 ##### CartoCSS
 ```css
-/** choropleth visualization */
-
 #elections_2011{
   polygon-fill: #F2D2D3;
   line-color: #FFF;
@@ -674,7 +672,8 @@ ON m.cod_ine = e.codigo_municipio
 
 #### Winner party + Population Density
 
-In this case we are going to use the winner party to create a category map. We are also going to use the opacity to 
+In this case we are going to use the winner party in each municipality to create a category map. To add another dimension to our map, we are goint to use the opacity as a symbol for the population density. 
+In order to do so, we are going to use the same formula than before, and add a new set of CartoCSS rules based on the `pop_density` column.
 
 ##### SQL
 ```sql
@@ -696,8 +695,6 @@ ON m.cod_ine = e.codigo_municipio
 
 ##### CartoCSS
 ```css
-/** category visualization */
-
 #elections_2011 {
    polygon-opacity: 0.7;
    line-color: #FFF;
@@ -733,4 +730,56 @@ ON m.cod_ine = e.codigo_municipio
 
 ----
 
+#### Comparing results from previous elections
 
+In this map we are going to find those municipalities in which the 2015 winner party is different than 2011. For that, the `CASE` [conditional funcion](https://www.postgresql.org/docs/current/static/functions-conditional.html) will do the trick.
+
+So, we select a column called `new_winner` that will have a `NULL` value if 2015 winner is the same than 2011. If the winner party is different, `new_winner` will contain the name of the winner party.
+
+After that, a very easy Category Map will suit our needs.
+
+##### SQL
+```sql
+SELECT 
+  m.cartodb_id,
+  m.the_geom_webmercator,
+  e.codigo_municipio,
+  e.nombre,
+  e.poblacion,
+  e.ganador_2011,
+  e.partido_ganador_2015,
+  CASE
+    WHEN ganador_2011 ILIKE partido_ganador_2015 THEN NULL
+    WHEN ganador_2011 NOT ILIKE partido_ganador_2015 THEN partido_ganador_2015
+  END new_winner  
+FROM 
+  municipalities m
+JOIN elections_2011 e
+ON m.cod_ine = e.codigo_municipio
+```
+
+###### CartoCSS
+```css
+#elections_2011 {
+   polygon-opacity: 0.7;
+   polygon-fill: #DDD;
+   line-color: #FFF;
+   line-width: 0.5;
+   line-opacity: 0.5;
+}
+
+#elections_2011[new_winner="C's"] {polygon-fill: #ff9900; } 
+#elections_2011[new_winner="DL"] {polygon-fill: #ffcc00; } 
+#elections_2011[new_winner="EAJ-PNV"] {polygon-fill: #B2DF8A; } 
+#elections_2011[new_winner="EH BILDU"] {polygon-fill: #33A02C; } 
+#elections_2011[new_winner="EN COMÚ"] {polygon-fill: #7b00b4; }
+#elections_2011[new_winner="ERC-CATSI"] {polygon-fill: #850200; } 
+#elections_2011[new_winner="PODEMOS"] {polygon-fill: #3b007f; } 
+#elections_2011[new_winner="PODEMOS-COMPROMÍS"] {polygon-fill: #a53ed5; } 
+#elections_2011[new_winner="PP"] {polygon-fill: #3e7bb6; } 
+#elections_2011[new_winner="PSOE"] {polygon-fill: #f84f40; } 
+```
+
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/6806e63a-2801-11e6-80e4-0ea31932ec1d/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+----
