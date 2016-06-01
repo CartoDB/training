@@ -396,7 +396,6 @@ The provinces CartoCSS is just a lines symbol with transparent polygons.
   line-width:1;
   line-opacity:0.1;
 
-
   [zoom>=7]{
     line-width:.25;
     line-opacity:.7;
@@ -487,7 +486,6 @@ Map{
 
 ```
 
-
 This also shows an important concept for CartoCSS. you can specify more than one rendering pass for your features. This means that using the `#layername::passname` notation you can render more than one symbol on your features. One typical example of this feature is to render lines with more than one symbol.
 
 ```css
@@ -556,14 +554,15 @@ Finally, once you are satisfied with your creation you are ready to share your m
 
 ----
 
-> Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/) and try our [cartoColors](http://cartodb.github.io/labs-colorscales/#)!
+> Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/) and try our [ColorScales](http://cartodb.github.io/labs-colorscales/#)!
 
 ----
 
 #### Choropleth Map:
 
 Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area of each municipality. That produces a Population Density map.
-The CartoCSS section in this map is coming from our cartoColors app (see the link above), that allows to analize the data and assign the most suitable color ramp for our data.
+
+The CartoCSS section in this map is coming from our ColorScales app (see the link above), that allows to analize the data and assign the most suitable color ramp for our data. Note that to use this tool we need to put our datasets privacy as **public** or **link**.
 
 ##### SQL
 ```sql
@@ -627,11 +626,11 @@ ON m.cod_ine = e.codigo_municipio;
 
 #### Graduated symbols + Category map
 
-Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/) regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS* section needs a bit of SQL computation but nothing hard
+Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.com/proportional-symbol-maps/) regarding how to produce proportional symbols maps. The easiest ones being buble maps since it's directly supported by CartoDB wizards. The other type, the graduated symbols where you compute the radius of the symbol to be used later on the CartoCSS section needs a bit of SQL computation but nothing hard
 
 ![](../img/160601-elections/graduated_symbols_formula.png)
 
-As the formula above states, we need the maximum value for the population column in order to calculate the new `size` column. We could get that running an auxiliary query with `max()` aggregation function, or simply going to DATA VIEW and ordering the column by _DESCENDING_ values.
+As the formula above states, we need the maximum value for the population column in order to calculate the new `size` column. We could get that running an auxiliary query with `max()` aggregation function, or simply going to DATA VIEW and ordering the column by _DESCENDING_ values. That formula would start symbol sizes at 0 pixels so it's a good idea to add a fixed minimal size of 4 pixels.
 
 ##### SQL
 ```sql
