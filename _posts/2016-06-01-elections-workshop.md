@@ -45,7 +45,9 @@ Contents
 This workshop is meant to address the necessities of journalists starting to work with CartoDB and election maps mainly. It will focus on CartoDB editor usage and common issues as well as going a bit deeper into CartoCSS to give you an extra mile on that side to help you make better maps.
 
 
-** TODO Ernesto: put one of the finished maps here **
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/bdcf3914-27f2-11e6-8fe7-0ecd1babdde5/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+----
 
 ## Importing datasets <a name="import"></a>
 
