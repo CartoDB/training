@@ -17,7 +17,7 @@ length: 2h
   * Ramiro Aznar · ramiroaznar@cartodb.com · [@ramiroaznar](http://twitter.com/ramiroaznar)
 
 * Date: June 1st 2016
-* [http://bit.ly/TODO](http://bit.ly/TODO)
+* [http://bit.ly/160601-cdb-elections](http://bit.ly/160601-cdb-elections)
 
 
 Map Academy, tutorials and other online resources:
@@ -340,8 +340,6 @@ More about the `TO_CHAR` function [here](https://www.postgresql.org/docs/9.5/sta
 ----
 
 ## Making our first map <a name="map"></a>
-
-** TODO Jorge **
 
 ### CartoDB Editor map wizards
 
