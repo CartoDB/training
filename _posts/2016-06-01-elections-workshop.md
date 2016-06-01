@@ -265,7 +265,7 @@ LIMIT 10
 
 #### Making calculations
 
-You can make calculations and run functions on your query `SELECT` part and also on the `WHERE` section. This way you can compute densities, normalize columns, format dates and numbers, etc. Next example shows how to get the number of voters multiplying the participation index by the population and how to get the population per square kilometer dividing the total population by the polygon area and multiplying by 10.000.000 to convert square meters to square kilometers.
+You can make calculations and run functions on your query `SELECT` part and also on the `WHERE` section. This way you can compute densities, normalize columns, format dates and numbers, etc. Next example shows how to get the number of voters multiplying the participation index by the population and how to get the population per square kilometer dividing the total population by the polygon area and multiplying by 1.000.000 to convert square meters to square kilometers.
 
 ```sql
 SELECT
@@ -513,8 +513,10 @@ Clicking on the `</>` will also show the source code for the Infowindows.
 
 #### Choropleth Map:
 
-Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area. That produces a Population Density map
+Before making a choropleth map, we need to **normalize** our target column. For that, we need to divide the population by the area of each municipality. That produces a Population Density map. 
+The CartoCSS section in this map is coming from our cartoColors app (see the link above), that allows to analize the data and assign the most suitable color ramp for our data. 
 
+##### SQL
 ```sql
 SELECT
   m.cartodb_id,
@@ -529,6 +531,7 @@ JOIN cartotraining.elections_2011 e
 ON m.cod_ine = e.codigo_municipio
 ```
 
+##### CartoCSS
 ```css
 /** choropleth visualization */
 /** Jenks scale */
@@ -581,6 +584,7 @@ Take a look on this excellent [blog post by Mamata Akella](https://blog.cartodb.
 
 As the formula above states, we need the maximum value for the population column in order to calculate the new `size` column. We could get that running an auxiliary query with `max()` aggregation function, or simply going to DATA VIEW and ordering the column by _DESCENDING_ values.
 
+##### SQL
 ```sql
 SELECT 
   m.cartodb_id,
@@ -597,6 +601,7 @@ ON m.cod_ine = e.codigo_municipio
 ORDER BY poblacion DESC
 ```
 
+##### CartoCSS
 ```css
 #elections_2011 {
    marker-fill-opacity: 0.9;
@@ -620,8 +625,6 @@ ORDER BY poblacion DESC
   [partido_ganador_2015="PP"] {marker-fill: #3E7BB6; } 
   [partido_ganador_2015="PSOE"] {marker-fill: #F84F40; }
 }
-
-
 ```
 
 <iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/1aa78bd6-274f-11e6-ba8c-0ea31932ec1d/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
@@ -632,6 +635,7 @@ ORDER BY poblacion DESC
 
 We made a standard choropleth map using the vote percentage for one specific party.
 
+##### SQL
 ```sql
 SELECT
   m.cartodb_id,
@@ -646,6 +650,7 @@ JOIN cartotraining.elections_2011 e
 ON m.cod_ine = e.codigo_municipio
 ```
 
+##### CartoCSS
 ```css
 /** choropleth visualization */
 
@@ -656,24 +661,75 @@ ON m.cod_ine = e.codigo_municipio
   line-opacity: 0.5;
 }
 
-#elections_2011 [ porcentaje_psoe <= 77.78] {
-   polygon-fill: #C1373C;
-}
-#elections_2011 [ porcentaje_psoe <= 40.48] {
-   polygon-fill: #CC4E52;
-}
-#elections_2011 [ porcentaje_psoe <= 29.93] {
-   polygon-fill: #D4686C;
-}
-#elections_2011 [ porcentaje_psoe <= 21.28] {
-   polygon-fill: #EBB7B9;
-}
-#elections_2011 [ porcentaje_psoe <= 12.16] {
-   polygon-fill: #F2D2D3;
-}
+#elections_2011 [ porcentaje_psoe <= 77.78] {polygon-fill: #C1373C; } 
+#elections_2011 [ porcentaje_psoe <= 40.48] {polygon-fill: #CC4E52; } 
+#elections_2011 [ porcentaje_psoe <= 29.93] {polygon-fill: #D4686C; } 
+#elections_2011 [ porcentaje_psoe <= 21.28] {polygon-fill: #EBB7B9; } 
+#elections_2011 [ porcentaje_psoe <= 12.16] {polygon-fill: #F2D2D3; } 
 ```
 
 <iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/242e57be-27d3-11e6-8b8c-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+----
+
+#### Winner party + Population Density
+
+In this case we are going to use the winner party to create a category map. We are also going to use the opacity to 
+
+##### SQL
+```sql
+SELECT 
+  m.cartodb_id,
+  m.the_geom_webmercator,
+  e.codigo_municipio,
+  e.nombre,
+  e.partido_ganador_2015,
+  e.poblacion,
+  e.poblacion/(
+    ST_Area(m.the_geom::geography)/1000000
+  ) AS pop_density
+FROM
+  municipalities m
+JOIN elections_2011 e
+ON m.cod_ine = e.codigo_municipio
+```
+
+##### CartoCSS
+```css
+/** category visualization */
+
+#elections_2011 {
+   polygon-opacity: 0.7;
+   line-color: #FFF;
+   line-width: 0.25;
+   line-opacity: 0.5;
+   polygon-fill: #DDDDDD;
+  
+  [pop_density<=100]{polygon-opacity:1.0}
+  [pop_density<=90]{polygon-opacity:0.9}
+  [pop_density<=80]{polygon-opacity:0.8}
+  [pop_density<=70]{polygon-opacity:0.7}
+  [pop_density<=60]{polygon-opacity:0.6}
+  [pop_density<=50]{polygon-opacity:0.5}
+  [pop_density<=40]{polygon-opacity:0.4}
+  [pop_density<=30]{polygon-opacity:0.3}
+  [pop_density<=20]{polygon-opacity:0.2}
+  [pop_density<=10]{polygon-opacity:0.1}  
+}
+
+#elections_2011[partido_ganador_2015="C's"] {polygon-fill: #ff9900; } 
+#elections_2011[partido_ganador_2015="DL"] {polygon-fill: #ffcc00; } 
+#elections_2011[partido_ganador_2015="EAJ-PNV"] {polygon-fill: #B2DF8A; } 
+#elections_2011[partido_ganador_2015="EH BILDU"] {polygon-fill: #33A02C; } 
+#elections_2011[partido_ganador_2015="EN COMÚ"] {polygon-fill: #7b00b4; }
+#elections_2011[partido_ganador_2015="ERC-CATSI"] {polygon-fill: #850200; } 
+#elections_2011[partido_ganador_2015="PODEMOS"] {polygon-fill: #3b007f; } 
+#elections_2011[partido_ganador_2015="PODEMOS-COMPROMÍS"] {polygon-fill: #a53ed5; } 
+#elections_2011[partido_ganador_2015="PP"] {polygon-fill: #3e7bb6; } 
+#elections_2011[partido_ganador_2015="PSOE"] {polygon-fill: #f84f40; } 
+```
+
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/bdcf3914-27f2-11e6-8fe7-0ecd1babdde5/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
 
 ----
 
