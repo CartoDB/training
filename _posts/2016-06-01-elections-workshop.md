@@ -592,6 +592,85 @@ ORDER BY poblacion DESC
 }
 ```
 
+#### Percentage for one specific party + Participation
+
+We made a choropleth map using the vote percentage for one specific party. We also created some rules to style the opacity based on the participation column.
+
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/cartotraining/viz/242e57be-27d3-11e6-8b8c-0e5db1731f59/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+
+```sql
+SELECT 
+  m.cartodb_id,
+  m.the_geom_webmercator,
+  e.codigo_municipio,
+  e.nombre,
+  e.porcentaje_psoe,
+  e.participacion
+FROM
+  cartotraining.municipalities m
+JOIN cartotraining.elections_2011 e
+ON m.cod_ine = e.codigo_municipio
+```
+
+```css
+/** choropleth visualization */
+
+#elections_2011{
+  polygon-fill: #F2D2D3;
+  line-color: #FFF;
+  line-width: 0.5;
+  line-opacity: 0.5;
+}
+#elections_2011 [ porcentaje_psoe <= 77.78] {
+   polygon-fill: #C1373C;
+}
+#elections_2011 [ porcentaje_psoe <= 40.48] {
+   polygon-fill: #CC4E52;
+}
+#elections_2011 [ porcentaje_psoe <= 29.93] {
+   polygon-fill: #D4686C;
+}
+#elections_2011 [ porcentaje_psoe <= 21.28] {
+   polygon-fill: #EBB7B9;
+}
+#elections_2011 [ porcentaje_psoe <= 12.16] {
+   polygon-fill: #F2D2D3;
+}
+
+#elections_2011 {
+  [participacion <= 100] {
+    polygon-opacity: 1;
+   }
+  [participacion <= 90] {
+    polygon-opacity: 0.9;
+   }
+  [participacion <= 80] {
+    polygon-opacity: 0.8;
+   }
+  [participacion <= 70] {
+    polygon-opacity: 0.7;
+   }
+  [participacion <= 60] {
+    polygon-opacity: 0.6;
+   }
+  [participacion <= 50] {
+    polygon-opacity: 0.5;
+   }
+  [participacion <= 40] {
+    polygon-opacity: 0.4;
+   }
+  [participacion <= 30] {
+    polygon-opacity: 0.3;
+   }
+  [participacion <= 20] {
+    polygon-opacity: 0.2;
+   }
+  [participacion <= 10] {
+    polygon-opacity: 0.1;
+   }
+}
+```
+
 [*] Know more about CartoCSS with our [documentation](https://docs.cartodb.com/cartodb-platform/cartocss/) and try our [cartoColors](http://cartodb.github.io/labs-colorscales/#)!
 
 ----
