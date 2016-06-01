@@ -1,0 +1,402 @@
+<ul>
+  <li>Speaker: Ernesto Martínez · ernesto@cartodb.com · <a href="http://twitter.com/ernesmb">@ernesmb</a></li>
+  <li>May 6th 2016</li>
+  <li><a href="http://jpd16.okfn.es/">JPD16</a>· IV Jornadas de Periodismo de Datos · Madrid</li>
+</ul>
+
+<h2 id="httpbitlyadv-cdb-jpd16httpbitlyadv-cdb-jpd16"><a href="http://bit.ly/adv-cdb-jpd16">http://bit.ly/adv-cdb-jpd16</a></h2>
+<p>Continue from <a href="http://cartodb.github.io/training/introductory/jpd16-intro.html">Introduction to CartoDB Workshop for Data Journalists</a></p>
+
+<h2 id="contents">Contents</h2>
+<ul>
+  <li><a href="#platform">CartoDB as a platform</a></li>
+  <li><a href="#postgis">PostGIS</a></li>
+  <li><a href="#js">cartodb.js</a></li>
+</ul>
+
+<hr />
+
+<h2 id="cartodb-as-a-platform-a-nameplatfoma">CartoDB as a Platform <a name="platfom"></a></h2>
+<ul>
+  <li><strong>SQL API</strong> allows to interact with CartoDB tables. Query and modify CartoDB tables</li>
+  <li><strong>Import API</strong> allows to upload new data to CartoDB</li>
+  <li><strong>Maps API</strong> allows to visualize the underlying data</li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <p>The CartoDB Editor <strong>is a client</strong> of the platform</p>
+</blockquote>
+
+<hr />
+
+<h2 id="postgis-a-namepostgisa">PostGIS <a name="postgis"></a></h2>
+
+<h3 id="geometry-vs-geography-data-types">geometry vs. geography data types</h3>
+<ul>
+  <li>
+    <p><strong>Geometry</strong> uses a cartesian plane to measure and store features. CRS units</p>
+
+    <blockquote>
+      <ul>
+        <li>The basis for the PostGIS geometry type is a plane.</li>
+        <li>The shortest path between two points on the plane is a straight line.</li>
+        <li>That means calculations on geometries (areas, distances, lengths, intersections, etc) can be calculated using cartesian mathematics and straight line vectors.</li>
+      </ul>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong>Geography</strong> uses a sphere to measure and store features. Geographical coordinates</p>
+
+    <blockquote>
+      <ul>
+        <li>The basis for the PostGIS geographic type is a sphere.</li>
+        <li>The shortest path between two points on the sphere is a great circle arc.</li>
+        <li>That means that calculations on geographies (areas, distances, lengths, intersections, etc) must be calculated on the sphere, using more complicated mathematics. For more accurate measurements, the calculations must take the actual spheroidal shape of the world into account, and the mathematics becomes very complicated indeed.</li>
+      </ul>
+    </blockquote>
+  </li>
+</ul>
+
+<p><img src="http://workshops.boundlessgeo.com/postgis-intro/_images/cartesian_spherical.jpg" alt="cart vs sph" /></p>
+
+<p><img src="http://workshops.boundlessgeo.com/postgis-intro/_images/lax_cdg.jpg" alt="LA-CDG" /></p>
+
+<p><em>Source: <a href="http://workshops.boundlessgeo.com/postgis-intro">Boundless Postgis intro</a></em></p>
+
+<ul>
+  <li><a href="http://workshops.boundlessgeo.com/postgis-intro/geography.html">Know more</a> about the Geography type</li>
+  <li><a href="http://postgis.net/docs/manual-1.5/ch04.html#PostGIS_Geography">Official PostGIS docs</a></li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <p>CartoDB make maps using <strong>SQL queries</strong>, not tables!</p>
+</blockquote>
+
+<hr />
+
+<h3 id="thegeom-vs-thegeomwebmercator">the_geom vs. the_geom_webmercator</h3>
+
+<p>CartoDB tables have <strong>two</strong> <code class="highlighter-rouge">geometry</code> fields:</p>
+
+<ul>
+  <li><strong>the_geom</strong> EPSG:4326
+    <ul>
+      <li>Geographical unprojected coordinates in <strong>decimal degrees</strong> (Lon/Lat).</li>
+      <li>WGS84 Spheroid.</li>
+    </ul>
+  </li>
+  <li><strong>the_geom_webmercator</strong> EPSG:3857
+    <ul>
+      <li>Spherical Mercator projected coordinates in <strong>meters</strong>.</li>
+      <li>Widely accepted as a ‘de facto’ standard in webmapping.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <p>In CartoDB, <strong>the_geom_webmercator</strong> column is the one we see represented in the map. We can use that column with any other CRS using <code class="highlighter-rouge">ST_Transform()</code> like in this <a href="http://bl.ocks.org/ernesmb/eb484b19f26db188c371">example</a></p>
+</blockquote>
+
+<hr />
+
+<p>Some extra resources:</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Map_projection">Map Projections in Wikipedia</a></li>
+  <li><a href="http://docs.cartodb.com/tutorials/projections/">Projections tutorial</a></li>
+  <li><a href="http://blog.cartodb.com/free-your-maps-web-mercator/">Blog post</a> about using other projections in CartoDB</li>
+</ul>
+
+<hr />
+
+<h3 id="postgis-spatial-analysis-queries">PostGIS Spatial Analysis Queries</h3>
+<p>We are going to make use of the following datasets, available from CartoDB’s Data Library:</p>
+
+<ul>
+  <li><a href="https://jpd16.cartodb.com/tables/ne_50m_land/public">ne_50m_land</a> - Emerged lands</li>
+  <li><a href="https://jpd16.cartodb.com/tables/ne_adm0_europe/public">ne_adm0_europe</a> - European countries</li>
+  <li><a href="https://jpd16.cartodb.com/tables/ne_10m_populated_places_simple">ne_10m_populated_places_simple</a> - Populated places in the world</li>
+</ul>
+
+<hr />
+
+<blockquote>
+  <p>Check <strong><a href="http://cartodb.github.io/labs-cdbfiddle/#https://jpd16.cartodb.com/api/v2/viz/579f83ee-12a6-11e6-9a4a-0ea31932ec1d/viz.json">this visualization</a></strong> to see the result from each of the queries below</p>
+</blockquote>
+
+<hr />
+
+<h4 id="stbuffer-creates-a-round-area-with-a-given-radius"><strong>ST_Buffer()</strong> creates a round area with a given radius</h4>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  cartodb_id,
+  name,
+  ST_Transform(
+    ST_Buffer(the_geom::geography, 100000)::geometry
+    ,3857
+  ) AS the_geom_webmercator
+FROM
+  ne_10m_populated_places_simple
+WHERE
+  adm0name LIKE 'Spain'  
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_Transform.html">ST_Transform</a></li>
+  <li><a href="http://postgis.net/docs/ST_Buffer.html">ST_Buffer</a></li>
+</ul>
+
+<h4 id="stdifference-calculates-the-difference-between-two-geometries"><strong>ST_Difference()</strong> calculates the difference between two geometries</h4>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  a.cartodb_id,
+    ST_Difference(
+        a.the_geom_webmercator,
+        b.the_geom_webmercator
+  ) AS the_geom_webmercator
+FROM
+  ne_50m_land a,
+  ne_adm0_europe b
+WHERE
+  b.adm0_a3 like 'ESP'
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_Difference.html">ST_Difference</a></li>
+</ul>
+
+<h4 id="stintersects-returns-true-if-the-given-two-geometries-intersects"><strong>ST_Intersects()</strong> returns <code class="highlighter-rouge">true</code> if the given two geometries intersects</h4>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  a.*
+FROM
+  ne_10m_populated_places_simple a,
+  ne_adm0_europe b
+WHERE
+  ST_Intersects(
+    b.the_geom_webmercator,
+    a.the_geom_webmercator
+  )
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_Intersects.html">ST_Intersects</a></li>
+</ul>
+
+<h4 id="using-stintersects-to-get-the-number-of-points-inside-a-polygon">Using <strong>ST_Intersects()</strong> to get the number of points inside a polygon</h4>
+
+<p>Using <code class="highlighter-rouge">GROUP BY</code>:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  b.cartodb_id,
+  b.name,
+  b.the_geom_webmercator,
+  count(*) AS pp_count,
+  sum(a.pop_max) as sum_pop
+FROM
+  ne_10m_populated_places_simple a,
+  ne_adm0_europe b
+WHERE
+  ST_Intersects(a.the_geom, b.the_geom)
+GROUP BY
+  b.cartodb_id,
+  b.name,
+  b.the_geom_webmercator
+</code></p>
+
+<p>Using <code class="highlighter-rouge">LATERAL</code>:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  a.cartodb_id,
+  a.name,
+  a.the_geom_webmercator,
+  counts.number_cities,
+  to_char(counts.sum_pop,'999,999,999') as sum_pop --decimal separator
+FROM
+  ne_adm0_europe a
+CROSS JOIN LATERAL
+  (
+    SELECT
+      count(*) as number_cities,
+      sum(pop_max) as sum_pop
+    FROM
+      ne_10m_populated_places_simple b
+    WHERE
+      ST_Intersects(a.the_geom, b.the_geom)
+  ) AS counts
+</code></p>
+
+<ul>
+  <li><a href="http://blog.heapanalytics.com/postgresqls-powerful-new-join-type-lateral">Lateral JOIN</a></li>
+</ul>
+
+<h4 id="stdwithin-to-know-wether-a-geometry-is-within-the-given-range-from-another-geometry"><strong>ST_DWithin()</strong> to know wether a geometry is within the given range from another geometry</h4>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  a.*
+FROM
+  ne_10m_populated_places_simple a,
+  ne_10m_populated_places_simple b
+WHERE
+    a.cartodb_id != b.cartodb_id
+  AND ST_DWithin(
+      a.the_geom_webmercator,
+      b.the_geom_webmercator,
+      150000
+    )
+  AND a.adm0name = 'Spain'
+  AND b.adm0name = 'Spain'
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_DWithin.html">ST_DWithin</a></li>
+</ul>
+
+<h4 id="stdwithin--stmakeline-to-connect-nearby-cities"><strong>ST_DWithin()</strong> + <strong>ST_MakeLine()</strong> to connect nearby cities</h4>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  ST_MakeLine(a.the_geom_webmercator, b.the_geom_webmercator) AS the_geom_webmercator
+FROM
+  ne_10m_populated_places_simple a,
+  ne_10m_populated_places_simple b
+WHERE
+    a.cartodb_id != b.cartodb_id
+  AND ST_DWithin(
+      a.the_geom_webmercator,
+      b.the_geom_webmercator,
+      150000
+    )
+  AND a.adm0name = 'Spain'
+  AND b.adm0name = 'Spain'
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_MakeLine.html">ST_MakeLine</a></li>
+</ul>
+
+<h4 id="generating-grids-with-cdb-functions">Generating Grids with CDB functions</h4>
+
+<p>Rectangular grid</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  row_number() over () as cartodb_id,
+  CDB_RectangleGrid(
+    ST_Buffer(the_geom_webmercator,125000),
+  250000,
+  250000
+  ) AS the_geom_webmercator
+FROM 
+  ne_adm0_europe
+WHERE 
+  adm0_a3 IN ('ITA','GBR')
+</code></p>
+
+<ul>
+  <li><a href="http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid">CDB_RectangleGrid</a></li>
+</ul>
+
+<p>Adaptative Hexagonal grid</p>
+
+<p>```sql
+WITH grid AS 
+(SELECT
+  row_number() over () as cartodb_id,
+  CDB_HexagonGrid(
+    ST_Buffer(the_geom_webmercator, 100000),
+    100000
+  ) AS the_geom_webmercator
+FROM 
+  ne_adm0_europe
+WHERE 
+  adm0_a3 IN (‘ESP’,’ITA’))</p>
+
+<p>SELECT 
+  grid.the_geom_webmercator, 
+  grid.cartodb_id
+FROM
+  grid, ne_adm0_europe a
+WHERE 
+    ST_intersects(grid.the_geom_webmercator, a.the_geom_webmercator)
+  AND a.adm0_a3 IN (‘ESP’,’ITA’)
+```</p>
+
+<ul>
+  <li><a href="http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-hexagon-grid">CDB_HexagonGrid</a></li>
+</ul>
+
+<h4 id="extra-resources">Extra resources</h4>
+
+<ul>
+  <li><a href="http://academy.cartodb.com/courses/sql-postgis/">CartoDB Map Academy - SQL and PostGIS</a></li>
+</ul>
+
+<p>Some CartoDB blogposts about spatial SQL</p>
+
+<ul>
+  <li><a href="http://blog.cartodb.com/jets-and-datelines/">Great arc lines crossing the ‘Date Line’</a></li>
+  <li><a href="http://blog.cartodb.com/lateral-joins/">Looking for the closest geometries</a></li>
+  <li><a href="http://blog.cartodb.com/subdivide-all-things/">About ST_Subdivide</a></li>
+</ul>
+
+<hr />
+
+<h2 id="webmaps-with-cartodbjs-a-namejsa">Webmaps with CartoDB.js <a name="js"></a></h2>
+
+<p><a href="http://docs.cartodb.com/cartodb-platform/cartodb-js/">CartoDB.js</a> is the JavaScript library that allows to create webmapping apps using CartoDB services quickly and efficiently.</p>
+
+<p>It’s built upon the following components:</p>
+
+<ul>
+  <li><a href="http://jquery.com">jQuery</a></li>
+  <li><a href="http://underscorejs.org">Underscore.js</a></li>
+  <li><a href="http://backbonejs.org/">Backbone.js</a></li>
+  <li>It can use either <a href="https://developers.google.com/maps/">Google Maps API</a> or <a href="http://leafletjs.com/">Leaflet</a></li>
+</ul>
+
+<h3 id="examples">Examples</h3>
+
+<ul>
+  <li>
+    <p>Load a visualisation with <code class="highlighter-rouge">createVis()</code>: <a href="http://bl.ocks.org/jsanz/78d004e805ea4dbf8397814edc477a89">example</a>, <a href="http://plnkr.co/edit/plhwv3IQwFxLHBGWodQp?p=preview">editor</a></p>
+  </li>
+  <li>
+    <p>Load SQL+CartoCSS with <code class="highlighter-rouge">createLayer</code>: <a href="http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645">example</a>, <a href="http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info">editor</a></p>
+  </li>
+  <li>
+    <p>Events. Actions on feature click: <a href="http://bl.ocks.org/jsanz/1881f68fd76546eda08cafd8fdcf480c">example</a>, <a href="http://plnkr.co/edit/rLjESjaFzr4m9qrvl4pj?p=preview">editor</a></p>
+  </li>
+  <li>
+    <p>Custom Infowindows: <a href="http://bl.ocks.org/jsanz/a0f606c08ec854df3f5e982b3890e188">example</a>, <a href="http://plnkr.co/edit/CQZL48I1QDfdMZUSH9ve?p=info">editor</a></p>
+  </li>
+  <li>
+    <p>Custom Tooltip: <a href="http://bl.ocks.org/jsanz/cd541c5a61f72e19c1e50c06fb688f40">example</a>, <a href="http://plnkr.co/edit/3loqq6?p=preview">editor</a></p>
+  </li>
+  <li>
+    <p>Changing SQL and CartoCSS: <a href="http://bl.ocks.org/jsanz/b454ed94c8ab9131dc823166226c18ef">example</a>, <a href="http://plnkr.co/edit/xqpP5J?p=preview">editor</a></p>
+  </li>
+  <li>
+    <p>Use a slider to change SQL: <a href="http://bl.ocks.org/jsanz/8e3195f2606a22fbfcdd0a117e109fb4">example</a>, <a href="http://plnkr.co/edit/8HX6Yq?p=preview">editor</a></p>
+  </li>
+</ul>
+
+<h3 id="some-advanced-examples">Some advanced examples</h3>
+
+<ul>
+  <li><a href="http://bl.ocks.org/ernesmb/4939b3751d3be0cdd64b">Playing with Torque time</a></li>
+  <li><a href="http://bl.ocks.org/ernesmb/348b9eed9ee4c7038fd7">Aggregating content from clustered features with SQL</a></li>
+  <li><a href="http://bl.ocks.org/jsanz/6a83dbae9d6e984ca938">Creating a simple layer selector</a></li>
+</ul>

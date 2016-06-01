@@ -1,0 +1,674 @@
+<ul>
+  <li>Facilitador: Jorge Sanz · jsanz@cartodb.com · <a href="http://twitter.com/xurxosanz">@xurxosanz</a></li>
+  <li>5 de Abril de 2016</li>
+  <li><a href="http://www.foss4g-ar.org/">FOSS4G Argentina</a>· Instituto Geográfico Nacional · Buenos Aires</li>
+</ul>
+
+<p>Encuestas:</p>
+
+<ul>
+  <li><a href="http://goo.gl/forms/OXnyTLMEPJ">Previa</a></li>
+  <li><a href="https://docs.google.com/forms/d/1OTZdPQsDEiuyhmEQH7b7I8gH_gwRNMvMp7CAufYx9Mw/viewform">Encuesta de satisfacción</a></li>
+</ul>
+
+<h2 id="contenidos">Contenidos</h2>
+
+<ul>
+  <li><a href="#intro">Introducción</a> (30m)</li>
+  <li><a href="#editor">CartoDB Editor</a> (45m): Hello Map · Más características · El <em>dashboard</em> de CartoDB</li>
+  <li><a href="#sql">Análisis de datos con SQL</a> (1h): Introducción · PostGIS · Ejemplos de SQL espacial</li>
+  <li><a href="#js">Aplicaciones web con CartoDB.js</a> (1h 30m): Ejemplos · Ejemplos avanzados</li>
+</ul>
+
+<hr />
+
+<h2 id="introduccin-30m-a-nameintroa">Introducción (30m) <a name="intro"></a></h2>
+
+<ul>
+  <li>Qué es CartoDB</li>
+  <li>CartoDB es una plataforma: editor + APIs + SDKs
+    <ul>
+      <li><a href="https://docs.google.com/presentation/d/1k3VdfK8Cf94uNng7ZNRE1fIAyfxYyv8td-DJSLLE4xs/pub?start=false">Diapositivas</a></li>
+    </ul>
+  </li>
+  <li>Crear una cuenta nueva en CartoDB</li>
+</ul>
+
+<p>Recursos adicionales</p>
+
+<ul>
+  <li><a href="http://docs.cartodb.com">Documentación</a></li>
+  <li><a href="http://academy.cartodb.com">Academy</a></li>
+  <li><a href="http://docs.cartodb.com/tutorials/">Tutoriales</a></li>
+  <li><a href="https://cartodb.com/gallery">Galería</a></li>
+</ul>
+
+<h2 id="cartodb-editor-45m-a-nameeditora">CartoDB Editor (45m) <a name="editor"></a></h2>
+
+<h3 id="hello-map">Hello Map</h3>
+
+<ul>
+  <li>Acceder a la cuenta</li>
+  <li>El <em>dashboard</em></li>
+  <li>Crear un mapa nuevo</li>
+  <li>Asistente para crear un mapa nuevo
+    <ul>
+      <li>Los diferentes tipos de mapas y sus opciones</li>
+    </ul>
+  </li>
+  <li>Conceptos básicos de CartoCSS
+    <ul>
+      <li>Cambiar el estilo de un mapa sencillo</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="ejercicio">Ejercicio:</h4>
+
+<ul>
+  <li>Enunciado: <em>hacer un mapa de los cajeros automáticos de Buenos Aires con más de 3 terminales</em></li>
+  <li><a href="../data/160405-foss4gar/cajeros.zip">Datos</a></li>
+  <li><a href="http://data.buenosaires.gob.ar/dataset/cajeros-automaticos">Fuente</a>
+    <ul>
+      <li>Shapefile convertido a UTF8</li>
+    </ul>
+  </li>
+</ul>
+
+<p>Consideraciones:</p>
+
+<ul>
+  <li>Usar la pestaña de filtros para aplicar la condición por el campo <code class="highlighter-rouge">terminales</code></li>
+  <li>Usar el tipo de mapa por categoría para mostrar a qué banco pertenece cada cajero</li>
+</ul>
+
+<p>Resultado:</p>
+
+<ul>
+  <li><a href="http://cartodb.github.io/labs-cdbfiddle/#https://jsanzacademy1.cartodb.com/api/v2/viz/9e30a372-f8ef-11e5-a307-0ef24382571b/viz.json">Detalles</a></li>
+  <li><a href="https://jsanzacademy1.cartodb.com/viz/9e30a372-f8ef-11e5-a307-0ef24382571b/public_map">Mapa</a></li>
+</ul>
+
+<p><img src="../img/160405-foss4gar/ejercicio1.png" alt="" /></p>
+
+<h3 id="ms-caractersticas">Más características</h3>
+
+<ul>
+  <li>Interactividad: <em>infowindows</em> y <em>tooltips</em></li>
+  <li>Leyenda de mapa
+    <ul>
+      <li>En un mapa simple</li>
+      <li>Leyenda de mapa por categorías</li>
+    </ul>
+  </li>
+  <li>Otros elementos del mapa
+    <ul>
+      <li>Añadir elemento: título, textos, anotaciones e imágenes</li>
+      <li>Previsualización del mapa</li>
+      <li>Exportar imagen: normal y avanzada</li>
+    </ul>
+  </li>
+  <li>Metadatos del mapa
+    <ul>
+      <li>Título, descripción y etiquetas</li>
+      <li>Privacidad</li>
+    </ul>
+  </li>
+  <li>Opciones del mapa
+    <ul>
+      <li>Cambiar el mapa base</li>
+      <li>Otras opciones del mapa</li>
+    </ul>
+  </li>
+  <li>Añadir nuevas capas
+    <ul>
+      <li>Orden de capas</li>
+    </ul>
+  </li>
+  <li>Opciones de publicación: enlace, <em>embed</em> y CartoDB.js</li>
+</ul>
+
+<h4 id="ejercicio-2">Ejercicio 2:</h4>
+
+<p>Crea una copia del mapa del ejercicio anterior y añade las siguientes características:</p>
+
+<ul>
+  <li>Interactividad</li>
+  <li>Título</li>
+  <li>Metadatos completos</li>
+  <li>Añade una capa nueva</li>
+  <li>Añade un selector de capas</li>
+  <li>Publica tu mapa</li>
+</ul>
+
+<p>Nota: Puedes buscar alguna capa en http://data.buenosaires.gob.ar que se encuentre en formato <code class="highlighter-rouge">shp</code>, obtener la dirección web del fichero de datos (zip) y cargarla directamente en CartoDB.</p>
+
+<p>Resultado:</p>
+
+<ul>
+  <li><a href="http://cartodb.github.io/labs-cdbfiddle/#https://jsanzacademy1.cartodb.com/api/v2/viz/5bbeb132-f8f4-11e5-8bbe-0e787de82d45/viz.json">Detalles</a></li>
+  <li><a href="https://jsanzacademy1.cartodb.com/viz/5bbeb132-f8f4-11e5-8bbe-0e787de82d45/public_map">Mapa</a></li>
+</ul>
+
+<p><img src="../img/160405-foss4gar/ejercicio2.png" alt="" /></p>
+
+<h4 id="recursos-adicionales">Recursos adicionales:</h4>
+
+<ul>
+  <li>CartoDB Map Academy, <a href="http://academy.cartodb.com/courses/beginners-course/">Online Mapping for Beginners Lesson</a></li>
+  <li>CartoDB Map Academy, <a href="http://academy.cartodb.com/courses/design-for-beginners/">Introduction to Map Design</a></li>
+  <li>CartoDB Map Academy, <a href="http://academy.cartodb.com/courses/intermediate-design/">Intermediate Map Design</a></li>
+  <li>CartoDB Documentation, <a href="http://docs.cartodb.com/cartodb-platform/cartocss/">CartoCSS</a></li>
+  <li>CartoDB Documentation, <a href="http://docs.cartodb.com/cartodb-editor/maps/">Maps</a></li>
+</ul>
+
+<h3 id="el-dashboard-de-cartodb">El <em>dashboard</em> de CartoDB</h3>
+
+<ul>
+  <li>Las opciones del <em>dashboard</em>
+    <ul>
+      <li>Mapas y tablas en CartoDB</li>
+      <li>Listados</li>
+      <li>Operaciones
+        <ul>
+          <li>Selección</li>
+          <li>Ordenar</li>
+          <li>Duplicar</li>
+          <li>Borrar</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>El editor de tablas
+    <ul>
+      <li>Diferencias con el editor de mapas</li>
+      <li>Geocodificación</li>
+      <li>Sincronización</li>
+      <li>Crear un mapa desde la tabla</li>
+    </ul>
+  </li>
+  <li>Opciones de administración
+    <ul>
+      <li>Diferencias entre una cuenta normal y una cuenta en una organización</li>
+      <li>Características corporativas
+        <ul>
+          <li>Compartir datasets y mapas con otros miembros y grupos</li>
+          <li>Cuotas de almacenamiento</li>
+          <li>LDAP</li>
+        </ul>
+      </li>
+      <li>La <em>API Key</em></li>
+      <li>Perfil público</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="recursos-adicionales-1">Recursos adicionales:</h4>
+
+<ul>
+  <li>CartoDB Documentation, <a href="http://docs.cartodb.com/cartodb-editor/dashboard/">CartoDB Dashboard</a></li>
+  <li>CartoDB Documentation, <a href="http://docs.cartodb.com/cartodb-editor/datasets/">Datasets</a></li>
+  <li>CartoDB Documentation, <a href="http://docs.cartodb.com/cartodb-enterprise/">CartoDB Enterprise</a></li>
+  <li>CartoDB Documentation, <a href="http://docs.cartodb.com/cartodb-editor/your-account/">CartoDB account</a></li>
+</ul>
+
+<hr />
+
+<h2 id="anlisis-de-datos-con-sql-1h-a-namesqla">Análisis de datos con SQL (1h) <a name="sql"></a></h2>
+
+<h3 id="introduccin">Introducción</h3>
+
+<p>En esta sección vamos a cubrir los aspectos más básicos del acceso a información mediante el lenguaje de consulta SQL.</p>
+
+<p>Para poder hacer todos los ejercicios se requiere importar del <em>Data Library</em> los siguientes juegos de datos:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">ne_10m_populated_places_simple</code>: ciudades del mundo</li>
+  <li><code class="highlighter-rouge">samerica_adm0</code>: países de Sudamérica</li>
+  <li><code class="highlighter-rouge">ne_50m_land</code>: polígono global</li>
+</ul>
+
+<h5 id="seleccionar-datos">Seleccionar datos</h5>
+
+<p>Seleccionar todas las columnas:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  *
+FROM
+  ne_10m_populated_places_simple;
+</code></p>
+
+<p>Seleccionar solo algunas columnas:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  cartodb_id,
+  the_geom,
+  adm0name,name
+FROM
+  ne_10m_populated_places_simple;
+</code></p>
+
+<p>Seleccionar datos distintos</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  DISTINCT adm0name
+FROM
+  ne_10m_populated_places_simple;
+</code></p>
+
+<h4 id="filtrar">Filtrar</h4>
+
+<p>Añadir una condición por un campo</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  cartodb_id = 1;
+</code></p>
+
+<p>Filtrar por un valor</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  cartodb_id IN (1,3,5,7,9);
+</code></p>
+
+<p>Filtrar por cadena de texto</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  adm0_a3 LIKE 'URY';
+</code></p>
+
+<p>Filtro que no tiene en cuenta mayúsculas</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  adm0_a3 ILIKE 'ury';
+</code></p>
+
+<p>Comodines</p>
+
+<p>```sql
+SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  name ILIKE ‘San%’;</p>
+
+<p>SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  name ILIKE ‘San%’;</p>
+
+<p>SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  name ILIKE ‘%ao’;</p>
+
+<p>SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  name ILIKE ‘%ori%’;
+```</p>
+
+<h4 id="combinar-condiciones">Combinar condiciones</h4>
+
+<p>```sql
+SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  name ILIKE ‘%ori%’ AND
+  cartodb_id &lt; 1000;</p>
+
+<p>SELECT * FROM ne_10m_populated_places_simple
+WHERE
+  name ILIKE ‘%ori%’
+  OR cartodb_id &lt; 10;
+```</p>
+
+<h4 id="otras">Otras</h4>
+
+<p>Ordenar los resultados</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM ne_10m_populated_places_simple
+WHERE name ILIKE '%ori%' AND cartodb_id &lt; 1000
+ORDER BY name ASC;
+</code></p>
+
+<p>Limitar el número de resultados</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM ne_10m_populated_places_simple
+WHERE name ILIKE '%ori%' AND cartodb_id &lt; 1000
+ORDER BY name
+LIMIT 5;
+</code></p>
+
+<p>Contar el número de resultados</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT count(*) as conteo
+FROM ne_10m_populated_places_simple
+WHERE name ILIKE '%ori%';
+</code></p>
+
+<h4 id="lecturas-adicionales">Lecturas adicionales:</h4>
+
+<ul>
+  <li><a href="http://www.w3schools.com/sql/default.asp">SQL Lesson of W3Schools</a></li>
+  <li>CartoDB Map Academy, <a href="http://academy.cartodb.com/courses/sql-postgis/intro-to-sql-and-postgis/">SQL Lesson 1</a></li>
+</ul>
+
+<h4 id="ejercicio-4-extraer-informacin-mediante-sql">Ejercicio 4: extraer información mediante SQL</h4>
+
+<ul>
+  <li>Encontrar las columnas en <code class="highlighter-rouge">ne_10m_populated_places_simple</code> que informan sobre:
+    <ul>
+      <li>Nombre de la ciudad</li>
+      <li>Población máxima</li>
+      <li>Nombre del país</li>
+    </ul>
+  </li>
+  <li>¿Qué ciudades encontramos de Argentina? ¿Cuál es su población máxima?</li>
+  <li>¿Qué ciudades de Argentina tienen más de 500.000 habitantes?</li>
+  <li>¿Cuántas ciudades son <em>megacities</em> y su nombre acaba por <code class="highlighter-rouge">a</code>?</li>
+  <li>¿Cuáles son las cinco ciudades más pobladas de Argentina?</li>
+</ul>
+
+<h3 id="postgis">PostGIS</h3>
+
+<h4 id="geometry-vs-geography"><code class="highlighter-rouge">geometry</code> vs <code class="highlighter-rouge">geography</code></h4>
+
+<p>En Postgis existen dos tipos de datos geográficos</p>
+
+<ul>
+  <li><code class="highlighter-rouge">geometry</code>: coordenadas cartesianas, la línea más corta entre dos puntos es una recta. Tienen sistema de coordenadas</li>
+  <li><code class="highlighter-rouge">geography</code>: coordenadas polares sobre una esfera o un elipsoide. Siempre en geográficas. Útiles para algunas operaciones. La distancia más corta entre dos puntos es una curva <em>ortodrómica</em>.</li>
+</ul>
+
+<p><img src="http://workshops.boundlessgeo.com/postgis-intro/_images/cartesian_spherical.jpg" alt="cart vs sph" /></p>
+
+<p><img src="http://workshops.boundlessgeo.com/postgis-intro/_images/lax_cdg.jpg" alt="LA-CDG" /></p>
+
+<p><em>Fuente: <a href="http://workshops.boundlessgeo.com/postgis-intro">Boundless Postgis intro</a></em></p>
+
+<p>Un par de recursos:</p>
+
+<ul>
+  <li><a href="http://workshops.boundlessgeo.com/postgis-intro/geography.html">Sobre el tipo <code class="highlighter-rouge">geography</code></a></li>
+  <li><a href="http://postgis.net/docs/manual-1.5/ch04.html#PostGIS_Geography">Documentación oficial</a></li>
+</ul>
+
+<hr />
+
+<p>Un detalle a tener en cuenta al trabajar con CartoDB:</p>
+
+<blockquote>
+  <p>En CartoDB <strong>SIEMPRE</strong> visualizamos una consulta a la base de datos.</p>
+</blockquote>
+
+<hr />
+
+<h4 id="los-campos-thegeom-y-thegeomwebmercator">Los campos <code class="highlighter-rouge">the_geom</code> y <code class="highlighter-rouge">the_geom_webmercator</code></h4>
+
+<p>Las tablas de CartoDB tienen <strong>dos</strong> campos de tipo <code class="highlighter-rouge">geometry</code>:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">the_geom</code>: <code class="highlighter-rouge">EPSG:4326</code>. Coordenadas geográficas sin proyectas en WGS84</li>
+  <li><code class="highlighter-rouge">the_geom_webmercator: </code>EPSG:3857`. Coordenadas proyectadas en el sistema esférico de Mercator, un estándar de facto en <em>webmapping</em>.</li>
+</ul>
+
+<p>En CartoDB, <code class="highlighter-rouge">the_geom_webmercator</code> es la columna que se renderiza en el mapa. Este campo se genera automáticamente desde el campo <code class="highlighter-rouge">the_geom</code>. En una consulta, podemos sustituir ese campo por cualquier otra geometría que generemos, siempre y cuando cumpla las condiciones de ser de tipo <code class="highlighter-rouge">geometry</code> y estar en el sistema de coordenadas <code class="highlighter-rouge">EPSG:3857</code>.</p>
+
+<p>Un par de recursos adicionales:</p>
+
+<ul>
+  <li><a href="https://en.wikipedia.org/wiki/Map_projection">Proyecciones cartográficas en Wikipedia</a></li>
+  <li><a href="http://docs.cartodb.com/tutorials/projections/">Tutorial</a> sobre proyecciones</li>
+  <li><a href="http://blog.cartodb.com/free-your-maps-web-mercator/">Blog post</a> sobre como usar otras proyecciones en CartoDB.</li>
+</ul>
+
+<h3 id="ejemplos-de-sql-espacial">Ejemplos de SQL espacial</h3>
+
+<p>Las consultas que se muestran a continuación se pueden aplicar directamente sobre la consola SQL del editor. En <a href="http://cartodb.github.io/labs-cdbfiddle/#https://jsanzacademy1.cartodb.com/api/v2/viz/941b2ad2-f8ff-11e5-b255-0ecfd53eb7d3/viz.json">este enlace</a> se puede visualizar el resultado de las consultas.</p>
+
+<p><img src="../img/160405-foss4gar/sql.png" alt="" /></p>
+
+<h4 id="generar-un-buffer-dado-un-radio-determinado">Generar un <em>buffer</em> dado un radio determinado</h4>
+
+<p>Para poder usar metros en nuestra medida tenemos que convertir nuestra geometría al tipo <code class="highlighter-rouge">geography</code> y luego de vuelta a <code class="highlighter-rouge">geometry</code> y finalmente transformar el resultado al sistema de coordenadas <code class="highlighter-rouge">EPSG:3857</code> para poder verlo en nuestro mapa.</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  cartodb_id,
+  name,
+  ST_Transform(
+    ST_Buffer(the_geom::geography, 50000)::geometry
+    ,3857
+  ) AS the_geom_webmercator
+FROM
+  ne_10m_populated_places_simple
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_Transform.html">ST_Transform</a></li>
+  <li><a href="http://postgis.net/docs/ST_Buffer.html">ST_Buffer</a></li>
+</ul>
+
+<h4 id="calcular-la-diferencia-entre-dos-geometras">Calcular la diferencia entre dos geometrías</h4>
+
+<p>Obtener la geometría correspondiente Sudamérica restando el contorno de Argentina.</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  a.cartodb_id,
+    ST_Difference(
+        a.the_geom_webmercator,
+        b.the_geom_webmercator
+  ) AS the_geom_webmercator
+FROM
+  ne_50m_land a,
+  samerica_adm0 b
+WHERE
+  b.adm0_a3 like 'ARG' AND
+  a.cartodb_id = 1200
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_Difference.html">ST_Difference</a></li>
+</ul>
+
+<h4 id="intersectar-dos-geometras">Intersectar dos geometrías</h4>
+
+<p>Obtener las ciudades que se encuentran en Sudamérica</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  a.*
+FROM
+  ne_10m_populated_places_simple a,
+  samerica_adm0 b
+WHERE
+  ST_Intersects(
+    b.the_geom_webmercator,
+    a.the_geom_webmercator
+  )
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_Intersects.html">ST_Intersects</a></li>
+</ul>
+
+<h4 id="contar-puntos-contenidos-en-cada-polgono">Contar puntos contenidos en cada polígono</h4>
+
+<p>Número de ciudades en <code class="highlighter-rouge">ne_10m_populated_places_simple</code> por país de Sudamérica. Usando <code class="highlighter-rouge">GROUP BY</code>:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  b.cartodb_id,
+  b.name,
+  b.the_geom_webmercator,
+  count(*) AS pp_count,
+  sum(a.pop_max) as sum_pop
+FROM
+  ne_10m_populated_places_simple a,
+  samerica_adm0 b
+WHERE
+  ST_Intersects(a.the_geom, b.the_geom)
+GROUP BY
+  b.cartodb_id,
+  b.name,
+  b.the_geom_webmercator
+</code></p>
+
+<p>Una forma más correcta de hacerlo usando <code class="highlighter-rouge">LATERAL</code>:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  a.cartodb_id,
+  a.name,
+  a.the_geom_webmercator,
+  counts.number_cities,
+  to_char(counts.sum_pop,'999,999,999') as sum_pop --con separador de decimales
+FROM
+  samerica_adm0 a
+CROSS JOIN LATERAL
+  (
+    SELECT
+      count(*) as number_cities,
+      sum(pop_max) as sum_pop
+    FROM
+      ne_10m_populated_places_simple b
+    WHERE
+      ST_Intersects(a.the_geom, b.the_geom)
+  ) AS counts
+</code></p>
+
+<h4 id="obtener-las-ciudades-argentinas-que-estn-a-menos-de-25-km-una-de-otra">Obtener las ciudades argentinas que están a menos de 25 km una de otra</h4>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  a.*
+FROM
+  ne_10m_populated_places_simple a,
+  ne_10m_populated_places_simple b
+WHERE
+    a.cartodb_id != b.cartodb_id
+  AND ST_DWithin(
+        a.the_geom::geography,
+        b.the_geom::geography,
+        25000
+    )
+  AND a.adm0name = 'Argentina'
+  AND b.adm0name = 'Argentina'
+</code></p>
+
+<ul>
+  <li><a href="http://postgis.net/docs/ST_DWithin.html">ST_DWithin</a></li>
+</ul>
+
+<h4 id="generar-cuadrculas">Generar cuadrículas</h4>
+
+<p>Cudarícula rectangular de 250km de lado para Argentina</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  row_number() over () as cartodb_id, -- campo generado
+  CDB_RectangleGrid(
+    ST_Envelope(the_geom_webmercator), -- caja de la geometría
+    250000,
+    250000
+  ) AS the_geom_webmercator
+FROM samerica_adm0
+WHERE adm0_a3 like 'ARG'
+</code></p>
+
+<ul>
+  <li><a href="http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-rectangle-grid">CDB_RectangleGrid</a></li>
+  <li><a href="http://postgis.net/docs/ST_Envelolpe.html">ST_Envelolpe</a></li>
+</ul>
+
+<p>Cuadrícula hexagonal de 250km de lado para Argentina</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  row_number() over () as cartodb_id,
+  CDB_HexagonGrid(
+    ST_Envelope (the_geom_webmercator),
+    250000
+  ) AS the_geom_webmercator
+FROM samerica_adm0
+WHERE adm0_a3 like 'ARG'
+</code></p>
+
+<ul>
+  <li><a href="http://docs.cartodb.com/tips-and-tricks/cartodb-functions/#a-hexagon-grid">CDB_HexagonGrid</a></li>
+</ul>
+
+<h4 id="recursos-adicionales-2">Recursos adicionales</h4>
+
+<ul>
+  <li><a href="http://academy.cartodb.com/courses/sql-postgis/">CartoDB Map Academy - SQL and PostGIS</a></li>
+</ul>
+
+<p>Algunos artículos sobre SQL espacial en el blog de CartoDB</p>
+
+<ul>
+  <li><a href="http://blog.cartodb.com/jets-and-datelines/">Generando líneas de círculos máximos cruzando la línea de la fecha</a></li>
+  <li><a href="http://blog.cartodb.com/lateral-joins/">Buscando las geometrías más cercanas</a></li>
+  <li><a href="http://blog.cartodb.com/subdivide-all-things/">Sobre ST_Subdivide</a></li>
+</ul>
+
+<hr />
+
+<h2 id="aplicaciones-web-con-cartodbjs-1h-30m-a-namejsa">Aplicaciones web con CartoDB.js (1h 30m) <a name="js"></a></h2>
+
+<p><a href="http://docs.cartodb.com/cartodb-platform/cartodb-js/">CartoDB.js</a> es la librería JavaScript que permite crear aplicaciones de <em>webmapping</em> usando los servicios de CartoDB de forma rápida y eficiente.</p>
+
+<p>La librería está basada en los siguientes componentes:</p>
+
+<ul>
+  <li><a href="http://jquery.com">jQuery</a></li>
+  <li><a href="http://underscorejs.org">Underscore.js</a></li>
+  <li><a href="http://backbonejs.org/">Backbone.js</a></li>
+  <li>Puede utilizar indistintamente <a href="https://developers.google.com/maps/">Google Maps API</a> o <a href="http://leafletjs.com/">Leaflet</a></li>
+</ul>
+
+<h3 id="ejemplos">Ejemplos</h3>
+
+<p>Puedes copiar el código de los siguientes ejemplos y ejecutarlos en tu computadora. También puedes usar los enlaces al editor en línea y hacer ahí tus cambios. Prueba a visualizar tus mapas, consultar tus tablas, cambiar estilos y comportamientos para crear visores de la información que existe en tu cuenta de CartoDB.</p>
+
+<ul>
+  <li>
+    <p>Cargar una visualización con <code class="highlighter-rouge">createVis</code>: <a href="http://bl.ocks.org/ernesmb/80490597ad592a1ce0bd">ejemplo</a>, <a href="http://plnkr.co/edit/VzZmMh">editor</a></p>
+  </li>
+  <li>
+    <p>Cargar una SQL y CartoCSS sobre un mapa con <code class="highlighter-rouge">createLayer</code>: <a href="http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645">ejemplo</a>, <a href="http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info">editor</a></p>
+  </li>
+  <li>
+    <p>Eventos. Acción al hacer clic: <a href="http://bl.ocks.org/jsanz/1881f68fd76546eda08cafd8fdcf480c">ejemplo</a>, <a href="http://plnkr.co/edit/rLjESjaFzr4m9qrvl4pj?p=preview">editor</a></p>
+  </li>
+  <li>
+    <p>Ventana (<em>infowindow</em>) personalizada: <a href="http://bl.ocks.org/jsanz/a0f606c08ec854df3f5e982b3890e188">ejemplo</a>, <a href="http://plnkr.co/edit/CQZL48I1QDfdMZUSH9ve?p=info">editor</a></p>
+  </li>
+  <li>
+    <p>Custom Tooltip: <a href="http://bl.ocks.org/jsanz/cd541c5a61f72e19c1e50c06fb688f40">ejemplo</a>, <a href="http://plnkr.co/edit/3loqq6?p=preview">editor</a></p>
+  </li>
+  <li>
+    <p>Cambiar la consulta SQL y el CartoCSS: <a href="http://bl.ocks.org/jsanz/b454ed94c8ab9131dc823166226c18ef">ejemplo</a>, <a href="http://plnkr.co/edit/xqpP5J?p=preview">editor</a></p>
+  </li>
+  <li>
+    <p>Cambiar la consulta SQL con un deslizador: <a href="http://bl.ocks.org/jsanz/8e3195f2606a22fbfcdd0a117e109fb4">ejemplo</a>, <a href="http://plnkr.co/edit/8HX6Yq?p=preview">editor</a></p>
+  </li>
+</ul>
+
+<h3 id="ejemplos-avanzados">Ejemplos avanzados</h3>
+
+<ul>
+  <li><a href="http://bl.ocks.org/ernesmb/4939b3751d3be0cdd64b">Playing with Torque time</a></li>
+  <li><a href="http://bl.ocks.org/ernesmb/348b9eed9ee4c7038fd7">Aggregating content from clustered features with SQL</a></li>
+  <li><a href="http://bl.ocks.org/jsanz/6a83dbae9d6e984ca938">Creating a simple layer selector</a></li>
+</ul>
+

@@ -1,0 +1,705 @@
+<ul>
+  <li>Speaker: Ramiro Aznar · ramiroaznar@cartodb.com · <a href="http://twitter.com/ramiroaznar">@ramiroaznar</a></li>
+  <li>May 10th  2016</li>
+  <li>MSc in Geomatics and Cartographic Engineering · Universidad Politécnica de Madrid · Madrid</li>
+  <li><a href="https://docs.google.com/presentation/d/1ZlAfAD44BI-r1PArEPAK7FWq6UuA7-a0cPttWhu1amA/edit#slide=id.g12f643df12_1_449">Slides</a>.</li>
+</ul>
+
+<h2 id="httpbitlycdb-upmhttpbitlycdb-upm"><a href="http://bit.ly/cdb-upm">http://bit.ly/cdb-upm</a></h2>
+
+<h2 id="contents">Contents</h2>
+<ul>
+  <li><a href="#import">Importing datasets</a></li>
+  <li><a href="#dataset">Getting your data ready</a></li>
+  <li><a href="#map">Making a map</a></li>
+  <li><a href="#postgis">Going spatial with PostGIS</a></li>
+  <li><a href="#cartodbjs">Webmapping apps with CartoDB.js</a></li>
+</ul>
+
+<hr />
+
+<h1 id="intermediate-cartodb-workshop-for-msc-geo-engineers">Intermediate CartoDB Workshop for MSc Geo Engineers</h1>
+
+<h2 id="importing-datasets-a-nameimporta">1. Importing datasets <a name="import"></a></h2>
+
+<h3 id="supported-geospatial-data-files">1. 1. Supported Geospatial Data Files</h3>
+<p>CartoDB supports the following geospatial data formats to upload vector data*:</p>
+
+<ul>
+  <li><strong><code class="highlighter-rouge">Shapefile</code></strong>.</li>
+  <li><strong><code class="highlighter-rouge">KML</code></strong>.</li>
+  <li><strong><code class="highlighter-rouge">KMZ</code></strong>.</li>
+  <li><strong><code class="highlighter-rouge">GeoJSON</code></strong>**.</li>
+  <li><strong><code class="highlighter-rouge">CSV</code></strong>.</li>
+  <li><strong><code class="highlighter-rouge">Spreedsheets</code></strong>.</li>
+  <li><strong><code class="highlighter-rouge">GPX</code></strong>.</li>
+  <li><strong><code class="highlighter-rouge">OSM</code></strong>.</li>
+</ul>
+
+<p>*Importing <strong>different geometry types</strong> in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information <a href="http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats">here</a>.
+**More detailed information about GeoJSON format <a href="http://geojson.org/geojson-spec.html">here</a>.</p>
+
+<h3 id="common-importing-errors">1. 2. Common importing errors</h3>
+<ul>
+  <li><strong>Dataset too large</strong>:
+    <ul>
+      <li>File size limit: 150 Mb (free).</li>
+      <li>Import row limit: 500,000 rows (free).</li>
+      <li><em>Solution</em>: split your dataset into smaller ones, import them into CartoDB and merge them.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Malformed CSV</strong>:
+    <ul>
+      <li><em>Solution</em>: check termination lines, header…
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Encoding</strong>:
+    <ul>
+      <li><em>Solution</em>: <code class="highlighter-rouge">Save with Encoding</code> &gt; <code class="highlighter-rouge">UTF-8 with BOM</code> in <a href="https://www.sublimetext.com/">Sublime Text</a>.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Shapefile missing files</strong>:
+    <ul>
+      <li>Missing any of the following files within the compressed file will produce an importing error:
+        <ul>
+          <li><code class="highlighter-rouge">.shp</code>: contains the geometry. REQUIRED.</li>
+          <li><code class="highlighter-rouge">.shx</code>: contains the shape index. REQUIRED.</li>
+          <li><code class="highlighter-rouge">.prj</code>: contains the projection. REQUIRED.</li>
+          <li><code class="highlighter-rouge">.dbf</code>: contains the attributes. REQUIRED.</li>
+        </ul>
+      </li>
+      <li>Other auxiliary files such as <code class="highlighter-rouge">.sbn</code>, <code class="highlighter-rouge">.sbx</code> or <code class="highlighter-rouge">.shp.xml</code> are not REQUIRED.</li>
+      <li><em>Solution</em>: make sure to add all required files.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Duplicated id fields</strong>:
+    <ul>
+      <li><em>Solution</em>: check your dataset, remove or rename fields containing the <code class="highlighter-rouge">id</code> keyword.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Format not supported</strong>:
+    <ul>
+      <li>URLs -that are not points to a file- are not supported by CartoDB.</li>
+      <li><em>Solution</em>: check for missing url parameters or download the file into your local machine, import it into CartoDB.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>MAYUS extensions not supported</strong>:
+    <ul>
+      <li><code class="highlighter-rouge">example.CSV</code> is not supported by CartoDB.</li>
+      <li><em>Solution</em>: rename the file.
+<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Other importing errors and their codes can be found <a href="http://docs.cartodb.com/cartodb-platform/import-api/import-errors/">here</a>.</p>
+
+<hr />
+
+<h2 id="getting-your-data-ready-a-namedataseta">2. Getting your data ready <a name="dataset"></a></h2>
+
+<h3 id="geocoding">2. 1. Geocoding</h3>
+
+<p>If you have a column with longitude coordinates and another with latitude coordinates, CartoDB will automatically detect and covert values into <code class="highlighter-rouge">the_geom</code>. If this is not the case, CartoDB can help you by turning the named places into best guess of latitude-longitude coordinates:</p>
+
+<ul>
+  <li><strong>By Lon/Lat Columns</strong>.</li>
+  <li><strong>By City Names</strong>.</li>
+  <li><strong>By Admin. Regions</strong>.</li>
+  <li><strong>By Postal Codes</strong>.</li>
+  <li><strong>By IP Addresses</strong>.</li>
+  <li><strong>By Street Addresses</strong>.</li>
+</ul>
+
+<p>Know more about geocoding in CartoDB:</p>
+
+<ul>
+  <li>In <a href="http://docs.cartodb.com/tutorials/how_to_georeference/"><strong>this tutorial</strong></a>.</li>
+  <li>In <a href="https://cartodb.com/location-data-services/geocoding/"><strong>our Location Data Services website</strong></a>.</li>
+  <li>In our <a href="http://docs.cartodb.com/cartodb-platform/dataservices-api/geocoding-functions/"><strong>documentation</strong></a>.</li>
+</ul>
+
+<h3 id="datasets">2. 2. Datasets</h3>
+
+<ul>
+  <li><strong>Populated Places</strong> [<code class="highlighter-rouge">ne_10m_populated_places_simple</code>]: City and town points.</li>
+  <li><strong>World Borders</strong> [<code class="highlighter-rouge">world_borders</code>]: World countries borders.</li>
+  <li><strong>Emerged Lands</strong> [<code class="highlighter-rouge">ne_50m_land</code>]: World emerged lands.</li>
+</ul>
+
+<h3 id="selecting">2. 3. Selecting</h3>
+
+<ul>
+  <li>Selecting <strong>all the columns</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  *
+FROM
+  ne_10m_populated_places_simple;
+</code></p>
+
+<ul>
+  <li>Selecting <strong>some columns</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  cartodb_id,
+  name as city,
+  adm1name as region,
+  adm0name as country,
+  pop_max,
+  pop_min
+FROM 
+  ne_10m_populated_places_simple
+</code></p>
+
+<ul>
+  <li>Selecting <strong>distinc values</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT DISTINCT
+  adm0name as country
+FROM 
+  ne_10m_populated_places_simple
+</code></p>
+
+<h3 id="filtering">2. 4. Filtering</h3>
+
+<p><img src="../img/160510-upm/filtering.png" alt="filtering" /></p>
+
+<ul>
+  <li>Filtering <strong>numeric fields</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  * 
+FROM 
+  ne_10m_populated_places_simple
+WHERE
+  pop_max &gt; 5000000;
+</code></p>
+
+<ul>
+  <li>Filtering <strong>character fields</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  *
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+</code></p>
+
+<ul>
+  <li>Filtering a <strong>range</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  *
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  name in ('Madrid', 'Barcelona')
+AND
+  adm0name ilike 'spain'
+</code></p>
+
+<ul>
+  <li><strong>Combining</strong> character and numeric filters:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  *
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  name in ('Madrid', 'Barcelona')
+AND
+  adm0name ilike 'spain'
+AND
+  pop_max &gt; 5000000
+</code></p>
+
+<h3 id="others">2. 5. Others:</h3>
+
+<ul>
+  <li>Selecting <strong>aggregated values</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  count(*) as total_rows
+FROM 
+  ne_10m_populated_places_simple
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  sum(pop_max) as total_pop_spain
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  avg(pop_max) as avg_pop_spain
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+</code></p>
+
+<ul>
+  <li><strong>Ordering results</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  cartodb_id,
+  name as city,
+  adm1name as region,
+  adm0name as country,
+  pop_max
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+ORDER BY
+  pop_max DESC
+</code></p>
+
+<ul>
+  <li><strong>Limiting results</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  cartodb_id,
+  name as city,
+  adm1name as region,
+  adm0name as country,
+  pop_max
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+ORDER BY
+  pop_max DESC LIMIT 10
+</code></p>
+
+<hr />
+
+<h2 id="making-a-map-a-namemapa">3. Making a map <a name="map"></a></h2>
+
+<h3 id="wizard">3. 1. Wizard</h3>
+
+<p><a href="http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset">Analyzing your dataset…</a> In some cases, when you connect a dataset and click on the MAP VIEW for the first time, the Analyzing dataset dialog appears. This analytical tool analyzes the data in each column, predicts how to visualize this data, and offers you snapshots of the visualized maps. You can select one of the possible map styles, or ignore the analyzing dataset suggestions.</p>
+
+<ul>
+  <li><strong>Simple Map</strong>.</li>
+  <li><strong>Cluster Map</strong>.</li>
+  <li><strong>Category Map</strong>.</li>
+  <li><strong>Bubble Map</strong>.</li>
+  <li><strong>Torque Map</strong>.</li>
+  <li><strong>Heatmap Map</strong>.</li>
+  <li><strong>Torque Cat Map</strong>.</li>
+  <li><strong>Intensity Map</strong>.</li>
+  <li>
+    <p><strong>Density Map</strong>.</p>
+  </li>
+  <li><strong>Choropleth Map</strong>:</li>
+</ul>
+
+<p>Before making a choropleth map, we need to normalize our target column. So we are going to create two new columns with <code class="highlighter-rouge">numeric</code> as data type: <code class="highlighter-rouge">new_area</code> and <code class="highlighter-rouge">po_norm</code>. Finally, run the following SQL queries to update their values:</p>
+
+<p><code class="highlighter-rouge">sql
+UPDATE
+  world_borders
+SET
+  new_area = round(st_area(the_geom)::numeric, 6)
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+UPDATE
+  world_borders
+SET
+  pop_norm = pop2005 / new_area
+</code></p>
+
+<p><img src="../img/160510-upm/choropleth.png" alt="choropleth" /></p>
+
+<p>Know more about chosing the right map to make <a href="http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/">here</a>.</p>
+
+<h3 id="styles">3. 2. Styles</h3>
+
+<ul>
+  <li><strong>Simple Map</strong>:</li>
+</ul>
+
+<p>```css
+/** simple visualization */</p>
+
+<h1 id="worldborders">world_borders{</h1>
+<p>polygon-fill: #FF6600;
+  polygon-opacity: 0.7;
+  line-color: #FFF;
+  line-width: 0.5;
+  line-opacity: 1;
+}
+```</p>
+
+<ul>
+  <li><strong>Choropleth Map</strong>:</li>
+</ul>
+
+<p>```css
+/** choropleth visualization */</p>
+
+<h1 id="worldborders-1">world_borders{</h1>
+<p>polygon-fill: #FFFFB2;
+  polygon-opacity: 0.8;
+  line-color: #FFF;
+  line-width: 0.5;
+  line-opacity: 1;
+}
+#world_borders [ pop_norm &lt;= 247992435.530086] {
+   polygon-fill: #B10026;
+}
+#world_borders [ pop_norm &lt;= 4086677.23673585] {
+   polygon-fill: #E31A1C;
+}
+#world_borders [ pop_norm &lt;= 1538732.3943662] {
+   polygon-fill: #FC4E2A;
+}
+#world_borders [ pop_norm &lt;= 923491.374542489] {
+   polygon-fill: #FD8D3C;
+}
+#world_borders [ pop_norm &lt;= 616975.331234902] {
+   polygon-fill: #FEB24C;
+}
+#world_borders [ pop_norm &lt;= 326396.192958792] {
+   polygon-fill: #FED976;
+}
+#world_borders [ pop_norm &lt;= 95044.5589361554] {
+   polygon-fill: #FFFFB2;
+}
+```</p>
+
+<ul>
+  <li><strong>Category Map</strong>.</li>
+  <li><strong>Bubble Map</strong>.</li>
+  <li><strong>Torque Map</strong>.</li>
+  <li><strong>Heatmap Map</strong>.</li>
+  <li><strong>Torque Cat Map</strong>.</li>
+  <li><strong>Intensity Map</strong>.</li>
+  <li><strong>Density Map</strong>.</li>
+</ul>
+
+<p>Know more about CartoCSS with our <a href="http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset">documentation</a>.</p>
+
+<h3 id="other-elements">3. 3. Other elements</h3>
+
+<ul>
+  <li><strong>Basemaps</strong>:</li>
+</ul>
+
+<p><img src="../img/160510-upm/basemap.png" alt="basemap" /></p>
+
+<ul>
+  <li><strong>Options</strong>:</li>
+</ul>
+
+<p><img src="../img/160510-upm/options.png" alt="options" /></p>
+
+<ul>
+  <li><strong>Legend</strong>:</li>
+</ul>
+
+<p><img src="../img/160510-upm/legend.png" alt="legend" /></p>
+
+<p>```html</p>
+<div class="cartodb-legend choropleth">	
+<div class="legend-title">Total Population</div>
+<ul>
+	<li class="min">
+		95044.56
+	</li>
+	<li class="max">
+		247992435.53
+	</li>
+	<li class="graph count_441">
+	<div class="colors">
+	<div class="quartile" style="background-color:#FFFFB2"></div>
+	<div class="quartile" style="background-color:#FED976"></div>
+	<div class="quartile" style="background-color:#FEB24C"></div>
+	<div class="quartile" style="background-color:#FD8D3C"></div>
+	<div class="quartile" style="background-color:#FC4E2A"></div>
+	<div class="quartile" style="background-color:#E31A1C"></div>
+	<div class="quartile" style="background-color:#B10026"></div>
+	</div>
+	</li>
+</ul>
+</div>
+<p>```</p>
+
+<ul>
+  <li><strong>Labels</strong>:</li>
+</ul>
+
+<p><img src="../img/160510-upm/labels.png" alt="intensity" /></p>
+
+<p><code class="highlighter-rouge">css
+#world_borders::labels {
+  text-name: [name];
+  text-face-name: 'DejaVu Sans Book';
+  text-size: 10;
+  text-label-position-tolerance: 10;
+  text-fill: #000;
+  text-halo-fill: #FFF;
+  text-halo-radius: 1;
+  text-dy: -10;
+  text-allow-overlap: true;
+  text-placement: point;
+  text-placement-type: simple;
+}
+</code></p>
+
+<ul>
+  <li><strong>Infowindows and tooltip</strong>:</li>
+</ul>
+
+<p><img src="../img/160510-upm/infowindows.png" alt="infowindows" /></p>
+
+<p>```html</p>
+<div class="cartodb-popup v2">
+  <a href="#close" class="cartodb-popup-close-button close">x</a>
+  <div class="cartodb-popup-content-wrapper">
+    <div class="cartodb-popup-content">
+      <h4>country</h4>
+      <p></p>
+      <h4>population</h4>
+      <p></p>
+      <h4>area</h4>
+      <p></p>
+    </div>
+  </div>
+  <div class="cartodb-popup-tip-container"></div>
+</div>
+<p>```</p>
+
+<ul>
+  <li><strong>Title, text and images</strong>:</li>
+</ul>
+
+<p><img src="../img/160510-upm/elements.png" alt="elements" /></p>
+
+<h3 id="share-your-map">3. 4. Share your map!</h3>
+
+<p><img src="../img/160510-upm/share.png" alt="share" /></p>
+
+<ul>
+  <li>
+    <p><strong>Get the link</strong>: <a href="https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map">https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/public_map</a></p>
+  </li>
+  <li>
+    <p><strong>Embed it</strong>:</p>
+  </li>
+</ul>
+
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/ramirocartodb/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/embed_map" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" oallowfullscreen="" msallowfullscreen=""></iframe>
+
+<ul>
+  <li><strong>CartoDB.js</strong> [vizJSON file*]: https://team.cartodb.com/u/ramirocartodb/api/v2/viz/0ba65c92-120b-11e6-9ab2-0e5db1731f59/viz.json</li>
+</ul>
+
+<p>*BONUS: <strong><a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc">JSONView</a></strong>, a Google Chrome extension and <strong><a href="https://github.com/dzhibas/SublimePrettyJson">Pretty JSON</a></strong>, a Sublime Text plugin to visualize json files are good resources.</p>
+
+<hr />
+
+<h2 id="going-spatial-with-postgis-a-namepostgisa">4. Going spatial with PostGIS <a name="postgis"></a></h2>
+
+<h3 id="working-with-projections">4. 1. Working with projections</h3>
+
+<h4 id="geometry-vs-geography">4. 1. 1. <code class="highlighter-rouge">geometry</code> vs. <code class="highlighter-rouge">geography</code></h4>
+<ul>
+  <li>
+    <p><strong><code class="highlighter-rouge">Geometry</code></strong> uses a cartesian plane to measure and store features (CRS units):</p>
+
+    <blockquote>
+      <p>The basis for the PostGIS <code class="highlighter-rouge">geometry</code> type is a plane. The shortest path between two points on the plane is a straight line. That means calculations on geometries (areas, distances, lengths, intersections, etc) can be calculated using cartesian mathematics and straight line vectors.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><code class="highlighter-rouge">Geography</code></strong> uses a sphere to measure and store features (Meters):</p>
+
+    <blockquote>
+      <p>The basis for the PostGIS <code class="highlighter-rouge">geography</code> type is a sphere. The shortest path between two points on the sphere is a great circle arc. That means that calculations on geographies (areas, distances, lengths, intersections, etc) must be calculated on the sphere, using more complicated mathematics. For more accurate measurements, the calculations must take the actual spheroidal shape of the world into account, and the mathematics becomes very complicated indeed.</p>
+    </blockquote>
+  </li>
+</ul>
+
+<p>More about the <code class="highlighter-rouge">geography</code> type can be found <a href="http://workshops.boundlessgeo.com/postgis-intro/geography.html">here</a> and <a href="http://postgis.net/docs/manual-1.5/ch04.html#PostGIS_Geography">here</a>.</p>
+
+<p><img src="http://workshops.boundlessgeo.com/postgis-intro/_images/cartesian_spherical.jpg" alt="cart vs sph" /></p>
+
+<h4 id="thegeom-and-thegeomwebmercator">4. 1. 2. <code class="highlighter-rouge">the_geom</code> and <code class="highlighter-rouge">the_geom_webmercator</code></h4>
+<ul>
+  <li><strong><code class="highlighter-rouge">the_geom</code></strong> EPSG:4326. Unprojected coordinates in <strong>decimal degrees</strong> (Lon/Lat). WGS84 Spheroid.</li>
+  <li><strong><code class="highlighter-rouge">the_geom_webmercator</code></strong> EPSG:3857. UTM projected coordinates in <strong>meters</strong>. This is a conventional Coordinate Reference System, widely accepted as a ‘de facto’ standard in webmapping.</li>
+</ul>
+
+<p>In CartoDB, <strong>the_geom_webmercator column is the one we see represented in the map</strong>. Know more about projections:</p>
+
+<ul>
+  <li>In <a href="http://docs.cartodb.com/tutorials/projections/">this tutorial</a>.</li>
+  <li><a href="https://en.wikipedia.org/wiki/Map_projection">Map Projections in Wikipedia</a>.</li>
+  <li>In <a href="http://blog.cartodb.com/free-your-maps-web-mercator/">this CartoDB blog post</a>.</li>
+</ul>
+
+<h3 id="changing-map-projections">4. 2. Changing map projections</h3>
+
+<ul>
+  <li>Accessing the <strong>list of default projections</strong> available in CartoDB:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  * 
+FROM 
+  spatial_ref_sys
+</code></p>
+
+<p><img src="../img/160510-upm/srid.png" alt="srid" /></p>
+
+<ul>
+  <li>Accessing the occult <strong>the_geom_webmercator</strong> field:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  the_geom_webmercator 
+FROM 
+  ne_50m_land
+</code></p>
+
+<ul>
+  <li><strong>World Robinson</strong> projection (ESPG:54030):</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  cartodb_id, ST_Transform(the_geom, 54030) AS the_geom_webmercator
+FROM 
+  ne_50m_land
+</code></p>
+
+<p><img src="../img/160510-upm/robinson.png" alt="robinson" /></p>
+
+<h3 id="geoprocessing">4. 3. Geoprocessing</h3>
+
+<ul>
+  <li>Create a <strong>buffer</strong> from points:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  cartodb_id,
+  name,
+  ST_Transform(
+    ST_Buffer(the_geom::geography, 50000)::geometry
+    ,3857
+  ) AS the_geom_webmercator
+FROM
+  populated_places
+WHERE
+  name ilike 'madrid'
+</code></p>
+
+<p><img src="../img/160510-upm/buffer.png" alt="buffer" /></p>
+
+<ul>
+  <li>Create a <strong>straight line</strong> between two points:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  ST_MakeLine(a.the_geom_webmercator,b.the_geom_webmercator) as the_geom_webmercator 
+FROM (SELECT * FROM populated_places
+    WHERE name ILIKE 'madrid') as a,
+    (SELECT * FROM populated_places
+    WHERE name ILIKE 'barcelona'AND adm0name ILIKE 'spain') as b
+</code></p>
+
+<p><img src="../img/160510-upm/lines.png" alt="lines" /></p>
+
+<ul>
+  <li>Create a great circles between two points:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  ST_Transform(
+  ST_Segmentize(
+      ST_Makeline(
+        a.the_geom, 
+        b.the_geom
+      )::geography, 
+      100000
+  )::geometry,
+  3857
+  ) as the_geom_webmercator
+FROM 
+  (SELECT * FROM populated_places
+  WHERE name ILIKE 'madrid') as a,
+  (SELECT * FROM populated_places
+  WHERE name ILIKE 'new york') as b
+</code></p>
+
+<p><img src="../img/160510-upm/greatcircles.png" alt="greatcircles" /></p>
+
+<hr />
+
+<h2 id="webmapping-apps-with-cartodbjs-a-namecartodbjsa">5. Webmapping apps with CartoDB.js <a name="cartodbjs"></a></h2>
+
+<h3 id="cartodbjs">5. 1. CartoDB.js</h3>
+<p><a href="http://docs.cartodb.com/cartodb-platform/cartodb-js/">CartoDB.js</a> is the JavaScript library that allows to create webmapping apps using CartoDB services quickly and efficiently. It’s built upon the following components:</p>
+
+<ul>
+  <li><a href="http://jquery.com">jQuery</a></li>
+  <li><a href="http://underscorejs.org">Underscore.js</a></li>
+  <li><a href="http://backbonejs.org/">Backbone.js</a></li>
+  <li>It can use either <a href="https://developers.google.com/maps/">Google Maps API</a> or <a href="http://leafletjs.com/">Leaflet</a></li>
+</ul>
+
+<h3 id="examples">5. 2. Examples</h3>
+
+<ul>
+  <li>
+    <p>Load a visualisation with <code class="highlighter-rouge">createVis()</code>: <a href="http://bl.ocks.org/ramiroaznar/084f63f4200406508467826522dba842">example</a>, <a href="http://plnkr.co/edit/x6YvoL?p=preview">editor</a>.</p>
+  </li>
+  <li>
+    <p>Load SQL+CartoCSS with <code class="highlighter-rouge">createLayer()</code>: <a href="http://bl.ocks.org/jsanz/8ea2c5ef8422c9f9881e2f5132e2f645">example</a>, <a href="http://plnkr.co/edit/aBFGbAGNwC51U3wOPd70?p=info">editor</a>.</p>
+  </li>
+  <li>
+    <p>Add custom infowindow, infobox, tooltip &amp; legend with with <code class="highlighter-rouge">createLayer()</code>: <a href="http://bl.ocks.org/oriolbx/3950e1a9b458a9177f9c">example</a>.</p>
+  </li>
+</ul>
+
+<hr />

@@ -1,0 +1,580 @@
+<h2 id="making-sense-of-data-with-maps-time-series-graphs-and-thematic-maps-with-cartodb">Making Sense of Data with Maps: Time-Series Graphs and Thematic Maps, with CartoDB</h2>
+
+<p>Aurelia Moser, Map Scientist, <a href="http://cartodb.com">CartoDB</a></p>
+
+<p>Workshop - Beirut, Lebanon</p>
+
+<p>February 22, 2015</p>
+
+<p>Find this document here:</p>
+
+<ul>
+  <li>Stackedit: <a href="https://stackedit.io/viewer#!provider=gist&amp;gistId=e2d4f0f0b71f258f3ac9&amp;filename=beirut.md">http://bit.ly/1EExero</a></li>
+  <li>Gist: <a href="https://gist.github.com/auremoser/e2d4f0f0b71f258f3ac9">http://bit.ly/1LmO0h1</a></li>
+</ul>
+
+<p>Find the demo-maps here:</p>
+
+<ul>
+  <li><a href="http://bl.ocks.org/auremoser/bcefbded913be2daccb8">Blackout Map Procedure</a></li>
+  <li><a href="http://bl.ocks.org/auremoser/96b70f6dbcc724ecc973">Blackout Map + Graph</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/0-flag.png" alt="Lebanon Flag from Wikipedia" /></p>
+
+<h1 id="outline">Outline</h1>
+
+<ol>
+  <li>Visualizing Data
+    <ul>
+      <li>Why Maps?</li>
+    </ul>
+  </li>
+  <li>Introduction to Mapping with CartoDB
+    <ul>
+      <li>Examples</li>
+      <li>Tour of the interface</li>
+    </ul>
+  </li>
+  <li>Mapping Basics
+    <ul>
+      <li>Setting up accounts!</li>
+      <li>Data import</li>
+      <li>Datasets</li>
+    </ul>
+  </li>
+  <li>&lt;BREAK - 10 minutes&gt;</li>
+  <li>Mapping Data
+    <ul>
+      <li>Getting Data</li>
+      <li>What is geospatial data?</li>
+      <li>Data representation in CartoDB (SQL schema)</li>
+      <li>Geocoding</li>
+      <li>SQL/PostGIS</li>
+      <li>Customizing UI</li>
+      <li>Adding Layers</li>
+      <li>Sharing your Visualization</li>
+    </ul>
+  </li>
+  <li>&lt;BREAK - 10 minutes&gt;</li>
+  <li>Case Study: Blackout Map
+    <ul>
+      <li><a href="http://bl.ocks.org/auremoser/bcefbded913be2daccb8">Blackout Map Procedure</a></li>
+      <li><a href="http://bl.ocks.org/auremoser/96b70f6dbcc724ecc973">Blackout Map + Graph</a></li>
+      <li>Social Map</li>
+    </ul>
+  </li>
+  <li>&lt;BREAK - 10 minutes&gt;</li>
+  <li>Wrap-Up and Resources</li>
+</ol>
+
+<h1 id="visualizing-data">Visualizing Data</h1>
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/1-vis-types.png" alt="Types of Visualizations" /></p>
+
+<p>Some terms:</p>
+
+<ul>
+  <li><a href="http://en.wikipedia.org/wiki/Time_series"><strong>Time-Series</strong></a>: visualizations that include a temporal component, show change</li>
+  <li><a href="http://en.wikipedia.org/wiki/Thematic_map"><strong>Thematic Maps</strong></a>: maps related to a body of topics or a subject of discussion</li>
+</ul>
+
+<p>Some software:</p>
+
+<ul>
+  <li><a href="http://www.highcharts.com/"><strong>Highcharts</strong></a>: light library for creating charts and graphs</li>
+  <li><a href="cartodb.com"><strong>CartoDB</strong></a>: light open source library and graphical user interface application for hosting and visualizing geospatial data</li>
+</ul>
+
+<p>Some resources:</p>
+
+<ul>
+  <li><a href="https://github.com/auremoser/chart-tools">Charting Tools Repository</a></li>
+  <li><a href="http://cartodb.github.io/training/">Workshops @CartoDB</a></li>
+  <li><a href="http://selection.datavisualization.ch/">Recommended tools for Visualizations</a></li>
+  <li><a href="https://github.com/tmcw/perception">Perception Concerns</a></li>
+  <li><a href="http://colorbrewer2.org/">Color Brewer</a> or <a href="http://geocolor.io/">Geocolor</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/colorbrewer.png" alt="Color Brewer" /></p>
+
+<h2 id="why-maps">Why Maps?</h2>
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/syria.jpg" alt="Michael's Syrian Refugee visualization" />
+<a href="http://projects.aljazeera.com/2013/syrias-refugees/">Map population by relative density</a></p>
+
+<ul>
+  <li>Maps give you more context than most visualizations.</li>
+  <li>They allow you to apply data to a recognizable topography.</li>
+</ul>
+
+<h1 id="introduction-to-mapping-with-cartodb">Introduction to Mapping with CartoDB</h1>
+
+<h2 id="examples">Examples</h2>
+
+<p><strong>Maps that tell Stories</strong> - <a href="http://cartodb.github.io/odyssey.js/index.html">Odyssey JS</a></p>
+
+<ol>
+  <li><a href="http://alasdair.cartodb.com/viz/1332c872-a887-11e4-8c45-0e9d821ea90d/embed_map?zoom=14&amp;center_lat=55.948595&amp;center_lon=-3.199913">Tour of Scotland</a></li>
+  <li><a href="http://stream.aljazeera.com/projects/socialmediaconversation/"><em>Al Jazeera</em>: Israeli-Palestinian Conflict by Tweets</a></li>
+  <li><a href="http://www.cadenaser.com/sonidos-11m/">The Sounds of 11M</a></li>
+</ol>
+
+<p><strong>Maps that tell Time</strong> - <a href="http://docs.cartodb.com/tutorials/introduction_torque.html">Torque</a></p>
+
+<ol>
+  <li><a href="http://blog.cartodb.com/mapping-the-world-ongoing-demonstrations-in-brazil/">Demonstrations in Brazil</a></li>
+  <li>Tweets that mention <a href="http://cartodb.s3.amazonaws.com/static_vizz/sunrise.html">sunrise map</a></li>
+  <li><a href="http://robbykraft.github.io/AnimalTrack/">Animal migration patterns</a></li>
+  <li><a href="https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map">Beyonce Album Release</a></li>
+</ol>
+
+<p>More in the <a href="http://cartodb.com/gallery/">CartoDB Gallery</a></p>
+
+<h2 id="tour-of-the-interface">Tour of the interface</h2>
+
+<h3 id="data-import">Data Import</h3>
+
+<p><strong>Basic Data Import</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/master/img/common/data_import_dialog.png" alt="Data import dialog" /></p>
+
+<p>Most major formats for storing data: Excel Spreadsheets, CSV files, Shapefiles, KML (Google Earth), etc.</p>
+
+<p><a href="http://docs.cartodb.com/cartodb-editor.html#supported-data-formats">See complete list here.</a></p>
+
+<ol>
+  <li>Import by URL! Super handy when in a workshop and you don’t want to overwhelm the bandwidth</li>
+  <li>Select file from your HD</li>
+  <li><a href="http://docs.cartodb.com/cartodb-editor.html#common-data">Common Data</a> contains useful datasets for everyday use (admin regions, USGS earthquake data, ports and their locations, and many more)</li>
+</ol>
+
+<p>Integration with <strong>Google Drive</strong> and <strong>Dropbox</strong>.</p>
+
+<p><strong>Twitter</strong> firehose access for <a href="http://cartodb.com/enterprise">Enterprise</a> accounts.</p>
+<iframe src="https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map" width="100%" height="520px"></iframe>
+
+<p><img src="http://i.imgur.com/d3GSSYQ.gif" alt="Twitter Import" /></p>
+
+<h3 id="data-tables-in-cartodb">Data tables in CartoDB</h3>
+<p>Schema or column names</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/master/img/common/column_names.png" alt="Column names" /></p>
+
+<h3 id="filters--sql">Filters &amp; SQL</h3>
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/master/img/alaska/filters.png" alt="Filters" /></p>
+
+<p>Filters are a great way to explore your data. Besides filtering your data, they allow you to see histograms of the distributions, the number of unique entries, or a search box for columns that have a large number of text entries.</p>
+
+<h2 id="types-of-visualizations">Types of visualizations</h2>
+<ul>
+  <li><strong>Simple</strong> – most basic visualization</li>
+  <li><strong>Cluster</strong> – counts number of points within a certain binned region</li>
+  <li><strong>Choropleth</strong> – makes a histogram of your data and gives bins different colors depending on the color ramp chosen</li>
+  <li><strong>Category</strong> – color data based on unique category (works best for a handful of unique types)</li>
+  <li><strong>Bubble</strong> – size markers based on column values</li>
+  <li><strong>Intensity</strong> – colors by density</li>
+  <li><strong>Density</strong> – data aggregated by number of points within a hexagon</li>
+  <li><strong>Torque</strong> – temporal visualization of data</li>
+</ul>
+
+<p>Check out <a href="http://docs.cartodb.com/cartodb-editor.html#wizards">visualization documentation</a> for more.</p>
+
+<h3 id="simple-map"><em>Simple</em> Map</h3>
+<p>The visualization style <em>simple</em> is the default visualization for all maps.</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/yale/simple_visualization.png" alt="Simple visualization" /></p>
+
+<p>Styles available in the wizard</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/styling_options.png" alt="Styling options" /></p>
+
+<ul>
+  <li><strong>Marker Fill:</strong> change the size, color, and opacity of all markers</li>
+  <li><strong>Marker Stroke:</strong> change the width, color, and opacity of every marker’s border</li>
+  <li><strong>Composite Operation:</strong> change the color of markers when they overlap</li>
+  <li><strong>Label Text:</strong> Text appearing by a marker (can be from columns)</li>
+</ul>
+
+<h4 id="infowindowshovers">Infowindows/hovers</h4>
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/master/img/alaska/infowindow_options.png" alt="Infowindow options" /></p>
+
+<ul>
+  <li>Select which column data appear in infowindow by toggling column on</li>
+  <li>Customize further by selecting HTML-view</li>
+</ul>
+
+<h4 id="change-basemap">Change basemap</h4>
+<p>Select basemaps from different providers, use custom color, NASA data, MapBox tiles, etc.</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/basemap_options.png" alt="Basemap options" /></p>
+
+<h3 id="choropleth">Choropleth</h3>
+<p>Choropleth maps show map elements colored according to where a value associated with the map element falls in a range. It’s like a histogram where each bin is colored differently according to a color scale you pick. Notice the CartoCSS screenshot above.</p>
+
+<ul>
+  <li><strong><em>Quantification</em></strong> is an option to pay attention to since it controls how the data is binned into different colors.</li>
+  <li><strong><em>Equal interval</em></strong> gives bins of equal size across the range,  which means that outliers stand out.</li>
+  <li><strong><em>Quantile</em></strong> bins so that each quantile has approximately the same number of values.</li>
+</ul>
+
+<h3 id="cartocss-basics">CartoCSS basics</h3>
+<p><a href="https://github.com/mapbox/carto/blob/master/docs/latest.md">CartoCSS</a> is the styling language for our maps.</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/cartocss.png" alt="CartoCSS screenshot" /></p>
+
+<h3 id="legends">Legends</h3>
+<p>Can be easily customized</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/legend.png" alt="Legend" /></p>
+
+<p>You have the option of giving it a title, and changing the text for the colors. You can also change the colors manually, or, even better, change the color ramp back in the wizard.</p>
+
+<h3 id="navigation">Navigation</h3>
+<p>Click on the 90-degree arrow to get back to view your tables/visualizations</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/common/back_to_tables_arrow.png" alt="Go back to tables" /></p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/common/navigation_bar.png" alt="Navigation bar" /></p>
+
+<h1 id="mapping-basics">Mapping Basics</h1>
+
+<h2 id="setting-up-accounts">Setting up accounts!</h2>
+
+<p>You can setup a <em>free</em> student account here, since today we’re all learning: <a href="https://cartodb.com/signup?plan=academy">https://cartodb.com/signup?plan=academy</a></p>
+
+<h2 id="data-import-1">Data import</h2>
+<p>We’re going to be building visualizations about blackouts.</p>
+
+<p>We’ll be mapping energy, population and temperature data as an index of power outages, as per a few <a href="http://www.economist.com/news/middle-east-and-africa/21582570-power-cuts-are-symptom-deeper-malaise-blackout">relevant</a> if not <a href="http://english.al-akhbar.com/node/21555">recent</a> articles on the topic.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/problem.png" alt="Problem" /></p>
+
+<p>This is a common problem in many places globally.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/3-vs-filters.png" alt="Vital Signs" /></p>
+
+<p>Some inspiration projects:</p>
+
+<ul>
+  <li><a href="http://auremoser.github.io/VitalSigns-water/">Vital Signs</a></li>
+  <li><a href="http://acanohayluz.com.ar/#">Aca No Hay Luz</a></li>
+  <li><a href="http://brck.com">Brck</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/epl-loss-graph.png" alt="EPL Loss" /></p>
+
+<p>You can find some more sample datasets related to Lebanon in the “Data” section at the bottom of this page.</p>
+
+<h3 id="datasets">Datasets</h3>
+<p>You can download the datasets we’ll be working with, and the files for the workshop here.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th style="text-align: left">Source</th>
+      <th style="text-align: center">Download</th>
+      <th style="text-align: right">Dropbox</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Population Data</td>
+      <td style="text-align: left"><a href="http://data.worldbank.org/indicator/SP.POP.TOTL">World Bank</a></td>
+      <td style="text-align: center"><a href="https://www.dropbox.com/s/tfo3ejf1ss6h6l8/pop_2000.geojson?dl=1">pop_2000s</a></td>
+      <td style="text-align: right"><a href="https://www.dropbox.com/s/6ypg947uzn48ima/epl_2000.csv?dl=0">pop_2000s</a></td>
+    </tr>
+    <tr>
+      <td>Electrical Power Loss Data</td>
+      <td style="text-align: left"><a href="http://data.worldbank.org/indicator/EG.ELC.LOSS.ZS">World Bank</a></td>
+      <td style="text-align: center"><a href="https://www.dropbox.com/s/6tgbugczls1qvjd/epl_2009.geojson?dl=1">epl_2009</a> / <a href="https://www.dropbox.com/s/6ypg947uzn48ima/epl_2000.csv?dl=1">epl_2000s</a></td>
+      <td style="text-align: right"><a href="https://www.dropbox.com/s/6tgbugczls1qvjd/epl_2009.geojson?dl=0">epl_2009</a> <a href="https://www.dropbox.com/s/6ypg947uzn48ima/epl_2000.csv?dl=0">epl_2000s</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>BREAK - 10 minutes</strong></p>
+
+<h1 id="mapping-data">Mapping Data</h1>
+
+<h2 id="getting-data">Getting Data</h2>
+
+<ul>
+  <li>Comes in multiple formats</li>
+  <li>Sources uncertain</li>
+  <li>Contains errors</li>
+  <li>etc.</li>
+</ul>
+
+<p>Downloading the <a href="http://data.worldbank.org/indicator/EG.ELC.LOSS.ZS">Electric Power Loss Data</a> required some finessing:</p>
+
+<ul>
+  <li>removing headers/extra columns (in Excel or Open Refine)</li>
+  <li>importing the csv and auto-geocoding via carto</li>
+  <li>correcting column names to more intelligible terms</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/epl-table.png" alt="EPL Loss Data" /></p>
+
+<p>This is what it might look like when you import it:</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/epl-first.png" alt="EPL-first upload" /></p>
+
+<h2 id="what-is-geospatial-data">What is geospatial data?</h2>
+<p><strong>Geospatial data</strong> is into that ids a geolocation and its characteristic features/frontiers, typically represented by points, lines, polygons, and/or complex geographic features.</p>
+
+<h2 id="data-representation-in-cartodb-sql-schema">Data representation in CartoDB (SQL schema)</h2>
+<p>The most basic SQL statement is:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM table_name
+</code></p>
+
+<p>The * means everything. This means that all rows and columns from the table are given back once the query is run.</p>
+
+<p>A more detailed query is like this:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  name,
+  height,
+  age
+FROM
+  class_list
+WHERE
+  name = 'Aure'
+  AND (
+    height &gt; 1.2
+    OR
+    height &lt; 1.9
+  )
+</code></p>
+
+<ol>
+  <li><code class="highlighter-rouge">SELECT</code> is what you’re requesting (required)</li>
+  <li><code class="highlighter-rouge">FROM</code> is where the data is located (required)</li>
+  <li><code class="highlighter-rouge">WHERE</code> is the filter on the data you’re requesting (optional)</li>
+  <li><code class="highlighter-rouge">GROUP BY</code> and <code class="highlighter-rouge">ORDER BY</code> are optional additions, you can read more about aggregate/other functions below</li>
+</ol>
+
+<h2 id="geocoding">Geocoding</h2>
+
+<h3 id="consider-the-geom">Consider the geom</h3>
+<p>There are two special columns in CartoDB:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">the_geom</code></li>
+  <li><code class="highlighter-rouge">the_geom_webmercator</code></li>
+</ol>
+
+<p>The first of these is in the units of standard latitude/longitude, while the second is a projection based on the <a href="http://en.wikipedia.org/wiki/Mercator_projection">original Mercator projection</a> but <a href="http://en.wikipedia.org/wiki/Web_Mercator">optimized for the web</a>.</p>
+
+<p>If you want to run SQL commands and see your map update, make sure to <code class="highlighter-rouge">SELECT</code> the <code class="highlighter-rouge">the_geom_webmercator</code> because this is the column that’s used for mapping–the other is more of a convenience column since most datasets use lat/long.</p>
+
+<h2 id="sqlpostgis">SQL/PostGIS</h2>
+
+<p>This is a SQL statement and you’ll note it in your visualization tray as a way of querying and exploring your data with immediate visual output.</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  epl.the_geom_webmercator,
+  epl._2009,
+  epl.country_name,
+  epl.indicator_name,
+  ceil(epl._2009) AS d
+FROM
+  epl_2000 AS epl
+ORDER BY
+  d ASC
+</code></p>
+
+<p>You can enter queries, apply them, click on “create table from query” in the green field below the column names.</p>
+
+<h3 id="testing-sql">Testing SQL</h3>
+
+<p>You can also use “Filters” in the tray to traverse your data in lieu of SQL, and then browse the output in the SQL tray to learn more about how those queries are constructed.</p>
+
+<p>If you navigate to the “Filters” pane after loading your epl_2000 data, you can adjust the interface to illustrate only _2009 data and see the choropleth that results.</p>
+
+<p>Now navigate to your SQL pane</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/sql-qry.png" alt="SQL for epl_2000 data" /></p>
+
+<p>This query will give you the option of creating a more focused table for your visualization (filtering by 2009), run the query and elect to “create a table” which you should name <code class="highlighter-rouge">epl_2009</code> pr <code class="highlighter-rouge">epl_2009_sqltest</code>.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/sql-newtbl.png" alt="SQL table" /></p>
+
+<h2 id="customizing-ui">Customizing UI</h2>
+<p>You have myriad customization options in the in-browser editor.</p>
+
+<h3 id="testing-customization">Testing Customization</h3>
+<ul>
+  <li>in <code class="highlighter-rouge">wizard</code> try to adjust the quantile binning and stroke to match this</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/ui-custom.png" alt="UI Adjustments" /></p>
+
+<ul>
+  <li>in <code class="highlighter-rouge">info window</code> customize so you can display a ‘dark’ tooltip on hover, disable the click window/interaction via custom html</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/epl-info.png" alt="Info Window Adjustments" /></p>
+
+<ul>
+  <li>in <code class="highlighter-rouge">basemaps</code> select a dark basemap; dark countries on the choropleth should blend into the background, and suggest a higher likelyhood of “blackout”</li>
+</ul>
+
+<h2 id="adding-layers">Adding Layers</h2>
+<p>You can add layers of data to your maps as well.</p>
+
+<h3 id="testing-layers">Testing Layers</h3>
+<p>Add the “pop_2000” or “Population Totals by Country” data from your downloaded files.</p>
+
+<p>Just add the table, and select the “+” sign above your existing layer in the map/data view.</p>
+
+<p>Create a visualization, which you can name “blackout map” or whatever you would like, and play with the UI options to style the second layer.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/dev-multi-layer.jpeg" alt="Multi-layer Vis" /></p>
+
+<p>Note that you can toggle the layers on and off, and select custom colors, styles and tooltip info windows for each of the layers.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/ui-pop.png" alt="UI Pop" /></p>
+
+<p>You might also consider the “Populated Places” data from our core library of <a href="https://team.cartodb.com/u/aureliamoser/dashboard/common_data/Cultural%20datasets">“common data”</a> which we’ve started to pre-populate with datasets that play well with others.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/commondata.png" alt="Common" /></p>
+
+<p>You can also join tables in the GUI if you’d rather not write SQL:</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/join.png" alt="Multi-layer Vis" /></p>
+
+<h2 id="sharing-your-visualization">Sharing Your Visualization</h2>
+<p>You can share your visualization right from your online editor, and embed it in other applications accordingly.</p>
+
+<p>In the next section we will explore exporting and self-hosting your visualization.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/exportFormats.png" alt="ExportData" /></p>
+
+<p><strong>BREAK - 10 minutes</strong></p>
+
+<h1 id="case-study-blackout-map">Case Study: Blackout Map</h1>
+
+<h3 id="background">Background</h3>
+<p>Most dynamic maps can be created in the editor, visualized publically and embedded in other applications. If you’d like to go further and build your own applications, we have a host of APIs and libraries to support this.</p>
+
+<p><a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html">CartoDB.js</a> is our JavaScript API – a way to make maps using JavaScript.</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/master/img/alaska/three_pieces_to_js_map.png" alt="Three pieces to JavaScript maps" /></p>
+
+<p>The <a href="http://jsfiddle.net/gh/get/library/pure/CartoDB/academy/tree/master/t/03-cartodbjs-ground-up/lesson-3/jsfiddle_demo_cartocss">example above</a> use HTML, CSS, and JavaScript to make a map appear on a webpage.</p>
+
+<p>Check out our <a href="http://academy.cartodb.com/courses/03-cartodbjs-ground-up.html">Map Academy course on CartoDB.js</a> if you want to learn more.</p>
+
+<h3 id="extensibility">Extensibility:</h3>
+<p>Use CartoDB.js with other JavaScript libraries to make powerful web map apps.</p>
+
+<p>Check out <a href="http://www.urbanreviewer.org/">Urban Reviewer</a>.</p>
+
+<p>If you take a look at the source code, there are a dozen libraries linked:</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/urban_reviewer_code_example.png" alt="Urban Reviewer source code" /></p>
+
+<h3 id="examples-1">Examples:</h3>
+
+<ul>
+  <li><a href="http://illustreets.co.uk/">Illustreets</a> shows standard of living information across England to amazing detail. There are millions of data points, each can be interacted with to give graphs, summaries, etc.</li>
+  <li><a href="http://auremoser.github.io/metrologic/">Metrologic</a> weather based transport recs based on the forecast.io api</li>
+</ul>
+
+<h2 id="blackout-map">Blackout Map</h2>
+<p>We’ll start with an export of the map you just made in a HTML/JS format. Two simple scripts are all we need to make a page like the following.</p>
+
+<p><strong>Global Blackout Map</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/bl.global.png" alt="Blackout Map" /></p>
+
+<p>Checkout the code in this block: <a href="http://bl.ocks.org/auremoser/bcefbded913be2daccb8">http://bl.ocks.org/auremoser/bcefbded913be2daccb8</a></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/block-color.png" alt="Color Block" /></p>
+
+<h2 id="blackout-map--graph">Blackout Map + Graph</h2>
+<p>We’ll continue with an example of a visualization “mashup,” something that combines a map and a graph.</p>
+
+<p>In this case, we’ll include the Electric loss and population map, focused on Lebanon, and partner it with a graph of average temperatures in Lebanon.</p>
+
+<p><strong>Blackout Map-Lebanon</strong></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/mashup.jpeg" alt="Mashup Map" /></p>
+
+<p>Data comes from <a href="http://sdwebx.worldbank.org/climateportal/index.cfm?page=country_historical_climate&amp;ThisRegion=Middle%20East&amp;ThisCCode=LBN#%23">this source</a>, also a dataset culled from the World Bank.</p>
+
+<p>Checkout the code in this block: <a href="http://bl.ocks.org/auremoser/bcefbded913be2daccb8">http://bl.ocks.org/auremoser/bcefbded913be2daccb8</a></p>
+
+<p>You can use the same JS and HTML template for your projects.</p>
+
+<p><strong>Don’t forget:</strong></p>
+
+<ul>
+  <li>to scan the comments in the files for pointers</li>
+  <li>to change the “vizID” in Javascript to match your map</li>
+</ul>
+
+<h2 id="social-map">Social Map</h2>
+<p>You can also import Twitter data on certain accounts, to scan tweets and develop Torque visualizations based on the categories and trends you might like to analyze in social media.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/tweet-blkout.png" alt="Tweet" /></p>
+
+<ul>
+  <li>data for the past 30 days</li>
+  <li>multiple tags (#) possible</li>
+  <li>a map for blackout-related tweets: #Bassil or #energyloss #Waffir, you could pull in tweets and study their spacial/temporal properties on a map!</li>
+</ul>
+
+<p>“beirut + “lebanon”
+ 2/21/15</p>
+
+<p>** BREAK - 10 minutes **</p>
+
+<h1 id="wrap-up-and-resources">Wrap-Up and Resources</h1>
+
+<h2 id="cartodb">CartoDB</h2>
+<ol>
+  <li><a href="http://academy.cartodb.com">Map Academy</a>
+    <ul>
+      <li><a href="http://academy.cartodb.com/courses/03-cartodbjs-ground-up/lesson-3.html">CartoDB.js</a> – build a web app to visualize your data, allowing for user interaction</li>
+      <li><a href="http://academy.cartodb.com/courses/04-sql-postgis.html">SQL and PostGIS</a></li>
+    </ul>
+  </li>
+  <li><a href="http://docs.cartodb.com/tutorials.html">CartoDB Tutorials</a></li>
+  <li><a href="http://docs.cartodb.com/cartodb-editor.html">CartoDB Editor Documentation</a></li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform.html">CartoDB APIs</a></li>
+  <li><a href="http://gis.stackexchange.com/questions/tagged/cartodb">Community help on StackExchange</a></li>
+  <li><a href="http://cartodb.com/gallery/">CartoDB Map Gallery</a></li>
+</ol>
+
+<h2 id="data">Data</h2>
+
+<h3 id="general">GENERAL</h3>
+<ul>
+  <li><a href="http://data.worldbank.org/country/lebanon">World Bank Data on Lebanon</a></li>
+  <li><a href="http://ngoaidmap.org/sectors/17">Energy projects in NGO Aid Map</a></li>
+  <li>NGO Map for Lebanese projects <a href="http://ngoaidmap.org/location/100">(21 projects, primarily youth support/mentorship, female and refugee diaspora support)</a></li>
+  <li><a href="http://sdwebx.worldbank.org/climateportal/index.cfm?page=country_historical_climate&amp;ThisRegion=Middle%20East&amp;ThisCCode=LBN">Weather data</a>, monthly temperature/rainfall</li>
+</ul>
+
+<h3 id="transportation">TRANSPORTATION</h3>
+<ul>
+  <li><a href="http://download.bbbike.org/osm/bbbike/Beirut/">OSM extracts</a> for Beirut</li>
+  <li><a href="http://www.mapmyride.com/lb/beirut-beyrouth/">Download Data for extracting cycle routes</a></li>
+  <li><a href="http://www.mapmyride.com/routes/?location=Beirut,%20Lebanon">MapMyRide Routes</a> for Beirut</li>
+  <li>Beirut <a href="http://www.mapmyride.com/lb/beirut-beyrouth/">CycleRoutes</a></li>
+  <li><a href="https://geonafsiya.wordpress.com/2014/12/14/beirut-at-a-distance/">OSM Bus Route Blog</a> - Beirut</li>
+  <li><a href="http://www.openstreetmap.org/export#map=14/33.8854/35.5035&amp;layers=T">OSM Bus Routes</a></li>
+</ul>
+
+<p>My contact: <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#097;&#117;&#114;&#101;&#108;&#105;&#097;&#064;&#099;&#097;&#114;&#116;&#111;&#100;&#098;&#046;&#099;&#111;&#109;">&#097;&#117;&#114;&#101;&#108;&#105;&#097;&#064;&#099;&#097;&#114;&#116;&#111;&#100;&#098;&#046;&#099;&#111;&#109;</a></p>
+
+<p>If you make a map you’re proud of or just want to say hello, connect with me <a href="https://twitter.com/auremoser">@auremoser</a></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/lrs.jpg" alt="Rocket Society - Lebanon" /></p>
+
+<p>Find out more about the <a href="http://www.fact.co.uk/whats-on/lebanese-rocket-society">Lebanese Rocket Society here</a>.</p>

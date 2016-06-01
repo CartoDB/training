@@ -1,0 +1,120 @@
+<h1 id="storytelling-with-data-cartodb-workshop-boston-university">Storytelling With Data CartoDB Workshop Boston University</h1>
+
+<p><img src="http://www.bu.edu/creativewriting/files/2009/07/BU-CAS1.jpg" alt="BU" /></p>
+
+<h2 id="creating-your-accounts">Creating your accounts!</h2>
+<p>Set you up with accounts here, <a href="https://cartodb.com/signup?plan=academy">https://cartodb.com/signup?plan=academy</a>. This will give you a free upgrade to our <strong>University</strong> plan with double the storage space and some neat features!</p>
+
+<p>We also offer free upgrades for IRE members. you can request an IRE account <a href="https://ire.org/blog/ire-news/2015/03/06/free-upgraded-cartodb-accounts-ire-members/">HERE</a></p>
+
+<h2 id="introduction-to-cartodb-editor">Introduction to CartoDB Editor</h2>
+
+<ul>
+  <li>Tour of dashboard</li>
+  <li>Maps vs. Datasets</li>
+  <li>Public Profile</li>
+  <li>Workflow</li>
+</ul>
+
+<h2 id="lets-get-started">Let’s Get Started!</h2>
+
+<p>On average, Thursdays in Boston are the days with the highest amount of high school and university public events. We want to look at crime rates on these days to infer an appropriate risk assessment.</p>
+
+<ul>
+  <li>Ways of importing data</li>
+  <li>Let’s make a map!</li>
+</ul>
+
+<p>Let’s bring in the crime data by <strong>control+clicking (or right clicking) and selecting ‘Copy Link Address’</strong> on <a href="https://raw.githubusercontent.com/namessanti/boston-data-ws/master/crime_incident_reports_thursday.csv">THIS LINK</a>.</p>
+
+<p>We can now paste this link and import the data into CartoDB.</p>
+
+<ul>
+  <li>Table and map view</li>
+  <li>Changing data attributes/manipulating data</li>
+  <li>Styling data using the GUI</li>
+  <li>Torque</li>
+  <li>Popup/Hover windows</li>
+  <li>Legends</li>
+  <li>Basemaps</li>
+  <li>Publishing</li>
+  <li>CartoCSS Demo (Links at the end!)</li>
+</ul>
+
+<h2 id="multi-layered-maps">Multi-layered maps</h2>
+
+<p>Now Let’s see which neighborhoods in Boston have the most crimes.</p>
+
+<ul>
+  <li>Adding a new layer</li>
+  <li>Map hierarchy</li>
+  <li>Styling multiple layers</li>
+</ul>
+
+<p>Same as before, <strong>right click</strong> and ‘copy’ <a href="https://github.com/namessanti/boston-data-ws/blob/master/Bos_neighborhoods_new.zip?raw=true">this link</a> for a Boston neighborhoods Shapefile</p>
+
+<h2 id="your-first-choropleth">Your First Choropleth!</h2>
+
+<ul>
+  <li>Column Join VS Spatial Join</li>
+  <li>Spatial join City Council Districts with Rat Sightings</li>
+  <li>Visualizing point information in polygons</li>
+</ul>
+
+<h2 id="lets-get-deeper-by-introducing-sql">Let’s get deeper by introducing <strong>SQL</strong></h2>
+
+<p>Navigate back to your dashboard.</p>
+
+<p>Our children’s safety is important. So let’s compare crimes and Boston Public Schools.</p>
+
+<p>Same as before, <strong>right click</strong> and ‘copy’ <a href="https://raw.githubusercontent.com/namessanti/boston-data-ws/master/Boston_Public_Schools_2012-2013.csv">this link</a> for a Boston Public Schools dataset.</p>
+
+<p>We want to find out how many crimes are occuring within 300 meters of each school.</p>
+
+<p><code class="highlighter-rouge">sql
+UPDATE boston_public_schools_2012-2013 SET the_geom = ST_Buffer(the_geom::geography, 300)::geometry
+</code>
+* Intro to what’s possible with SQL
+* Querys
+* multi-table manipulation
+* Analysis</p>
+
+<p>Now, Let’s bring in our crime data from our datasets, and join our tables to <strong>get results!</strong></p>
+
+<ul>
+  <li>Data table manipulation in the editor</li>
+  <li>creating rows and columns</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+UPDATE boston_public_schools_2012-2013 SET point_count = (SELECT count(*)
+FROM crime_incident_reports_thursday WHERE ST_Intersects(crime_incident_reports_thursday.the_geom, boston_public_schools_2012-2013.the_geom))
+</code></p>
+
+<h2 id="publishing-data-stories">Publishing data stories!</h2>
+
+<p>With CartoDB it’s easy to tell your stories right in the map!</p>
+
+<ul>
+  <li>Labels and annotations</li>
+  <li>Layout</li>
+  <li>Publishing options</li>
+  <li>*Odyssey</li>
+</ul>
+
+<h3 id="explore-the-possibilities-behind-our-powerful-apis-using-these-cartodb-resources">Explore the possibilities behind our powerful APIs using these <strong>CartoDB resources</strong>:</h3>
+
+<ul>
+  <li>The <a href="http://academy.cartodb.com/">CartoDB Academy</a> is great for recapping the basics, starting to use our APIs, and growing your design capabilities</li>
+</ul>
+
+<p><img src="http://www.gisuser.com/images/mapacademy.jpg" alt="Academy" /></p>
+
+<ul>
+  <li>This handy <a href="http://ebrelsford.github.io/talks/2014/Methods3/week7/materials/cartocss-reference.pdf">CartCSS Reference Sheet</a> is a quick guide for beginners to CartoCSS</li>
+  <li>This <a href="http://blog.cartodb.com/berlin-wall-post/">blog post</a> talks about another CartoDb tool: Odyssey</li>
+  <li>This <a href="http://cartodb.github.io/odyssey.js/documentation/">video and tutorial</a> will quickly help you take your Odyssey.js stories to the next level</li>
+  <li>If you have any questions or need any help, I am also available as a resource! Please email me at santiago@cartodb.com</li>
+</ul>
+
+<p>Happy Mapping!</p>
