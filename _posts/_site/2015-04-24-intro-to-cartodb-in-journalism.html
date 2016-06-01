@@ -1,0 +1,267 @@
+<h1 id="mapping-stories">Mapping Stories</h1>
+
+<h2 id="alaska-press-club-conf">Alaska Press Club Conf</h2>
+
+<h3 id="andy-eschbacher-map-scientist-cartodb">Andy Eschbacher, Map Scientist, CartoDB</h3>
+
+<h3 id="april-24-2015">April 24, 2015</h3>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/e/e6/Flag_of_Alaska.svg" alt="Alaska's Flag" /></p>
+
+<ol>
+  <li>Brief introduction to CartoDB
+ a. Uses
+     1. Journalistic Use Cases
+     2. Torque maps, Twitter Connectors
+     3. New Stuff: Digital Globe imagery
+ b. Brief interface tour</li>
+  <li>Setting up Accounts</li>
+  <li>Importing datasets</li>
+  <li>Choropleth Maps</li>
+  <li>Alaska-friendly projections</li>
+  <li>Things for later</li>
+</ol>
+
+<p>Find this document here: http://bit.ly/cdb-alaskapc</p>
+
+<h2 id="a-quick-introduction-to-cartodb">A quick introduction to CartoDB</h2>
+
+<p>We aim to make the creation and sharing of maps as easy as possible. We also want to help you make beautiful, informative maps that make an impact and tell the stories that need to be told. Our beginnings lie in openness and the idea that every dataset has a story waiting to be told. We want to expose more than the lat/long.</p>
+
+<p>Besides our current software stack, we have a lot of cool stuff coming out soon.</p>
+
+<h3 id="torque----animated-maps">Torque – animated maps</h3>
+
+<p>My favorite: <a href="http://cartodb.s3.amazonaws.com/static_vizz/sunrise.html?title=true&amp;description=true&amp;search=false&amp;shareable=true&amp;cartodb_logo=true&amp;layer_selector=false&amp;legends=false&amp;scrollwheel=true&amp;sublayer_options=1%7C1&amp;sql=&amp;zoom=2&amp;center_lat=22.917922936146045&amp;center_lon=51.328125#">Map showing tweets that mention sunrise</a></p>
+
+<p><img src="http://i.imgur.com/DkXR8eS.gif" alt="tweets mentioning sunrise" /></p>
+
+<p>Boston Crime bubbles
+<a href="https://team.cartodb.com/u/andrew/viz/32ff4f28-7e51-11e4-9555-0e853d047bba/public_map"><img src="http://i.imgur.com/l4l0Bzr.png" alt="boston crime in torque" /></a></p>
+
+<p>Alcatraz Escape
+<a href="http://www.washingtonpost.com/news/morning-mix/wp/2014/12/15/the-alcatraz-escapees-could-have-survived-and-this-interactive-model-proves-it/">Alcatraz Escape revisited</a></p>
+
+<h3 id="odyssey----storytelling-with-maps">Odyssey – storytelling with maps</h3>
+
+<p>Aurelia’s tour of lakes adversely effected by humans</p>
+
+<p><a href="http://bl.ocks.org/auremoser/raw/d2e883314470768a07f8/"><img src="http://i.imgur.com/klShR3l.png" alt="Aurelia's Odyssey" /></a></p>
+
+<p><em>Source code <a href="http://bl.ocks.org/auremoser/d2e883314470768a07f8/">here</a>.</em></p>
+
+<h3 id="satellite-imagery----new-and-exciting-for-me">Satellite imagery – new and exciting for me</h3>
+
+<p>Digital Globe</p>
+
+<p>We just partnered with Digital Globe to provide their high resolution, high coverage satellite and aerial imagery of the world available for building maps.</p>
+
+<p>Here are some prototypes we made last week:</p>
+
+<p><img src="http://cartodb-libs.global.ssl.fastly.net/cartodb.com/assets/img/backgrounds/solutions/digital-globe.dc222e05.jpg" alt="Burning Man" /></p>
+
+<p><a href="http://mashable.com/2015/04/17/elon-musk-gigafactory/"><img src="http://i.imgur.com/y0cmQtA.png" alt="Gigafactory" /></a></p>
+
+<p><a href="https://team.cartodb.com/u/eschbacher/viz/4cd6d042-ea5d-11e4-bcba-0e9d821ea90d/public_map"><img src="http://i.imgur.com/pSxKk2p.png" alt="Columbia Glacier" /></a>
+High resolution glacier images (to the meter or 30 cm scale) with a good cadence.</p>
+
+<h2 id="setting-us-up-for-accounts">Setting us up for accounts</h2>
+
+<p>If you don’t have an account, go here to sign up: https://cartodb.com/signup?plan=academy</p>
+
+<p>These are more primo accounts than the normal free accounts.</p>
+
+<h2 id="importing-data">Importing data</h2>
+
+<p>We can import data several ways. The easiest is dragging the file from your computer and dropping it into the browser window.</p>
+
+<p><img src="http://i.imgur.com/1BkXZXp.gif" alt="importing data, creating a map" /></p>
+
+<p>You can also import by URL or directly through our Data Library where we curate a lot of data that’s commonly used.</p>
+
+<h3 id="data">Data</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>source</th>
+      <th>alaska-specific</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>USGS Earthquakes</td>
+      <td><a href="http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv">all data</a></td>
+      <td>–</td>
+    </tr>
+    <tr>
+      <td>US Counties</td>
+      <td><a href="http://www2.census.gov/geo/tiger/GENZ2013/cb_2013_us_county_500k.zip">all data</a></td>
+      <td><a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_anrc.html">alaska portion</a></td>
+    </tr>
+    <tr>
+      <td>Populated Places</td>
+      <td><a href="http://common-data.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20ne_10m_populated_places_simple&amp;format=geojson&amp;filename=populated_places">all data</a></td>
+      <td><a href="http://common-data.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20ne_10m_populated_places_simple%20WHERE%20adm1name%20=%20'Alaska'&amp;format=geojson&amp;filename=populated_places">alaska portion</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="exploring-different-types-of-maps">Exploring different types of maps</h2>
+
+<p>Import the dataset on USGS Earthquakes by copying the following link and making a new map:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv
+</code></pre>
+</div>
+
+<p><img src="http://i.imgur.com/2ZFS16I.gif" alt="Make new map" /></p>
+
+<p>Experiment with the different visualization options.</p>
+
+<h2 id="choropleth-maps">Choropleth maps</h2>
+
+<p>Choropleth maps are a common type of map visualization. You see them everywhere from election mapping to ecology visualizations.</p>
+
+<p>Histogram maps are colored based on the value of a number associated with the geographic coordinates. For instance, we could map earthquakes by magnitude and color more intense quakes by a darker red and less intense ones a calmer yellow. This works by making a histogram out of the magnitude data and assigning a color to each bin. Because of our capacity to see differences in colors, hues, etc., seven is usually decided as the upper limit in the number of colors in a choropleth map. There will be a lot of variation on this number.</p>
+
+<p>To get started, import the following data set by creating map like we’ve done before.</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://eschbacher.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20alaska_template&amp;filename=alaska_template&amp;format=geojson
+</code></pre>
+</div>
+
+<p><img src="http://i.imgur.com/9EXHDzo.png" alt="choropleth" /></p>
+
+<p>I left two empty columns in this data table so you can easily customize it later. One column is for numbers, the other is for strings.</p>
+
+<h2 id="alaska-friendly-projections">Alaska-friendly projections</h2>
+
+<p>We’re here in the north, so most projections warp things so they look huge as compared to things nearer the equator. Alaska is not really as large as it appears on a Mercator projection. “Maps lie” is a common refrain in the geo community.</p>
+
+<p><img src="http://i.imgur.com/dwmhDFL.png" alt="diptych of two different projections for alaska" /></p>
+
+<p>Let’s re-project Alaska from the standard Mercator Projection to something that doesn’t distort it very much. The <a href="http://epsg.io/3338">Alaska Albers projection</a> is great for this. We do this by copying and pasting the following text and placing it in the SQL text box in the right pane:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  ST_Transform(the_geom_webmercator,3338) AS the_geom_webmercator,
+  cartodb_id,
+  aland, 
+  awater, 
+  name, 
+  total_area
+FROM 
+  alaska_template
+</code></p>
+
+<h2 id="adding-annotations-and-infowindows">Adding annotations and infowindows</h2>
+
+<p><img src="http://i.imgur.com/BuZtmeR.gif" alt="map with annotations and infowindows" /></p>
+
+<h2 id="adding-another-layer">Adding another layer</h2>
+
+<p>Next choose “Add Layer” in the right pane. Go to “Data File” and enter this URL:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://common-data.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20ne_10m_populated_places_simple%20WHERE%20adm1name%20=%20'Alaska'&amp;format=geojson&amp;filename=populated_places
+</code></pre>
+</div>
+
+<p>This is a dataset of populated places throughout the world filtered for places in Alaska. You can change the filter, or remove it entirely, by deleting all the text from WHERE to the ampersand.</p>
+
+<p>After you have this new layer added, apply this SQL query to project it to our nicer projection:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  ST_Transform(the_geom_webmercator,3338) the_geom_webmercator, 
+  name, 
+  cartodb_id 
+FROM 
+  populated_places
+</code></p>
+
+<p><img src="http://i.imgur.com/lfe6NB3.png" alt="multilayer map" /></p>
+
+<p>There is so, so much more but that’s all we have time for today. Please come tomorrow for more!</p>
+
+<h2 id="things-for-later">Things for Later</h2>
+
+<p>I’ll keep the template of Alaska counties for download in the same place should you need it at a later date. You can easily fill in the numbers you want for the columns and instantly make a choropleth, category, bubble map, etc. based on the values in that column.</p>
+
+<p>It will always be here:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://eschbacher.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20alaska_template&amp;filename=alaska_template&amp;format=geojson
+</code></pre>
+</div>
+
+<p>Just go to that URL and it should download automatically from your browser.</p>
+
+<h3 id="data-sources">Data sources</h3>
+
+<ul>
+  <li><a href="https://www.census.gov/geo/maps-data/data/tiger.html">Census Data</a> is oftentimes geocoded</li>
+  <li><a href="http://www.muni.org/Departments/it/GIS2/Pages/MOAGISData.aspx">Anchorage Government’s</a> data on things related to Anchorage</li>
+  <li><a href="http://www.asgdc.state.ak.us/">State of Alaska’s trove</a> that I found hard to navigate</li>
+  <li><a href="http://data.gov">Data.gov</a> is a huge data portal and there is even an ‘Open in CartoDB’ button that makes data import easy :)</li>
+  <li><a href="http://www.naturalearthdata.com/">Natural Earth Data</a> is a great resource for cultural and geographical data</li>
+</ul>
+
+<h4 id="tips-for-finding-data">Tips for finding data</h4>
+
+<p>Search for the thing you want followed by “shapefile” or “geojson”.</p>
+
+<p>For instance, Googling “alaska census shapefile” leads us to the county boundaries identified by the Census Bureau.</p>
+
+<p>“anchorage shapfile” gives lots of good stuff, including the Anchorage government website on “GIS Data &amp; Document Downloads”</p>
+
+<h3 id="projecting-your-data-to-a-nicer-alaska-projection">Projecting your data to a nicer Alaska projection</h3>
+
+<p>To reproject your data to a nicer projection, you have to run the following SQL query in the SQL tab in the right pane. Hit “Apply Query” and just leave it how you want it.</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  ST_Transform(the_geom_webmercator,3338) the_geom_webmercator, -- this reprojects your Alaska geometries
+  cartodb_id, -- this column allows your to interact with your map
+  column_1, -- change this to whatever column you want to select
+  column_2, -- keep selecting columns you want, making sure you use a comma
+  column_3  -- the last column you want shouldn't end in a comma
+FROM
+  table_name -- this is the name of your table that contains your data
+</code></p>
+
+<p>The <code class="highlighter-rouge">--</code> and what follow it are comments that are ignored when the statement is processed by the database.</p>
+
+<h2 id="resources">Resources</h2>
+
+<ol>
+  <li><a href="http://academy.cartodb.com">Map Academy</a>
+    <ul>
+      <li><a href="http://academy.cartodb.com/courses/01-beginners-course.html">Beginner</a></li>
+      <li><a href="http://academy.cartodb.com/courses/02-design-for-beginners.html">Map design</a></li>
+      <li><a href="http://academy.cartodb.com/courses/03-cartodbjs-ground-up/lesson-3.html">CartoDB.js</a> – build a web app to visualize your data, allowing for more user interaction</li>
+      <li><a href="http://academy.cartodb.com/courses/04-sql-postgis.html">SQL and PostGIS</a> – slice and dice your geospatial data</li>
+    </ul>
+  </li>
+  <li><a href="http://docs.cartodb.com/tutorials.html">CartoDB Tutorials</a></li>
+  <li><a href="http://docs.cartodb.com/cartodb-editor.html">CartoDB Editor Documentation</a></li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform.html">CartoDB APIs</a></li>
+  <li><a href="http://gis.stackexchange.com/questions/tagged/cartodb">Community help on StackExchange</a></li>
+  <li><a href="http://cartodb.com/gallery/">CartoDB Map Gallery</a></li>
+</ol>
+
+<h2 id="thanks">Thanks!</h2>
+
+<p>The accounts you have now are free for life and you can do so much with them.</p>
+
+<p>If you want fancier accounts, IRE members get a 30% discount.</p>
+
+<p>If you want to trial anything, send me an email and I’ll bump you up for a while.</p>
+
+<p>If you make a map, please send it my way! If you want help, let me know :)</p>
+
+<p>Email: eschbacher@cartodb.com
+Twitter: <a href="https://twitter.com/MrEPhysics">MrEPhysics</a></p>
+
+<p><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Alaska-StateSeal.svg/1200px-Alaska-StateSeal.svg.png" alt="State Seal of Alaska" />
+<em>From Wikipedia</em></p>

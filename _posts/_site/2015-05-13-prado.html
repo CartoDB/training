@@ -1,0 +1,1076 @@
+<h2 id="city-cartography-with-cartodb">City Cartography with CartoDB</h2>
+
+<h3 id="bcn-footprint-map">BCN Footprint Map</h3>
+
+<p>Aurelia Moser, Map Scientist, <a href="http://cartodb.com">CartoDB</a>
+Workshop - MediaLab Prado</p>
+
+<p><strong>May 11-13, 2015, 2H30</strong></p>
+
+<p>Find this document here:</p>
+
+<ul>
+  <li>Stackedit: <a href="http://tinyurl.com/prado-wkshop">http://tinyurl.com/prado-wkshop</a></li>
+  <li>Gist: <a href="http://tinyurl.com/cdb-prado">http://tinyurl.com/cdb-prado</a></li>
+</ul>
+
+<p>Find the code checkpoints here:</p>
+
+<ul>
+  <li>Github: <a href="https://github.com/auremoser/prado-15">https://github.com/auremoser/prado-15</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/flag.png" alt="Catalan/Spain Flag" /></p>
+
+<h1 id="outline">Outline</h1>
+<ol>
+  <li>Visualizing Data
+    <ul>
+      <li>Why Maps?</li>
+    </ul>
+  </li>
+  <li>Introduction to CartoDB
+    <ul>
+      <li>Examples</li>
+      <li>Tour of the interface</li>
+      <li>APIs / JS Libs</li>
+    </ul>
+  </li>
+  <li>Mapping <strong>Basics</strong>
+    <ul>
+      <li>Setting up accounts!
+  	+ Data import</li>
+      <li>Datasets</li>
+    </ul>
+  </li>
+  <li>Mapping <strong>Data</strong>
+    <ul>
+      <li>Getting Geospatial Data
+  	+ Data representation in CartoDB (SQL schema)</li>
+      <li>Geocoding + SQL/PostGIS</li>
+      <li>Merging Tables</li>
+      <li>Customizing UI</li>
+    </ul>
+  </li>
+  <li>Building a Map
+    <ul>
+      <li>Basics of <code class="highlighter-rouge">VisJson</code> (<a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-1-visjson">ckpt-1</a>)</li>
+      <li>Quick map with <code class="highlighter-rouge">CreateVis</code> (<a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-2-createVis">ckpt-2</a>)</li>
+      <li>Custom map with <code class="highlighter-rouge">CreateLayer</code> <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-3-createLayer">(ckpt-3</a>)</li>
+      <li>Add SQL/CSS Templates (<a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-4-sqlcss">ckpt-4</a>)</li>
+      <li>Add Buttons (<a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-5-buttons">ckpt-5</a>)</li>
+      <li>Infowindows (<a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-6-info">ckpt-6</a>)</li>
+      <li><strong>BONUS:</strong> Charts (<a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-7-chart">ckpt-7</a>)</li>
+    </ul>
+  </li>
+  <li>Building a Narrative
+    <ul>
+      <li>Case Study: <a href="http://bl.ocks.org/auremoser/7990e895458123a20f68">Barcelona Footprint Map</a></li>
+      <li>Tell Time/Stories: Odyssey + Torque</li>
+      <li>Datatelling: Graphs + Charts (<a href="http://bl.ocks.org/auremoser/079b89bf52d8d66ab0aa">Perimeter by Building Footprint</a>)</li>
+    </ul>
+  </li>
+  <li>Wrap-Up and Resources
+    <ul>
+      <li>CartoDB Links</li>
+      <li>Data Sources</li>
+      <li>Visualization Resources</li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="visualizing-data">Visualizing Data</h1>
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/1-vis-types.png" alt="Types of Visualizations" /></p>
+
+<p>Source: <a href="http://www.datavizcatalogue.com/">The Data Visualization Catalogue</a>.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/periodic.png" alt="PeriodicTable" /></p>
+
+<p>Source: <a href="http://www.visual-literacy.org/periodic_table/periodic_table.html">Periodic Table of Visualizations</a></p>
+
+<h4 id="some-terms">Some terms:</h4>
+
+<ul>
+  <li><a href="http://en.wikipedia.org/wiki/Time_series"><strong>Time-Series</strong></a>: visualizations that include a temporal component, show change</li>
+  <li><a href="http://en.wikipedia.org/wiki/Thematic_map"><strong>Thematic Maps</strong></a>: maps related to a body of topics or a subject of discussion</li>
+  <li><a href="http://en.wikipedia.org/wiki/Site_plan"><strong>Building Footprints</strong></a>: the area on a project site that is used by the building structure and is defined by the perimeter of the building plan. Parking lots, landscapes, and other nonbuilding facilities are not included in the building footprint</li>
+</ul>
+
+<h4 id="some-software">Some software:</h4>
+
+<ul>
+  <li><a href="cartodb.com"><strong>CartoDB</strong></a>: light open source library and graphical user interface application for hosting and visualizing geospatial data</li>
+  <li><a href="http://www.chartjs.org/"><strong>ChartJS</strong></a>: light library for creating charts and graphs</li>
+</ul>
+
+<h4 id="some-resources">Some resources:</h4>
+
+<ul>
+  <li><a href="https://github.com/auremoser/chart-tools">Charting Tools Repository</a></li>
+  <li><a href="http://cartodb.github.io/training/">Workshops @ CartoDB</a></li>
+  <li><a href="http://selection.datavisualization.ch/">Recommended tools for Visualizations</a></li>
+  <li><a href="https://github.com/tmcw/perception">Perception Concerns</a></li>
+  <li><a href="http://emeeks.github.io/gestaltdataviz/section1.html">Gestalt Theory</a></li>
+  <li><a href="http://colorbrewer2.org/">ColorBrewer</a> or <a href="http://geocolor.io/">Geocolor</a></li>
+  <li><a href="http://www.colorhexa.com/">Color Hexa</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/finished.jpg" alt="Product" /></p>
+
+<h2 id="why-maps">Why Maps?</h2>
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/syria.jpg" alt="Michael's Syrian Refugee visualization" />
+<a href="http://projects.aljazeera.com/2013/syrias-refugees/">Map population by relative density</a></p>
+
+<ul>
+  <li>Maps give you more context than most visualizations.</li>
+  <li>They allow you to apply data to a recognizable topography.</li>
+</ul>
+
+<h1 id="intro-to-cartodb">Intro to CartoDB</h1>
+<p>## Examples</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/travel.jpg" alt="travel time" /></p>
+
+<ul>
+  <li><a href="http://mdweaver.github.io/times_year/">Travel Time CartoJS</a></li>
+  <li><a href="http://www.washingtonpost.com/news/morning-mix/wp/2014/12/15/the-alcatraz-escapees-could-have-survived-and-this-interactive-model-proves-it/">Alcatraz Escape Revisited</a></li>
+  <li><a href="http://graphics.latimes.com/2014-la-sheriff-primary-map/">LA Sheriff Election Results</a></li>
+  <li><a href="http://www.swgalaxymap.com/">Starwars Galaxy Map</a></li>
+  <li><a href="http://blog.cartodb.com/mapping-the-world-ongoing-demonstrations-in-brazil/">Demonstrations in Brazil</a></li>
+  <li><a href="http://www.globalforestwatch.org/map/3/15.00/27.00/ALL/grayscale/loss,forestgain?begin=2001-01-01&amp;end=2013-12-31&amp;threshold=30">Global Forest Watch</a></li>
+  <li><a href="http://www.urbanreviewer.org/#map=12/40.7400/-73.9998&amp;sidebar=plans">Urban Reviewer</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/urban.png" alt="urban-interface" /></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/urban_reviewer_code_example.png" alt="urban-reviewer" /></p>
+
+<h2 id="tour-of-the-interface">Tour of the interface</h2>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/int-data.jpg" alt="int-data" />
+<img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/int-upload.jpg" alt="int-upload" />
+<img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/int-viz.jpg" alt="int-vis" />
+<img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/int-share.jpg" alt="int-share" /></p>
+
+<h2 id="apis--js-libs">APIs / JS Libs</h2>
+<p>You can read more about the <a href="http://docs.cartodb.com/cartodb-platform.html">CartoDB APIs and JS Library here</a></p>
+
+<ul>
+  <li><a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html">CartoJS</a> - JS library for interacting with CartoDB</li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform/maps-api.html">Maps API</a> - generate public/private maps with data hosted on your CDB account</li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform/sql-api.html">SQL API</a> - run sql in your code that dynamically filters/affects/queries your mapped data stored in CartoDB</li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform/import-api.html">Import API</a> - CRUD files in your CartoDB Account</li>
+</ul>
+
+<h1 id="mapping-basics">Mapping Basics</h1>
+<p>## Setting Up Accounts
+You can setup a <em>free</em> student account today since we’re all learning: <a href="https://cartodb.com/signup?plan=academy">https://cartodb.com/signup?plan=academy</a></p>
+
+<h2 id="data-import">Data Import</h2>
+<p>We’re going to be building a visualization of land use data in Barcelona, particularly how building footprints and train lines fit into that projection.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b-data.jpg" alt="data" /></p>
+
+<p>We’ll be mapping building footprints according to data available in the CartoDB Data Library (c. 2014), exploring some choropleth methods and some SQL for manipulating these data.</p>
+
+<h3 id="why">Why?</h3>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/tweet.jpg" alt="parcelas_tweet" /></p>
+
+<ul>
+  <li>these data have names and physical features of the footprints</li>
+  <li>they also have a column for <code class="highlighter-rouge">habitants</code> or counts of inhabitants per footprint (presumably)</li>
+  <li>we can calculate population density by footprint</li>
+</ul>
+
+<h2 id="datasets">Datasets</h2>
+<p>You can fork the dataset we’ll be working with, and the files for the workshop here.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>Source</th>
+      <th>Download</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2014 Building Footprints</td>
+      <td><a href="http://opendata.bcn.cat/opendata/en/catalog/">CartoBCN</a></td>
+      <td><a href="https://www.dropbox.com/s/t895kgsjxllf3i9/parcelas_islas_barcelona.geojson?dl=1">parcelas_islas_barcelona.geojson</a></td>
+    </tr>
+    <tr>
+      <td>2012 Spain Railway Stations</td>
+      <td><a href="http://datahub.io/dataset/national-railway-stations">DataHub</a></td>
+      <td><a href="https://www.dropbox.com/s/ggzrbh135qk7b04/estaciones.geojson?dl=1">estaciones.geojson</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>** You can also import the data from our “Data Library.” **</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/commondata.jpg" alt="DataLibrary" /></p>
+
+<p>Select <strong>parcelas_islas_barcelona</strong> and pull it into you dashboard for manipulation.</p>
+
+<h1 id="mapping-data">Mapping Data</h1>
+<p>## Getting Geospatial Data</p>
+
+<p><strong>Geospatial data</strong> is info that ids a geolocation and its characteristic features/frontiers, typically represented by points, lines, polygons, and/or complex geographic features.</p>
+
+<h3 id="issues">Issues:</h3>
+<ul>
+  <li>Comes in multiple formats (<a href="http://docs.cartodb.com/cartodb-editor.html#supported-file-formats">supported formats for CartoDB</a>)</li>
+  <li>Sources uncertain</li>
+  <li>Contains errors</li>
+  <li>etc.</li>
+</ul>
+
+<p>Downloading the Census Data/FIPS directly requires some finessing.</p>
+
+<h3 id="data-check">Data Check:</h3>
+
+<ul>
+  <li>check the source and update date of your data</li>
+  <li>remove headers/extra columns (in Excel or Open Refine)</li>
+  <li>import the csv/xls/geojson and auto-geocoding via carto</li>
+  <li>correct column names to more intelligible terms</li>
+  <li>correct datatypes</li>
+  <li>do any preliminary sql or filtering that suits</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/correct.jpg" alt="correctDatatypes" /></p>
+
+<p>Here is what it might look like when you upload your data:</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/2-importdia.png" alt="Geocoding" /></p>
+
+<h2 id="data-representation-in-cartodb">Data representation in CartoDB</h2>
+<p>### (SQL schema)
+The most basic SQL statement is:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM table_name
+</code></p>
+
+<p>The * means everything. This means that all rows and columns from the table are given back once the query is run.</p>
+
+<p>A more detailed query is like this:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  name,
+  height,
+  age
+FROM
+  class_list
+WHERE
+  name = 'Aure'
+  AND (
+    height &gt; 1.2
+    OR
+    height &lt; 1.9
+  )
+</code></p>
+
+<ol>
+  <li><code class="highlighter-rouge">SELECT</code> is what you’re requesting (required)</li>
+  <li><code class="highlighter-rouge">FROM</code> is where the data is located (required)</li>
+  <li><code class="highlighter-rouge">WHERE</code> is the filter on the data you’re requesting (optional)</li>
+  <li><code class="highlighter-rouge">GROUP BY</code> and <code class="highlighter-rouge">ORDER BY</code> are optional additions, you can read more about aggregate/other functions below.</li>
+</ol>
+
+<h2 id="geocoding--sqlpostgis">Geocoding + SQL/PostGIS</h2>
+<p>There are two special columns in CartoDB:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">the_geom</code></li>
+  <li><code class="highlighter-rouge">the_geom_webmercator</code></li>
+</ol>
+
+<p>The first of these is in the units of standard latitude/longitude, while the second is a projection based on the <a href="http://en.wikipedia.org/wiki/Mercator_projection">original Mercator projection</a> but <a href="http://en.wikipedia.org/wiki/Web_Mercator">optimized for the web</a>.</p>
+
+<p>If you want to run SQL commands and see your map update, make sure to <code class="highlighter-rouge">SELECT</code> the <code class="highlighter-rouge">the_geom_webmercator</code> because this is the column that’s used for mapping–the other is more of a convenience column since most datasets use lat/long.</p>
+
+<p>This is a SQL statement and you can load it in your visualization tray as a way of querying and exploring your data with immediate visual output. In this case, we are calculating the resetting the projection for the Barcelona polygons such that it matches better with the basemaps; this uses a PostGIS function <code class="highlighter-rouge">ST_Transform</code> to update the table with the correct projection. You can find another example with bikelanes <a href="http://bl.ocks.org/auremoser/6e984c0ff866e04686c8">here</a>.</p>
+
+<p><code class="highlighter-rouge">sql
+UPDATE table_name SET the_geom = ST_Transform(ST_setsrid (the_geom, 4230), 4326)
+</code></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/offset.jpg" alt="offset" /></p>
+
+<p>This is a query that adds some more information to the table, calculating the relative space in each footprint per habitant, called <code class="highlighter-rouge">person_area.</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT *,
+	CASE WHEN
+   		habitants &gt; 0
+        THEN
+          ceil(ST_Area(the_geom::geography)/habitants)
+        ELSE
+          null
+        END
+          person_area
+FROM parcelas_islas_barcelona
+</code></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/person_area.jpg" alt="sql" /></p>
+
+<p>You can enter queries, apply them, click on “create table from query” in the green field below the column names.</p>
+
+<h2 id="customizing-ui">Customizing UI</h2>
+
+<p>You have myriad customization options in the in-browser editor.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">sql</code> - run sql and postgis functions across your data</li>
+  <li><code class="highlighter-rouge">wizard</code> - adjust the type, colors and fills in your map</li>
+  <li><code class="highlighter-rouge">infowindow</code> - create hovers, tooltips with information from your datatables</li>
+  <li><code class="highlighter-rouge">css</code> - customize the css and style of your map outside the wizard</li>
+  <li><code class="highlighter-rouge">legends</code> - create keys for your map</li>
+  <li><code class="highlighter-rouge">filters</code> - filter the data without sql</li>
+</ul>
+
+<h3 id="filters--sql">Filters &amp; SQL</h3>
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/t-filter.jpg" alt="filters" /></p>
+
+<p>Filters are a great way to explore your data. Besides filtering your data, they allow you to see histograms of the distributions, the number of unique entries, or a search box for columns that have a large number of text entries.</p>
+
+<h3 id="cartodb-wizard">CartoDB Wizard</h3>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b2-choroperson.jpg" alt="wizard" /></p>
+
+<p>The Wizard allows you to select your visualization “type” and customize color palettes, design details, and otherwise set the tone for your map. In the example above, I also included <code class="highlighter-rouge">estaciones</code> information, which you can find linked above to <a href="https://www.dropbox.com/s/ggzrbh135qk7b04/estaciones.geojson?dl=1">2012 Railway Station Data</a> should you like to also make a station map.</p>
+
+<p>Here is an example of how you might write a query to connect the docs plotted by those data:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT 0 as cartodb_id,
+        ST_MakeLine(the_geom_webmercator ORDER BY cartodb_id ASC) AS the_geom_webmercator FROM estaciones
+</code></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/st_makeline.jpg" alt="estaciones" /></p>
+
+<h2 id="types-of-visualizations">Types of visualizations</h2>
+<ul>
+  <li><strong>Simple</strong> – most basic visualization</li>
+  <li><strong>Cluster</strong> – counts number of points within a certain binned region</li>
+  <li><strong>Choropleth</strong> – makes a histogram of your data and gives bins different colors depending on the color ramp chosen</li>
+  <li><strong>Category</strong> – color data based on unique category (works best for a handful of unique types)</li>
+  <li><strong>Bubble</strong> – size markers based on column values</li>
+  <li><strong>Intensity</strong> – colors by density</li>
+  <li><strong>Density</strong> – data aggregated by number of points within a hexagon</li>
+  <li><strong>Torque</strong> – temporal visualization of data</li>
+  <li><strong>Heat</strong> – more fluid map of concentration; emphasis on far over near-view</li>
+</ul>
+
+<p>Check out <a href="http://docs.cartodb.com/cartodb-editor.html#wizards">visualization documentation</a> for more.</p>
+
+<h3 id="simple-map"><em>Simple</em> Map</h3>
+<p>The visualization style <em>simple</em> is the default visualization for all maps.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/simple.jpg" alt="Styling options" /></p>
+
+<p>Styles available in the wizard:</p>
+
+<ul>
+  <li><strong>Marker Fill:</strong> change the size, color, and opacity of all markers</li>
+  <li><strong>Marker Stroke:</strong> change the width, color, and opacity of every marker’s border</li>
+  <li><strong>Composite Operation:</strong> change the color of markers when they overlap</li>
+  <li><strong>Label Text:</strong> Text appearing by a marker (can be from columns)</li>
+</ul>
+
+<h4 id="infowindowshovers">Infowindows/hovers</h4>
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b2-tooltip.jpg" alt="Infowindow options" /></p>
+
+<ul>
+  <li>Select which column data appear in infowindow by toggling column on</li>
+  <li>Customize further by selecting HTML-view</li>
+</ul>
+
+<h4 id="change-basemap">Change basemap</h4>
+<p>Select basemaps from different providers, use custom color, NASA data, MapBox tiles, etc.</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/basemap_options.png" alt="Basemap options" /></p>
+
+<h3 id="choropleth">Choropleth</h3>
+<p>Choropleth maps show map elements colored according to where a value associated with the map element falls in a range. It’s like a histogram where each bin is colored differently according to a color scale you pick. Notice the CartoCSS screenshot above.</p>
+
+<p><strong><em>Quantification</em></strong> is an option to pay attention to since it controls how the data is binned into different colors.</p>
+
+<ul>
+  <li><strong><em>Equal interval</em></strong> gives bins of equal size across the range,  which means that outliers stand out.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b-eqint.jpg" alt="Equal-Interval" /></p>
+
+<ul>
+  <li><strong><em>Quantile</em></strong> bins so that each quantile has approximately the same number of values. This is the default and works for most “normal” data.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b-quant.jpg" alt="Quant" /></p>
+
+<ul>
+  <li><strong><em>Jenks</em></strong> aims to increase the standard deviation between each group of data while decreasing the standard deviation within each group. In other words, it increases the similarity within a given group in conjunction with the differences from each of the other groups. The Jenks method does this by shuffling data across each group until it detects an optimization.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b-jenks.jpg" alt="Jenks" /></p>
+
+<ul>
+  <li><strong><em>Heads/Tails</em></strong> breaks can be powerful for data with a long-tail distribution.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b-ht.jpg" alt="heads" /></p>
+
+<p>Play around with them and see what works best for your dataset.</p>
+
+<h3 id="cartocss-basics">CartoCSS basics</h3>
+<p><a href="https://github.com/mapbox/carto/blob/master/docs/latest.md">CartoCSS</a> is the styling language for our maps.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b2-css.jpg" alt="CartoCSS screenshot" /></p>
+
+<h3 id="legends">Legends</h3>
+<p>…can be easily customized!</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/b2-legend.jpg" alt="Legend" /></p>
+
+<p>You have the option of giving it a title, and changing the text for the colors. You can also change the colors manually, or, even better, change the color ramp back in the wizard.</p>
+
+<h3 id="navigation">Navigation</h3>
+<p>Click on the 90-degree arrow to get back to view your tables/visualizations</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/arrow.jpg" alt="Go back to tables" /></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/dataview.png" alt="Navigation for tables" /></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/mapview.png" alt="Navigation for maps" /></p>
+
+<h2 id="merging-tables">Merging Tables</h2>
+<p>Joining and merging tables to make one dataset is a common need. Say you have two datasets related to the same place/map and need to combine them so that they can share the same geometry.</p>
+
+<p>You can do this in SQL <a href="http://docs.cartodb.com/tutorials/merging_data.html">read more here</a>, but CartoDB also has an in-editor button for that.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/merge-btn.jpg" alt="mergeButton" /></p>
+
+<p>Here is a usecase relative to these datasets:</p>
+
+<ul>
+  <li>when you load the parselas data from the “Data Library” it has place placenames</li>
+  <li><a href="http://www.idescat.cat/emex/?id=080193&amp;lang=en">this data source</a> has placenames and population data</li>
+  <li>you can load them both into cartodb, and select the “merge tables” button</li>
+  <li>
+    <p>select <code class="highlighter-rouge">column</code> or <code class="highlighter-rouge">spatial</code> join</p>
+  </li>
+  <li>select the columns that you want to join on, in this case, both datasets share a “name” column</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/merge-col.jpg" alt="merge" /></p>
+
+<ul>
+  <li>
+    <p>toggle the columns you want to exist in your new “joined” dataset</p>
+  </li>
+  <li>
+    <p>create table and voilà</p>
+  </li>
+</ul>
+
+<h1 id="building-a-map">Building a Map</h1>
+
+<p>Once you load your data, you can play with the editor options to see what type of visualization you might light to make.</p>
+
+<p>I started with the SQL query to add a column for <code class="highlighter-rouge">person_area</code> as mentioned above</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/person_area.jpg" alt="person_area" /></p>
+
+<p>You can then select that column in the Wizard for a “choropleth” map, and choose your colors.</p>
+
+<hr />
+
+<h2 id="break">BREAK</h2>
+
+<p>Let’s copy the repository for the next half of the workshop, and learn more about Github!</p>
+
+<p><a href="https://github.com/">Github</a> is a social coding site, and we can use it to store our documentation. We will have a longer workshop tomorrow with Chema about how Github works.</p>
+
+<p>For now:</p>
+
+<ol>
+  <li>Create an account on Github: <a href="https://github.com/">https://github.com/</a></li>
+  <li>View this repository: <a href="https://github.com/auremoser/prado-2015">https://github.com/auremoser/prado-2015</a></li>
+  <li>Let’s clone that repository: git@github.com:auremoser/prado-2015.git</li>
+</ol>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/clone.jpg" alt="clone" /></p>
+
+<ul>
+  <li>Open Terminal</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/open-term.jpg" alt="term" /></p>
+
+<ul>
+  <li>type: <code class="highlighter-rouge">cd Desktop</code></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/cd-desk.jpg" alt="cd-desk" /></p>
+
+<ul>
+  <li>Go to Github.com</li>
+  <li>Select the URL of this repository: git@github.com:auremoser/prado-2015.git</li>
+  <li>type <code class="highlighter-rouge">git clone git@github.com:auremoser/prado-2015.git</code></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/clone-2.jpg" alt="clone-2" /></p>
+
+<ul>
+  <li>type <code class="highlighter-rouge">ls</code> to list the files in your desktop</li>
+  <li>type <code class="highlighter-rouge">cd prado-2015</code></li>
+  <li>then you are in your repository and you can manipulate the files, save them, and push them to the repository on github if you want.</li>
+</ul>
+
+<p>In this repository (prado-2015), there is a file called <code class="highlighter-rouge">notes</code>. “notes” has a template.md file for documentation.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/ls-notes.jpg" alt="ls-notes" /></p>
+
+<p>It looks like this:</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/temp.jpg" alt="template" /></p>
+
+<p>You can fill it out with your project details to start documenting your project for the workshop.</p>
+
+<ul>
+  <li>Notes in this template are written in Markdown, which is a special syntax for formating text, and images.</li>
+  <li>You can learn about it <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet">here</a></li>
+  <li>Here is another <a href="https://docs.google.com/document/d/1UGtR_6XWBn4_vo37Kn_hNXmzpwLaSJEZxc8rqFKhy-U/edit">example of project documentation</a>.</li>
+</ul>
+
+<p>Tomorrow we will revisit this, come to me with any questions :).</p>
+
+<p>Think about how you would like to document your project, and fill out the template <a href="https://github.com/auremoser/prado-2015/blob/master/notes/template.md">here</a>. You can edit the file directly in your cloned repository.</p>
+
+<p>There is also a <a href="https://github.com/auremoser/prado-2015/blob/master/notes/template-sample.md">template sample</a>, in case you have trouble documenting your project.</p>
+
+<h2 id="next-advanced-mapping">NEXT: Advanced Mapping</h2>
+
+<ul>
+  <li>TOMORROW: I will hold “mapping office hours”, come visit my table in the morning for help with your maps!</li>
+</ul>
+
+<hr />
+
+<h2 id="quick-map-with-createvis">Quick map with <code class="highlighter-rouge">CreateVis</code></h2>
+<p>#### Here’s a reference point for this section: <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-1-visjson">ckpt-1</a></p>
+
+<p>You will need:
++ dataset from above
++ visjson from your account, you can <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-1-visjson/vis.json">reference mine</a> to find yours too.
++ Basic Text Editor
++ Browser</p>
+
+<h4 id="running-locally">Running Locally</h4>
+<ul>
+  <li>You can open HTML files on your hard drive from a browser. Use CMD+O or CTRL+O like you’d do to open a file in any program.</li>
+  <li>You can also run a little server by navigating to the folder where you will store your files and running <code class="highlighter-rouge">http-server &amp;</code>; you have node installed with http-server setup on most macs! if not, no stress, just follow along.</li>
+</ul>
+
+<h3 id="visjson">VisJson</h3>
+
+<p><img src="http://i.imgur.com/gVxeNMg.png" alt="Share-vizualization" /></p>
+
+<p>The viz.json file is the main source of data for CartoDB JavaScript functions (createVis and createLayer) for creating visualizations in the browser.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/vj.jpg" alt="visjson" /></p>
+
+<ul>
+  <li>Structure of file: JSON</li>
+  <li>Defines how to access data: listing servers, subdomains, etc.</li>
+  <li>Most important for developers is the <code class="highlighter-rouge">layers</code> array because it explicitly shows the structure of how visualizations are put together
+    <ul>
+      <li>Defines base maps, if applicable, as <code class="highlighter-rouge">layers[0]</code></li>
+      <li>CartoDB data layer is <code class="highlighter-rouge">layers[1]</code>, may consist of multiple sublayers
+        <ul>
+          <li>Defines infowindows, which we’ll cover in this workshop</li>
+          <li>Defines data accessed by using a SQL statement</li>
+          <li>Defines styling for tile layers, if applicable</li>
+          <li>Defines interactivity (what data shows up on layer events)</li>
+          <li><code class="highlighter-rouge">layer_name</code> is the also the name of table where data comes from in the account with key <code class="highlighter-rouge">user_name</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>You can view it by opening a text editor and loading the file, or downloading a JSON viewer extension for inbrowser views (<a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en">Chrome</a> or <a href="https://addons.mozilla.org/en-us/firefox/addon/jsonview/">Firefox</a>).</p>
+
+<h3 id="creating-basic-visualization-in-javascript">Creating Basic Visualization in JavaScript</h3>
+
+<p>Copy &amp; paste template from <a href="https://gist.github.com/auremoser/a57654e18ce06ab396d6">here</a>.</p>
+
+<p>Overview of template:</p>
+
+<ol>
+  <li>Included JavaScript libraries and CSS file</li>
+  <li><code class="highlighter-rouge">map</code> element</li>
+  <li><code class="highlighter-rouge">&lt;script&gt;</code> tags</li>
+</ol>
+
+<p>Create basic visualization using <code class="highlighter-rouge">createVis</code> by copying and pasting the following either between script tags in your html or by making a file called <code class="highlighter-rouge">[?].js</code> (I used <code class="highlighter-rouge">main.js</code> in the template) and referencing it between your script tags:</p>
+
+<p>```js
+window.onload = function() {
+    var vizjson_url = ‘’; // &lt;– Paste viz.json URL between quotes</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cartodb.createVis(map_id, vizjson_url) // &lt;-- Change map_id to 'map'
+    .done(function(vis, layers) {
+        // do stuff
+        console.log("Map successfully created");
+    })
+    .error(function(err) {
+        // report error
+        console.log("An error occurred: " + err);
+    }); } ```
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">createVis</code> is excellent for creating maps quickly with very little code. There is a lot of customization with it as well. The documentation is <a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html#visualization">here</a>.</p>
+
+<p><strong>Edit the fields to match your map reload your browser window, your map should work.</strong></p>
+
+<h2 id="custom-map-with-createlayer">Custom map with <code class="highlighter-rouge">CreateLayer</code></h2>
+<p>#### Here’s a reference point for this section: <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-2-createVis">ckpt-2</a></p>
+
+<p><code class="highlighter-rouge">createLayer</code> is the other main method for bring maps to your browser.</p>
+
+<p>The following is the basic createLayer structure (depends on <a href="http://leafletjs.com/">Leaflet.js</a>):</p>
+
+<p>```js</p>
+
+<p>window.onload = function() {
+    var vizjson_url = ‘https://team.cartodb.com/u/aureliamoser/api/v2/viz/f2735936-f268-11e4-8858-0e853d047bba/viz.json’; // &lt;– Paste viz.json URL between quotes</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>   var options = {
+       sql: "SELECT *, CASE WHEN habitants &gt; 0 THEN ceil(ST_Area(the_geom::geography)/habitants) ELSE null END person_area FROM parcelas_islas_barcelona",
+       // cartocss: ""
+   }
+
+   var sublayers = [];
+
+   // instantiate map object from Leaflet
+   var mapObj = new L.Map(map, {
+       center: [41.3833, 2.1833], // Barcelona, Spain
+       zoom: 13 // zoom projection to adjust starting point zoom
+   });
+
+
+   // add basemap tiles
+   L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png', {
+       attribution: '&amp;copy; &lt;a href="http://www.openstreetmap.org/copyright"&gt;OpenStreetMap&lt;/a&gt; contributors'
+   }).addTo(mapObj);
+
+   // add data tile layers here (if you have multiple layers, you can manipulate them in js here)
+   cartodb.createLayer(mapObj,vizjson_url)
+       .addTo(mapObj)
+       .done(function(layer) {
+           console.log("Map successfully created.");
+           sublayers[0] = layer.getSubLayer(0);
+           sublayers[1] = layer.getSubLayer(1);
+           sublayers[2] = layer.getSubLayer(2);
+           sublayers[0].set(options); // altering the SQL and CartoCSS; see above
+           sublayers[1].hide(); // hiding the station line data
+           sublayers[2].hide(); // hiding the station point data
+       })
+       .error(function(err) {
+           console.log("Map not created: " + err);
+       });
+}
+</code></pre>
+</div>
+
+<p>```</p>
+
+<p>One big difference here is that we explicitly expose the SQL and CartoCSS, allowing for easy customization.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/3.jpg" alt="createLayer" /></p>
+
+<p><strong>Edit the fields to match your map reload your browser window, your map should work.</strong></p>
+
+<h2 id="add-sqlcss-templates">Add SQL/CSS Templates</h2>
+<p>#### Here’s a reference point for this section: <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-3-createLayer">ckpt-3</a></p>
+
+<p><strong>New goal:</strong> We’ll create an interactive map that allows us to toggle between the basic outline of parcelas and the view of person_area density (a choropleth) in those districts.</p>
+
+<p>To accomplish this, we’ll use the SQL we worked on before.</p>
+
+<p>You can do this a number of ways, we’ll be using SQL, you can read documentation on available function magic in the <a href="http://postgis.net/docs/">PostGIS docs</a> and otherwise just follow along.</p>
+
+<p>Going back to the <code class="highlighter-rouge">createLayer</code> example we just made:</p>
+
+<ul>
+  <li>Copy the following SQL into your index.html file below the <code class="highlighter-rouge">&lt;style&gt;</code> tags.</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+&lt;script type='sql/text' id='sql'&gt;
+      SELECT
+        *,
+        CASE WHEN
+          habitants &gt; 0
+        THEN
+          ceil(ST_Area(the_geom::geography)/habitants)
+        ELSE
+          null
+        END
+          person_area
+      FROM parcelas_islas_barcelona
+&lt;/script&gt;
+</code></p>
+
+<ul>
+  <li>Paste the following CartoCSS structure in the <code class="highlighter-rouge">&lt;head&gt;</code> section of your webpage.</li>
+  <li>This is a pre-configured Choropleth style. You could also create one on the fly by calculating the range in data and creating bins within that range.</li>
+</ul>
+
+<p>```css</p>
+<style type="cartocss/text" id="choropleth">
+    /** choropleth visualization */
+
+    #parcelas_islas_barcelona{
+      polygon-fill: #FFFFB2;
+      polygon-opacity: 0.8;
+      line-color: #FFF;
+      line-width: 0;
+      line-opacity: 1;
+    }
+    #parcelas_islas_barcelona [ person_area <= 145920] {
+       polygon-fill: #BD0026;
+    }
+    #parcelas_islas_barcelona [ person_area <= 3192] {
+       polygon-fill: #F03B20;
+    }
+    #parcelas_islas_barcelona [ person_area <= 1026] {
+       polygon-fill: #FD8D3C;
+    }
+    #parcelas_islas_barcelona [ person_area <= 461] {
+       polygon-fill: #FECC5C;
+    }
+    #parcelas_islas_barcelona [ person_area <= 191] {
+       polygon-fill: #FFFFB2;
+    }
+    #parcelas_islas_barcelona [ person_area = null] {
+       polygon-fill: #5CA2D1;
+    }
+</style>
+
+<p>```</p>
+
+<ul>
+  <li>Next replace the string for `sql in the options object with</li>
+</ul>
+
+<p><code class="highlighter-rouge">js
+$("#sql").text(),
+</code></p>
+
+<p>(don’t forget the comma!), and the string after <code class="highlighter-rouge">cartocss</code> with</p>
+
+<p><code class="highlighter-rouge">js
+$("#choropleth").text()
+</code></p>
+
+<p>These two pieces of code are just a jQuery operation that finds the HTML element that has an <code class="highlighter-rouge">id</code> of <code class="highlighter-rouge">sql</code> or <code class="highlighter-rouge">cartocss</code> and extracts the text contained within it.</p>
+
+<ul>
+  <li>add a sublayer reference to your data tile layer function at the end of your js:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sublayers[0].set(options); // altering the SQL and CartoCSS; see above</code></p>
+
+<p>Check <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-4-sqlcss">the checkpoint code</a> here if you’re stuck. You can also run the SQL in the tray (not in the your local files) and the the map will populate. The advantage to adding it as a template, is that you can swap it for other SQL or run different queries with different template references locally, and you are not limited to one query option.</p>
+
+<p><strong>Reload your browser window, your map should work!</strong></p>
+
+<h2 id="add-interactivity---buttons">Add Interactivity - Buttons</h2>
+<p>#### Here’s a reference point for this section: <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-4-sqlcss">ckpt-4</a></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/5.jpg" alt="createButtons" /></p>
+
+<p>To add more interactivity, we’ll create two buttons to toggle between the <code class="highlighter-rouge">Simple</code> map view and the view that gives a choropleth map. We can easily do this in CartoDB by using the <code class="highlighter-rouge">sublayer.setSQL()</code> and <code class="highlighter-rouge">sublayer.setCartoCSS()</code> methods to change the data.</p>
+
+<p>First, create another <code class="highlighter-rouge">&lt;style type="cartocss/text" id="simple"&gt;</code> tag set with the following CartoCSS style. Make sure the <code class="highlighter-rouge">id</code> is set to <code class="highlighter-rouge">simple</code>.</p>
+
+<p><code class="highlighter-rouge">css
+      /** simple visualization */
+      #parcelas_islas_barcelona{
+        polygon-fill: #5CA2D1;
+        polygon-opacity: 0.7;
+        line-color: #FFF;
+        line-width: 0.25;
+        line-opacity: 1;
+      }
+</code></p>
+
+<ul>
+  <li>Next, let’s create some buttons. Put the following snippet below the <code class="highlighter-rouge">div</code> with an <code class="highlighter-rouge">id='map'</code>.</li>
+</ul>
+
+<p>```html</p>
+<div id="cartocss" class="layer_selector">
+        <p>Layers</p>
+        <ul>
+            <li data="choropleth">Habitant Choropleth</li>
+            <li data="simple">Building Map (no habitants)</li>
+        </ul>
+    </div>
+<p>```</p>
+
+<ul>
+  <li>Wire up the buttons with click events:</li>
+</ul>
+
+<p>```js
+function createSelector(layer) {
+      var cartocss = “”;
+      var $options = $(“.layer_selector”).find(“li”);
+      $options.click(function(e) {
+          var $li = $(e.target);
+          var selected = $li.attr(‘data’);</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>      $options.removeClass('selected');
+      $li.addClass('selected');
+
+      cartocss = $('#'+selected).text();
+
+      layer[0].setCartoCSS(cartocss);
+  });    } ```
+</code></pre>
+</div>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/5.jpg" alt="sqlcss" /></p>
+
+<p>Examples:</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/quakes.png" alt="quake-sample" /></p>
+
+<ul>
+  <li><a href="http://jsfiddle.net/gh/get/library/pure/CartoDB/academy/tree/master/t/03-cartodbjs-ground-up/lesson-3/jsfiddle_demo_cartocss">JSFiddle with Selectors</a></li>
+  <li><a href="http://docs.cartodb.com/tutorials/custom_interactivity.html">Interactivity tutorial</a></li>
+  <li><a href="http://byndhack.herokuapp.com/">Advanced example</a></li>
+</ul>
+
+<h2 id="infowindows--more">Infowindows + More</h2>
+<p>#### Here’s a reference point for this section <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-5-buttons">ckpt-5</a></p>
+
+<h3 id="adding-infowindows-in-editor">Adding infowindows in Editor</h3>
+<p>You can enable hover infowindows in your editor, that will port to your map and give you some choropleth context.</p>
+
+<ul>
+  <li>customization in html/css</li>
+  <li>all data in your table is available to you to populate the tooltips</li>
+</ul>
+
+<h3 id="adding-infowindows-in-js">Adding infowindows in JS</h3>
+<ul>
+  <li>HTML templates
+    <ul>
+      <li>Handlebar notation</li>
+      <li>Customizing display of information</li>
+      <li>Pulling in images</li>
+    </ul>
+  </li>
+</ul>
+
+<p>```html
+<script type="infowindow/html" id="infowindow_template"></script></p>
+<div class="cartodb-tooltip-content-wrapper">
+  <div class="cartodb-tooltip-content">
+    <h4>Person Area:</h4>
+    <p></p>
+    <h4>% Area:</h4>
+    <p></p>
+  </div>
+</div>
+<p>&lt;/script&gt;
+```</p>
+
+<p>Then add this to the <code class="highlighter-rouge">options</code>:</p>
+
+<p><code class="highlighter-rouge">js
+interactivity: 'cartodb_id, name, person_area'
+</code></p>
+
+<p>After <code class="highlighter-rouge">sublayers[0].set(...)</code>, add this:</p>
+
+<p><code class="highlighter-rouge">javascript
+sublayers[0].infowindow.set('template', $('#infowindow_template').html());
+</code></p>
+
+<ul>
+  <li>Click events
+    <ul>
+      <li>On hover</li>
+      <li>On click</li>
+    </ul>
+  </li>
+</ul>
+
+<p>You can build on this, or checkout the demo block here to view the result of your work with some limited interactivity!</p>
+
+<h3 id="final-project-here-bcn-person-maphttpblocksorgauremoser7990e895458123a20f68">Final project here: <a href="http://bl.ocks.org/auremoser/7990e895458123a20f68">BCN Person Map</a></h3>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/finished.jpg" alt="info" /></p>
+
+<h1 id="building-narrative">Building Narrative</h1>
+<p>Outside of the CartoJS library, we have others to help you build dynamic narrative with your data.</p>
+
+<h2 id="timeseries-data--storytelling">TimeSeries Data + Storytelling</h2>
+
+<p><strong>Maps that tell Time</strong> - <strong><a href="http://docs.cartodb.com/tutorials/introduction_torque.html">Torque</a></strong></p>
+
+<iframe src="https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map" width="100%" height="500px"></iframe>
+
+<ol>
+  <li><a href="http://blog.cartodb.com/mapping-the-world-ongoing-demonstrations-in-brazil/">Demonstrations in Brazil</a></li>
+  <li>Tweets that mention <a href="http://cartodb.s3.amazonaws.com/static_vizz/sunrise.html">sunrise map</a></li>
+  <li><a href="http://robbykraft.github.io/AnimalTrack/">Animal migration patterns</a></li>
+  <li><a href="https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map">Beyonce Album Release</a></li>
+  <li><a href="http://bl.ocks.org/anonymous/raw/b9b7c7d6de1c6398e435/">Diwali Celebrated</a></li>
+  <li><a href="http://bl.ocks.org/anonymous/raw/2f1e9a5a74ceeb88e977/">Ramadan Tweets w/OdysseyJS</a></li>
+  <li><a href="http://www.washingtonpost.com/news/morning-mix/wp/2014/12/15/the-alcatraz-escapees-could-have-survived-and-this-interactive-model-proves-it/?tid=hp_mm&amp;hpid=z3">Alcatraz Escapees</a></li>
+  <li><a href="http://yale.cartodb.com/u/mdweaver/viz/ffd06ece-8545-11e4-a898-0e018d66dc29/embed_map">Lynching and the Press</a></li>
+</ol>
+
+<p><img src="http://i.imgur.com/d3GSSYQ.gif" alt="Twitter Import" /></p>
+
+<p><strong>Maps that tell Stories</strong> - <strong><a href="http://cartodb.github.io/odyssey.js/index.html">Odyssey JS</a></strong></p>
+
+<ol>
+  <li><a href="http://alasdair.cartodb.com/viz/1332c872-a887-11e4-8c45-0e9d821ea90d/embed_map?zoom=14&amp;center_lat=55.948595&amp;center_lon=-3.199913">Tour of Scotland</a></li>
+  <li><a href="http://stream.aljazeera.com/projects/socialmediaconversation/"><em>Al Jazeera</em>: Israeli-Palestinian Conflict by Tweets</a></li>
+  <li><a href="http://www.cadenaser.com/sonidos-11m/">The Sounds of 11M</a></li>
+  <li><a href="http://bl.ocks.org/namessanti/raw/d5cf706f68b7c6dce9a3/#3">Berlin Wall Historic Tour</a></li>
+  <li><a href="http://cartodb.com/v/maya-angelou#6">Maya Angelou Quotes</a></li>
+</ol>
+
+<h2 id="cartodb-data-in-charts">CartoDB Data in Charts</h2>
+<p>#### Here’s a reference point for this section <a href="https://github.com/auremoser/prado-2015/tree/master/ckpt-6-chart">ckpt-6</a></p>
+
+<p>You can use CartoDB’s SQL API to query your data and pull it into any charting library of your choosing.</p>
+
+<p>You can easily wire up a chart of census track water density, <a href="http://bl.ocks.org/auremoser/079b89bf52d8d66ab0aa">check the code here</a>.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/chart.jpg" alt="footprint-chart" /></p>
+
+<p>Learn more about it <a href="http://docs.cartodb.com/tips-and-tricks.html#charts--graphs">here</a>!</p>
+
+<p>Here are some examples:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Title</th>
+      <th>Link/Demo</th>
+      <th>BlogPost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="http://www.chartjs.org/">Chart.js</a> Bar Graph</td>
+      <td>Traffic Data</td>
+      <td><a href="http://bl.ocks.org/auremoser/af95a29cd76267d3925e">Aurelia’s Block</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="http://www.highcharts.com/">Highcharts</a></td>
+      <td>Sensor Data</td>
+      <td><a href="https://github.com/auremoser/VitalSigns-water/">Github</a> / <a href="http://auremoser.github.io/VitalSigns-water/">Demo</a></td>
+      <td><a href="http://blog.cartodb.com/map-of-the-week-pulse-plotting/">MOW Post</a></td>
+    </tr>
+    <tr>
+      <td><a href="http://www.highcharts.com/">Highcharts</a></td>
+      <td>Weather Data</td>
+      <td><a href="http://bl.ocks.org/auremoser/96b70f6dbcc724ecc973">Aurelia’s Block</a></td>
+      <td><a href="https://stackedit.io/viewer#!provider=gist&amp;gistId=e2d4f0f0b71f258f3ac9&amp;filename=beirut.md">Tutorial</a></td>
+    </tr>
+    <tr>
+      <td><a href="http://www.chartjs.org/">Chart.js</a> Line Graph</td>
+      <td>Tornado Data</td>
+      <td><a href="http://bl.ocks.org/andrewxhill/9134155">Andrew’s Block</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://plot.ly/">Plot.ly</a></td>
+      <td>Earthquake Data</td>
+      <td><a href="https://plot.ly/ipython-notebooks/cartodb/">Plotly Tutorial</a></td>
+      <td><a href="http://blog.cartodb.com/plotly/">CartoDB Blog</a></td>
+    </tr>
+    <tr>
+      <td><a href="http://www.chartjs.org/">Chart.js</a> Bar Graph</td>
+      <td>Building Footprint Data</td>
+      <td><a href="http://bl.ocks.org/auremoser/079b89bf52d8d66ab0aa">Aurelia’s Block</a></td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="more">More</h3>
+<ul>
+  <li><code class="highlighter-rouge">sql.execute(SQL command)</code> to extract data from your account, place into charts, infowindows, etc.
+    <ul>
+      <li>Using <a href="http://bl.ocks.org/andrewxhill/9134155">Chart.js</a></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">sql.getBounds(SQL command)</code> to find the bounding box of data returned by SQL command
+    <ul>
+      <li><a href="http://robbykraft.github.io/AnimalTrack/">Porpoise Map</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="resources">Resources</h1>
+<p>## CartoDB
+1. <a href="http://academy.cartodb.com">Map Academy</a>
+    + <a href="http://academy.cartodb.com/courses/03-cartodbjs-ground-up/lesson-3.html">CartoDB.js</a> – build a web app to visualize your data, allowing for user interaction
+	+ <a href="http://academy.cartodb.com/courses/04-sql-postgis.html">SQL and PostGIS</a>
+2. <a href="http://docs.cartodb.com/tutorials.html">CartoDB Tutorials</a>
+3. <a href="http://docs.cartodb.com/cartodb-editor.html">CartoDB Editor Documentation</a>
+4. <a href="http://docs.cartodb.com/cartodb-platform.html">CartoDB APIs</a>
+5. <a href="http://gis.stackexchange.com/questions/tagged/cartodb">Community help on StackExchange</a>
+6. <a href="http://cartodb.com/gallery/">CartoDB Map Gallery</a>
+7. <a href="https://github.com/chriswhong/cartodb-github-template">CartoDB Bootstrap Template by Chris Wong</a></p>
+
+<h2 id="data">Data</h2>
+<ol>
+  <li><a href="https://github.com/planetopendata/awesome-world">World GeoSpatial Datasets</a>: countries, cities, codes, flags, languages, latitude/longitude, etc.</li>
+  <li><a href="http://centrodedescargas.cnig.es/CentroDescargas/index.jsp">Center for National Geographic Information</a></li>
+  <li><a href="http://www.idee.es/csw-inspire-idee/srv/eng/main.home">IDEE Metadata Catalog</a>: spatial data from multiple agencies</li>
+  <li><a href="http://datos.gob.es/?language=in">Datos Gob Es</a></li>
+  <li><a href="http://opendata.euskadi.eus/w79-resformx/es?r01kQry=tC:euskadi;tF:opendata;tT:ds_geograficos;m:documentLanguage.EQ.es;p:Inter">Open Data Euskadi</a>: basque country</li>
+  <li><a href="http://opendata.bcn.cat/opendata/en/catalog/">Open Data BCN</a> Barcelona city hall open data</li>
+  <li><a href="http://dadesobertes.gencat.cat/en">Open Data gencat</a>: Catalunya</li>
+  <li><a href="http://agricultura.gencat.cat/ca/serveis/cartografia-sig/aplicatius-tematics-geoinformacio/sigpac/informacio-general-sigpac/">SIGPAC data dictionary</a></li>
+  <li><a href="http://datahub.io/dataset/national-railway-stations">Spain National Railway Stations</a> (2012)</li>
+  <li><a href="http://geogig.org/">Geogig</a>: distributed geospatial data</li>
+  <li><a href="http://guides.library.upenn.edu/content.php?pid=324392&amp;sid=2655132">International GIS Data - Penn State</a></li>
+  <li><a href="http://gis.stackexchange.com/questions/65288/projection-of-shapefiles-for-spain-ine">Projections Shapefiles for Spain</a></li>
+</ol>
+
+<h2 id="visualization">Visualization</h2>
+<ol>
+  <li><a href="https://github.com/auremoser/chart-tools">Charting Tools Repository</a></li>
+  <li><a href="http://cartodb.github.io/training/">Workshops @ CartoDB</a></li>
+  <li><a href="http://selection.datavisualization.ch/">Recommended tools for Visualizations</a></li>
+  <li><a href="https://github.com/tmcw/perception">Perception Concerns</a></li>
+  <li><a href="http://emeeks.github.io/gestaltdataviz/section1.html">Gestalt Theory</a></li>
+  <li><a href="http://colorbrewer2.org/">Color Brewer</a> or <a href="http://geocolor.io/">Geocolor</a></li>
+  <li><a href="https://github.com/opensourcedesign">Open Source Design</a> a collection of repositories for free and open source projects!</li>
+</ol>
+
+<p>My contact: <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#097;&#117;&#114;&#101;&#108;&#105;&#097;&#064;&#099;&#097;&#114;&#116;&#111;&#100;&#098;&#046;&#099;&#111;&#109;">&#097;&#117;&#114;&#101;&#108;&#105;&#097;&#064;&#099;&#097;&#114;&#116;&#111;&#100;&#098;&#046;&#099;&#111;&#109;</a></p>
+
+<p>If you make a map you’re proud of or just want to say hello, connect with me <a href="https://twitter.com/auremoser">@auremoser</a></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/prado-2015/master/img/seal.png" alt="MD-Seal" /></p>

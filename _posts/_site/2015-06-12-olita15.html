@@ -1,0 +1,196 @@
+<p>**This workshop was ported from a session given by <a href="http://twitter.com/copystar">Mita Williams</a> at the OLITA 2015: Digital Odyssey conference in Toronto, Ontario on 6/12/15 **</p>
+
+<p>Find this document here:</p>
+
+<ul>
+  <li><a href="https://github.com/copystar/do15/edit/master/README.md">Github README</a></li>
+  <li><a href="https://github.com/copystar/do15/">Github Repo</a></li>
+</ul>
+
+<p>This workshop is not exclusive to CartoDB tools but is a lovely introction to the world of open and closed source web mapping!</p>
+
+<h1 id="olita-digital-odyssey-2015-consuming-and-transforming-open-data---a-hands-on-tutorial">OLITA Digital Odyssey 2015: Consuming and Transforming Open Data - a hands-on tutorial</h1>
+
+<h2 id="who-are-you">Who are you?</h2>
+<p>I’m Mita Williams. I’m the UX librarian from the University of Windsor.  I am copystar on twitter.</p>
+
+<h2 id="where-am-i">Where am I?</h2>
+<p>Good question. If I gave you directions here, I would tell you we are at 51 Dockside Dr, Toronto, ON M5A 1B6.</p>
+
+<p>But if I wanted to describe the location as a point on a map, I might describe the same location using latitude and longitude:  43° 38’ 39.2706”, -79° 21’ 55.4508”  You would read the above as “43 degrees, 38 minutes and 39.2706 seconds, negative 79 degrees, 21 minutes and 55.4508 seconds”.</p>
+
+<p>While it’s interesting that we describe a place using units of time (https://en.wikipedia.org/wiki/Longitude_(book)), its also confusing and somewhat unwieldy. So let’s describe the same place using longitude and longitude but using decimal degrees instead of minutes and seconds. There are a number of conversion tools available online to do this : 43.644242, -79.365403</p>
+
+<h2 id="what-if-i-wanted-to-tell-people-where-the-102-library-branches-the-tpl-are-in-the-city">What if I wanted to tell people where the 102 library branches the TPL are in the city?</h2>
+<p>You could make a map using Google Maps of all the TPL Library branches: http://www.torontopubliclibrary.ca/hours-locations/</p>
+
+<h2 id="how-could-i-make-this-map">How could I make this map?</h2>
+<p>First you will need the locations of all 102 branches of the Toronto Public Library. These are provided by the City of Toronto from their Open Data Catalogue at: http://www1.toronto.ca/wps/portal/contentonly?vgnextoid=a7ae0ea14b661310VgnVCM1000003dd60f89RCRD&amp;vgnextchannel=1a66e03bb8d1e310VgnVCM10000071d60f89RCRD</p>
+
+<p>These location files are in .kml which is a notation for XML that first made popular by Google Earth before becoming standardized. Google Mapping Products happily use kml files. Look at http://www.torontopubliclibrary.ca/data/library-data.kml to see how the locations are described:</p>
+
+<p>```xml</p>
+<placemark id="LIB02">
+<name>Agincourt</name>
+<description>
+Address: 155 Bonis Ave., Toronto, ON, M1T 3W6<br />Link: http://www.torontopubliclibrary.ca/detail.jsp?R=LIB02
+</description>
+<address>155 Bonis Ave., Toronto, ON, M1T 3W6</address>
+<phonenumber>416-396-8943</phonenumber>
+<point>
+<coordinates>-79.29342962962961,43.78516666666665</coordinates>
+</point>
+</placemark>
+<p>```</p>
+
+<p>Notice that the point coordinates are in the format <coordinates>longitude, latitude&lt;/latitude&gt;. Some geoformats are long, lat and others are long, lat. This makes everyone sad.</coordinates></p>
+
+<p>Also note that the data in the catalogue is out of date. The site provides the location of Library Branch Locations (http://www.torontopubliclibrary.ca/data/library-data.kml) and Future Library Branch Locations (http://www.torontopubliclibrary.ca/data/new-library-data.kml) but all the future branches have now opened.</p>
+
+<p>I have already combined these files together into a new file called:
+https://github.com/copystar/do15/blob/master/combined-library-data.kml</p>
+
+<p>It’s also available on drive at:
+https://drive.google.com/open?id=0B5RDRo0uB7m5SWFEbkVWSmdvdHc&amp;authuser=0</p>
+
+<h2 id="task-1-make-a-map-using-the-kml-file-provided">Task 1: Make a map using the kml file provided</h2>
+<p>If you get stuck, please put a post-it note on your laptop</p>
+
+<p><strong>Using Google Map</strong>
+- https://www.google.com/maps/d/
+- create account if you don’t already have a Gmail account
+- click on <em>Import Map</em> in top left hand menu (or <em>My Maps</em> -&gt; <em>Create map</em> in some Google Maps UIs)
+- upload combined-library.data.kml
+- explore changing the map features if you would like</p>
+
+<p><strong>Using CartoDB</strong>
+- https://cartodb.com/
+- create account if you don’t already have a CartoDB account
+- click on <em>Create Map</em>; select <em>Map View</em> at the top of the screen
+- click on the ‘+’ or <em>Add Layer</em> option at the top of the right side menu
+- upload combined-library.data.kml
+- explore changing the map features if you would like</p>
+
+<p><strong>Using Mapbox</strong>
+- https://mapbox.com/
+- create account if you don’t already have a Mapbox account
+- click on the <em>Data</em> tab at the top right hand corner of the screen; click on import
+- upload combined-library.data.kml
+- select map features if you would like then click on Import Features
+- explore changing the map features if you would like</p>
+
+<h2 id="bonus-challenge-using-leaflet-and-openstreetmap-tiles">Bonus challenge: Using Leaflet and Openstreetmap tiles</h2>
+<p>If you are comfortable with HTML and JavaScript, try making a map from scratch using Leaflet.js (http://leafletjs.com/) to attach a set of points to a map made of tiles provided by OpenStreetMap.</p>
+
+<p>You will first need to convert your kml file into GeoJSON. GeoJSON is a file format that is easily digestable by JavaScript. There are many tools that can do this but for this exercise try http://geojson.io/</p>
+
+<ul>
+  <li>go to http://geojson.io/</li>
+  <li>from the menu <em>Open</em> select <em>File</em> and upload our kml file: https://github.com/copystar/do15/blob/master/combined-library-data.kml</li>
+  <li>notice how GeoJSON looks like in the side-menu</li>
+</ul>
+
+<p><code class="highlighter-rouge">json
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -79.26925185185183,
+          43.708018518518514
+        ]
+      },
+      "properties": {
+        "name": "Albert Campbell",
+        "description": "Address: 496 Birchmount Road, Toronto, ON, M1K 1N8&lt;br/&gt;Link: http://www.torontopubliclibrary.ca/detail.jsp?R=LIB03"
+      }
+    },
+</code></p>
+
+<ul>
+  <li>after the map is drawn, from the menu <em>Save</em>, select *GeoJSON”</li>
+  <li>refer to “Adding GeoJSON to Leaflet with Link Relations” : http://lyzidiamond.com/posts/osgeo-august-meeting/ to find the HTML that use can use as a template that will import GeoJSON into a map created by Leaflet.js</li>
+  <li>use <em>http://{s}.tile.osm.org/{z}/{x}/{y}.png</em> for your map tiles</li>
+  <li>use tpl-branches.json for your geojson layer: https://github.com/copystar/do15/blob/master/tpl-branches.json</li>
+  <li>explore changing the map features if you would like using Leaflet.js http://leafletjs.com/</li>
+  <li>refer to tpl-branches-leaflet-osm.html in this repo if you get stuck</li>
+</ul>
+
+<h2 id="task-2--add-the-dimension-of-time">Task 2 : Add the dimension of time</h2>
+
+<p>While our map of the Toronto Public Library branches is informative, it can become complex and interesting if we add more the year of establishment to each branch. Doing so will allow the reader to learn the rate of the TPL growth and where this growth occurred. We do have a problem though. The Open Data Catalogue from the City of Toronto does not provide this information.</p>
+
+<p>A list of TPL Branches that does include year of opening can be found on Wikipedia: https://en.wikipedia.org/wiki/List_of_Toronto_Public_Library_branches  but this table does not provide the addresses nor the geolocations of each branch.</p>
+
+<h3 id="combine-the-kml-file-with-the-wikipedia-table-of-tpl-branch-opening-dates-using-google-fusion-tables">Combine the kml file with the Wikipedia table of TPL branch opening dates using Google Fusion Tables</h3>
+
+<p>Google Fusion Tables is a Google product that adds visualization to structured data. Alternatively, these data tables could be combined using command-line tools or using services such as CartoDB.</p>
+
+<h4 id="first-we-will-import-our-combined-librarydatakml-file">First we will import our combined-library.data.kml file</h4>
+
+<ul>
+  <li>https://sites.google.com/site/fusiontablestalks/home</li>
+  <li>click on <em>Create a fusion table</em> from https://support.google.com/fusiontables/answer/2571232</li>
+  <li>click on <em>Choose File</em> from the <em>Import New Table” pop-up screen; then click *next</em></li>
+  <li>import https://raw.githubusercontent.com/copystar/do15/master/combined-library-data.kml</li>
+  <li>it will ask you to confirm, <em>Column names are in row 1</em>, click <em>next</em>, change name if you’d like, then click <em>finish</em></li>
+  <li>notice that the <em>Map of Geometry</em> tab is a map of the 102 branches</li>
+</ul>
+
+<h4 id="then-we-are-going-to-add-the-wikipedia-table-to-our-kml-file">Then we are going to add the Wikipedia Table to our kml file</h4>
+
+<h3 id="you-can-try-to-import-the-wikipedia-table-into-google-fusion-tables">You can try to import the Wikipedia table into Google Fusion Tables…</h3>
+<ul>
+  <li>open the <em>File</em> menu and select <em>Find a table to merge with</em></li>
+  <li>a window with the heading, *Merge: Select a Table” should pop-up</li>
+  <li>from ‘Suggest tables matching on’ dropdown menu, select ‘name’</li>
+  <li>select the table <em>List of Toronto Public Library branches - Wikipedia</em> in the list and then <em>next</em></li>
+  <li>you will be asked to confirm the match; click <em>next</em></li>
+  <li>select all fields to be merged; click <em>next</em></li>
+  <li>you should have a new merged table of both data tables</li>
+  <li>go to the tab of the <em>Map of Geometry</em></li>
+  <li>from the File menu, select <em>Download</em> as kml</li>
+</ul>
+
+<h3 id="but-if-that-doesnt-work-import-the-wikipedia-table-this-way">… but if that doesn’t work, import the Wikipedia table this way…</h3>
+<ul>
+  <li>open the <em>File</em> menu and select <em>Merge…</em></li>
+  <li>download and import the Wikipedia table found here: https://drive.google.com/open?id=1aRIFZ0fMJptaZf-tvUsL4ZI7_KurknKneJfjyQzl&amp;authuser=0</li>
+  <li>you will be asked to confirm the match; click <em>next</em></li>
+  <li>select all fields to be merged; click <em>next</em></li>
+  <li>you should have a new merged table of both data tables</li>
+  <li>go to the tab of the <em>Map of Geometry</em></li>
+  <li>from the File menu, select <em>Download</em> as kml</li>
+</ul>
+
+<h3 id="and-if-all-else-fails">… and if all else fails…</h3>
+<ul>
+  <li>use this file : https://drive.google.com/open?id=17rQmkQzoz3bAVA33-4HEJRfdlMkR4h0hwS8CANQf&amp;authuser=0</li>
+  <li>go to the tab of the <em>Map of Geometry</em></li>
+  <li>from the File menu, select <em>Download</em> as kml</li>
+</ul>
+
+<h2 id="task-3--lets-make-a-time-map-again">Task 3 : Let’s make a time map (again!)</h2>
+
+<p>You should now have a downloaded kml file of the 102 branches that now includes the year of opening. If not, use this file https://github.com/copystar/do15/blob/master/Merge-of-TPL-Library-Branches-and-Wikipedia.kml</p>
+
+<p>We are now going to create an animation of this branch openings using Cartodb.com</p>
+
+<ul>
+  <li>https://cartodb.com/</li>
+  <li>create account if you don’t already have a CartoDB account</li>
+  <li>click on <em>Create Map</em>; after the information screen, select <em>Connect Dataset</em> from the <em>Dataset</em> page</li>
+  <li>select and upload upload Merge-of-TPL-Library-Branches-and-Wikipedia.kml</li>
+  <li>click on green <em>Connect dataset</em> button at the bottom of the screen</li>
+  <li>select <em>Data View</em> at the top of the screen</li>
+  <li>under the <em>Built</em> column, mouse over the word <em>string</em>; then pull down the menu to select <em>number</em>; confirm the action</li>
+  <li>select <em>Map View</em> at the top of the screen</li>
+  <li>from the right hand menu, click on the paintbrush icon (wizards)</li>
+  <li>from the list of visualizations, click on the right arrow until you see and select the option <em>Torque</em></li>
+  <li>from the next line, activate on the <em>Cumulative</em> switch</li>
+  <li>from the next line, select <em>built</em> from the drop down menu for the <em>Time Column</em></li>
+  <li>an animation should begin in the main map screen</li>
+  <li>explore changing the map features if you would like</li>
+</ul>
+
+<p>Here be dragons.</p>

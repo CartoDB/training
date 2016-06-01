@@ -1,0 +1,1011 @@
+<ul>
+  <li>Speaker: Ramiro Aznar · ramiroaznar@cartodb.com · <a href="http://twitter.com/ramiroaznar">@ramiroaznar</a></li>
+  <li>May 6th  2016</li>
+  <li><a href="http://jpd16.okfn.es/">JPD16</a>· IV Jornadas de Periodismo de Datos · Madrid</li>
+</ul>
+
+<h2 id="httpbitlyintro-cdb-jpd16httpbitlyintro-cdb-jpd16"><a href="http://bit.ly/intro-cdb-jpd16">http://bit.ly/intro-cdb-jpd16</a></h2>
+<p>Continue to Advanced CartoDB Workhop for Data Journalists: <a href="http://bit.ly/adv-cdb-jpd16">http://bit.ly/adv-cdb-jpd16</a></p>
+
+<h2 id="contents">Contents</h2>
+<ul>
+  <li><a href="#import">Importing datasets</a></li>
+  <li><a href="#dataset">Getting your data ready</a></li>
+  <li><a href="#map">Making a map</a></li>
+</ul>
+
+<hr />
+
+<h1 id="introduction-to-cartodb-workshop-for-data-journalists">Introduction to CartoDB Workshop for Data Journalists</h1>
+
+<h2 id="importing-datasets-a-nameimporta">1. Importing datasets <a name="import"></a></h2>
+
+<h3 id="supported-geospatial-data-files">1. 1. Supported Geospatial Data Files</h3>
+<p>CartoDB supports the following geospatial data formats to upload vector data:</p>
+
+<ul>
+  <li><strong><code class="highlighter-rouge">Shapefile</code></strong>: a shapefile has to be formed, at least, by a <code class="highlighter-rouge">.shp</code> file, a <code class="highlighter-rouge">.shx</code> file, a <code class="highlighter-rouge">.prj</code> file and a <code class="highlighter-rouge">.dbf</code> file. These files contain the geometry data, the indexes, the projection information and the attributes, respectively. Shapefiles must be imported as a single compressed file, in the <code class="highlighter-rouge">.zip</code> or <code class="highlighter-rouge">.gz</code> format. <em>Limitations</em>:
+    <ul>
+      <li>The column name cannot exceed 10 characters.</li>
+      <li>Date columns only support the date, not the time.</li>
+      <li>It is recommended to upload Shapefiles in the EPSG 4326 projection.</li>
+      <li>Ensure you save your Shapefile with encoding UTF-8, prior importing.
+<br /></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="highlighter-rouge">KML</code></strong>: the KML format is a XML based format which adds to it a geographical meaning by being able to define features such as points, polygons or lines in the EPSG 4326 projection.</p>
+  </li>
+  <li>
+    <p><strong><code class="highlighter-rouge">KMZ</code></strong>: a Keyhole Markup language Zipped (KMZ) file corresponds to a compressed file, including a KML file and zero, or more, supporting files (images, icons, overlays or other elements referenced in the KML file).</p>
+  </li>
+  <li>
+    <p><strong><code class="highlighter-rouge">GeoJSON</code></strong>: the GeoJSON format is an extension of the JavaScript Object Notation (JSON) that encodes geographical features and their metadata. More detailed information about GeoJSON format <a href="http://geojson.org/geojson-spec.html">here</a>.</p>
+  </li>
+  <li><strong><code class="highlighter-rouge">CSV</code></strong>: Comma-Separated Values (or TSV, Tab-Separated Values) files can be imported to CartoDB. <em>Limitations</em>:
+    <ul>
+      <li>The first line of the CSV file must contain the name of the columns (headers).</li>
+      <li>The rest of the lines of the CSV file must follow the schema defined by the header column, in terms of number of columns.</li>
+      <li>It is recommended that string values are double-quoted (<code class="highlighter-rouge">"example"</code>).</li>
+      <li>If the data itself contains quotes, the values must be double-quoted and the internal quotes must be escaped (<code class="highlighter-rouge">"Null Island", "{""type"": ""Point"", ""coordinates"": [0,0]}"</code>).</li>
+      <li>CSV lines must be terminated with CR/LF, or LF <a href="https://en.wikipedia.org/wiki/Newline">line terminators</a>. 
+<br /></li>
+    </ul>
+  </li>
+  <li><strong><code class="highlighter-rouge">Spreedsheets</code></strong>: spreadsheets such as Excel spreadsheets, OpenDocument spreadsheets or Google Drive spreadsheets are supported by CartoDB. <em>Limitations</em>:
+    <ul>
+      <li>The first row must contain the names for each column.</li>
+      <li>Merged cells are not supported.</li>
+      <li>Graphs, charts, or other kind of elements are not supported.
+<br /></li>
+    </ul>
+  </li>
+  <li>
+    <p><strong><code class="highlighter-rouge">GPX</code></strong>: the GPX (GPS Exchange Format) files are XML documents that contain waypoints, tracks and/or routes. When importing a GPX file, CartoDB will generate different datasets for points, tracks and waypoints. The resulting names of these datasets will be a combination of the GPX name and their type:<code class="highlighter-rouge"> _track_points</code>, <code class="highlighter-rouge">_tracks</code>, and <code class="highlighter-rouge">_waypoints</code>, respectively.</p>
+  </li>
+  <li><strong><code class="highlighter-rouge">OSM</code></strong>: CartoDB supports importing Open Street Map dumps (<code class="highlighter-rouge">.osm</code> files). These files are XML documents that have a <code class="highlighter-rouge">osm</code> parent element that can contain blocks of nodes, ways, or relations representing points, lines or polygons. CartoDB will automatically separate OSM dumps into different tables, depending on the geometry. Therefore, importing a single OSM file can lead to more than one resulting dataset.</li>
+</ul>
+
+<p>*Importing <strong>different geometry types</strong> in the same layer or in a FeatureCollection element (GeoJSON) is not supported. More detailed information <a href="http://docs.cartodb.com/cartodb-platform/import-api/geospatial-data-formats/#supported-geospatial-data-formats">here</a>.</p>
+
+<h3 id="common-importing-errors">1. 2. Common importing errors</h3>
+<ul>
+  <li><strong>Dataset too large</strong>:
+    <ul>
+      <li>File size limit: 150 Mb (free).</li>
+      <li>Import row limit: 500,000 rows (free).</li>
+      <li><em>Solution</em>: split your dataset into smaller ones, import them into CartoDB and merge them.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Malformed CSV</strong>:
+    <ul>
+      <li><em>Solution</em>: check termination lines, remove header…
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Encoding</strong>:
+    <ul>
+      <li><em>Solution</em>: <code class="highlighter-rouge">Save with Encoding</code> &gt; <code class="highlighter-rouge">UTF-8 with BOM</code> in <a href="https://www.sublimetext.com/">Sublime Text</a>.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Shapefile missing files</strong>:
+    <ul>
+      <li>Missing any of the following files within the compressed file will produce an importing error:
+        <ul>
+          <li><code class="highlighter-rouge">.shp</code>: contains the geometry. REQUIRED.</li>
+          <li><code class="highlighter-rouge">.shx</code>: contains the shape index. REQUIRED.</li>
+          <li><code class="highlighter-rouge">.prj</code>: contains the projection. REQUIRED.</li>
+          <li><code class="highlighter-rouge">.dbf</code>: contains the attributes. REQUIRED.</li>
+        </ul>
+      </li>
+      <li>Other auxiliary files such as <code class="highlighter-rouge">.sbn</code>, <code class="highlighter-rouge">.sbx</code> or <code class="highlighter-rouge">.shp.xml</code> are not REQUIRED.</li>
+      <li><em>Solution</em>: make sure to add all required files.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Duplicated id fields</strong>:
+    <ul>
+      <li><em>Solution</em>: check your dataset, remove or rename fields containing the <code class="highlighter-rouge">id</code> keyword.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>Format not supported</strong>:
+    <ul>
+      <li>URLs -that are not points to a file- are not supported by CartoDB.</li>
+      <li><em>Solution</em>: check for missing url parameters or download the file into your local machine, import it into CartoDB.
+<br /></li>
+    </ul>
+  </li>
+  <li><strong>MAYUS extensions not supported</strong>:
+    <ul>
+      <li><code class="highlighter-rouge">example.CSV</code> is not supported by CartoDB.</li>
+      <li><em>Solution</em>: rename the file.
+<br /></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Other importing errors and their codes can be found <a href="http://docs.cartodb.com/cartodb-platform/import-api/import-errors/">here</a>.</p>
+
+<hr />
+
+<h2 id="getting-your-data-ready-a-namedataseta">2. Getting your data ready <a name="dataset"></a></h2>
+
+<h3 id="geocoding">2. 1. Geocoding</h3>
+
+<p>If you have a column with longitude coordinates and another with latitude coordinates, CartoDB will automatically detect and covert values into <code class="highlighter-rouge">the_geom</code>. If this is not the case, CartoDB can help you by turning the named places into best guess of latitude-longitude coordinates:</p>
+
+<ul>
+  <li><strong>By Lon/Lat Columns</strong>.</li>
+  <li><strong>By City Names</strong>.</li>
+  <li><strong>By Admin. Regions</strong>.</li>
+  <li><strong>By Postal Codes</strong>.</li>
+  <li><strong>By IP Addresses</strong>.</li>
+  <li><strong>By Street Addresses</strong>.</li>
+</ul>
+
+<p>Know more about geocoding in CartoDB:</p>
+
+<ul>
+  <li>In <a href="http://docs.cartodb.com/tutorials/how_to_georeference/"><strong>this tutorial</strong></a>.</li>
+  <li>In <a href="https://cartodb.com/location-data-services/geocoding/"><strong>our Location Data Services website</strong></a>.</li>
+  <li>In our <a href="http://docs.cartodb.com/cartodb-platform/dataservices-api/geocoding-functions/"><strong>documentation</strong></a>.</li>
+</ul>
+
+<h3 id="datasets">2. 2. Datasets</h3>
+
+<ul>
+  <li><strong>Populated Places</strong> [<code class="highlighter-rouge">ne_10m_populated_places_simple</code>]: City and town points.</li>
+  <li><strong>European Countries</strong> [<code class="highlighter-rouge">ne_adm0_europe</code>]: European countries geometries (used in the next workshop).</li>
+  <li><strong>World Borders</strong> [<code class="highlighter-rouge">world_borders</code>]: World countries borders.</li>
+</ul>
+
+<h3 id="selecting">2. 3. Selecting</h3>
+
+<ul>
+  <li>Selecting <strong>all the columns</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  *
+FROM
+  ne_10m_populated_places_simple;
+</code></p>
+
+<ul>
+  <li>Selecting <strong>some columns</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  cartodb_id,
+  name as city,
+  adm1name as region,
+  adm0name as country,
+  pop_max,
+  pop_min
+FROM 
+  ne_10m_populated_places_simple
+</code></p>
+
+<ul>
+  <li>Selecting <strong>distinc values</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT DISTINCT
+  adm0name as country
+FROM 
+  ne_10m_populated_places_simple
+</code></p>
+
+<h3 id="filtering">2. 4. Filtering</h3>
+
+<p><img src="../img/160506-jpd16/filtering.png" alt="filtering" /></p>
+
+<ul>
+  <li>Filtering <strong>numeric fields</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  * 
+FROM 
+  ne_10m_populated_places_simple
+WHERE
+  pop_max &gt; 5000000;
+</code></p>
+
+<ul>
+  <li>Filtering <strong>character fields</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  *
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+</code></p>
+
+<ul>
+  <li>Filtering a <strong>range</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  *
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  name in ('Madrid', 'Barcelona')
+AND
+  adm0name ilike 'spain'
+</code></p>
+
+<ul>
+  <li><strong>Combining</strong> character and numeric filters:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  *
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  name in ('Madrid', 'Barcelona')
+AND
+  adm0name ilike 'spain'
+AND
+  pop_max &gt; 5000000
+</code></p>
+
+<h3 id="others">2. 5. Others:</h3>
+
+<ul>
+  <li>Selecting <strong>aggregated values</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  count(*) as total_rows
+FROM 
+  ne_10m_populated_places_simple
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  sum(pop_max) as total_pop_spain
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  avg(pop_max) as avg_pop_spain
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+</code></p>
+
+<ul>
+  <li><strong>Ordering results</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  cartodb_id,
+  name as city,
+  adm1name as region,
+  adm0name as country,
+  pop_max
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+ORDER BY
+  pop_max DESC
+</code></p>
+
+<ul>
+  <li><strong>Limiting results</strong>:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sql
+SELECT 
+  cartodb_id,
+  name as city,
+  adm1name as region,
+  adm0name as country,
+  pop_max
+FROM 
+  ne_10m_populated_places_simple
+WHERE 
+  adm0name ilike 'spain'
+ORDER BY
+  pop_max DESC LIMIT 10
+</code></p>
+
+<hr />
+
+<h2 id="making-a-map-a-namemapa">3. Making a map <a name="map"></a></h2>
+
+<h3 id="wizard">2. 1. Wizard</h3>
+
+<p><a href="http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset">Analyzing your dataset…</a> In some cases, when you connect a dataset and click on the MAP VIEW for the first time, the Analyzing dataset dialog appears. This analytical tool analyzes the data in each column, predicts how to visualize this data, and offers you snapshots of the visualized maps. You can select one of the possible map styles, or ignore the analyzing dataset suggestions.</p>
+
+<ul>
+  <li><strong>Simple Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/simple.png" alt="simple" /></p>
+
+<ul>
+  <li><strong>Cluster Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/cluster.png" alt="cluster" /></p>
+
+<ul>
+  <li><strong>Choropleth Map</strong>:</li>
+</ul>
+
+<p>Before making a choropleth map, we need to normalize our target column. So we are going to create two new columns with <code class="highlighter-rouge">numeric</code> as data type: <code class="highlighter-rouge">new_area</code> and <code class="highlighter-rouge">po_norm</code>. Finally, run the following SQL queries to update their values:</p>
+
+<p><code class="highlighter-rouge">sql
+UPDATE
+  world_borders
+SET
+  new_area = round(st_area(the_geom)::numeric, 6)
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+UPDATE
+  world_borders
+SET
+  pop_norm = pop2005 / new_area
+</code></p>
+
+<p><img src="../img/160506-jpd16/choropleth.png" alt="choropleth" /></p>
+
+<ul>
+  <li><strong>Category Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/category.png" alt="category" /></p>
+
+<ul>
+  <li><strong>Bubble Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/bubble.png" alt="bubble" /></p>
+
+<ul>
+  <li><strong>Torque Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/torque.png" alt="torque" /></p>
+
+<p>Link to the <a href="https://jpd16.cartodb.com/viz/d283554c-1367-11e6-85c3-0e31c9be1b51/embed_map">#jpd16 tweets map</a>.</p>
+
+<ul>
+  <li><strong>Heatmap Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/heatmap.png" alt="heatmap" /></p>
+
+<ul>
+  <li><strong>Torque Cat Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/torquecat.png" alt="torquecat" /></p>
+
+<ul>
+  <li><strong>Intensity Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/intensity.png" alt="intensity" /></p>
+
+<ul>
+  <li><strong>Density Map</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/density.png" alt="density" /></p>
+
+<p>Know more about chosing the right map to make <a href="http://academy.cartodb.com/courses/intermediate-design/which-kind-of-map-should-i-make/">here</a>.</p>
+
+<h3 id="styles">2. 2. Styles</h3>
+
+<ul>
+  <li><strong>Simple Map</strong>:</li>
+</ul>
+
+<p>```css
+/** simple visualization */</p>
+
+<h1 id="worldborders">world_borders{</h1>
+<p>polygon-fill: #FF6600;
+  polygon-opacity: 0.7;
+  line-color: #FFF;
+  line-width: 0.5;
+  line-opacity: 1;
+}
+```</p>
+
+<ul>
+  <li><strong>Cluster Map</strong>:</li>
+</ul>
+
+<p>```css
+/** cluster visualization */</p>
+
+<h1 id="populatedplaces">populated_places{</h1>
+<p>marker-width: 12;
+  marker-fill: #FD8D3C;
+  marker-line-width: 1.5;
+  marker-fill-opacity: 1;
+  marker-line-opacity: 1;
+  marker-line-color: #fff;
+  marker-allow-overlap: true;</p>
+
+<p>[src = ‘bucketC’] {
+    marker-line-width: 5;
+    marker-width: 24;
+  }</p>
+
+<p>[src = ‘bucketB’] {
+    marker-line-width: 5;
+    marker-width: 44;
+  }</p>
+
+<p>[src = ‘bucketA’] {
+    marker-line-width: 5;
+    marker-width: 64;
+  } 
+}</p>
+
+<h1 id="populatedplaceslabels-">populated_places::labels {</h1>
+<p>text-size: 0; 
+  text-fill: #fff; 
+  text-opacity: 0.8;
+  text-name: [points_count]; 
+  text-face-name: ‘DejaVu Sans Book’; 
+  text-halo-fill: #FFF; 
+  text-halo-radius: 0;</p>
+
+<p>[src = ‘bucketC’] {
+    text-size: 12;
+    text-halo-radius: 0.5;
+  }</p>
+
+<p>[src = ‘bucketB’] {
+    text-size: 17;
+    text-halo-radius: 0.5;
+  }</p>
+
+<p>[src = ‘bucketA’] {
+    text-size: 22;
+    text-halo-radius: 0.5;
+  }</p>
+
+<p>text-allow-overlap: true;</p>
+
+<p>[zoom&gt;11]{ text-size: 16; }
+  [points_count = 1]{ text-size: 0; }
+}
+```</p>
+
+<ul>
+  <li><strong>Choropleth Map</strong>:</li>
+</ul>
+
+<p>```css
+/** choropleth visualization */</p>
+
+<h1 id="worldborders-1">world_borders{</h1>
+<p>polygon-fill: #FFFFB2;
+  polygon-opacity: 0.8;
+  line-color: #FFF;
+  line-width: 0.5;
+  line-opacity: 1;
+}
+#world_borders [ pop_norm &lt;= 247992435.530086] {
+   polygon-fill: #B10026;
+}
+#world_borders [ pop_norm &lt;= 4086677.23673585] {
+   polygon-fill: #E31A1C;
+}
+#world_borders [ pop_norm &lt;= 1538732.3943662] {
+   polygon-fill: #FC4E2A;
+}
+#world_borders [ pop_norm &lt;= 923491.374542489] {
+   polygon-fill: #FD8D3C;
+}
+#world_borders [ pop_norm &lt;= 616975.331234902] {
+   polygon-fill: #FEB24C;
+}
+#world_borders [ pop_norm &lt;= 326396.192958792] {
+   polygon-fill: #FED976;
+}
+#world_borders [ pop_norm &lt;= 95044.5589361554] {
+   polygon-fill: #FFFFB2;
+}
+```</p>
+
+<ul>
+  <li><strong>Category Map</strong>:</li>
+</ul>
+
+<p>```css
+/** category visualization */</p>
+
+<h1 id="worldborders-">world_borders {</h1>
+<p>polygon-opacity: 0.7;
+   line-color: #FFF;
+   line-width: 0.5;
+   line-opacity: 1;
+}</p>
+
+<h1 id="worldbordersregion0-">world_borders[region=0] {</h1>
+<p>polygon-fill: #A6CEE3;
+}
+#world_borders[region=142] {
+   polygon-fill: #1F78B4;
+}
+#world_borders[region=150] {
+   polygon-fill: #B2DF8A;
+}
+#world_borders[region=19] {
+   polygon-fill: #33A02C;
+}
+#world_borders[region=2] {
+   polygon-fill: #FB9A99;
+}
+#world_borders[region=9] {
+   polygon-fill: #E31A1C;
+}
+```</p>
+
+<ul>
+  <li><strong>Bubble Map</strong>:</li>
+</ul>
+
+<p>```css
+/** bubble visualization */</p>
+
+<h1 id="populatedplaces-1">populated_places{</h1>
+<p>marker-fill-opacity: 0.9;
+  marker-line-color: #FFF;
+  marker-line-width: 1;
+  marker-line-opacity: 1;
+  marker-placement: point;
+  marker-multi-policy: largest;
+  marker-type: ellipse;
+  marker-fill: #FF5C00;
+  marker-allow-overlap: true;
+  marker-clip: false;
+}
+#populated_places [ pop_max &lt;= 35676000] {
+   marker-width: 25.0;
+}
+#populated_places [ pop_max &lt;= 674394] {
+   marker-width: 23.3;
+}
+#populated_places [ pop_max &lt;= 299987.5] {
+   marker-width: 21.7;
+}
+#populated_places [ pop_max &lt;= 175972.5] {
+   marker-width: 20.0;
+}
+#populated_places [ pop_max &lt;= 111015.5] {
+   marker-width: 18.3;
+}
+#populated_places [ pop_max &lt;= 72387.5] {
+   marker-width: 16.7;
+}
+#populated_places [ pop_max &lt;= 47570.5] {
+   marker-width: 15.0;
+}
+#populated_places [ pop_max &lt;= 29588] {
+   marker-width: 13.3;
+}
+#populated_places [ pop_max &lt;= 15534] {
+   marker-width: 11.7;
+}
+#populated_places [ pop_max &lt;= 5500] {
+   marker-width: 10.0;
+}
+```</p>
+
+<ul>
+  <li><strong>Torque Map</strong>:</li>
+</ul>
+
+<p>```css
+/** torque visualization */</p>
+
+<p>Map {
+-torque-frame-count:128;
+-torque-animation-duration:30;
+-torque-time-attribute:”postedtime”;
+-torque-aggregation-function:”count(cartodb_id)”;
+-torque-resolution:2;
+-torque-data-aggregation:linear;
+}</p>
+
+<h1 id="twitterjpd16">twitter_jpd16{</h1>
+<p>comp-op: lighter;
+  marker-fill-opacity: 0.9;
+  marker-line-color: #FFF;
+  marker-line-width: 0;
+  marker-line-opacity: 1;
+  marker-type: ellipse;
+  marker-width: 6;
+  marker-fill: #3E7BB6;
+}
+#twitter_jpd16[frame-offset=1] {
+ marker-width:8;
+ marker-fill-opacity:0.45; 
+}
+#twitter_jpd16[frame-offset=2] {
+ marker-width:10;
+ marker-fill-opacity:0.225; 
+}
+```</p>
+
+<ul>
+  <li><strong>Heatmap Map</strong>:</li>
+</ul>
+
+<p>```css
+/** torque_heat visualization */</p>
+
+<p>Map {
+-torque-frame-count:1;
+-torque-animation-duration:10;
+-torque-time-attribute:”cartodb_id”;
+-torque-aggregation-function:”count(cartodb_id)”;
+-torque-resolution:8;
+-torque-data-aggregation:linear;
+}</p>
+
+<h1 id="populatedplaces-2">populated_places{</h1>
+<p>image-filters: colorize-alpha(blue, cyan, lightgreen, yellow , orange, red);
+  marker-file: url(http://s3.amazonaws.com/com.cartodb.assets.static/alphamarker.png);
+  marker-fill-opacity: 0.4*[value];
+  marker-width: 35;
+}
+#populated_places[frame-offset=1] {
+ marker-width:37;
+ marker-fill-opacity:0.2; 
+}
+#populated_places[frame-offset=2] {
+ marker-width:39;
+ marker-fill-opacity:0.1; 
+}
+```</p>
+
+<ul>
+  <li><strong>Torque Cat Map</strong>:</li>
+</ul>
+
+<p>```css
+/** torque_cat visualization */</p>
+
+<p>Map {
+-torque-frame-count:256;
+-torque-animation-duration:30;
+-torque-time-attribute:”postedtime”;
+-torque-aggregation-function:”CDB_Math_Mode(torque_category)”;
+-torque-resolution:2;
+-torque-data-aggregation:linear;
+}</p>
+
+<h1 id="twitterjpd16-1">twitter_jpd16{</h1>
+<p>comp-op: source-over;
+  marker-fill-opacity: 0.9;
+  marker-line-color: #FFF;
+  marker-line-width: 0;
+  marker-line-opacity: 1;
+  marker-type: ellipse;
+  marker-width: 6;
+  marker-fill: #0F3B82;
+}
+#twitter_jpd16[frame-offset=1] {
+ marker-width:8;
+ marker-fill-opacity:0.45; 
+}
+#twitter_jpd16[frame-offset=2] {
+ marker-width:10;
+ marker-fill-opacity:0.225; 
+}
+#twitter_jpd16[value=1] {
+   marker-fill: #A6CEE3;
+}
+#twitter_jpd16[value=2] {
+   marker-fill: #1F78B4;
+}
+#twitter_jpd16[value=3] {
+   marker-fill: #B2DF8A;
+}
+#twitter_jpd16[value=4] {
+   marker-fill: #33A02C;
+}
+#twitter_jpd16[value=5] {
+   marker-fill: #FB9A99;
+}
+#twitter_jpd16[value=6] {
+   marker-fill: #E31A1C;
+}
+#twitter_jpd16[value=7] {
+   marker-fill: #FDBF6F;
+}
+```</p>
+
+<ul>
+  <li><strong>Intensity Map</strong>:</li>
+</ul>
+
+<p>```css
+/** intensity visualization */</p>
+
+<h1 id="populatedplaces-3">populated_places{</h1>
+<p>marker-fill: #FFCC00; 
+  marker-width: 10; 
+  marker-line-color: #FFF; 
+  marker-line-width: 1; 
+  marker-line-opacity: 1; 
+  marker-fill-opacity: 0.9; 
+  marker-comp-op: multiply; 
+  marker-type: ellipse; 
+  marker-placement: point; 
+  marker-allow-overlap: true; 
+  marker-clip: false; 
+  marker-multi-policy: largest; 
+}
+```</p>
+
+<ul>
+  <li><strong>Density Map</strong>:</li>
+</ul>
+
+<p>```css
+/** density visualization */</p>
+
+<h1 id="populatedplaces-4">populated_places{</h1>
+<p>polygon-fill: #BD0026;
+  polygon-opacity: 0.8;
+  line-color: #FFF;
+  line-width: 0.5;
+  line-opacity: 1;
+}
+#populated_places{
+  [points_density &lt;= 5.57148800914519e-10] { polygon-fill: #BD0026;  }
+  [points_density &lt;= 9.28581334857531e-11] { polygon-fill: #F03B20;  }
+  [points_density &lt;= 4.64290667428765e-11] { polygon-fill: #FD8D3C;  }
+  [points_density &lt;= 4.64290667428765e-11] { polygon-fill: #FECC5C;  }
+  [points_density &lt;= 4.64290667428765e-11] { polygon-fill: #FFFFB2;  }</p>
+
+<p>}
+```</p>
+
+<ul>
+  <li>BONUS <strong>Combining</strong> styles:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/combo.png" alt="combo" /></p>
+
+<p>```css
+/** category visualization */</p>
+
+<h1 id="populatedplaces-">populated_places {</h1>
+<p>marker-fill-opacity: 0.9;
+   marker-line-color: #FFF;
+   marker-line-width: 1;
+   marker-line-opacity: 1;
+   marker-placement: point;
+   marker-type: ellipse;
+   marker-width: 10;
+   marker-allow-overlap: true;
+}</p>
+
+<h1 id="populatedplacesadm0nameargentina-">populated_places[adm0name=”Argentina”] {</h1>
+<p>marker-fill: #A6CEE3;
+}
+#populated_places[adm0name=”Australia”] {
+   marker-fill: #1F78B4;
+}
+#populated_places[adm0name=”Brazil”] {
+   marker-fill: #B2DF8A;
+}
+#populated_places[adm0name=”Canada”] {
+   marker-fill: #33A02C;
+}
+#populated_places[adm0name=”China”] {
+   marker-fill: #FB9A99;
+}
+#populated_places[adm0name=”India”] {
+   marker-fill: #E31A1C;
+}
+#populated_places[adm0name=”Indonesia”] {
+   marker-fill: #FDBF6F;
+}
+#populated_places[adm0name=”Mexico”] {
+   marker-fill: #FF7F00;
+}
+#populated_places[adm0name=”Russia”] {
+   marker-fill: #CAB2D6;
+}
+#populated_places[adm0name=”United States of America”] {
+   marker-fill: #6A3D9A;
+}
+#populated_places {
+   marker-fill: #DDDDDD;
+}</p>
+
+<p>/** bubble visualization */</p>
+
+<h1 id="populatedplaces-5">populated_places{</h1>
+<p>marker-fill-opacity: 0.9;
+  marker-line-color: #FFF;
+  marker-line-width: 1;
+  marker-line-opacity: 1;
+  marker-placement: point;
+  marker-multi-policy: largest;
+  marker-type: ellipse;
+  marker-fill: #808080;
+  marker-allow-overlap: true;
+  marker-clip: false;
+}
+#populated_places [ pop_max &lt;= 35676000] {
+   marker-width: 25.0;
+}
+#populated_places [ pop_max &lt;= 674394] {
+   marker-width: 23.3;
+}
+#populated_places [ pop_max &lt;= 299987.5] {
+   marker-width: 21.7;
+}
+#populated_places [ pop_max &lt;= 175972.5] {
+   marker-width: 20.0;
+}
+#populated_places [ pop_max &lt;= 111015.5] {
+   marker-width: 18.3;
+}
+#populated_places [ pop_max &lt;= 72387.5] {
+   marker-width: 16.7;
+}
+#populated_places [ pop_max &lt;= 47570.5] {
+   marker-width: 15.0;
+}
+#populated_places [ pop_max &lt;= 29588] {
+   marker-width: 13.3;
+}
+#populated_places [ pop_max &lt;= 15534] {
+   marker-width: 11.7;
+}
+#populated_places [ pop_max &lt;= 5500] {
+   marker-width: 10.0;
+}
+```</p>
+
+<p>Know more about CartoCSS with our <a href="http://docs.cartodb.com/cartodb-editor/datasets/#analyzing-your-dataset">documentation</a>.</p>
+
+<h3 id="other-elements">2. 3. Other elements</h3>
+
+<ul>
+  <li><strong>Basemaps</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/basemap.png" alt="basemap" /></p>
+
+<ul>
+  <li><strong>Options</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/options.png" alt="options" /></p>
+
+<ul>
+  <li><strong>Legend</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/legend.png" alt="legend" /></p>
+
+<p>```html</p>
+<div class="cartodb-legend choropleth">	
+<div class="legend-title">Total Population</div>
+<ul>
+	<li class="min">
+		95044.56
+	</li>
+	<li class="max">
+		247992435.53
+	</li>
+	<li class="graph count_441">
+	<div class="colors">
+	<div class="quartile" style="background-color:#FFFFB2"></div>
+	<div class="quartile" style="background-color:#FED976"></div>
+	<div class="quartile" style="background-color:#FEB24C"></div>
+	<div class="quartile" style="background-color:#FD8D3C"></div>
+	<div class="quartile" style="background-color:#FC4E2A"></div>
+	<div class="quartile" style="background-color:#E31A1C"></div>
+	<div class="quartile" style="background-color:#B10026"></div>
+	</div>
+	</li>
+</ul>
+</div>
+<p>```</p>
+
+<ul>
+  <li><strong>Labels</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/labels.png" alt="intensity" /></p>
+
+<p><code class="highlighter-rouge">css
+#world_borders::labels {
+  text-name: [name];
+  text-face-name: 'DejaVu Sans Book';
+  text-size: 10;
+  text-label-position-tolerance: 10;
+  text-fill: #000;
+  text-halo-fill: #FFF;
+  text-halo-radius: 1;
+  text-dy: -10;
+  text-allow-overlap: true;
+  text-placement: point;
+  text-placement-type: simple;
+}
+</code></p>
+
+<ul>
+  <li><strong>Infowindows and tooltip</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/infowindows.png" alt="infowindows" /></p>
+
+<p>```html</p>
+<div class="cartodb-popup v2">
+  <a href="#close" class="cartodb-popup-close-button close">x</a>
+  <div class="cartodb-popup-content-wrapper">
+    <div class="cartodb-popup-content">
+      <h4>country</h4>
+      <p></p>
+      <h4>population</h4>
+      <p></p>
+      <h4>area</h4>
+      <p></p>
+    </div>
+  </div>
+  <div class="cartodb-popup-tip-container"></div>
+</div>
+<p>```</p>
+
+<ul>
+  <li><strong>Title, text and images</strong>:</li>
+</ul>
+
+<p><img src="../img/160506-jpd16/elements.png" alt="elements" /></p>
+
+<h3 id="share-your-map">2. 4. Share your map!</h3>
+
+<ul>
+  <li>
+    <p><strong>Get the link</strong>: <a href="https://jpd16.cartodb.com/viz/d11216d4-12dc-11e6-a307-0e787de82d45/public_map">https://jpd16.cartodb.com/viz/d11216d4-12dc-11e6-a307-0e787de82d45/public_map</a></p>
+  </li>
+  <li>
+    <p><strong>Embed it</strong>: &lt;iframe width="100%" height="520" frameborder="0" src="https://jpd16.cartodb.com/viz/d11216d4-12dc-11e6-a307-0e787de82d45/embed_map" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen&gt;&lt;/iframe&gt;</p>
+  </li>
+  <li>
+    <p><strong>CartoDB.js</strong>: https://jpd16.cartodb.com/api/v2/viz/d11216d4-12dc-11e6-a307-0e787de82d45/viz.json</p>
+  </li>
+</ul>
+
+<p><img src="../img/160506-jpd16/share.png" alt="share" /></p>

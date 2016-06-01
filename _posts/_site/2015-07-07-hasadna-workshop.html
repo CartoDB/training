@@ -1,0 +1,715 @@
+<h1 id="hasadna-pollution-mapping--cartodb">Hasadna: Pollution Mapping + CartoDB</h1>
+
+<p>Aurelia Moser, <a href="http://cartodb.com">CartoDB</a>
+Workshop - Hasadna, IL</p>
+
+<p><strong>July 6, 2015</strong></p>
+
+<p>Find this document here:</p>
+
+<ul>
+  <li>Stackedit: <a href="http://tinyurl.com/stack-IL">http://tinyurl.com/stack-IL</a></li>
+  <li>Gist: <a href="http://tinyurl.com/gist-IL">http://tinyurl.com/gist-IL</a></li>
+</ul>
+
+<p>Find the code checkpoints here:</p>
+
+<ul>
+  <li>Github: <a href="https://github.com/auremoser/hasadna">https://github.com/auremoser/hasadna</a></li>
+</ul>
+
+<h1 id="outline">Outline</h1>
+<ol>
+  <li>Visualizing Data</li>
+  <li>Introduction to CartoDB
+    <ul>
+      <li>Examples</li>
+      <li>Tour of the interface</li>
+      <li>APIs / JS Libs</li>
+    </ul>
+  </li>
+  <li>Mapping <strong>Basics</strong>
+    <ul>
+      <li>Setting up accounts!
+  	+ Data import</li>
+      <li>Datasets (<a href="https://github.com/auremoser/hasadna/tree/master/data">available here</a>)</li>
+    </ul>
+  </li>
+  <li>Mapping <strong>Data</strong>
+    <ul>
+      <li>Geocoding + SQL/PostGIS</li>
+      <li>Merging Tables</li>
+      <li>Customizing UI</li>
+    </ul>
+  </li>
+  <li>Building a Map
+    <ul>
+      <li>Basics of <code class="highlighter-rouge">VisJson</code> (<a href="https://github.com/auremoser/hasadna/tree/master/1-visjson">ckpt-1</a>)</li>
+      <li>Quick map with <code class="highlighter-rouge">CreateVis</code> (<a href="https://github.com/auremoser/hasadna/tree/master/2-createVis">ckpt-2</a>)</li>
+      <li>Custom map with <code class="highlighter-rouge">CreateLayer</code> <a href="https://github.com/auremoser/hasadna/tree/master/3-createLayer">(ckpt-3</a>)</li>
+      <li>Add SQL/CSS Templates (<a href="https://github.com/auremoser/hasadna/tree/master/4-sqlcss">ckpt-4</a>)</li>
+      <li>Add Buttons (<a href="https://github.com/auremoser/hasadna/tree/master/5-buttons">ckpt-5</a>)</li>
+      <li>Infowindows (<a href="https://github.com/auremoser/hasadna/tree/master/6-info">ckpt-6</a>)</li>
+      <li><strong>BONUS:</strong> Charts (<a href="https://github.com/auremoser/uofm-2015/tree/master/ckpt-7-chart">ckpt-7</a>)</li>
+    </ul>
+  </li>
+  <li>Building a Narrative
+    <ul>
+      <li>Case Study: <a href="http://bl.ocks.org/auremoser/2b7f220807ca12d0ac89">Air Pollution Map</a></li>
+      <li>Tell Time/Stories: Odyssey + Torque</li>
+      <li>Graphs + Charts (<a href="http://bl.ocks.org/auremoser/6c51769ef05b812690fc">Air Pollution Chart</a>)</li>
+    </ul>
+  </li>
+  <li>Wrap-Up and Resources</li>
+</ol>
+
+<h1 id="visualizing-data">Visualizing Data</h1>
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/1-vis-types.png" alt="Types of Visualizations" /></p>
+
+<p>Source: <a href="http://www.datavizcatalogue.com/">The Data Visualization Catalogue</a>.</p>
+
+<h3 id="some-samples">Some samples:</h3>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/rainbow.jpg" alt="Time Travel Map" /></p>
+
+<p>Source: <a href="http://mdweaver.github.io/times_year/">Time Travel Between Counties</a>, Carto.JS</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/chart.jpg" alt="County Chart" /></p>
+
+<p>Source: <a href="http://bl.ocks.org/auremoser/6236a61e5383ab0bc71d">Geogia County Car Crash Counts</a>, C3.JS</p>
+
+<h4 id="some-software">Some software:</h4>
+
+<ul>
+  <li><a href="cartodb.com"><strong>CartoDB</strong></a>: light open source library and graphical user interface application for hosting and visualizing geospatial data</li>
+  <li><a href="http://www.chartjs.org/"><strong>ChartJS</strong></a>: light library for creating charts and graphs</li>
+</ul>
+
+<h4 id="some-resources">Some resources:</h4>
+
+<ul>
+  <li><a href="https://github.com/auremoser/chart-tools">Charting Tools Repository</a></li>
+  <li><a href="http://cartodb.github.io/training/">Workshops @ CartoDB</a></li>
+  <li><a href="http://selection.datavisualization.ch/">Recommended tools for Visualizations</a></li>
+  <li><a href="https://github.com/tmcw/perception">Perception Concerns</a></li>
+  <li><a href="http://emeeks.github.io/gestaltdataviz/section1.html">Gestalt Theory</a></li>
+  <li><a href="http://colorbrewer2.org/">Color Brewer</a> or <a href="http://geocolor.io/">Geocolor</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/header.jpg" alt="Product" /></p>
+
+<h2 id="why-maps">Why Maps?</h2>
+<p><img src="https://raw.githubusercontent.com/auremoser/images/master/syria.jpg" alt="Michael's Syrian Refugee visualization" />
+<a href="http://projects.aljazeera.com/2013/syrias-refugees/">Map population by relative density</a></p>
+
+<ul>
+  <li>Maps give you more context than most visualizations.</li>
+  <li>They allow you to apply data to a recognizable topography.</li>
+</ul>
+
+<h1 id="intro-to-cartodb">Intro to CartoDB</h1>
+<p>## Examples
++ <a href="http://www.washingtonpost.com/news/morning-mix/wp/2014/12/15/the-alcatraz-escapees-could-have-survived-and-this-interactive-model-proves-it/">Alcatraz Escape Revisited</a>
++ <a href="http://graphics.latimes.com/2014-la-sheriff-primary-map/">LA Sheriff Election Results</a>
++ <a href="http://www.swgalaxymap.com/">Starwars Galaxy Map</a>
++ <a href="http://blog.cartodb.com/mapping-the-world-ongoing-demonstrations-in-brazil/">Demonstrations in Brazil</a>
++ <a href="http://www.globalforestwatch.org/map/3/15.00/27.00/ALL/grayscale/loss,forestgain?begin=2001-01-01&amp;end=2013-12-31&amp;threshold=30">Global Forest Watch</a>
++ <a href="http://www.urbanreviewer.org/#map=12/40.7400/-73.9998&amp;sidebar=plans">Urban Reviewer</a></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/urban.png" alt="urban-interface" /></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/urban_reviewer_code_example.png" alt="urban-reviewer" /></p>
+
+<h2 id="tour-of-the-interface">Tour of the interface</h2>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/int-data.jpg" alt="int-data" />
+<img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/int-upload.jpg" alt="int-upload" />
+<img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/int-viz.jpg" alt="int-vis" />
+<img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/int-share.jpg" alt="int-share" /></p>
+
+<h2 id="apis--js-libs">APIs / JS Libs</h2>
+<p>You can read more about the <a href="http://docs.cartodb.com/cartodb-platform.html">CartoDB APIs and JS Library here</a></p>
+
+<ul>
+  <li><a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html">CartoJS</a> - JS library for interacting with CartoDB</li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform/maps-api.html">Maps API</a> - generate public/private maps with data hosted on your CDB account</li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform/sql-api.html">SQL API</a> - run sql in your code to dynamically filter/request/query your mapped data stored in CartoDB via http calls</li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform/import-api.html">Import API</a> - push data to your CartoDB Account</li>
+</ul>
+
+<h2 id="datasets">Datasets</h2>
+<p>You can fork the dataset we’ll be working with, and the files for the workshop <a href="https://github.com/auremoser/hasadna/tree/master/data">here</a>. Clone the repo to download.</p>
+
+<ul>
+  <li>Municipality Data (for polygons)</li>
+  <li>Pollution Data (for counts and numerical values)</li>
+</ul>
+
+<p>We also have a “Data Library” full of datasets that you can mashup with your own data.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/2-commondata.png" alt="DataLibrary" /></p>
+
+<h1 id="mapping-data">Mapping Data</h1>
+<p>## Getting Geospatial Data</p>
+
+<p><strong>Geospatial data</strong> is info that ids a geolocation and its characteristic features/frontiers, typically represented by points, lines, polygons, and/or complex geographic features.</p>
+
+<h3 id="issues">Issues:</h3>
+<ul>
+  <li>Comes in multiple formats (<a href="http://docs.cartodb.com/cartodb-editor.html#supported-file-formats">supported formats for CartoDB</a>)</li>
+  <li>Sources uncertain</li>
+  <li>Contains errors</li>
+  <li>etc.</li>
+</ul>
+
+<p>I based most of this demo on my assumptions, because I wanted to make a fast map, because the data didn’t have headers, I guessed on which fields corresponded to the pollution counts for transport/electrical/industrial factors contributing to air quality.</p>
+
+<h2 id="geocoding--sqlpostgis">Geocoding + SQL/PostGIS</h2>
+<p>The most basic SQL statement is:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM table_name
+</code></p>
+
+<p>A more detailed query is like this:</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  name,
+  height,
+  age
+FROM
+  class_list
+WHERE
+  name = 'Aure'
+  AND (
+    height &gt; 1.2
+    OR
+    height &lt; 1.9
+  )
+</code></p>
+
+<ol>
+  <li><code class="highlighter-rouge">SELECT</code> is what you’re requesting (required)</li>
+  <li><code class="highlighter-rouge">FROM</code> is where the data is located (required)</li>
+  <li><code class="highlighter-rouge">WHERE</code> is the filter on the data you’re requesting (optional)</li>
+  <li><code class="highlighter-rouge">GROUP BY</code> and <code class="highlighter-rouge">ORDER BY</code> are optional additions, you can read more about aggregate/other functions below.</li>
+</ol>
+
+<p>There are two special columns in CartoDB:</p>
+
+<ol>
+  <li><code class="highlighter-rouge">the_geom</code></li>
+  <li><code class="highlighter-rouge">the_geom_webmercator</code></li>
+</ol>
+
+<p>The first of these is in the units of standard latitude/longitude, while the second is a projection based on the <a href="http://en.wikipedia.org/wiki/Mercator_projection">original Mercator projection</a> but <a href="http://en.wikipedia.org/wiki/Web_Mercator">optimized for the web</a>.</p>
+
+<p>If you want to run SQL commands and see your map update, make sure to <code class="highlighter-rouge">SELECT</code> the <code class="highlighter-rouge">the_geom_webmercator</code> because this is the column that’s used for mapping–the other is more of a convenience column since most datasets use lat/long.</p>
+
+<p>You can also do cool things like re-set the projection in SQL. Say you load in your data and want to make sure it’s in <a href="http://tx.technion.ac.il/~zvikabh/software/ITM/">ITM (Israeli Transverse Mercator)</a> or another ESPG, you can do that on the fly.</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT cartodb_id, ST_Transform(the_geom_webmercator,2039) AS the_geom_webmercator FROM aureliamoser.municipalities
+</code></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/is-proj.jpg" alt="ITM" /></p>
+
+<p>“municipalities” is my table name, “aureliamoser” is my username I reset the data to the correct projection and can generate a table with it.</p>
+
+<h2 id="customizing-ui">Customizing UI</h2>
+
+<p>You have myriad customization options in the in-browser editor.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">sql</code> - run sql and postgis functions across your data</li>
+  <li><code class="highlighter-rouge">wizard</code> - adjust the type, colors and fills in your map</li>
+  <li><code class="highlighter-rouge">infowindow</code> - create hovers, tooltips with information from your datatables</li>
+  <li><code class="highlighter-rouge">css</code> - customize the css and style of your map outside the wizard</li>
+  <li><code class="highlighter-rouge">legends</code> - create keys for your map</li>
+  <li><code class="highlighter-rouge">filters</code> - filter the data without sql</li>
+</ul>
+
+<h3 id="filters--sql">Filters &amp; SQL</h3>
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/master/img/alaska/filters.png" alt="filters" /></p>
+
+<p>Filters are a great way to explore your data. Besides filtering your data, they allow you to see histograms of the distributions, the number of unique entries, or a search box for columns that have a large number of text entries.</p>
+
+<h3 id="cartodb-editor">CartoDB Editor</h3>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/wizard.jpg" alt="wizard" /></p>
+
+<p>The Editor allows you to select your visualization “type” and customize color palettes, design details, and otherwise set the tone for your map.</p>
+
+<h2 id="types-of-visualizations">Types of visualizations</h2>
+<ul>
+  <li><strong>Simple</strong> – most basic visualization</li>
+  <li><strong>Cluster</strong> – counts number of points within a certain binned region</li>
+  <li><strong>Choropleth</strong> – makes a histogram of your data and gives bins different colors depending on the color ramp chosen</li>
+  <li><strong>Category</strong> – color data based on unique category (works best for a handful of unique types)</li>
+  <li><strong>Bubble</strong> – size markers based on column values</li>
+  <li><strong>Intensity</strong> – colors by density</li>
+  <li><strong>Density</strong> – data aggregated by number of points within a hexagon</li>
+  <li><strong>Torque</strong> – temporal visualization of data</li>
+  <li><strong>Heat</strong> – more fluid map of concentration; ephasis on far over near-view</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/2-heatmap.png" alt="heat" /></p>
+
+<p>Check out <a href="http://docs.cartodb.com/cartodb-editor.html#wizards">visualization documentation</a> for more.</p>
+
+<h3 id="simple-map"><em>Simple</em> Map</h3>
+<p>The visualization style <em>simple</em> is the default visualization for all maps.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/2-simple.png" alt="Simple visualization" /></p>
+
+<p>Styles available in the wizard</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/2-simple-wizard.png" alt="Styling options" /></p>
+
+<ul>
+  <li><strong>Marker Fill:</strong> change the size, color, and opacity of all markers</li>
+  <li><strong>Marker Stroke:</strong> change the width, color, and opacity of every marker’s border</li>
+  <li><strong>Composite Operation:</strong> change the color of markers when they overlap</li>
+  <li><strong>Label Text:</strong> Text appearing by a marker (can be from columns)</li>
+</ul>
+
+<h4 id="infowindowshovers">Infowindows/hovers</h4>
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/infowindow.jpg" alt="Infowindow options" /></p>
+
+<ul>
+  <li>Select which column data appear in infowindow by toggling column on</li>
+  <li>Customize further by selecting HTML-view</li>
+</ul>
+
+<h4 id="change-basemap">Change basemap</h4>
+<p>Select basemaps from different providers, use custom color, NASA data, MapBox tiles, etc.</p>
+
+<p><img src="https://raw.githubusercontent.com/ohasselblad/workshops/gh-pages/img/alaska/basemap_options.png" alt="Basemap options" /></p>
+
+<h3 id="choropleth">Choropleth</h3>
+<p>Choropleth maps show map elements colored according to where a value associated with the map element falls in a range. It’s like a histogram where each bin is colored differently according to a color scale you pick.</p>
+
+<p><strong><em>Quantification</em></strong> is an option to pay attention to since it controls how the data is binned into different colors.</p>
+
+<ul>
+  <li><strong><em>Equal interval</em></strong> gives bins of equal size across the range,  which means that outliers stand out.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/eqinter.jpg" alt="Equal-Interval" /></p>
+
+<ul>
+  <li><strong><em>Quantile</em></strong> bins so that each quantile has approximately the same number of values. This is the default and works for most “normal” data.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/quant.jpg" alt="Quant" /></p>
+
+<ul>
+  <li><strong><em>Jenks</em></strong> aims to increase the standard deviation between each group of data while decreasing the standard deviation within each group. In other words, it increases the similarity within a given group in conjunction with the differences from each of the other groups. The Jenks method does this by shuffling data across each group until it detects an optimization.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/jenks.jpg" alt="Jenks" /></p>
+
+<ul>
+  <li><strong><em>Heads/Tails</em></strong> breaks can be powerful for data with a long-tail distribution.</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/ht.jpg" alt="heads" /></p>
+
+<p>Play around with them and see what works best for your dataset.</p>
+
+<h3 id="cartocss-basics">CartoCSS basics</h3>
+<p><a href="https://github.com/mapbox/carto/blob/master/docs/latest.md">CartoCSS</a> is the styling language for our maps.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/cartocss.jpg" alt="CartoCSS screenshot" /></p>
+
+<h3 id="legends">Legends</h3>
+<p>…can be easily customized!</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/legend.jpg" alt="Legend" /></p>
+
+<p>You have the option of giving it a title, and changing the text for the colors. You can also change the colors manually, or, even better, change the color ramp back in the wizard.</p>
+
+<h3 id="navigation">Navigation</h3>
+<p>Click on the 90-degree arrow to get back to view your tables/visualizations</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/nav.png" alt="Go back to tables" /></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/dataview.png" alt="Navigation for tables" /></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/uofm-2015/master/img/mapview.png" alt="Navigation for maps" /></p>
+
+<h2 id="merging-tables">Merging Tables</h2>
+<p>Joining and merging tables to make one dataset is a common need. Say you have two datasets related to the same place/map and need to combine them so that they can share the same geometry.</p>
+
+<p>You can do this in SQL <a href="http://docs.cartodb.com/tutorials/merging_data.html">read more here</a>, but CartoDB also has an in-editor button for that.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/5-mergeButton.png" alt="mergeButton" /></p>
+
+<p>Here is a usecase relative to these datasets:</p>
+
+<ul>
+  <li>when you open the pollution data it has municipality names but geometry</li>
+  <li>when you open the municipality data it has geometries and names but not pollution values</li>
+  <li>you can load them both into cartodb, and select the “merge tables” button to join them on their mutual <code class="highlighter-rouge">name</code> column into one unified table</li>
+  <li>select <code class="highlighter-rouge">column</code> or <code class="highlighter-rouge">spatial</code> join</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/merge-gui.jpg" alt="joins" /></p>
+
+<ul>
+  <li>select the columns that you want to join on, in this case, both datasets share a name</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/merge-temp.jpg" alt="merge" /></p>
+
+<ul>
+  <li>toggle the columns you want to exist in your new “joined” dataset</li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/merge-table.jpg" alt="mergGen" /></p>
+
+<h1 id="building-a-map">Building a Map</h1>
+
+<p>Using the data above, you can load in two tables, merge them in the same visualization with the “merge button” or with SQL, and visualize them on the map with the GUI, or pull them into your own applications with the libraries and APIs.</p>
+
+<p>Here’s a few steps you can follow, the code it in github (clone and follow along or do go through the steps in your own account).</p>
+
+<p>You will need:
++ datasets from above
++ visjson from your account, you can <a href="https://github.com/auremoser/hasadna/blob/master/1-visjson/vis.json">reference mine</a> to find yours too.
++ Basic Text Editor
++ Browser</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>+ Basics of `VisJson` ([ckpt-1](https://github.com/auremoser/hasadna/tree/master/1-visjson))
++ Quick map with `CreateVis` ([ckpt-2](https://github.com/auremoser/hasadna/tree/master/2-createVis))
++ Custom map with `CreateLayer` [(ckpt-3](https://github.com/auremoser/hasadna/tree/master/3-createLayer))
++ Add SQL/CSS Templates ([ckpt-4](https://github.com/auremoser/hasadna/tree/master/4-sqlcss))
++ Add Buttons ([ckpt-5](https://github.com/auremoser/hasadna/tree/master/5-buttons))
++ Infowindows ([ckpt-6](https://github.com/auremoser/hasadna/tree/master/6-info))
+  	+ **BONUS:** Charts ([ckpt-7](https://github.com/auremoser/uofm-2015/tree/master/ckpt-7-chart))
+</code></pre>
+</div>
+
+<h3 id="visjson">VisJson</h3>
+
+<p>The viz.json file is the main source of data for CartoDB JavaScript functions (createVis and createLayer) for creating visualizations in the browser.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/1-visjson.jpg" alt="visjson" /></p>
+
+<ul>
+  <li>Structure of file: JSON</li>
+  <li>Defines how to access data: listing servers, subdomains, etc.</li>
+  <li>Most important for developers is the <code class="highlighter-rouge">layers</code> array because it explicitly shows the structure of how visualizations are put together
+    <ul>
+      <li>Defines base maps, if applicable, as <code class="highlighter-rouge">layers[0]</code></li>
+      <li>CartoDB data layer is <code class="highlighter-rouge">layers[1]</code>, may consist of multiple sublayers
+        <ul>
+          <li>Defines infowindows, which we’ll cover in this workshop</li>
+          <li>Defines data accessed by using a SQL statement</li>
+          <li>Defines styling for tile layers, if applicable</li>
+          <li>Defines interactivity (what data shows up on layer events)</li>
+          <li><code class="highlighter-rouge">layer_name</code> is the also the name of table where data comes from in the account with key <code class="highlighter-rouge">user_name</code></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>You can view it by opening a text editor and loading the file, or downloading a JSON viewer extension for inbrowser views (<a href="https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en">Chrome</a> or <a href="https://addons.mozilla.org/en-us/firefox/addon/jsonview/">Firefox</a>).</p>
+
+<h3 id="createvis">CreateVis</h3>
+
+<p><code class="highlighter-rouge">createVis</code> is excellent for creating maps quickly with very little code. There is a lot of customization with it as well. The documentation is <a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html#visualization">here</a>.</p>
+
+<h4 id="heres-a-reference-point-for-this-section-ckpt-2httpsgithubcomauremoserhasadnatreemaster2-createvis">Here’s a reference point for this section <a href="https://github.com/auremoser/hasadna/tree/master/2-createVis">ckpt-2</a></h4>
+
+<h3 id="createlayer">CreateLayer</h3>
+
+<p><code class="highlighter-rouge">createLayer</code> is the other main method for bring maps to your browser. One big difference here is that we explicitly expose the SQL and CartoCSS, allowing for easy customization.</p>
+
+<p>The following is the basic createLayer structure (depends on <a href="http://leafletjs.com/">Leaflet.js</a>):</p>
+
+<p>```js</p>
+
+<p>window.onload = function() {
+    var vizjson_url = ‘https://team.cartodb.com/u/aureliamoser/api/v2/viz/f1af78c8-23c7-11e5-bff0-0e9d821ea90d/viz.json’; // &lt;– Paste viz.json URL between quotes</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>var options = {
+       sql: "SELECT * FROM pollutant_emissions_merge",
+       // cartocss: ""
+   }
+
+   var sublayers = [];
+
+   // instantiate map object from Leaflet
+   var mapObj = new L.Map(map, {  // &lt;-- Replace map_id with your #id for rendering
+       center: [31.5000, 34.9000], // Telaviv, IL
+       zoom: 8 // zoom projection to adjust starting point zoom
+   });
+
+
+   // add basemap tiles
+   L.tileLayer('http://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png', {
+       attribution: '&amp;copy; &lt;a href="http://www.openstreetmap.org/copyright"&gt;OpenStreetMap&lt;/a&gt; contributors'
+   }).addTo(mapObj);
+
+   // add data tile layers here (if you have multiple layers, you can manipulate them in js here)
+   cartodb.createLayer(mapObj,vizjson_url)
+       .addTo(mapObj)
+       .done(function(layer) {
+           console.log("Map successfully created.");
+           sublayers[0] = layer.getSubLayer(0);
+           sublayers[1] = layer.getSubLayer(1);
+           sublayers[1].set(options); // altering the SQL and CartoCSS; see above
+           sublayers[1].hide(); // hiding the municipality basic polygons
+       })
+       .error(function(err) {
+           console.log("Map not created: " + err);
+       });
+}
+</code></pre>
+</div>
+
+<p>```</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/3-createLayer.jpg" alt="CreateLayer" /></p>
+
+<h4 id="heres-a-reference-point-for-this-section-ckpt-3httpsgithubcomauremoserhasadnatreemaster3-createlayer">Here’s a reference point for this section <a href="https://github.com/auremoser/hasadna/tree/master/3-createLayer">ckpt-3</a></h4>
+
+<h3 id="add-sqlcss-templates">Add SQL/CSS Templates</h3>
+
+<p>You can create interactive maps that respond to javascript methods a number of ways, we’ll be using CSS templates, you can also make SQL templates, you can read documentation on available function magic in the <a href="http://postgis.net/docs/">PostGIS docs</a> and otherwise just follow along.</p>
+
+<ul>
+  <li>Paste the following CartoCSS structure in the <code class="highlighter-rouge">&lt;head&gt;</code> section of your webpage.</li>
+  <li>This is a pre-configured Choropleth style. You could also create one on the fly by calculating the range in data and creating bins within that range.</li>
+</ul>
+
+<p>```css
+<!-- CHOROPLETH CSS -->
+    <style type="cartocss/text" id="choropleth">
+      /** choropleth visualization */</style></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>  #pollutant_emissions_merge{
+    polygon-fill: #FFFFCC;
+    polygon-opacity: 0.8;
+    line-color: #FFFFFF;
+    line-width: 0;
+    line-opacity: 1;
+  }
+  #pollutant_emissions_merge [ industry &lt;= 6590.1] {
+     polygon-fill: #253494;
+  }
+  #pollutant_emissions_merge [ industry &lt;= 1041.9] {
+     polygon-fill: #2C7FB8;
+  }
+  #pollutant_emissions_merge [ industry &lt;= 130.1] {
+     polygon-fill: #41B6C4;
+  }
+  #pollutant_emissions_merge [ industry &lt;= 38.2] {
+     polygon-fill: #A1DAB4;
+  }
+  #pollutant_emissions_merge [ industry &lt;= 15.7] {
+     polygon-fill: #FFFFCC;
+  }
+&lt;/style&gt; ```
+</code></pre>
+</div>
+
+<p>These two pieces of code are just a jQuery operation that finds the HTML element that has an <code class="highlighter-rouge">id</code> of <code class="highlighter-rouge">sql</code> or <code class="highlighter-rouge">cartocss</code> and extracts the text contained within it.</p>
+
+<ul>
+  <li>add a sublayer reference to your data tile layer function at the end of your js, sublayer 1 is my second layer, zero indexed so I pass it in as “1”:</li>
+</ul>
+
+<p><code class="highlighter-rouge">sublayers[1].set(options); // altering the SQL and CartoCSS; see above</code></p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/4-sqlcss.jpg" alt="SQL" /></p>
+
+<h4 id="heres-a-reference-point-for-this-section-ckpt-4httpsgithubcomauremoserhasadnatreemaster4-sqlcss">Here’s a reference point for this section: <a href="https://github.com/auremoser/hasadna/tree/master/4-sqlcss">ckpt-4</a></h4>
+
+<h2 id="add-interactivity---buttons">Add Interactivity - Buttons</h2>
+
+<p>To add more interactivity, we’ll create two buttons to toggle between the <code class="highlighter-rouge">Choropleth</code> map view and the view that gives a choropleth map. We can easily do this in CartoDB by using the <code class="highlighter-rouge">sublayer.setSQL()</code> and <code class="highlighter-rouge">sublayer.setCartoCSS()</code> methods to change the data.</p>
+
+<p>First, create another <code class="highlighter-rouge">&lt;style type="cartocss/text" id="electric"&gt;</code> tag set with the following CartoCSS style. Make sure the <code class="highlighter-rouge">id</code> is set to <code class="highlighter-rouge">simple</code>.</p>
+
+<ul>
+  <li>Next, let’s create some buttons. Put the following snippet below the <code class="highlighter-rouge">div</code> with an <code class="highlighter-rouge">id='map'</code>.</li>
+</ul>
+
+<p><code class="highlighter-rouge">html
+&lt;!-- ADD BUTTONS --&gt;
+    &lt;div id="cartocss" class="layer_selector"&gt;
+        &lt;p&gt;&lt;strong&gt;Layers&lt;/strong&gt;&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li data="industry"&gt;Industrial Pollution&lt;/li&gt;
+            &lt;li data="electric"&gt;Electrical Pollution&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+</code></p>
+
+<p>```js
+function createSelector(layer) {
+      var cartocss = “”;
+      var $options = $(“.layer_selector”).find(“li”);
+      $options.click(function(e) {
+          var $li = $(e.target);
+          var selected = $li.attr(‘data’);</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>      $options.removeClass('selected');
+      $li.addClass('selected');
+
+      cartocss = $('#'+selected).text();
+
+      layer[0].setCartoCSS(cartocss);
+  });    } ```
+</code></pre>
+</div>
+
+<p>Examples:</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/nicar-test/master/img/quakes.png" alt="quake-sample" /></p>
+
+<ul>
+  <li><a href="http://jsfiddle.net/gh/get/library/pure/CartoDB/academy/tree/master/t/03-cartodbjs-ground-up/lesson-3/jsfiddle_demo_cartocss">JSFiddle with Selectors</a></li>
+  <li><a href="http://docs.cartodb.com/tutorials/custom_interactivity.html">Interactivity tutorial</a></li>
+  <li><a href="http://byndhack.herokuapp.com/">Advanced example</a></li>
+</ul>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/5-buttons.jpg" alt="buttons" /></p>
+
+<h4 id="heres-a-reference-point-for-this-section-ckpt-5httpsgithubcomauremoserhasadnatreemaster5-buttons">Here’s a reference point for this section <a href="https://github.com/auremoser/hasadna/tree/master/5-buttons">ckpt-5</a></h4>
+
+<h4 id="heres-a-reference-point-for-adding-infowindows-ckpt-6httpsgithubcomauremoserhasadnatreemaster6-info">Here’s a reference point for adding infowindows <a href="https://github.com/auremoser/hasadna/tree/master/6-info">ckpt-6</a></h4>
+
+<h1 id="building-narrative">Building Narrative</h1>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/fullMap.jpg" alt="Final" /></p>
+
+<p>Outside of the CartoJS library, we have others to help you build dynamic narrative with your data.</p>
+
+<h2 id="tell-time--stories">Tell Time + Stories</h2>
+
+<p><strong>Maps that tell Time</strong> - <strong><a href="http://docs.cartodb.com/tutorials/introduction_torque.html">Torque</a></strong></p>
+
+<iframe src="https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map" width="100%" height="500px"></iframe>
+
+<ol>
+  <li><a href="http://blog.cartodb.com/mapping-the-world-ongoing-demonstrations-in-brazil/">Demonstrations in Brazil</a></li>
+  <li>Tweets that mention <a href="http://cartodb.s3.amazonaws.com/static_vizz/sunrise.html">sunrise map</a></li>
+  <li><a href="http://robbykraft.github.io/AnimalTrack/">Animal migration patterns</a></li>
+  <li><a href="https://srogers.cartodb.com/viz/337d9194-6458-11e3-85b5-e5e70547d141/embed_map">Beyonce Album Release</a></li>
+  <li><a href="http://bl.ocks.org/anonymous/raw/b9b7c7d6de1c6398e435/">Diwali Celebrated</a></li>
+  <li><a href="http://bl.ocks.org/anonymous/raw/2f1e9a5a74ceeb88e977/">Ramadan Tweets w/OdysseyJS</a></li>
+  <li><a href="http://www.washingtonpost.com/news/morning-mix/wp/2014/12/15/the-alcatraz-escapees-could-have-survived-and-this-interactive-model-proves-it/?tid=hp_mm&amp;hpid=z3">Alcatraz Escapees</a></li>
+  <li><a href="http://yale.cartodb.com/u/mdweaver/viz/ffd06ece-8545-11e4-a898-0e018d66dc29/embed_map">Lynching and the Press</a></li>
+</ol>
+
+<p><img src="http://i.imgur.com/d3GSSYQ.gif" alt="Twitter Import" /></p>
+
+<p><strong>Maps that tell Stories</strong> - <strong><a href="http://cartodb.github.io/odyssey.js/index.html">Odyssey JS</a></strong></p>
+
+<ol>
+  <li><a href="http://alasdair.cartodb.com/viz/1332c872-a887-11e4-8c45-0e9d821ea90d/embed_map?zoom=14&amp;center_lat=55.948595&amp;center_lon=-3.199913">Tour of Scotland</a></li>
+  <li><a href="http://stream.aljazeera.com/projects/socialmediaconversation/"><em>Al Jazeera</em>: Israeli-Palestinian Conflict by Tweets</a></li>
+  <li><a href="http://www.cadenaser.com/sonidos-11m/">The Sounds of 11M</a></li>
+  <li><a href="http://bl.ocks.org/namessanti/raw/d5cf706f68b7c6dce9a3/#3">Berlin Wall Historic Tour</a></li>
+  <li><a href="http://cartodb.com/v/maya-angelou#6">Maya Angelou Quotes</a></li>
+</ol>
+
+<h2 id="talk-data-in-charts">Talk Data in Charts</h2>
+<p>You can use CartoDB’s SQL API to query your data and pull it into any charting library of your choosing.</p>
+
+<p>You can easily wire up a chart of pollution data, <a href="http://bl.ocks.org/auremoser/6c51769ef05b812690fc">check the code here</a>.</p>
+
+<p><img src="https://raw.githubusercontent.com/auremoser/hasadna/master/img/7-chart.jpg" alt="chart" /></p>
+
+<p>Learn more about it <a href="http://docs.cartodb.com/tips-and-tricks.html#charts--graphs">here</a>!</p>
+
+<p>Here are some examples:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Title</th>
+      <th>Link/Demo</th>
+      <th>BlogPost</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="http://www.chartjs.org/">Chart.js</a> Bar Graph</td>
+      <td>Traffic Data</td>
+      <td><a href="http://bl.ocks.org/auremoser/af95a29cd76267d3925e">Aurelia’s Block</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="http://www.highcharts.com/">Highcharts</a></td>
+      <td>Sensor Data</td>
+      <td><a href="https://github.com/auremoser/VitalSigns-water/">Github</a> / <a href="http://auremoser.github.io/VitalSigns-water/">Demo</a></td>
+      <td><a href="http://blog.cartodb.com/map-of-the-week-pulse-plotting/">MOW Post</a></td>
+    </tr>
+    <tr>
+      <td><a href="http://www.highcharts.com/">Highcharts</a></td>
+      <td>Weather Data</td>
+      <td><a href="http://bl.ocks.org/auremoser/96b70f6dbcc724ecc973">Aurelia’s Block</a></td>
+      <td><a href="https://stackedit.io/viewer#!provider=gist&amp;gistId=e2d4f0f0b71f258f3ac9&amp;filename=beirut.md">Tutorial</a></td>
+    </tr>
+    <tr>
+      <td><a href="http://www.chartjs.org/">Chart.js</a> Line Graph</td>
+      <td>Tornado Data</td>
+      <td><a href="http://bl.ocks.org/andrewxhill/9134155">Andrew’s Block</a></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><a href="https://plot.ly/">Plot.ly</a></td>
+      <td>Earthquake Data</td>
+      <td><a href="https://plot.ly/ipython-notebooks/cartodb/">Plotly Tutorial</a></td>
+      <td><a href="http://blog.cartodb.com/plotly/">CartoDB Blog</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="more">More</h3>
+<ul>
+  <li><code class="highlighter-rouge">sql.execute(SQL command)</code> to extract data from your account, place into charts, infowindows, etc.
+    <ul>
+      <li>Using <a href="http://bl.ocks.org/andrewxhill/9134155">Chart.js</a></li>
+    </ul>
+  </li>
+  <li><code class="highlighter-rouge">sql.getBounds(SQL command)</code> to find the bounding box of data returned by SQL command
+    <ul>
+      <li><a href="http://robbykraft.github.io/AnimalTrack/">Porpoise Map</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="resources">Resources</h1>
+<p>##CartoDB
+1. <a href="http://academy.cartodb.com">Map Academy</a>
+    + <a href="http://academy.cartodb.com/courses/03-cartodbjs-ground-up/lesson-3.html">CartoDB.js</a> – build a web app to visualize your data, allowing for user interaction
+	+ <a href="http://academy.cartodb.com/courses/04-sql-postgis.html">SQL and PostGIS</a>
+2. <a href="http://docs.cartodb.com/tutorials.html">CartoDB Tutorials</a>
+3. <a href="http://docs.cartodb.com/cartodb-editor.html">CartoDB Editor Documentation</a>
+4. <a href="http://docs.cartodb.com/cartodb-platform.html">CartoDB APIs</a>
+5. <a href="http://gis.stackexchange.com/questions/tagged/cartodb">Community help on StackExchange</a>
+6. <a href="http://cartodb.com/gallery/">CartoDB Map Gallery</a>
+7. <a href="https://github.com/chriswhong/cartodb-github-template">CartoDB Bootstrap Template by Chris Wong</a></p>
+
+<h2 id="visualization">Visualization</h2>
+<ol>
+  <li><a href="https://github.com/auremoser/chart-tools">Charting Tools Repository</a></li>
+  <li><a href="http://cartodb.github.io/training/">Workshops @ CartoDB</a></li>
+  <li><a href="http://selection.datavisualization.ch/">Recommended tools for Visualizations</a></li>
+  <li><a href="https://github.com/tmcw/perception">Perception Concerns</a></li>
+  <li><a href="http://emeeks.github.io/gestaltdataviz/section1.html">Gestalt Theory</a></li>
+  <li><a href="http://colorbrewer2.org/">Color Brewer</a> or <a href="http://geocolor.io/">Geocolor</a></li>
+</ol>
+
+<p>My contact: <a href="&#109;&#097;&#105;&#108;&#116;&#111;:&#097;&#117;&#114;&#101;&#108;&#105;&#097;&#064;&#099;&#097;&#114;&#116;&#111;&#100;&#098;&#046;&#099;&#111;&#109;">&#097;&#117;&#114;&#101;&#108;&#105;&#097;&#064;&#099;&#097;&#114;&#116;&#111;&#100;&#098;&#046;&#099;&#111;&#109;</a></p>
+
+<p>If you make a map you’re proud of or just want to say hello, connect with me <a href="https://twitter.com/auremoser">@auremoser</a>. And if you have a minute, please give me <a href="http://go.cartodb.com/we-love-your-feedback">feedback on the workshop here</a>.</p>
+

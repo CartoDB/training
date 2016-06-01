@@ -1,0 +1,375 @@
+<h2 id="introduction-to-the-cartodb-interface">Introduction to the CartoDB interface</h2>
+
+<p>This page can always be found at: http://bit.ly/cdb-harvard</p>
+
+<ul>
+  <li>Tour of dashboard</li>
+  <li>Common data</li>
+  <li>Uploading data</li>
+  <li>Tour of table and map view</li>
+  <li>Publishing maps</li>
+  <li>Public profile</li>
+</ul>
+
+<h2 id="creating-your-accounts">Creating your accounts</h2>
+
+<p>Set you up with accounts here, <a href="https://cartodb.com/signup?plan=academy">https://cartodb.com/signup?plan=academy</a>. This will give you a free upgrade to our <strong>student</strong> plan, since today, we are all students :)</p>
+
+<h2 id="your-first-map-in-30-seconds">Your first map in 30 seconds!</h2>
+
+<p>Today we are going to make a map of a very exciting topic! The other day I stumbled upon a really fun dataset of this guy,</p>
+
+<h4 id="spencer-the-cat">Spencer the cat!</h4>
+
+<p><img src="../img/harvard/spencer.jpg" alt="Spencer" /></p>
+
+<p>I found this data in <a href="https://www.movebank.org/node/6892">Movebank</a>. The first thing we are going to do is import this dataset into our accounts.</p>
+
+<p><a href="https://dl.dropboxusercontent.com/u/1307405/CartoDB/spencer_the_cat.geojson">Download Spencer the Cat</a></p>
+
+<p><em>alternative</em>:</p>
+
+<p>Cut&amp;paste the url:
+<code class="highlighter-rouge">html
+https://dl.dropboxusercontent.com/u/1307405/CartoDB/spencer_the_cat.geojson
+</code></p>
+
+<p>Now, let’s use Spencer to take a look at a few things.</p>
+
+<ul>
+  <li>Table and map view</li>
+  <li>Thematic maps!</li>
+  <li>Custom styling data</li>
+</ul>
+
+<p><img src="../img/harvard/spencer_intensity.png" alt="spencer intensity" /></p>
+
+<h2 id="introduction-to-cartocss">Introduction to CartoCSS</h2>
+
+<p><code class="highlighter-rouge">css
+#spencer_the_cat{
+  marker-fill: transparent;
+  marker-width:24;
+  marker-line-color: #FFFFFF;
+  marker-line-width: 2.0;
+  marker-line-opacity: 1.5;
+  marker-fill-opacity: 0.9;
+  marker-comp-op: src;
+  marker-type: ellipse;
+  marker-placement: point;
+  marker-allow-overlap: true;
+  marker-clip: false;
+}
+</code></p>
+
+<h2 id="introduction-to-sql">Introduction to SQL</h2>
+
+<p><code class="highlighter-rouge">sql
+SELECT cartodb_id, the_geom, the_geom_webmercator FROM spencer_the_cat
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT 'hi' as hello FROM spencer_the_cat
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT *, date_part('dow',study_local_timestamp) as d
+FROM spencer_the_cat
+</code></p>
+
+<p><em>dow</em> here means ‘day of week’. 0-6 Sunday is 0</p>
+
+<h4 id="lets-see-what-spencer-does-on-mondays">Let’s see what Spencer does on Mondays</h4>
+
+<p><code class="highlighter-rouge">sql
+SELECT *, date_part('dow',study_local_timestamp) as d
+FROM spencer_the_cat
+WHERE date_part('dow',study_local_timestamp) = 1
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT ST_MakeLine(the_geom_webmercator) as the_geom_webmercator
+FROM spencer_the_cat
+</code></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT ST_MakeLine(the_geom_webmercator) as the_geom_webmercator FROM spencer_the_cat
+WHERE date_part('dow',study_local_timestamp) = 1
+</code></p>
+
+<p>Or! Let’s get all days and then use colors to distinguish them</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  ST_MakeLine(the_geom_webmercator) as the_geom_webmercator,
+  date_part('dow',study_local_timestamp) as d
+FROM spencer_the_cat
+GROUP BY date_part('dow',study_local_timestamp)
+</code></p>
+
+<h4 id="writing-data">Writing data</h4>
+
+<p><code class="highlighter-rouge">sql
+UPDATE spencer_the_cat SET hod = date_part('hour',study_local_timestamp)
+</code></p>
+
+<h2 id="torque">Torque!</h2>
+
+<h4 id="a-quick-look-at-torque">A quick look at Torque</h4>
+
+<p><strong>Point torque</strong></p>
+
+<p><a href="https://team.cartodb.com/u/andrew/viz/cf1cc3e6-3242-11e4-8036-0e230854a1cb/public_map"><img src="../img/harvard/point_torque.png" alt="Point torque" /></a></p>
+
+<p><strong>Categorical torque</strong></p>
+
+<p><a href="https://team.cartodb.com/u/andrew/viz/508a7508-11e2-11e4-9973-0e73339ffa50/public_map"><img src="../img/harvard/categorical_torque.png" alt="Categorical torque" /></a></p>
+
+<p><strong>Temporal bubbles</strong></p>
+
+<p><a href="https://team.cartodb.com/u/andrew/viz/32ff4f28-7e51-11e4-9555-0e853d047bba/public_map"><img src="../img/harvard/temporal_bubbles.png" alt="Temporal bubbles" /></a></p>
+
+<p><strong>Cumulative bubbles</strong></p>
+
+<p><a href="http://team.cartodb.com/u/andrew/viz/a0a551a0-9b41-11e4-856f-0e853d047bba/embed_map"><img src="../img/harvard/cumulative_bubbles.png" alt="Cumulative bubbles" /></a></p>
+
+<p><a href="http://gis.stackexchange.com/questions/129838/show-change-in-size-over-time/130114#130114">Method for creating the last two</a></p>
+
+<h4 id="now-our-own-torque">Now our own Torque</h4>
+
+<p><img src="../img/harvard/own_torque.gif" alt="Spencer torque" /></p>
+
+<h1 id="guessing-spencers-house">Guessing Spencer’s house</h1>
+
+<p>First, let’s take a look at one of my favorite datasets from MassGIS, the <a href="http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/ftpstructures.html">Building Structures dataset</a>. We can all download Cambridge and upload the file to our accounts.</p>
+
+<p>Let’s rename the file, <code class="highlighter-rouge">cambridge_buildings</code></p>
+
+<p>We can do some different things with polygons, let’s take a look.</p>
+
+<h4 id="more-dynamic-sql">More dynamic SQL</h4>
+
+<p><strong>CDB_LatLng</strong></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  *, ST_Distance(the_geom, CDB_LatLng(42.374444, -71.116944)) d
+FROM cambridge_buildings
+</code></p>
+
+<p><strong>a map from dynamic sql</strong></p>
+
+<p><img src="../img/harvard/dynamic_sql.png" alt="Dynamic SQL" /></p>
+
+<p><strong>Order by distance</strong></p>
+
+<p><code class="highlighter-rouge">sql
+SELECT * FROM cambridge_buildings
+ORDER BY the_geom &lt;-&gt; CDB_LatLng(42.374444, -71.116944) LIMIT 65
+</code></p>
+
+<h4 id="a-quick-side-journey-into-the-sql-api">A quick side journey into the SQL API</h4>
+
+<p>If you are building an application, you can actually do the same request over your API and get CSV, JSON, or GeoJSON results. Lets’ look at the default JSON,</p>
+
+<p><code class="highlighter-rouge">html
+http://{username}.cartodb.com/api/v2/sql?q={SQL STATEMENT}
+</code></p>
+
+<p>For example,</p>
+
+<p><code class="highlighter-rouge">html
+http://andrew.cartodb.com/api/v2/sql?q=SELECT * FROM cambridge_buildings ORDER BY the_geom &lt;-&gt; CDB_LatLng(42.374444, -71.116944) LIMIT 10
+</code></p>
+
+<p>It’s awesome. You can do it from JavaScript and it doesn’t even need to be about maps. Take a look at this <a href="http://bl.ocks.org/javisantana/7932459">column search built off a CartoDB table with placenames</a>.</p>
+
+<h2 id="on-to-spencer">On to Spencer</h2>
+
+<p>We’ll upload a second dataset now. This time, building footprints from <a href="http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/ftpstructures.html">MassGIS</a> website. Let’s download Andover, <code class="highlighter-rouge">https://gist.github.com/andrewxhill/7c1efd9bdead734010b0</code>. Now import it into your account.</p>
+
+<h2 id="create-a-two-layer-visualization">Create a two layer visualization</h2>
+
+<p><img src="../img/harvard/two_layer.png" alt="Two Layers" /></p>
+
+<h2 id="delete-unneeded-buildings">Delete unneeded buildings</h2>
+
+<p><code class="highlighter-rouge">sql
+DELETE FROM structures_poly_9
+WHERE NOT
+  (SELECT ST_Extent(the_geom) FROM spencer_the_cat) &amp;&amp; the_geom
+</code>
+## Count spencer visits</p>
+
+<p>Add a new column called <code class="highlighter-rouge">spencer_n</code> of type <code class="highlighter-rouge">numeric</code> in our <code class="highlighter-rouge">structures_poly_9</code> table.</p>
+
+<p><img src="../img/harvard/add_column.png" alt="Add Column" /></p>
+
+<h4 id="spatial-analysis-of-spencer-">Spatial analysis of Spencer :)</h4>
+
+<p>Let’s count how many times spencer was likely inside each house,</p>
+
+<p><code class="highlighter-rouge">sql
+UPDATE structures_poly_9
+SET spencer_n =
+  (SELECT count(*)
+   FROM spencer_the_cat
+  WHERE ST_Intersects(the_geom, structures_poly_9.the_geom))
+</code></p>
+
+<p><img src="../img/harvard/touches.png" alt="Spencer house touches" /></p>
+
+<h4 id="lets-look-at-house-touches">Let’s look at house ‘touches’</h4>
+
+<p><code class="highlighter-rouge">sql
+SELECT
+  cartodb_id,
+  ST_MakeLine(
+    the_geom_webmercator,
+    ST_Centroid((
+      SELECT the_geom_webmercator FROM structures_poly_9
+      ORDER BY the_geom&lt;-&gt;spencer_the_cat.the_geom
+      LIMIT 1))
+  ) AS the_geom_webmercator,
+  hod
+FROM
+  spencer_the_cat
+</code></p>
+
+<h1 id="cartodbjs">CartoDB.js</h1>
+
+<p>Let’s all start with the same template, you can download an index.html file here,</p>
+
+<p><a href="https://gist.github.com/andrewxhill/ae73aa593d9a258f785a/download">index.html</a></p>
+
+<h3 id="the-simplest-cartodbjs-map---createvis">The simplest CartoDB.js map - createVis</h3>
+
+<p>A map in <a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html#create-a-visualization-from-scratch">one line of JavaScript</a></p>
+
+<p><code class="highlighter-rouge">javascript
+cartodb.createVis('map','http://team.cartodb.com/api/v2/viz/f6b0e824-a2fe-11e4-8f13-0e018d66dc29/viz.json');
+</code></p>
+
+<p><img src="../img/harvard/snippet.png" alt="Code snippet" /></p>
+
+<p>Now, add your own vis.json URL.</p>
+
+<h3 id="using-an-existing-leaflet-map">Using an existing Leaflet map</h3>
+
+<p>We often want to make layers for maps in CartoDB and add them to our existing maps or projects. In this example, let’s create a webpage with a blank leaflet map. We’ll use one of the free to use <a href="http://cartodb.com/basemaps">CartoDB Basemaps</a> for this.</p>
+
+<p>First, make sure you delete the line we added above and create a leaflet map object,</p>
+
+<p><code class="highlighter-rouge">javascript
+var map = new L.Map('map', {
+    zoomControl: false,
+    center: [42.67, -71.23],
+    zoom: 15
+});
+</code></p>
+
+<p>Next, add a CartoDB Basemap</p>
+
+<p><code class="highlighter-rouge">javascript
+var layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}.png', {
+        attribution: '&amp;copy; &lt;a href="http://www.openstreetmap.org/copyright"&gt;OpenStreetMap&lt;/a&gt; contributors, &amp;copy; &lt;a href="http://cartodb.com/attributions"&gt;CartoDB&lt;/a&gt;'
+    }).addTo(map);
+</code></p>
+
+<p>Let’s save the file and refresh.</p>
+
+<p>Using the <a href="http://docs.cartodb.com/cartodb-platform/cartodb-js.html#adding-cartodb-layers-to-an-existing-map">createLayer</a> method, we can now add our map of Spencer. Let’s start with just a simple point map of Spencer.</p>
+
+<p><code class="highlighter-rouge">javascript
+cartodb.createLayer(map, '{your-vis-json-url-here}')
+    .done(function(layer) {
+        // Do further things here
+    })
+    .addTo(map);
+</code></p>
+
+<h5 id="add-interactivity">Add interactivity</h5>
+
+<p>You can add interactivity in the Editor very easily, but for maps you are creating on the fly in CartoDB.js, you can also add custom interactivity.</p>
+
+<p><code class="highlighter-rouge">javascript
+var lots = layer.getSubLayer(0);
+lots.setInteractivity('cartodb_id, hod');
+lots.setInteraction(true);
+</code></p>
+
+<h5 id="add-custom-interaction">Add custom interaction</h5>
+
+<p>You can use cursor events on your polygons (e.g. featureClick, featureOver, featureOut) to create your own actions on your webpage. Let’s log the Elevation value for any lot we hover over</p>
+
+<p><code class="highlighter-rouge">javascript
+lots.on('featureOver', function(e, pos, pixel, data) {
+console.log("Hour: " + data.hod);
+});
+</code></p>
+
+<h3 id="integrating-interfaces">Integrating interfaces</h3>
+
+<p>Using that button, <strong>Do Something</strong>, we can let the user interact with the data on the map in ways that no other service on the web can do it! Let’s start with the basics…</p>
+
+<h4 id="create-button-to-set-filter">Create button to set filter</h4>
+
+<p>Here, let’s create a button so that when a user clicks it, we filter to just Spencer’s activities in the evening.</p>
+
+<p><code class="highlighter-rouge">javascript
+var spencer = layer.getSubLayer(0);
+$('#btn li').click(function(){
+    var new_sql = "SELECT * FROM spencer_the_cat WHERE hod &gt; 18";
+    spencer.setSQL(new_sql);
+});
+</code></p>
+
+<h4 id="change-the-button-to-modify-the-style">Change the button to modify the style</h4>
+
+<p>Just like changing the SQL on the fly, we can change the entire style of our map:</p>
+
+<p><code class="highlighter-rouge">javascript
+var spencer = layer.getSubLayer(0);
+$('#btn li').click(function(){
+    var new_cartocss = "#spencer_the_cat{marker-fill-opacity: 0.8; marker-line-width: 0; marker-width: 10; marker-fill: #F2D2D3; marker-allow-overlap:true; [hod &gt; 18]{marker-fill: #3232FF;}}";
+    spencer.setCartoCSS(new_cartocss);
+});
+</code></p>
+
+<h4 id="style-and-sql-at-the-same-time">Style and SQL at the same time</h4>
+
+<p><code class="highlighter-rouge">javascript
+var spencer = layer.getSubLayer(0);
+$('#btn li').click(function(){
+    var new_sql = "SELECT * FROM spencer_the_cat WHERE hod &gt; 18";
+    var new_cartocss = "#spencer_the_cat{marker-fill-opacity: 0.8; marker-line-width: 0; marker-width: 10; marker-fill: #F2D2D3; marker-allow-overlap:true; [hod &gt; 18]{marker-fill: #3232FF;}}";
+    spencer.set({sql: new_sql, cartocss: new_cartocss});
+});
+</code></p>
+
+<h4 id="add-an-undo-button">Add an Undo button</h4>
+
+<p>Of course, it would be handy if we let our users return to the default map after they click the button. Let’s make that happen.</p>
+
+<p><code class="highlighter-rouge">javascript
+var spencer = layer.getSubLayer(0);
+var state = 0;
+$('#btn li').click(function(){
+    if (state == 0) {
+        state = 1;
+        $("#first").text('undo');
+        var new_sql = "SELECT * FROM spencer_the_cat WHERE hod &gt; 18";
+        var new_cartocss = "#spencer_the_cat{marker-fill-opacity: 0.8; marker-line-width: 0; marker-width: 10; marker-fill: #F2D2D3; marker-allow-overlap:true; [hod &gt; 18]{marker-fill: #3232FF;}}";
+        spencer.set({sql: new_sql, cartocss: new_cartocss});
+    } else {
+        state = 0;
+        $("#first").text('Do Something');
+        var new_sql = "SELECT * FROM spencer_the_cat";
+        var new_cartocss = "#spencer_the_cat{marker-fill-opacity:0.8;marker-line-color:#FFF;marker-line-width:0;marker-line-opacity:1;marker-width:10;marker-fill:#C1373C;marker-allow-overlap:true;}";
+        spencer.set({sql: new_sql, cartocss: new_cartocss});
+    }
+});
+</code></p>
+
+<p><img src="../img/harvard/smiley.svg" alt="smiley" /></p>
+

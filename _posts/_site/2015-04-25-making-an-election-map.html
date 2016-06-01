@@ -1,0 +1,194 @@
+<h1 id="making-an-election-map">Making an election map</h1>
+
+<h3 id="andy-eschbacher-map-scientist-cartodb">Andy Eschbacher, Map Scientist, CartoDB</h3>
+
+<h3 id="april-25-2015">April 25, 2015</h3>
+
+<h2 id="a-quick-introduction-to-cartodb">A quick introduction to CartoDB</h2>
+
+<p>We aim to make the creation and sharing of maps as easy as possible. We also want to help you make beautiful, informative maps that make an impact and tell the stories that need to be told. Our beginnings lie in openness and the idea that every dataset has a story waiting to be told. We want to expose more than the lat/long.</p>
+
+<h2 id="todays-goal----make-this-map">Today’s goal – make this map</h2>
+
+<iframe width="100%" height="520" frameborder="0" src="https://andye.cartodb.com/viz/60e214be-eb8b-11e4-8c14-0e0c41326911/embed_map" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" oallowfullscreen="" msallowfullscreen=""></iframe>
+
+<h2 id="cool-stuff-coming-out">Cool stuff coming out</h2>
+
+<h3 id="torque----animated-maps">Torque – animated maps</h3>
+
+<p>My favorite: <a href="http://cartodb.s3.amazonaws.com/static_vizz/sunrise.html?title=true&amp;description=true&amp;search=false&amp;shareable=true&amp;cartodb_logo=true&amp;layer_selector=false&amp;legends=false&amp;scrollwheel=true&amp;sublayer_options=1%7C1&amp;sql=&amp;zoom=2&amp;center_lat=22.917922936146045&amp;center_lon=51.328125#">Map showing tweets that mention sunrise</a></p>
+
+<p><img src="http://i.imgur.com/DkXR8eS.gif" alt="tweets mentioning sunrise" /></p>
+
+<p>Boston Crime bubbles
+<a href="https://team.cartodb.com/u/andrew/viz/32ff4f28-7e51-11e4-9555-0e853d047bba/public_map"><img src="http://i.imgur.com/l4l0Bzr.png" alt="boston crime in torque" /></a></p>
+
+<p>Alcatraz Escape
+<a href="http://www.washingtonpost.com/news/morning-mix/wp/2014/12/15/the-alcatraz-escapees-could-have-survived-and-this-interactive-model-proves-it/">Alcatraz Escape revisited</a></p>
+
+<h3 id="odyssey----storytelling-with-maps">Odyssey – storytelling with maps</h3>
+
+<p>Aurelia’s tour of lakes adversely effected by humans</p>
+
+<p><a href="http://bl.ocks.org/auremoser/raw/d2e883314470768a07f8/"><img src="http://i.imgur.com/klShR3l.png" alt="Aurelia's Odyssey" /></a></p>
+
+<p><em>Source code <a href="http://bl.ocks.org/auremoser/d2e883314470768a07f8/">here</a>.</em></p>
+
+<h3 id="satellite-imagery----new-and-exciting-for-me">Satellite imagery – new and exciting for me</h3>
+
+<p>Digital Globe</p>
+
+<p>We just partnered with Digital Globe to provide their high resolution, high coverage satellite and aerial imagery of the world available for building maps.</p>
+
+<p>Here are some prototypes we made last week:</p>
+
+<p><img src="http://cartodb-libs.global.ssl.fastly.net/cartodb.com/assets/img/backgrounds/solutions/digital-globe.dc222e05.jpg" alt="Burning Man" /></p>
+
+<p><a href="http://mashable.com/2015/04/17/elon-musk-gigafactory/"><img src="http://i.imgur.com/y0cmQtA.png" alt="Gigafactory" /></a></p>
+
+<p><a href="https://team.cartodb.com/u/eschbacher/viz/4cd6d042-ea5d-11e4-bcba-0e9d821ea90d/public_map"><img src="http://i.imgur.com/pSxKk2p.png" alt="Columbia Glacier" /></a>
+High resolution glacier images (to the meter or 30 cm scale) with a good cadence.</p>
+
+<h2 id="setting-us-up-for-accounts">Setting us up for accounts</h2>
+
+<p>If you don’t have an account, go here to sign up: https://cartodb.com/signup?plan=academy</p>
+
+<p>These are more primo accounts than the normal free accounts. If you have a free account already but not the more primo one, send me an email and I’ll bump you up.</p>
+
+<h2 id="lets-make-an-election-map">Let’s make an election map!</h2>
+
+<h3 id="the-data----2014-general-election-alaska-house">The data – 2014 General Election, Alaska House</h3>
+
+<p>Alaska Board of Elections publishes data on election results, however it’s not in a convenient format. I simplified it for our purposes here.</p>
+
+<p>I got the data from the November 4th, 2014 General Elections <a href="http://www.elections.alaska.gov/results/14GENR/">here</a>. Like most data released by government organizations, it took some work getting it in to a useable form. I added the geographical data from information I received from an Alaska GIS employee.</p>
+
+<p>Steps I took to get this dataset into a usable form:</p>
+
+<ol>
+  <li>Contact Alaska government official to get house districting data</li>
+  <li>Get election results data from Alaska Elections results</li>
+  <li>Parse that data heavily</li>
+  <li>Combined the two datasets with the best pieces of both</li>
+  <li>Make a map!</li>
+</ol>
+
+<p>You can grab my <a href="https://andye.cartodb.com/tables/alaska_house_election_results_2014_geometry_fi/public">data directly</a>, but to reduce bandwidth it’s so much easier to copy the following link and pasting it into the importer at CartoDB:</p>
+
+<p><code class="highlighter-rouge">html
+http://andye.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20public.alaska_house_election_results_2014_geometry_fi&amp;format=geojson&amp;filename=alaska_house_election_2014
+</code></p>
+
+<h3 id="map-after-import">Map after import</h3>
+
+<p>After your data is imported, find Alaska and you should see something like this:</p>
+
+<p><img src="http://i.imgur.com/hsT84YY.png" alt="First import showing alaska" /></p>
+
+<p>You can style your map using the ‘wizard’ in the pane on the right-hand side of the browser window.</p>
+
+<p>This map has a polygon of the house districts for each candidate, whether they won or not, so there are multiple overlapping polygons. For our map today, we’ll display a map of the winners color-coded by party.</p>
+
+<h3 id="filtering-out-the-winners">Filtering out the winners</h3>
+
+<p>To do this, first we have to filter out the all the candidates that lost. We do this by clicking on the ‘filters’ tab. Once there, select the column ‘win’ and then deselect <code class="highlighter-rouge">false</code> so that only the winners are displayed.</p>
+
+<p>Your filter tab should look like this afterwords:</p>
+
+<p><img src="http://i.imgur.com/tAB6uF3.png" alt="Filter to only show winners" /></p>
+
+<p>If you look at your data table, you’ll see that only the winners are displayed. The map will look more or less the same, but now if we apply different styles to it we’ll notice the data visualized much more clearly.</p>
+
+<h3 id="adding-map-labels">Adding map labels</h3>
+
+<p>Next, let’s add some labels to each of the districts so they are clearly identifiable.</p>
+
+<p>We can do this by clicking on the “Label Text” in the pane window.</p>
+
+<p><img src="http://i.imgur.com/JTFb7Nx.png" alt="Label text screencap" /></p>
+
+<p>To avoid clutter, I selected <code class="highlighter-rouge">false</code> after “Label Overlap” and increased the font size to 16.</p>
+
+<p>My map looks like this:</p>
+
+<p><img src="http://i.imgur.com/7KR0Kij.png" alt="labeled districts" /></p>
+
+<h3 id="category-map-on-winners">Category map on winners</h3>
+
+<p>Now that we have our map in place, let’s style it by which party won in a district.</p>
+
+<p>We can do this by selecting “Category” in the visualization wizard. Once there, select “party” to give the districts different colors based on the party that won.</p>
+
+<p>You’ll get a map that looks like this:</p>
+
+<p><img src="http://i.imgur.com/cn5asWI.png" alt="basic election map" /></p>
+
+<p>The colors aren’t very traditional, let’s change them to the typical colors for parties by going to the wizard and selecting the colors you prefer. I’m selecting blue for DEM, red for REP, and green for NA.</p>
+
+<p><img src="http://i.imgur.com/9HfbTlG.png" alt="Changing colors" /></p>
+
+<h3 id="getting-back-our-labels">Getting back our labels</h3>
+
+<p>Go back to the “simple” visualization you did before, click on the CSS tab, and copy the block that has the labels… or paste the following at the bottom of the text box that’s labeled CSS:</p>
+
+<p><code class="highlighter-rouge">css
+#alaska_house_election_2014::labels {
+  text-name: [district];
+  text-face-name: 'DejaVu Sans Book';
+  text-size: 16;
+  text-label-position-tolerance: 10;
+  text-fill: #000;
+  text-halo-fill: #FFF;
+  text-halo-radius: 1;
+  text-dy: -10;
+  text-allow-overlap: false;
+  text-placement: point;
+  text-placement-type: simple;
+}
+</code></p>
+
+<p>You should now have the labels back on your map.</p>
+
+<h3 id="infowindows">Infowindows</h3>
+
+<p>Try clicking on any of the districts and you’ll see a mostly empty pop up window. Click on “Select Fields” and the pane on the right will open up. Toggle on any of the info you want displayed for all of your districts.</p>
+
+<p><img src="http://i.imgur.com/fXtUZPq.png" alt="infowindows" /></p>
+
+<h3 id="adding-an-annotation">Adding an annotation</h3>
+
+<p>Annotations are a great tool to highlight specific information about your maps. They zoom and pan with the user.</p>
+
+<p><img src="http://i.imgur.com/yJ6Bx5I.gif" alt="annotation" /></p>
+
+<h3 id="adding-a-title-or-linking-your-data">Adding a title or linking your data</h3>
+
+<p>Let’s add a title which includes a link to the original data.</p>
+
+<p>Your final map should look similar to the map at the top of this page.</p>
+
+<h2 id="resources-to-help-you-make-maps">Resources to help you make maps</h2>
+<ol>
+  <li><a href="http://academy.cartodb.com">Map Academy</a> is a site I run
+    <ul>
+      <li><a href="http://academy.cartodb.com/courses/01-beginners-course.html">Beginner</a></li>
+      <li><a href="http://academy.cartodb.com/courses/02-design-for-beginners.html">Map design</a></li>
+      <li><a href="http://academy.cartodb.com/courses/03-cartodbjs-ground-up/lesson-3.html">CartoDB.js</a> – build a web app to visualize your data, allowing for more user interaction</li>
+      <li><a href="http://academy.cartodb.com/courses/04-sql-postgis.html">SQL and PostGIS</a> – slice and dice your geospatial data</li>
+    </ul>
+  </li>
+  <li><a href="http://docs.cartodb.com/tutorials.html">CartoDB Tutorials</a></li>
+  <li><a href="http://docs.cartodb.com/cartodb-editor.html">CartoDB Editor Documentation</a></li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform.html">CartoDB APIs</a></li>
+  <li><a href="http://gis.stackexchange.com/questions/tagged/cartodb">Community help on StackExchange</a></li>
+  <li><a href="http://cartodb.com/gallery/">CartoDB Map Gallery</a></li>
+</ol>
+
+<h2 id="thanks">Thanks!</h2>
+
+<p>The accounts you have now are <strong>free for life</strong> and you can do so much with them. For most things, these accounts are good enough.</p>
+
+<p>If you want fancier accounts, IRE members get a 30% discount. If you make a map, please send it my way! If you want help, let me know :)</p>
+
+<p>Email: eschbacher@cartodb.com
+Twitter: <a href="https://twitter.com/MrEPhysics">@MrEPhysics</a></p>

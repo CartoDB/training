@@ -1,0 +1,293 @@
+<h2 id="intro-to-cartodb">Intro to CartoDB</h2>
+
+<h3 id="andy-eschbacher-map-scientist-cartodb">Andy Eschbacher, Map Scientist, CartoDB</h3>
+
+<h4 id="eschbachercartodbcom-mrephysics">eschbacher@cartodb.com, @MrEPhysics</h4>
+
+<h3 id="may-11-2015">May 11, 2015</h3>
+
+<h2 id="find-this-document-here">Find this document here:</h2>
+
+<h2 id="bitlycdb-cornell">bit.ly/cdb-cornell</h2>
+
+<h2 id="a-quick-introduction-to-cartodb">A quick introduction to CartoDB</h2>
+
+<p>We aim to make the creation and sharing of maps as easy as possible. We also want to help you make beautiful, informative maps that make an impact and tell the stories that need to be told. Our beginnings lie in openness and the idea that every dataset has a story waiting to be told. We want to expose more than the lat/long.</p>
+
+<h2 id="todays-goal----make-this-map">Today’s goal – make this map</h2>
+
+<iframe width="100%" height="520" frameborder="0" src="https://team.cartodb.com/u/eschbacher/viz/a285e9f8-f771-11e4-b819-0e4fddd5de28/embed_map" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen="" oallowfullscreen="" msallowfullscreen=""></iframe>
+
+<h2 id="some-of-my-favorite-stuff">Some of my favorite stuff</h2>
+
+<h3 id="torque----animated-maps">Torque – animated maps</h3>
+
+<p>My favorite: <a href="http://cartodb.s3.amazonaws.com/static_vizz/sunrise.html?title=true&amp;description=true&amp;search=false&amp;shareable=true&amp;cartodb_logo=true&amp;layer_selector=false&amp;legends=false&amp;scrollwheel=true&amp;sublayer_options=1%7C1&amp;sql=&amp;zoom=2&amp;center_lat=22.917922936146045&amp;center_lon=51.328125#">Map showing tweets that mention sunrise</a></p>
+
+<p><img src="http://i.imgur.com/DkXR8eS.gif" alt="tweets mentioning sunrise" /></p>
+
+<p>Boston Crime bubbles</p>
+
+<p><a href="https://team.cartodb.com/u/andrew/viz/32ff4f28-7e51-11e4-9555-0e853d047bba/public_map"><img src="http://i.imgur.com/l4l0Bzr.png" alt="boston crime in torque" /></a></p>
+
+<p>Alcatraz Escape</p>
+
+<p><a href="http://www.washingtonpost.com/news/morning-mix/wp/2014/12/15/the-alcatraz-escapees-could-have-survived-and-this-interactive-model-proves-it/">Alcatraz Escape revisited</a></p>
+
+<h3 id="odyssey----storytelling-with-maps">Odyssey – storytelling with maps</h3>
+
+<p>Aurelia’s tour of lakes adversely effected by humans</p>
+
+<p><a href="http://bl.ocks.org/auremoser/raw/d2e883314470768a07f8/"><img src="http://i.imgur.com/klShR3l.png" alt="Aurelia's Odyssey" /></a></p>
+
+<p><em>Source code</em> <a href="http://bl.ocks.org/auremoser/d2e883314470768a07f8/">here</a>.</p>
+
+<h3 id="satellite-imagery----new-and-exciting-for-me">Satellite imagery – new and exciting for me</h3>
+
+<p>Digital Globe</p>
+
+<p>We just partnered with Digital Globe to provide their high resolution, high coverage satellite and aerial imagery of the world available for building maps.</p>
+
+<p>Here are some prototypes we made last week:</p>
+
+<p><img src="http://cartodb-libs.global.ssl.fastly.net/cartodb.com/assets/img/backgrounds/solutions/digital-globe.dc222e05.jpg" alt="Burning Man" /></p>
+
+<p><a href="http://mashable.com/2015/04/17/elon-musk-gigafactory/"><img src="http://i.imgur.com/y0cmQtA.png" alt="Gigafactory" /></a></p>
+
+<p><a href="https://team.cartodb.com/u/eschbacher/viz/4cd6d042-ea5d-11e4-bcba-0e9d821ea90d/public_map"><img src="http://i.imgur.com/pSxKk2p.png" alt="Columbia Glacier" /></a>
+High resolution glacier images (to the meter or 30 cm scale) with a good cadence.</p>
+
+<h2 id="getting-started">Getting started</h2>
+
+<h3 id="setting-us-up-for-accounts">Setting us up for accounts</h3>
+
+<p>If you don’t have an account, go here to sign up: https://cartodb.com/signup?plan=academy</p>
+
+<p>These are academic accounts that are better than the normal free accounts. If you have a free account already but don’t have the academic one, send me an email (eschbacher@cartodb.com) and I’ll bump you up. For now they have 50% more storage, but soon they’ll have 100% more and table syncing.</p>
+
+<h3 id="datasets">Datasets</h3>
+
+<h4 id="cornell-trees">Cornell Trees</h4>
+<p>A dataset of the inventoried trees on Cornell’s campus from <a href="https://github.com/kgjenkins/trees">Keith’s GitHub repo</a>.</p>
+
+<p>Copy the following link and paste it into your importer</p>
+
+<p><code class="highlighter-rouge">html
+https://github.com/kgjenkins/trees/blob/master/Cornell_trees.zip?raw=true
+</code></p>
+
+<p>You should see the following on import:</p>
+
+<p><img src="http://i.imgur.com/6RGhhyx.gif" alt="Import dataset" /></p>
+
+<h4 id="building-footprints-for-tompkins-county">Building footprints for Tompkins County</h4>
+<p>Originally from <a href="http://cugir.mannlib.cornell.edu/mapsheet.jsp?code=109&amp;code=tcco">http://cugir.mannlib.cornell.edu/mapsheet.jsp?code=109&amp;code=tcco</a>, but with some processing to add information about the trees in the Cornell dataset.</p>
+
+<p>Copy the following link and paste it into your importer</p>
+
+<p><code class="highlighter-rouge">text
+https://www.dropbox.com/s/9osh79xluhgoyeq/cornell_buildings_w_trees.csv?dl=1
+</code></p>
+
+<h3 id="exploring-different-ways-of-visualizing-the-data">Exploring different ways of visualizing the data</h3>
+
+<h4 id="simple-map-visualizing-all-trees">Simple map visualizing all trees</h4>
+
+<p><img src="http://i.imgur.com/CD1flyi.png" alt="simple map of trees" /></p>
+
+<h4 id="category-on-genus">Category on genus</h4>
+
+<p><img src="http://i.imgur.com/t0Kjbuy.jpg" alt="Category" /></p>
+
+<h4 id="bubble-on-the-tree-diameter-at-breast-height">Bubble on the tree diameter at breast height</h4>
+
+<p><img src="http://i.imgur.com/pT4vAfY.png" alt="bubble map" /></p>
+
+<h4 id="torque-category">Torque category</h4>
+
+<p><img src="http://i.imgur.com/ME6IHXs.gif" alt="Torque category" /></p>
+
+<h3 id="combining-visualization-styles">Combining visualization styles</h3>
+
+<p>To combine the baked-in map types, we need to do some customization. We do this by opening up the CartoCSS tray and either alter the CartoCSS directly or cut and paste pieces from visualizations we like.</p>
+
+<h4 id="choose-category-and-size-to-dbh-to-your-liking">Choose ‘category’ and size to <code class="highlighter-rouge">dbh</code> to your liking</h4>
+
+<p>Copy all of the CartoCSS below the first block.</p>
+
+<p>I’m using this CartoCSS (feel free to copy and paste it instead):</p>
+
+<p><code class="highlighter-rouge">css
+#cornell_trees [ dbh &lt;= 79] {
+   marker-width: 10.0;
+}
+#cornell_trees [ dbh &lt;= 46] {
+   marker-width: 9.2;
+}
+#cornell_trees [ dbh &lt;= 37] {
+   marker-width: 8.4;
+}
+#cornell_trees [ dbh &lt;= 30.5] {
+   marker-width: 7.7;
+}
+#cornell_trees [ dbh &lt;= 23.5] {
+   marker-width: 6.9;
+}
+#cornell_trees [ dbh &lt;= 17] {
+   marker-width: 6.1;
+}
+#cornell_trees [ dbh &lt;= 11] {
+   marker-width: 5.3;
+}
+#cornell_trees [ dbh &lt;= 5.5] {
+   marker-width: 4.6;
+}
+#cornell_trees [ dbh &lt;= 4.1] {
+   marker-width: 3.8;
+}
+#cornell_trees [ dbh &lt;= 2.9] {
+   marker-width: 3.0;
+}
+</code></p>
+
+<h4 id="next-choose-category-and-use-the-genus-column">Next choose category and use the <code class="highlighter-rouge">genus</code> column</h4>
+
+<p>Paste the CartoCSS from your bubble map at the very bottom of the CartoCSS you have for category. Don’t delete anything, just add it to the bottom.</p>
+
+<p>We’ll get a map that looks like this:</p>
+
+<p><img src="http://i.imgur.com/YnsJj3A.jpg" alt="Trees categorized by genus, sized by diameter" /></p>
+
+<h2 id="multilayer-map">Multilayer Map</h2>
+
+<p>Let’s upload a new dataset now. I originally got the building footprints from <a href="http://cugir.mannlib.cornell.edu/mapsheet.jsp?code=109&amp;code=tcco">here</a> but we will used some data that I processed instead.</p>
+
+<p>But I prepared a derivative of this data that gives the number of trees within 10 meters of any of the buildings on the Cornell campus.</p>
+
+<p>Let’s create a new layer to our map by clicking on <code class="highlighter-rouge">+ ADD LAYER</code> above the tray on the right. Next click on “data file” and then paste in the following URL:
+<code class="highlighter-rouge">text
+https://www.dropbox.com/s/9osh79xluhgoyeq/cornell_buildings_w_trees.csv?dl=1
+</code></p>
+
+<p>You should see something like this:</p>
+
+<p><img src="http://i.imgur.com/I4JdBRR.png" alt="multilayer map" /></p>
+
+<h3 id="choropleth-the-new-layer-on-treesperlength">Choropleth the new layer on <code class="highlighter-rouge">trees_per_length</code></h3>
+
+<p><img src="http://i.imgur.com/eCwu0Y3.png" alt="choropleth" /></p>
+
+<h4 id="customizing-legends">Customizing legends</h4>
+
+<p><img src="http://i.imgur.com/p5IT52J.png" alt="customize legend" /></p>
+
+<h4 id="customizing-infowindows-and-hovers">Customizing infowindows and hovers</h4>
+
+<p><img src="http://i.imgur.com/UNeP4UV.gif" alt="customizing infowindows and hovers" /></p>
+
+<h4 id="annotations">Annotations</h4>
+<p><img src="http://i.imgur.com/22pOKzM.gif" alt="adding annotations" /></p>
+
+<h4 id="basemaps">Basemaps</h4>
+
+<p><img src="http://i.imgur.com/XiYrJW5.png" alt="basemaps" /></p>
+
+<h4 id="sharing-your-map">Sharing your map</h4>
+
+<p><img src="http://i.imgur.com/KF1ruSf.png" alt="sharing" /></p>
+
+<h2 id="advanced-class">Advanced Class</h2>
+
+<h3 id="crash-course-on-our-apis">Crash Course on our APIs</h3>
+
+<p>Thompson County Building dataset from
+http://cugir.mannlib.cornell.edu/mapsheet.jsp?code=109&amp;code=tcco</p>
+
+<p>Get buildings that are only (geospatially) close to the trees.</p>
+
+<p><code class="highlighter-rouge">sql
+SELECT tb.*
+FROM
+  tomp_building_2014 tb
+WHERE
+  (SELECT ST_Extent(ct.the_geom) FROM cornell_trees ct) &amp;&amp; tb.the_geom
+</code></p>
+
+<p>Clear that query to reset your map.</p>
+
+<p>To alter our dataset to only include buildings near Cornell, we need to delete them. We can do this with:</p>
+
+<p><code class="highlighter-rouge">sql
+DELETE FROM
+  tomp_building_2014 tb
+WHERE NOT
+  (SELECT ST_Extent(ct.the_geom) FROM cornell_trees ct) &amp;&amp; tb.the_geom
+</code></p>
+
+<p>Count the number of trees with 10 meters of a building
+<code class="highlighter-rouge">sql
+UPDATE tomp_building_2014 
+SET num_adj_trees = (
+  SELECT 
+     count(ct.*)
+  FROM 
+  	 cornell_trees ct
+  WHERE 
+    ST_DWithin(
+	  ct.the_geom::geography,
+      tomp_building_2014.the_geom::geography,
+	  10,
+      false
+    )
+)
+</code></p>
+
+<p>Find the number of trees per 100 feet perimeter. First create a new column called <code class="highlighter-rouge">num_trees_per_length</code></p>
+
+<p><code class="highlighter-rouge">sql
+UPDATE tomp_building_2014
+SET num_trees_per_length = 100.0 * num_adj_trees / shape_length
+</code></p>
+
+<h3 id="building-maps-with-javascript">Building maps with JavaScript</h3>
+
+<p>Download our <a href="https://raw.githubusercontent.com/CartoDB/academy/master/t/03-cartodbjs-ground-up/lesson-1/CartoDB-js-lesson1-template.html">HTML template</a> and save it to your desktop. (Right click and save as…)</p>
+
+<p>Open that file with a text editor such as Notepad.</p>
+
+<p>Between the <code class="highlighter-rouge">&lt;script&gt;</code> tags, drop in this line of code:</p>
+
+<p><code class="highlighter-rouge">js
+cartodb.createVis('map','');
+</code></p>
+
+<p>Go back to your CartoDB map, click on “Share”, and copy the viz.json url. Paste it between the single quotes in the second argument above.</p>
+
+<p>You can use mine if you can’t get to yours:
+<code class="highlighter-rouge">html
+https://team.cartodb.com/u/eschbacher/api/v2/viz/a285e9f8-f771-11e4-b819-0e4fddd5de28/viz.json
+</code></p>
+
+<h2 id="resources-to-help-you-make-maps">Resources to help you make maps</h2>
+<ol>
+  <li><a href="http://academy.cartodb.com">Map Academy</a> is a site I run
+    <ul>
+      <li><a href="http://academy.cartodb.com/courses/01-beginners-course.html">Beginner</a></li>
+      <li><a href="http://academy.cartodb.com/courses/02-design-for-beginners.html">Map design</a></li>
+      <li><a href="http://academy.cartodb.com/courses/03-cartodbjs-ground-up/lesson-3.html">CartoDB.js</a> – build a web app to visualize your data, allowing for more user interaction</li>
+      <li><a href="http://academy.cartodb.com/courses/04-sql-postgis.html">SQL and PostGIS</a> – slice and dice your geospatial data</li>
+    </ul>
+  </li>
+  <li><a href="http://docs.cartodb.com/tutorials.html">CartoDB Tutorials</a></li>
+  <li><a href="http://docs.cartodb.com/cartodb-editor.html">CartoDB Editor Documentation</a></li>
+  <li><a href="http://docs.cartodb.com/cartodb-platform.html">CartoDB APIs</a></li>
+  <li><a href="http://gis.stackexchange.com/questions/tagged/cartodb">Community help on StackExchange</a></li>
+  <li><a href="http://cartodb.com/gallery/">CartoDB Map Gallery</a></li>
+</ol>
+
+<h2 id="thanks">Thanks!!</h2>
+<p>If you make a cool map, send it my way :)</p>
+
+<p>Email: eschbacher@cartodb.com
+Twitter: <a href="https://twitter.com/MrEPhysics">@MrEPhysics</a></p>
+
