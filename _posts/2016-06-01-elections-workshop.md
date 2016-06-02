@@ -34,7 +34,7 @@ Materials specific on elections maps:
 Further questions and troubleshooting:
 
 * Email to **support@cartodb.com**.
-* Some questions could be already anwered at **[GIS Stack Exchange](gis.stackexchange.com/questions/tagged/cartodb)** `cartodb` tag.
+* Some questions could be already anwered at **[GIS Stack Exchange](http://gis.stackexchange.com/questions/tagged/cartodb)** `cartodb` tag.
 
 Contents
 

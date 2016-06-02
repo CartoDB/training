@@ -22,7 +22,7 @@ length: 4h
 
 #### Further questions and troubleshooting
 
-* **[GIS Stack Exchange](gis.stackexchange.com/questions/tagged/cartodb)** `cartodb` tag
+* **[GIS Stack Exchange](http://gis.stackexchange.com/questions/tagged/cartodb)** `cartodb` tag
 * email to **support@cartodb.com**
 
 ## Contents
