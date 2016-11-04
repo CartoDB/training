@@ -17,7 +17,7 @@ length: 3h
   * Andrew Thompson · athompson@carto.com · [@andrewbt](http://twitter.com/andrewbt)
 * November 5th, 2016
 * Medialab-Prado [event](http://medialab-prado.es/article/taller-de-introduccion-al-carto-builder)
-* GeoInquietos Madrid [meetup](https://www.meetup.com/es-ES/Geoinquietos-MAD/events/234912577/)
+* GeoInquietos Madrid [meetup](https://www.meetup.com/es-ES/Geoinquietos-MAD/events/234912577/), [repo](http://bit.ly/geoinq-builder)
 
 ## [http://bit.ly/161105-geoinq-builder](http://bit.ly/161105-geoinq-builder)
 
