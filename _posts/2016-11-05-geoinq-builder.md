@@ -39,8 +39,7 @@ length: 3h
 
 You can take a look on those resources if you want to warm up with CARTO
 
-* [**Map Academy** courses](http://carto.com/academy).
-* [**Tutorials**](https://carto.com/docs/tutorials/).
+* [**Learn** guides](https://carto.com/learn/guides).
 * BUILDER [**Documentation**](https://carto.com/docs/carto-builder/) & [**FAQs**](https://carto.com/docs/carto-builder/faqs/).
 * [`New Features` blog posts](https://carto.com/blog/categories/new-features).
 * [Other online resources](https://github.com/ramiroaznar/intro-cartodb).
