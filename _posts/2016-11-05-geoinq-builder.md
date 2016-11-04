@@ -53,17 +53,17 @@ You can take a look on those resources if you want to warm up with CARTO
 ### Contents
 
 1. [Getting started](#getting-started)
-1.1. [Create a map](#map)
-1.2. [Layers](#layers)
-1.3. [Styling](#styling)
-1.4. [Widgets](#widgets)
-1.5. [Analysis](#analysis)
-1.6. [Publish](#publish)
+* [Create a map](#map)
+* [Layers](#layers)
+* [Styling](#styling)
+* [Widgets](#widgets)
+* [Analysis](#analysis)
+* [Publish](#publish)
 
 2. [Demo: *Spies in the sky*](#demo)
-2.1. [Use case](#usecase)
-2.2. [Instructions](#instructions)
-2.3. [Result & Bonus!](#result)
+* [Use case](#usecase)
+* [Instructions](#instructions)
+* [Result & Bonus!](#result)
 
 ### Setting up
 
