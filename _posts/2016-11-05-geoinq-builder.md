@@ -19,7 +19,7 @@ length: 3h
 * Medialab-Prado [event](http://medialab-prado.es/article/taller-de-introduccion-al-carto-builder)
 * GeoInquietos Madrid [meetup](https://www.meetup.com/es-ES/Geoinquietos-MAD/events/234912577/)
 
-## [http://bit.ly/161011-ism-carto](http://bit.ly/161105-intro-builder)
+## [http://bit.ly/161105-geoinq-builder](http://bit.ly/161105-geoinq-builder)
 
 ---
 
