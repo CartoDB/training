@@ -208,7 +208,10 @@ Back in the day, the authors used CARTO Editor SQL and CartoCSS. Now because of 
 
 ### 2.2. Instructions <a name="instructions"></a>
 
-* Download flight data from [here](https://team.carto.com/u/builder-demo/tables/flights/public?redirected=true).
+* Click on `NEW MAP`.
+* Click on `CONNECT DATASET`.
+* Copy and paste this url: `https://builder-demo.carto.com/api/v2/sql?q=select%20*%20from%20%22builder-demo%22.flights&format=gpkg&filename=flights.gpkg`.
+* Click on `CONNECT DATASET`.
 * Explore the visualization. Could you observe any clear pattern? The expected pattern are straight lines, but what about the circles?
 * Add `flight_id` category widget.
 * If you go to San Francisco area, one of dots showing the circle pattern is the `8366cde` flight.
