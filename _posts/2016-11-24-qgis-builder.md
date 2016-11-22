@@ -11,7 +11,7 @@ length: 2h
 ---
 
 * Trainers: Ramiro Aznar · ramiroaznar@carto.com · [@ramiroaznar](http://twitter.com/ramiroaznar)
-* November 23th, 2016
+* November 24th, 2016
 
 ## [http://bit.ly/161124-qgis-builder](http://bit.ly/161124-qgis-builder)
 
