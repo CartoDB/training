@@ -230,9 +230,11 @@ You can take a look on those resources if you want to warm up with CARTO
 
 #### Connect dataset
 
+* Copy and paste this url into your browser: `https://builder-demo.carto.com:443/api/v2/sql?q=select * from "builder-demo".dot_rail_safety_data_1&format=gpkg&filename=rail_road_data.gpkg`.
+* Wait until the dataset is downloaded.
 * Click on `NEW MAP`.
 * Click on `CONNECT DATASET`.
-* Copy and paste this url: `https://builder-demo.carto.com:443/api/v2/sql?q=select * from "builder-demo".dot_rail_safety_data_1&format=gpkg&filename=rail_road_data.gpkg`.
+* Click on `BROWSE` and select the file (or drag and drop it).
 * Click on `CONNECT DATASET`.
 * Rename title and layer names.
 
