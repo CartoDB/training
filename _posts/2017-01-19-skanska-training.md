@@ -4,7 +4,7 @@ title: Skanska CARTO Training
 category: introductory
 date: 2017-01-19
 author: 'Daniel M. Sheehan'
-length: 4h
+length: 4
 ---
 
 ---
@@ -13,7 +13,7 @@ length: 4h
 
 ---
 
-* Trainers: Daniel M. Sheehan · danny@carto.com · [@nygeog](http://twitter.com/nygeog)
+* Instructor: Daniel M. Sheehan · danny@carto.com · [@nygeog](http://twitter.com/nygeog)
 * January 19th, 2017
 * Short url: [http://bit.ly/2ioUffA](http://bit.ly/2ioUffA)
 * Full url: [http://cartodb.github.io/training/introductory/skanska-training.html](http://cartodb.github.io/training/introductory/skanska-training.html)
