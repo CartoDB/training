@@ -19,7 +19,7 @@ length: 4h
 
 ---
 
-<a href="http://www.carto.com/" target='_blank'><center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_180.png" height='75px'></center></a>
+<a href="http://www.carto.com/" target='_blank'><center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_90.png" ></center></a>
 
 ---
 
@@ -28,11 +28,6 @@ length: 4h
 
 <br>
 
-* Trainer: Ramiro Aznar · ramiroaznar@cartodb.com · [@ramiroaznar](http://twitter.com/ramiroaznar)
-* June 23th 2016
-* CartoDB Introductory Workshop for Madlan
-
-### [http://bit.ly/madlan](http://bit.ly/madlan)
 
 #### Map Academy, tutorials and other online resources
 
