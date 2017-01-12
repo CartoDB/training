@@ -13,17 +13,13 @@ length: 4h
 * January 19th, 2017
 * Short url: [http://bit.ly/2ioUffA](http://bit.ly/2ioUffA)
 * Full url: [http://cartodb.github.io/training/introductory/skanska-training.html](http://cartodb.github.io/training/introductory/skanska-training.html)
-* 
+* Full CARTO training materials: [https://github.com/CartoDB/carto-workshop](https://github.com/CartoDB/carto-workshop)
 
-<center><img src="http://group.skanska.com/4ae3e3/globalassets/skanskalogo.png"></center>
+<a href="http://www.usa.skanska.com/" target='_blank'><center><img src="http://group.skanska.com/4ae3e3/globalassets/skanskalogo.png"></center></a>
 
 ---
 
-<center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_180.png" height=75></center>
-
-
-
-
+<a href="http://www.carto.com/" target='_blank'><center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_180.png" height=75></center></a>
 
 ---
 
