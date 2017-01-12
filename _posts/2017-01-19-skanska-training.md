@@ -11,14 +11,19 @@ length: 4h
 
 * Trainers: Daniel M. Sheehan · danny@carto.com · [@nygeog](http://twitter.com/nygeog)
 * January 19th, 2017
-
+* Short url: [http://bit.ly/2ioUffA](http://bit.ly/2ioUffA)
+* Full url: [http://cartodb.github.io/training/introductory/skanska-training.html](http://cartodb.github.io/training/introductory/skanska-training.html)
+* 
 
 <center><img src="http://group.skanska.com/4ae3e3/globalassets/skanskalogo.png"></center>
-<center><img src="http://group.skanska.com/4ae3e3/globalassets/skanskalogo.png"></center>
+
+---
+
+<center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_180.png" height=75></center>
 
 
 
-## [http://bit.ly/2ioUffA](http://bit.ly/2ioUffA)
+
 
 ---
 
