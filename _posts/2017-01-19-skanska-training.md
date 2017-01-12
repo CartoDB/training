@@ -19,7 +19,7 @@ length: 4h
 
 ---
 
-<a href="http://www.carto.com/" target='_blank'><center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_180.png" height=75></center></a>
+<a href="http://www.carto.com/" target='_blank'><center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_180.png" height='75px'></center></a>
 
 ---
 
