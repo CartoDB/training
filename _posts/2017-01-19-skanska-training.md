@@ -12,7 +12,13 @@ length: 4h
 * Trainers: Daniel M. Sheehan · danny@carto.com · [@nygeog](http://twitter.com/nygeog)
 * January 19th, 2017
 
-## [http://bit.ly/161124-qgis-builder](http://bit.ly/161124-qgis-builder)
+
+<center><img src="http://group.skanska.com/4ae3e3/globalassets/skanskalogo.png"></center>
+<center><img src="http://group.skanska.com/4ae3e3/globalassets/skanskalogo.png"></center>
+
+
+
+## [http://bit.ly/2ioUffA](http://bit.ly/2ioUffA)
 
 ---
 
