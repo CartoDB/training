@@ -9,6 +9,9 @@ length: 4h
 
 ---
 
+<a href="http://www.carto.com/" target='_blank'><center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_90.png" ></center></a>
+
+
 * Trainers: Daniel M. Sheehan · danny@carto.com · [@nygeog](http://twitter.com/nygeog)
 * January 19th, 2017
 * Short url: [http://bit.ly/2ioUffA](http://bit.ly/2ioUffA)
@@ -19,7 +22,17 @@ length: 4h
 
 ---
 
-<a href="http://www.carto.com/" target='_blank'><center><img src="https://github.com/CartoDB/training/raw/gh-pages/img/170119-skanska-training/logo_CARTO_positive_90.png" ></center></a>
+#### About Skanska
+Skanska is one of the world's leading construction groups. In the U.S., we are a provider of comprehensive construction services and a developer of public-private partnerships. We apply our expertise to everything from small renovations to billion-dollar projects, using a variety of delivery methods.
+
+---
+
+#### Data: 
+[http://www.usa.skanska.com/About-Skanska/Our-geographic-markets/](http://www.usa.skanska.com/About-Skanska/Our-geographic-markets/)
+
+#### Style:
+
+Hex color: `#263F6C`
 
 ---
 
