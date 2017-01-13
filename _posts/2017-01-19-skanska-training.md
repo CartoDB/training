@@ -35,7 +35,7 @@ Skanska is one of the world's leading construction groups. In the U.S., we are a
 
 #### Style:
 
-Hex color: `#263F6C`
+Hex color: `#263F6C` _note may not be official hex value_
 
 ---
 
