@@ -8,6 +8,8 @@ df = pd.io.excel.read_excel(xlsFile, 'Sheet1')
 df_xy = pd.read_csv('data/input/Export_Output.txt')
 df_xy = df_xy.rename(columns=lambda x: x.lower())
 
+df_new = pd.read_csv('data/input/subway_stations_new_2017.csv')
+
 df['uid'] = df['station'].str.lower().str.replace('subway','').str.replace('avenue','ave').str.replace('parkway','pkwy').str.replace('highway','hwy').str.replace(' ','').str.replace(',','')
 df['uid'] = df['uid'].str.replace('grandcentral-42st4567s','grandcentral-42sts4567').str.replace('smith-9stsfg','smith-9stfg').str.replace('winthopst25','winthropst25').str.replace('116st-columbiau1','116st-columbiauniversity1')
 df['uid'] = df['uid'].str.replace('w4st-washingtonsqabcd','west4st-washingtonsqabcdefm').str.replace('beverlyrdq','beverleyrdq').str.replace('beach67sta','beach67st-arvernebytheseaa').str.replace('franklinav-botanicgardens2345s','franklinav2345/botanicgardens')
@@ -41,10 +43,13 @@ df = df.merge(df_xy, left_on='uid', right_on='uid', how='left')
 
 df = df.sort('uid',ascending=[1])
 
-#df = df.drop(['asr_10','asr_11','asr_12','asr_13','asr_14','wkd_10','wkd_11','wkd_12','wkd_13','wkd_14','wkd_15','wke_10','wke_11','wke_12','wke_13','wke_14','wke_15'],axis=1)
+df = df.drop(['riders_17'],axis=1)
 
 df['wkd_17_e'] = np.where(df['lexington']==1, (df['wkd_15'] - (df['wkd_15'] * 0.13)), df['wkd_15'])
+df['wkd_17_e'] = df.wkd_17_e.round()
 
-df.to_csv('data/output/subway_stations_ridership_2010_2015.csv',index=False)
+df = df.append(df_new)
+
+df.to_csv('data/output/subway_stations_ridership_2010_2015_proj_2017.csv',index=False)
 
 print df.head(50)

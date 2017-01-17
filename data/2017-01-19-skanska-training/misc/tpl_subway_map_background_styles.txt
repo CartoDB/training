@@ -1,0 +1,27 @@
+tpl_abed924c_dccc_11e6_919f_0e233c30368f
+
+http://nygeog.carto.com/api/v1/map/named/tpl_b6c8b9be_8fe5_11e6_8a5c_0e05a8b3e3d7/all/{z}/{x}/{y}.png
+
+
+http://nygeog.carto.com/api/v1/map/named/tpl_abed924c_dccc_11e6_919f_0e233c30368f/all/{z}/{x}/{y}.png
+
+tpl_9dce0e0a_a621_4c23_833e_80a702b283cb
+
+http://nygeog.carto.com/api/v1/map/named/tpl_9dce0e0a_a621_4c23_833e_80a702b283cb/all/{z}/{x}/{y}.png
+
+
+
+name, description, ridership,
+
+
+SELECT 
+name, description, ridership, the_geom,cartodb_id, 
+st_rotate(the_geom_webmercator,0.50459214, st_transform(cdb_latlng(40.658439, -73.963394),3857)) the_geom_webmercator
+FROM mta_subway_station_ridership_2015
+
+route_id
+
+SELECT 
+route_id, the_geom,cartodb_id, 
+st_rotate(the_geom_webmercator,0.50459214, st_transform(cdb_latlng(40.658439, -73.963394),3857)) the_geom_webmercator
+FROM nyctsubwayroutes_20150914

@@ -1,0 +1,16 @@
+NYC Subway Map Background
+
+Water
+#A0CAE9
+
+Land
+#F2E7D2
+
+Airport
+#DAC59A
+
+Park
+#AAD7B7
+
+Borough Name Label (may be off)
+#3A6686
