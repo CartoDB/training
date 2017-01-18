@@ -57,6 +57,26 @@ Hex color: `#263F6C` _note may not be official hex value_
 * Some questions could be already anwered at **[GIS Stack Exchange](http://gis.stackexchange.com/questions/tagged/carto)** `cartodb` tag.
 
 ## Contents
+* [Making a Skanska Markets Map](#skanska_markets_map)
+* [Making a Second Ave Subway Map](#second_ave_subway)
+
+## Skanksa Markets Map
+<a name="skanska_markets_map"></a>
+
+Completed Map: [https://team.carto.com/u/sheehan-carto/builder/e72b9e4a-d9b0-11e6-9745-0e05a8b3e3d7/](https://team.carto.com/u/sheehan-carto/builder/e72b9e4a-d9b0-11e6-9745-0e05a8b3e3d7/)
+
+* Setting up an html link to the market website in the **infoWindow**
+
+	<a href="{{website}}" target='_blank'>{{market}} website</a>
+
+
+## Second Avenue Subway Map
+<a name="second_ave_subway"></a>
+
+---
+# Below is from other training
+
+## Contents
 - [Importing datasets](#import)
 - [Getting your data ready](#dataset)
 - [Making a map](#map)
@@ -133,6 +153,10 @@ These are the datasets we are going to use on our workshop. You'll find them all
 
 * **Populated Places** [`ne_10m_populated_places_simple`]: City and town points.
 * **World Borders** [`world_borders`]: World countries borders.
+
+
+
+----
 
 
 
