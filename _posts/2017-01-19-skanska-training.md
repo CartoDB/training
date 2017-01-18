@@ -43,18 +43,6 @@ Skanska is one of the world's leading construction groups. In the U.S., we are a
 
 
 
-## More Resources
-
-#### Map Academy, tutorials and other online resources
-
-* [**Map Academy** courses](https://academy.cartodb.com/).
-* [**Tutorials**](https://docs.cartodb.com/tutorials/).
-* [Other online resources](https://github.com/ramiroaznar/intro-cartodb).
-
-#### Further questions and troubleshooting
-
-* Email to **support@carto.com**.
-* Some questions could be already answered at **[GIS Stack Exchange](http://gis.stackexchange.com/questions/tagged/carto)** `carto` tag.
 
 
 
