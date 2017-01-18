@@ -45,7 +45,7 @@ Skanska is one of the world's leading construction groups. In the U.S., we are a
 
 
 
-## [Workshop](https://github.com/CartoDB/carto-workshop/tree/170119-912-skanska)
+## [Skanska | Carto Workshop](https://github.com/CartoDB/carto-workshop/tree/170119-912-skanska)
 
 
 #### Map Academy, tutorials and other online resources
