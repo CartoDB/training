@@ -41,13 +41,7 @@ Skanska is one of the world's leading construction groups. In the U.S., we are a
 
 ## [Skanska | Carto Workshop](https://github.com/CartoDB/carto-workshop/tree/170119-912-skanska)
 
-### Training Schedule
 
-* 12 pm - [Introduction to CARTO](https://github.com/CartoDB/carto-workshop/tree/170119-912-skanska/00-intro-carto)
-* 1 pm
-* 2 pm
-* 3 pm
-* 4 pm - Closing remarks and questions, brainstorming about next steps.
 
 ## More Resources
 
