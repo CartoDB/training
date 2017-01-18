@@ -60,7 +60,7 @@ Skanska is one of the world's leading construction groups. In the U.S., we are a
 #### Further questions and troubleshooting
 
 * Email to **support@carto.com**.
-* Some questions could be already anwered at **[GIS Stack Exchange](http://gis.stackexchange.com/questions/tagged/carto)** `carto` tag.
+* Some questions could be already answered at **[GIS Stack Exchange](http://gis.stackexchange.com/questions/tagged/carto)** `carto` tag.
 
 
 
