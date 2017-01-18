@@ -41,23 +41,10 @@ Skanska is one of the world's leading construction groups. In the U.S., we are a
 * 3 pm
 * 4 pm - Closing remarks and questions, brainstorming about next steps.
 
-#### Data: 
-[http://www.usa.skanska.com/About-Skanska/Our-geographic-markets/](http://www.usa.skanska.com/About-Skanska/Our-geographic-markets/)
-
-#### Style:
-
-Hex color: `#263F6C` _note may not be official hex value_
-
----
-
-
-<br>
 
 
 
-
-
-[https://github.com/CartoDB/carto-workshop/tree/170119-912-skanska](https://github.com/CartoDB/carto-workshop/tree/170119-912-skanska)
+## [Workshop](https://github.com/CartoDB/carto-workshop/tree/170119-912-skanska)
 
 
 #### Map Academy, tutorials and other online resources
@@ -69,27 +56,7 @@ Hex color: `#263F6C` _note may not be official hex value_
 #### Further questions and troubleshooting
 
 * Email to **support@carto.com**.
-* Some questions could be already anwered at **[GIS Stack Exchange](http://gis.stackexchange.com/questions/tagged/carto)** `cartodb` tag.
-
-## Skanksa-specific Maps/Training
-* [Making a Skanska Markets Map](#skanska_markets_map)
-* [Making a Second Ave Subway Map](#second_ave_subway)
-
-## Skanksa Markets Map
-<a name="skanska_markets_map"></a>
-
-Completed Map: [https://team.carto.com/u/sheehan-carto/builder/e72b9e4a-d9b0-11e6-9745-0e05a8b3e3d7/](https://team.carto.com/u/sheehan-carto/builder/e72b9e4a-d9b0-11e6-9745-0e05a8b3e3d7/)
-
-* Setting up an html link to the market website in the **infoWindow**
-
-	<a href="{{website}}" target='_blank'>{{market}} website</a>
-
-
-## Second Avenue Subway Map
-<a name="second_ave_subway"></a>
-
----
-
+* Some questions could be already anwered at **[GIS Stack Exchange](http://gis.stackexchange.com/questions/tagged/carto)** `carto` tag.
 
 
 
