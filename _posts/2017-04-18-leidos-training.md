@@ -16,7 +16,7 @@ length: 1.5
 
 * Instructor: Daniel M. Sheehan · danny@carto.com · [@nygeog](http://twitter.com/nygeog)
 * April 18th, 2017
-* Full url: [http://cartodb.github.io/training/introductory/leidos-training.htmll](http://cartodb.github.io/training/introductory/leidos-training.html)
+* Full url: [http://cartodb.github.io/training/introductory/leidos-training.html](http://cartodb.github.io/training/introductory/leidos-training.html)
 * Full Week of CARTO training materials: [https://github.com/CartoDB/carto-workshop](https://github.com/CartoDB/carto-workshop)
 
 ---
