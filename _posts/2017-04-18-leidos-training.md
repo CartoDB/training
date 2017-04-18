@@ -16,13 +16,12 @@ length: 1.5
 
 * Instructor: Daniel M. Sheehan · danny@carto.com · [@nygeog](http://twitter.com/nygeog)
 * April 18th, 2017
-* Short url: [http://bit.ly/2ioUffA](http://bit.ly/2ioUffA)
-* Full url: [http://cartodb.github.io/training/introductory/skanska-training.html](http://cartodb.github.io/training/introductory/skanska-training.html)
+* Full url: [http://cartodb.github.io/training/introductory/leidos-training.htmll](http://cartodb.github.io/training/introductory/leidos-training.html)
 * Full Week of CARTO training materials: [https://github.com/CartoDB/carto-workshop](https://github.com/CartoDB/carto-workshop)
 
 ---
 
-<a href="https://www.leidos.com" target='_blank'><center><img src="https://careers.umd.edu/sites/careers.umd.edu/files/Leidos%20Logo.jpg" width="300px"></center></a>
+<a href="https://www.leidos.com" target='_blank'><center><img src="https://careers.umd.edu/sites/careers.umd.edu/files/Leidos%20Logo.jpg" width="400px"></center></a>
 
 ---
 
