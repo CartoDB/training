@@ -35,7 +35,7 @@ length: 1.5
 -->
 
 
-<center><h2><a href="https://github.com/CartoDB/carto-workshop/tree/170418-1225-leidos" target='_blank'>Leidos | Carto Workshop</h2></a></center>
+<center><h2><a href="https://github.com/CartoDB/carto-workshop/tree/170418-1225-leidos" target='_blank'>Leidos | Carto Workshop</a></h2></center>
 
 
 
