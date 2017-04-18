@@ -22,7 +22,7 @@ length: 1.5
 
 ---
 
-<a href="http://www.usa.skanska.com/" target='_blank'><center><img src="https://careers.umd.edu/sites/careers.umd.edu/files/Leidos%20Logo.jpg"></center></a>
+<a href="http://www.usa.skanska.com/" target='_blank'><center><img src="https://careers.umd.edu/sites/careers.umd.edu/files/Leidos%20Logo.jpg" width="200px"></center></a>
 
 ---
 
