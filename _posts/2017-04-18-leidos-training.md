@@ -30,11 +30,6 @@ length: 1.5
 
 ---
 
-<!--![builder](../img/161105-geoinq-builder/builder.png)
-<figcaption>Introduction to CARTO BUILDER</figcaption>
--->
-
-
 <center><h2><a href="https://github.com/CartoDB/carto-workshop/tree/170418-1225-leidos" target='_blank'>Leidos | Carto Workshop</a></h2></center>
 
 
