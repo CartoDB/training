@@ -28,6 +28,10 @@ length: 1.5
 #### About Leidos
 [Leidos] bring(s) a mix of innovative technology and sector expertise to customers in defense, intelligence, civil, and health markets. [Leidos] look(s) for solutions that not only transform businesses, but change the world.
 
+#### About the Training Workshop and Technical Discussion
+
+The purpose of this training workshop and technical discusssion is for the CAADS team at Leidos to dive deep into both [Carto Builder](https://carto.com/builder) and [Carto Engine](https://carto.com/engine) technology along with a review of [Carto's API's, data services and libraries](https://carto.com/docs).
+
 ---
 
 <center><h2><a href="https://github.com/CartoDB/carto-workshop/tree/170418-1225-leidos" target='_blank'>Leidos | Carto Workshop</a></h2></center>
